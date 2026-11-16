@@ -107,7 +107,10 @@ public:
         ClockworkCore* core = clockwork_client_core(clockwork_embed_client(m_embed));
         ClockworkClient* own = clockwork_client_open_memory(clockwork_lanes_base(core),
                                                             clockwork_arena_header(core)->arena_bytes, &status);
-        m_front = own ? supersonic_commands_open(own, 1) : nullptr;
+        // Offline the front starts no threads: its file work and its replies are done in the render call
+        // (service, collect), in one fixed order, so a load takes the same number of buffers on every run.
+        m_offline = timeOrigin != 0.0;
+        m_front = own ? supersonic_commands_open(own, m_offline ? 0 : 1) : nullptr;
         if (!m_front)
         {
             *why = std::string("the engine's front did not start: ") + clockwork_client_status_text(status);
@@ -123,7 +126,7 @@ public:
             return false;
         }
         m_heard = std::move(heard);
-        m_thread = std::thread([this] { replies(); });
+        if (!m_offline) m_thread = std::thread([this] { replies(); });
         return true;
     }
 
@@ -206,29 +209,58 @@ public:
 
 private:
     // Sleeps until the engine says something, then takes what it and the front have said.
+    // Live: a thread of the engine's own waits for replies and hands them on.
     void replies()
     {
         ClockworkClient* waiter = clockwork_embed_client(m_embed);
         uint32_t seen = 0;
-        ClockworkClientMessage got[64];
         while (!m_quit.load())
         {
             clockwork_client_wait(waiter, &seen, 100);
-            for (;;)
-            {
-                // copied out under the lock (the bytes are the front's until its next poll), and handed on after:
-                // what hears them may send, and the loader sends holding its own lock
-                std::vector<std::vector<uint8_t>> batch;
-                {
-                    std::lock_guard<std::mutex> lk(m_sendMutex);
-                    const uint32_t n = supersonic_commands_poll(m_front, got, 64);
-                    for (uint32_t k = 0; k < n; k++) batch.emplace_back(got[k].bytes, got[k].bytes + got[k].length);
-                }
-                for (const auto& b : batch) m_heard(b.data(), uint32_t(b.size()));
-                if (batch.size() < 64) break;
-            }
+            collect();
+            if (m_afterReplies) m_afterReplies();
         }
     }
+
+    // Every reply waiting, handed on: from the engine and from the front.
+    void collect()
+    {
+        ClockworkClientMessage got[64];
+        for (;;)
+        {
+            // copied out under the lock (the bytes are the front's until its next poll), and handed on after:
+            // what hears them may send, and the loader sends holding its own lock
+            std::vector<std::vector<uint8_t>> batch;
+            {
+                std::lock_guard<std::mutex> lk(m_sendMutex);
+                const uint32_t n = supersonic_commands_poll(m_front, got, 64);
+                for (uint32_t k = 0; k < n; k++) batch.emplace_back(got[k].bytes, got[k].bytes + got[k].length);
+            }
+            for (const auto& b : batch) m_heard(b.data(), uint32_t(b.size()));
+            if (batch.size() < 64) break;
+        }
+    }
+
+public:
+    // Offline only, on the thread that renders. Before a buffer: the file work asked for so far (reading and
+    // decoding samples and synthdefs), done here and now. After it: the replies that buffer produced.
+    void service()
+    {
+        if (m_offline) supersonic_commands_run_pending(m_front);
+    }
+    void collectOffline()
+    {
+        if (!m_offline) return;
+        collect();
+        if (m_afterReplies) m_afterReplies();
+    }
+    // Called after each batch of replies has been handed on, on the thread that collected them (the engine's own
+    // when live, at least every 100 ms; the rendering thread when offline, after every buffer). Set before attach.
+    void afterReplies(std::function<void()> work) { m_afterReplies = std::move(work); }
+
+private:
+    bool m_offline = false;
+    std::function<void()> m_afterReplies;
 
     ClockworkEmbed* m_embed = nullptr;
     SupersonicCommands* m_front = nullptr;
@@ -278,7 +310,8 @@ struct SpInstance final : AssetLoader
 
     std::vector<double> lastTable;           // the process table the page last heard (the runtime's thread)
     std::atomic<bool> alignBars{ true };     // the instance's bars follow its host's, and not its tempo alone
-    std::atomic<bool> hostSaid{ false };     // a host has said its transport
+    std::atomic<bool> hostSaid{ false };     // a host has said its transport, and the runtime has taken it
+    std::atomic<bool> transportGiven{ false };   // sp_instance_transport has been called (the audio thread sets it)
     // Offline (SpInstanceConfig::time_origin_ntp): the time the audio rendered so far ends at, NTP seconds. 0 when
     // live. Written by render, read by the runtime's thread only inside render's advanceTo and by stop.
     std::atomic<double> offlineNow{ 0.0 };
@@ -369,6 +402,12 @@ struct SpInstance final : AssetLoader
         samplesDir = res + "/samples";
         buffersDir = res + "/buffers";
         offlineNow.store(cfg.time_origin_ntp, std::memory_order_relaxed);
+        // The engine sends a notice when its timeline moves, and a host whose first tempo is the timeline's starting
+        // 120 moves nothing: no notice comes, and the runtime would stay at Sonic Pi's own 60. So until the runtime
+        // has the host's timeline, look for it directly whenever replies are collected.
+        engine.afterReplies([this] {
+            if (transportGiven.load(std::memory_order_relaxed) && !hostSaid.load()) timelineMoved();
+        });
         if (!engine.attach(cfg.sample_rate, cfg.max_frames ? cfg.max_frames : 4096, cfg.time_origin_ntp,
                            [this](const uint8_t* d, uint32_t n) { heard(d, n); }, why))
             return false;
@@ -694,7 +733,11 @@ uint32_t sp_instance_render(SpInstance* instance, float* const* out, uint32_t ou
     // engine, with its exact time, before the buffer is rendered. This blocks while the code runs.
     const double end = instance->offlineNow.load(std::memory_order_relaxed) + frames / instance->engine.rate();
     instance->runtime.advanceTo(end);
+    // Then the file work that code asked for, the buffer, and the engine's replies to it, in that order every time.
+    // A sound waiting on a load is sent by the next render's advanceTo, once the reply saying it is in has been heard.
+    instance->engine.service();
     const uint32_t done = instance->engine.render(out, outChannels, in, inChannels, frames);
+    instance->engine.collectOffline();
     instance->offlineNow.store(end, std::memory_order_relaxed);
     return done;
 }
@@ -702,6 +745,7 @@ uint32_t sp_instance_render(SpInstance* instance, float* const* out, uint32_t ou
 void sp_instance_transport(SpInstance* instance, const SpTransport* transport)
 {
     if (!transport) return;   // a host with no transport says nothing, and the timeline is left as it is
+    instance->transportGiven.store(true, std::memory_order_relaxed);
     Engine& engine = instance->engine;
     if (transport->bpm > 0.0) engine.tempo(transport->bpm);
     if (transport->meter_num > 0 && transport->meter_den > 0) engine.meter(transport->meter_num, transport->meter_den);
