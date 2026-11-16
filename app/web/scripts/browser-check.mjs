@@ -1170,12 +1170,22 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         return { on: hit((e) => e?.tagName === "path"), off: hit((e) => e === b) };
       }).catch(() => null);
       const tipCase = { spots: !!(spots?.on && spots?.off), drifting: null, afterClick: null, menuOpened: null };
+      // From here this page runs on Playwright's fake clock. The tooltip's timers (tooltip.js: 500 ms hover delay,
+      // 300 ms warm window, setTimeout and performance.now) only advance when the test calls tp.clock.runFor(ms), so
+      // each step below is an exact number of milliseconds on any machine. Do not use waitForFunction on this page
+      // after this point: it polls on requestAnimationFrame, which is also on the fake clock.
+      const t0 = Date.now();
+      await tp.clock.install({ time: t0 });
+      await tp.clock.pauseAt(t0 + 1000);
       if (tipCase.spots) {
-        await tp.mouse.move(5, 5); await tp.waitForTimeout(300);
+        await tp.mouse.move(5, 5); await tp.clock.runFor(400);   // past the warm window, with no tip pending
         tipCase.drifting = false;
-        for (let i = 0; i < 12 && !tipCase.drifting; i++) { const [x, y] = i % 2 ? spots.on : spots.off; await tp.mouse.move(x, y); await tp.waitForTimeout(90); tipCase.drifting = await tipUp(); }
+        // 12 moves 90 ms apart inside the button: 1080 ms in all, so the 500 ms delay must run out on the way
+        for (let i = 0; i < 12 && !tipCase.drifting; i++) { const [x, y] = i % 2 ? spots.on : spots.off; await tp.mouse.move(x, y); await tp.clock.runFor(90); tipCase.drifting = await tipUp(); }
         await tp.mouse.down(); await tp.mouse.up();   // Edit: the card's editor
-        tipCase.afterClick = await tp.waitForFunction(() => [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden), null, { timeout: 3000 }).then(() => true, () => false);
+        const hiddenByClick = !(await tipUp());
+        await tp.clock.runFor(600);                    // the pointer still rests there: the tip is back after the delay
+        tipCase.afterClick = hiddenByClick && await tipUp();
         await tp.mouse.down(); await tp.mouse.up();   // and back to its code
       }
       // Moving off a button before its tooltip shows and back onto it starts the 500 ms wait again. tooltip.js used to
@@ -1191,20 +1201,24 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
           return null;
         });
         if (away) {
-          await tp.mouse.move(...away); await tp.waitForTimeout(400);
-          await tp.mouse.move(...spots.off); await tp.waitForTimeout(200);
-          await tp.mouse.move(...away); await tp.waitForTimeout(150);
+          await tp.mouse.move(...away); await tp.clock.runFor(400);
+          await tp.mouse.move(...spots.off); await tp.clock.runFor(200);   // on the button for 200 ms: under the 500 ms delay
+          const early = await tipUp();
+          await tp.mouse.move(...away); await tp.clock.runFor(150);
           await tp.mouse.move(...spots.off);
-          cameBack = await tp.waitForFunction(() => [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden), null, { timeout: 3000 }).then(() => true, () => false);
+          await tp.clock.runFor(499);
+          const before = await tipUp();                                    // 1 ms short of the delay: still no tip
+          await tp.clock.runFor(20);
+          cameBack = !early && !before && await tipUp();
         }
       }
       const palette = tp.locator("#site-nav .sn-theme");
       if (await palette.count()) {
-        await tp.mouse.move(5, 5); await tp.waitForTimeout(300);
+        await tp.mouse.move(5, 5); await tp.clock.runFor(400);
         const pb = await palette.boundingBox();
         await tp.mouse.move(pb.x + pb.width / 2, pb.y + pb.height / 2);
         await tp.mouse.down(); await tp.mouse.up();   // its menu opens
-        await tp.waitForTimeout(1000);
+        await tp.clock.runFor(1000);
         tipCase.menuOpened = await tp.evaluate(() => ({ open: document.querySelector("#site-nav .sn-theme").getAttribute("aria-expanded"), tip: [...document.querySelectorAll(".sp-tip")].some((t) => !t.hidden) }));
       }
       await tips.close();
