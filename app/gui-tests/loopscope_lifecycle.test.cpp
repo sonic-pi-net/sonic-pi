@@ -252,8 +252,11 @@ TEST_CASE("loop scope: a slot belongs to one loop", "[loopscope]")
 
 TEST_CASE("loop scope: a loop run from another buffer leaves no scope behind in this one", "[loopscope]")
 {
-    Editor a(kCode), b(kCode);
+    // The slots are declared first so they are destroyed last. Destroying b runs the event loop, which ticks the
+    // frame pacer, and a's scopes then read their slots: with the slots freed first that read was a use-after-free
+    // (a crash on Windows).
     Slot s, other;
+    Editor a(kCode), b(kCode);
     s.live();
     other.live();
     a.ed->setLiveLoopScope("t", 0, 10, s.reader());

@@ -30,6 +30,7 @@
 #include <QSet>
 #include <QString>
 
+#include "dpi.h"
 #include "model/sonicpitheme.h"
 #include "utils/fontroles.h"
 #include "widgets/cardscope.h"
@@ -217,7 +218,9 @@ TEST_CASE("the track header carries the quickstart cards' ring scope", "[tracks]
     REQUIRE(scope);
     CHECK(scope->isVisible());
     CHECK(scope->width() == scope->height());
-    CHECK(scope->width() >= 48);
+    // At least the house size for this display. A fixed pixel count does not hold everywhere: Windows scales every
+    // size by 96 / 153.6 (GetDisplayScale, dpi.h), which makes 72 come out at 45.
+    CHECK(scope->width() >= ScaleWidthForDPI(72));
     const QPoint at = scope->mapTo(&panel, QPoint(0, 0));
     for (QLabel* l : panel.findChildren<QLabel*>(QStringLiteral("qsCardTitle")))
         if (l->isVisible())
