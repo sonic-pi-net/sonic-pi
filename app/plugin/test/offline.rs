@@ -90,6 +90,52 @@ fn the_same_code_renders_bit_identical_audio_twice() {
 }
 
 #[test]
+fn noise_synths_render_bit_identical_audio_twice() {
+    // scsynth seeds its random generators from the clock unless it is given a seed
+    let play = || {
+        let instance = offline();
+        render_until_loaded(&instance);
+        instance.run("synth :noise, release: 0.3\nsleep 0.5\nsynth :bnoise, release: 0.3\nsleep 0.5\nsynth :cnoise, release: 0.3\n");
+        render(&instance, seconds(2.0))
+    };
+    let (first, second) = (play(), play());
+    assert!(first.iter().any(|s| s.abs() > 0.01), "it sounds");
+    assert!(first == second, "two renders of the same noise differ");
+}
+
+/// Renders `frames` frames in buffers whose sizes repeat `sizes`, and returns the left channel.
+fn render_in(instance: &Instance, frames: usize, sizes: &[usize]) -> Vec<f32> {
+    let mut out = Vec::with_capacity(frames);
+    let mut turn = 0;
+    while out.len() < frames {
+        let n = sizes[turn % sizes.len()].min(frames - out.len());
+        let (mut left, mut right) = (vec![0.0f32; n], vec![0.0f32; n]);
+        instance.render(&mut left, &mut right);
+        out.extend_from_slice(&left);
+        turn += 1;
+    }
+    out
+}
+
+#[test]
+fn the_audio_is_the_same_whatever_sizes_of_buffer_the_host_asks_for() {
+    let play = |sizes: &[usize]| {
+        let instance = offline();
+        render_in(&instance, 48_000 * 600, sizes);   // ten minutes in: time kept as a running sum of seconds has drifted by then
+        assert_eq!(instance.loading(), 0);
+        instance.run(&format!("live_loop :t do\n  {BEEP}\n  sleep 0.25\nend\n"));
+        render_in(&instance, 192_000, sizes)
+    };
+    let whole = play(&[512]);
+    assert!(onsets(&whole).len() >= 12, "it sounds");
+    for sizes in [&[256][..], &[64], &[100, 412], &[441], &[37, 512, 3]] {
+        let other = play(sizes);
+        assert!(onsets(&whole) == onsets(&other), "buffers of {sizes:?}: the sounds start at {:?}, not {:?}", &onsets(&other)[..6], &onsets(&whole)[..6]);
+        assert!(whole == other, "buffers of {sizes:?} give different audio from buffers of 512");
+    }
+}
+
+#[test]
 fn nothing_sounds_until_code_runs_and_rendering_does_not_wait_for_real_time() {
     let instance = offline();
     render_until_loaded(&instance);

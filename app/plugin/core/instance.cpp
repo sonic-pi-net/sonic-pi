@@ -57,6 +57,9 @@ constexpr const char* GUEST_OPTIONS =
     "realTimeMemorySize=131072\n"
     "numBuffers=4096\n"
     "maxNodes=4096\n";
+// Added offline. scsynth seeds its random generators from the clock unless it is given a seed, so without this a
+// noise synth renders differently on every run.
+constexpr const char* OFFLINE_GUEST_OPTIONS = "randomSeed=1\n";
 // Sonic Pi's scope slots (the web's TAPS_SLOTS): what with_fx :scope_out numbers its scopes from.
 constexpr uint32_t SCOPE_SLOTS = 32;
 
@@ -95,7 +98,8 @@ public:
         c.max_render_frames = maxFrames;
         c.profile = &profile;
         c.assets_bytes = ASSETS_BYTES;
-        c.guest_config = GUEST_OPTIONS;
+        const std::string options = std::string(GUEST_OPTIONS) + (timeOrigin != 0.0 ? OFFLINE_GUEST_OPTIONS : "");
+        c.guest_config = options.c_str();
         c.time_origin_ntp = timeOrigin;
         ClockworkStatus status = CLOCKWORK_OK;
         m_embed = clockwork_embed_attach(&c, &status);
@@ -315,6 +319,10 @@ struct SpInstance final : AssetLoader
     // Offline (SpInstanceConfig::time_origin_ntp): the time the audio rendered so far ends at, NTP seconds. 0 when
     // live. Written by render, read by the runtime's thread only inside render's advanceTo and by stop.
     std::atomic<double> offlineNow{ 0.0 };
+    // Offline time is offlineOrigin + offlineFrames / rate, as the engine's is, so the two agree to the bit for any
+    // sizes of buffer. Summing each buffer's seconds drifts by a different amount for each size.
+    double offlineOrigin = 0.0;
+    uint64_t offlineFrames = 0;   // render's alone
     bool offline() const { return offlineNow.load(std::memory_order_relaxed) != 0.0; }
     // The instance's current time: the wall clock when live, the rendered audio's end when offline.
     double now() const { return offline() ? offlineNow.load(std::memory_order_relaxed) : ntpNow(); }
@@ -401,6 +409,7 @@ struct SpInstance final : AssetLoader
         synthdefDir = res + "/synthdefs";
         samplesDir = res + "/samples";
         buffersDir = res + "/buffers";
+        offlineOrigin = cfg.time_origin_ntp;
         offlineNow.store(cfg.time_origin_ntp, std::memory_order_relaxed);
         // The engine sends a notice when its timeline moves, and a host whose first tempo is the timeline's starting
         // 120 moves nothing: no notice comes, and the runtime would stay at Sonic Pi's own 60. So until the runtime
@@ -731,7 +740,8 @@ uint32_t sp_instance_render(SpInstance* instance, float* const* out, uint32_t ou
     if (!instance->offline()) return instance->engine.render(out, outChannels, in, inChannels, frames);
     // Offline: run the Sonic Pi code due up to the end of this buffer first, so every sound in the buffer is in the
     // engine, with its exact time, before the buffer is rendered. This blocks while the code runs.
-    const double end = instance->offlineNow.load(std::memory_order_relaxed) + frames / instance->engine.rate();
+    instance->offlineFrames += frames;
+    const double end = instance->offlineOrigin + static_cast<double>(instance->offlineFrames) / instance->engine.rate();
     instance->runtime.advanceTo(end);
     // Then the file work that code asked for, the buffer, and the engine's replies to it, in that order every time.
     // A sound waiting on a load is sent by the next render's advanceTo, once the reply saying it is in has been heard.
