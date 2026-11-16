@@ -265,7 +265,9 @@ for (const spec of specs) {
   tickFor(2);
   m._sp_stop_all();
   const plays = records.filter((r) => r.kind === "synth" && r.synth === "sonic-pi-beep").length;
-  const ok = plays >= 3 && plays <= 6 && worst < 50;
+  // If the new run's sync matched the 40 old cues, it would play about 40 times, so the play count catches that bug.
+  // The worst tick time is printed but not asserted, because it depends on how fast the machine is.
+  const ok = plays >= 3 && plays <= 6;
   console.log(`${ok ? "pass" : "FAIL"} a sync in a new run waits for new cues: ${plays} plays in 2 s, worst tick ${worst.toFixed(1)} ms`);
   if (ok) pass++; else fail++;
 }

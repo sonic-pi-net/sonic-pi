@@ -1620,8 +1620,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       }
       check("every page of the site reads without a script: its sections, its list, its words", !unread.length, unread.join(" | ") || `${PAGES.length} pages`);
       await nb.goto(BASE + "learn.html#talks");
-      await nb.waitForTimeout(1500);   // the page scrolls there smoothly (site.css .ic-main): the anchor where it settles
-      const nativeAnchor = await nb.evaluate(() => { const t = document.getElementById("talks").getBoundingClientRect().top; return t >= -2 && t < innerHeight / 2; });
+      // The browser scrolls smoothly to the anchor (site.css .ic-main). Polled from Node with until(), because with
+      // JavaScript disabled the page does not run requestAnimationFrame or setTimeout callbacks.
+      const atTalks = () => nb.evaluate(() => { const t = document.getElementById("talks").getBoundingClientRect().top; return t >= -2 && t < innerHeight / 2; });
+      const nativeAnchor = await until(atTalks, 10000);
       check("without a script an anchor is the browser's own: learn.html#talks opens at Talks", nativeAnchor);
       await bare.close();
 
@@ -1689,7 +1691,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       // a page gone back to by its tab opens at its top, wherever it was left: WebKit keeps a hidden column's scroll
       // (a smooth scroll to the top is dropped), and Safari paints nothing there
       await site.evaluate(() => document.getElementById("teachers").scrollIntoView({ behavior: "instant" }));
-      await site.waitForTimeout(800);
+      await site.waitForTimeout(800);   // still a sleep: switching tab sooner makes Learn reopen scrolled down in Chromium (cause not yet found)
       await site.click('#site-nav .ic-tab[data-tab="support"]');
       await site.waitForFunction(() => location.pathname.endsWith("support.html"), null, { timeout: 10000 }).catch(timedOut);
       await site.click('#site-nav .ic-tab[data-tab="learn"]');
@@ -1722,7 +1724,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       for (const f of PAGES) {
         await site.goto(BASE + f);
         await site.waitForFunction(() => document.querySelector(".site-body:not([hidden]) .qs-card") || !document.querySelector("pre.sp-card"), null, { timeout: 30000 }).catch(timedOut);
-        await site.waitForTimeout(800);
+        await twoFrames(site);   // let the cards render. Not settled(): the home page's facet bar animation restarts every 5 s, so it never settles
         await site.addScriptTag({ content: axe });
         const v = await site.evaluate(async () => (await window.axe.run(document, { rules: { "color-contrast": { enabled: false }, "meta-viewport": { enabled: false } } })).violations.map((x) => `${x.id} ×${x.nodes.length} (${x.nodes[0].target.join(" ").slice(0, 60)})`));
         if (v.length) found.push(`${f}: ${v.join(", ")}`);
