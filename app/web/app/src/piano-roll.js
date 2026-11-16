@@ -327,6 +327,7 @@ export function createPianoRoll(root, hooks) {
 
   let lo = 48, hi = 72;          // the rows shown, easing toward the notes in view
   let held = null;               // the range the notes have needed lately (holdRange)
+  let placed = false;            // lo/hi have been set from real notes at least once (see drawFrame)
   let drums = new Map();         // each sample's drum row, and when it was last in view: held as the range is
   let drumH = 0;                 // the drum rows' height, easing as the pitch rows do
   const HOLD_SECS = 10;   // past the view's own few seconds: a note a loop plays each bar keeps its room
@@ -481,6 +482,10 @@ export function createPianoRoll(root, hooks) {
     const pitches = [];
     for (const s of shown) for (const p of s.pts) pitches.push(p.n);
     if (!still) held = holdRange(held, pitchRange(pitches), wall, HOLD_SECS);
+    // The first frame that has notes starts at the range they need. lo/hi begin at a placeholder (48-72), and easing
+    // from that would slide the view in on opening with any note outside 48-72 off the edge meanwhile. Easing is for
+    // changes after this.
+    if (!still && !placed && pitches.length) { lo = held.lo; hi = held.hi; placed = true; }
     const tlo = still ? lo : held.lo, thi = still ? hi : held.hi;
     lo += (tlo - lo) * (tlo < lo ? 0.15 : 0.04);   // growing for a new note: at once; shrinking: gently
     hi += (thi - hi) * (thi > hi ? 0.15 : 0.04);

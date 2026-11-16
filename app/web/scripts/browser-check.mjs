@@ -50,7 +50,11 @@ const calm = async (pg) => {
 // an amount of time: the same amount of playing is watched on a fast machine and a slow one. On a page with no
 // session to count from (a site page's own card player), it falls back to `ms` milliseconds; 60 s is a hang guard.
 const SOUNDS = 8;
-const stillness = async (pg, ms = 2500) => { await calm(pg); return watchForChanges(pg, ms, SOUNDS); };
+const stillness = async (pg, ms = 2500) => {
+  await calm(pg);
+  if (!(await pg.evaluate(() => typeof window.sonicPi?.session?.bridge?.sent === "number"))) say("note", `a stillness watch on ${new URL(pg.url()).pathname.split("/").pop() || "/"} used its ${ms} ms window: the page has no count of sounds sent`);
+  return watchForChanges(pg, ms, SOUNDS);
+};
 const watchForChanges = (pg, ms, sounds) => pg.evaluate(({ ms, sounds }) => new Promise((resolve) => {
   const by = {};
   const mo = new MutationObserver((list) => { for (const m of list) { let e = m.target.nodeType === 1 ? m.target : m.target.parentElement; while (e && !e.id) e = e.parentElement; const t = m.target.nodeType === 1 ? m.target : m.target.parentElement; const what = t ? `<${t.localName}${t.className && typeof t.className === "string" ? "." + t.className.trim().split(/\s+/).join(".") : ""}>` : ""; const k = `${e ? "#" + e.id : "the page"} ${what} ${m.type}${m.attributeName ? ":" + m.attributeName : ""}`; by[k] = (by[k] ?? 0) + 1; } });
@@ -845,23 +849,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     check("the Threads timeline draws", painted > 3, `${painted} colours`);
     // the piano roll: paused, so what it drew holds still to be read and pointed at
     await page.click(".insight-views button[data-view='roll']");
-    // The piano roll opens with pitch range 48-72 and eases it towards the range of its notes over a couple of
-    // seconds. Pausing freezes the range wherever it is, so pausing too early cuts notes off. Wait until there are
-    // at least 3 bass notes, the drawn range contains all of them, and the range is identical on two consecutive
-    // frames. pianoRoll() returns null before the first frame. The 3000-frame limit is a hang guard.
-    await page.evaluate(() => new Promise((resolve) => {
-      let last = "", frames = 0;
-      const look = () => {
-        const r = window.sonicPi.pianoRoll();
-        const bass = r ? r.notes.filter((n) => n.label === ":bass" && n.start <= n.end) : [];
-        const range = r ? r.range.join() : "";
-        if (bass.length >= 3 && bass.every((n) => r.range[0] <= n.note && r.range[1] >= n.note) && range === last) return resolve();
-        last = range;
-        if (++frames > 3000) return resolve();
-        requestAnimationFrame(look);
-      };
-      requestAnimationFrame(look);
-    }));
+    // Wait only for the bass notes to be in the roll (pianoRoll() is null before its first frame), then pause at
+    // once. The roll must already be drawn at the range its notes need: it used to start at 48-72 and slide in over
+    // about two seconds, so pausing straight after opening left notes 40 and 41 off the bottom of the view.
+    await page.waitForFunction(() => (window.sonicPi.pianoRoll()?.notes ?? []).filter((n) => n.label === ":bass" && n.start <= n.end).length >= 3, null, { timeout: 30000 }).catch(timedOut);
     // Pause is the head's own button, beside the view picker, and holds every view — the tree, the timeline and the roll
     const pause = page.locator(".insight-pause");
     await pause.click();
