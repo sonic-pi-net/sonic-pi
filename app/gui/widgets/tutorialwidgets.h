@@ -960,7 +960,7 @@ public:
     // returns what the run belongs to.
     static QObject* take(QObject* target)
     {
-        const qint64 now = clock().elapsed();
+        const qint64 now = nowMs();
         if (!s_owner || now - s_last > kEndAfterMs)
             s_owner = target;
         s_last = now;
@@ -970,8 +970,18 @@ public:
     // The pointer moved onto a dial: a run that has gone quiet ends, so that dial takes the next wheel event.
     static void pointerEntered()
     {
-        if (clock().elapsed() - s_last >= kMovedAfterMs)
+        if (nowMs() - s_last >= kMovedAfterMs)
             s_owner = nullptr;
+    }
+
+    // The clock used to time wheel runs, in milliseconds. Tests set a fake clock; an empty function restores the
+    // real one. Setting a clock also ends any current run, because its start time was read from the old clock.
+    using Clock = std::function<qint64()>;
+    static void setClock(Clock clock)
+    {
+        s_clock = std::move(clock);
+        s_owner = nullptr;
+        s_last = 0;
     }
 
     // The docs pane's viewport: wheel events that reach it scroll the pane in a run of its own, and turn the
@@ -998,11 +1008,14 @@ private:
         }
     };
 
-    static QElapsedTimer& clock()
+    static qint64 nowMs()
     {
+        if (s_clock)
+            return s_clock();
         static QElapsedTimer timer = [] { QElapsedTimer t; t.start(); return t; }();
-        return timer;
+        return timer.elapsed();
     }
+    static inline Clock s_clock;
     static inline QPointer<QObject> s_owner;
     static inline qint64 s_last = 0;
 };

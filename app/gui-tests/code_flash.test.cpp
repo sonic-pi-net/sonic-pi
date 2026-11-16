@@ -20,6 +20,8 @@
 
 #include <catch2/catch_test_macros.hpp>
 
+#include "fake_clock.h"
+
 #include <algorithm>
 #include <utility>
 
@@ -42,16 +44,6 @@
 #include "widgets/tutorialwidgets.h"
 
 namespace {
-
-// A clock the test moves.
-struct FakeClock
-{
-    qint64 ms = 1000;
-    SonicPi::LineFlashes::Clock clock()
-    {
-        return [this] { return ms; };
-    }
-};
 
 const QString kLoop = QStringLiteral("live_loop :a do\n  play 60  \n  sleep 1\nend");   // a space or two after a line's code, as typing leaves
 

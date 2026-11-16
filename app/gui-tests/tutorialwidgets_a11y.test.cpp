@@ -19,6 +19,8 @@
 #include <catch2/catch_approx.hpp>
 #include <catch2/catch_test_macros.hpp>
 
+#include "fake_clock.h"
+
 #include <QAccessible>
 #include <QLabel>
 #include <QLineEdit>
@@ -292,6 +294,7 @@ TEST_CASE("the dial's value editor edits in place and closes on focus-out", "[tu
 namespace {
 struct DocsScroll
 {
+    FakeClock time;
     QScrollArea area;
     TutDial* dial = nullptr;
     DocsScroll()
@@ -303,10 +306,11 @@ struct DocsScroll
         area.setWidget(content);
         area.resize(300, 300);
         TutWheelRun::watch(area.viewport());
+        TutWheelRun::setClock(time.clock());   // also clears any run left over from an earlier test case
         area.show();
         QApplication::processEvents();
-        QTest::qWait(TutWheelRun::kEndAfterMs + 100);   // no run left from an earlier case
     }
+    ~DocsScroll() { TutWheelRun::setClock({}); }
     // One notch down at the middle of `at` (a wheel mouse's: no scroll phase, unless one is given). Whether `at`
     // took it: one left unaccepted, Qt passes to the parent.
     static bool wheel(QWidget* at, Qt::ScrollPhase phase = Qt::NoScrollPhase)
@@ -338,7 +342,7 @@ TEST_CASE("a wheel run that began on the docs pane doesn't turn a dial that come
     CHECK_FALSE(DocsScroll::wheel(d.dial));
     CHECK(d.dial->value() == 100);
 
-    QTest::qWait(TutWheelRun::kMovedAfterMs + 50);   // the scroll stops, and the pointer moves onto the dial
+    d.time.ms += TutWheelRun::kMovedAfterMs;           // the scroll stops, and the pointer moves onto the dial
     d.pointerEntersDial();
     CHECK(DocsScroll::wheel(d.dial));
     CHECK(d.dial->value() == 99);
