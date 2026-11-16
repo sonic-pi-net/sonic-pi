@@ -53,3 +53,31 @@ pub fn onsets(samples: &[f32]) -> Vec<usize> {
     found
 }
 
+
+/// The pitch of a steady tone, by its rising zero crossings.
+pub fn frequency(samples: &[f32]) -> f64 {
+    let rising = samples.windows(2).filter(|w| w[0] <= 0.0 && w[1] > 0.0).count();
+    rising as f64 * RATE / samples.len() as f64
+}
+
+
+/// A folder of the player's own samples: two of the built-in ones under names of their own. Tests on several
+/// threads call this, so each file is copied under a name of the caller's own and then renamed into place, which
+/// either happens whole or not at all.
+pub fn own_samples() -> PathBuf {
+    let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    let etc = std::env::var("SONIC_PI_ETC")
+        .map(PathBuf::from)
+        .unwrap_or_else(|_| manifest.join("../../etc"));
+    let dir = manifest.join("target/test-own-samples");
+    std::fs::create_dir_all(&dir).unwrap();
+    for (from, to) in [("bd_haus.flac", "kick.flac"), ("sn_dolf.flac", "snare.flac")] {
+        let to = dir.join(to);
+        if !to.exists() {
+            let part = dir.join(format!("{}.{:?}.part", from, std::thread::current().id()));
+            std::fs::copy(etc.join("samples").join(from), &part).unwrap();
+            std::fs::rename(&part, &to).unwrap();
+        }
+    }
+    dir
+}

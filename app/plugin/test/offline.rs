@@ -7,7 +7,7 @@
 use sonic_pi_plugin::instance::{Instance, Transport};
 
 mod common;
-use common::{onsets, resources, BLOCK, RATE};
+use common::{frequency, onsets, own_samples, peak, resources, BLOCK, RATE};
 
 /// NTP seconds. Arbitrary, and nowhere near the real time, so a clock read by mistake shows up.
 const ORIGIN: f64 = 1000.0;
@@ -21,13 +21,30 @@ fn offline() -> Instance {
 
 /// Renders `blocks` buffers and returns the left channel.
 fn render(instance: &Instance, blocks: usize) -> Vec<f32> {
+    render_stereo(instance, blocks, None).0
+}
+
+/// Renders `blocks` buffers and returns both channels. `input`: the pitch of a sine at half scale handed to the
+/// instance on its left input, its right input silent.
+fn render_stereo(instance: &Instance, blocks: usize, input: Option<f64>) -> (Vec<f32>, Vec<f32>) {
     let (mut left, mut right) = (vec![0.0f32; BLOCK], vec![0.0f32; BLOCK]);
-    let mut out = Vec::with_capacity(blocks * BLOCK);
+    let (mut out_left, mut out_right) = (Vec::with_capacity(blocks * BLOCK), Vec::with_capacity(blocks * BLOCK));
+    let mut frame = 0u64;
     for _ in 0..blocks {
-        instance.render(&mut left, &mut right);
-        out.extend_from_slice(&left);
+        match input {
+            Some(pitch) => {
+                let tone: Vec<f32> = (0..BLOCK)
+                    .map(|i| (0.5 * ((frame + i as u64) as f64 * pitch * std::f64::consts::TAU / RATE).sin()) as f32)
+                    .collect();
+                instance.render_with(&mut left, &mut right, Some((&tone, &[0.0f32; BLOCK])));
+            }
+            None => instance.render(&mut left, &mut right),
+        }
+        frame += BLOCK as u64;
+        out_left.extend_from_slice(&left);
+        out_right.extend_from_slice(&right);
     }
-    out
+    (out_left, out_right)
 }
 
 /// Renders until the instance has nothing left to load, and returns how many buffers that took. Offline, loading
@@ -211,4 +228,48 @@ fn two_instances_side_by_side_each_render_only_their_own_code() {
     let (heard_a, heard_b) = (render(&a, seconds(1.0)), render(&b, seconds(1.0)));
     assert_eq!(onsets(&heard_a).len(), 1);
     assert!(heard_b.iter().all(|s| *s == 0.0), "the instance that ran nothing is silent");
+}
+
+#[test]
+fn a_sample_by_its_path_and_one_from_a_folder_by_its_place_both_sound() {
+    let dir = own_samples();
+    for code in [format!("sample {:?}\n", dir.join("kick.flac").to_string_lossy()), format!("sample {:?}, 1\n", dir.to_string_lossy())] {
+        let instance = offline();
+        render_until_loaded(&instance);
+        instance.run(&code);
+        let heard = render(&instance, seconds(1.5));
+        assert!(peak(&heard) > 0.05, "{code:?} sounds: peak {}", peak(&heard));
+    }
+}
+
+#[test]
+fn sound_out_plays_on_the_output_it_names_and_not_the_other() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    // on output 2 alone: amp: 0 keeps the fx from passing the sound on to both
+    instance.run("with_fx :sound_out, output: 2, amp: 0 do\n  synth :sine, note: 69, sustain: 3, release: 0.1, amp: 0.5\nend\n");
+    render(&instance, seconds(1.0));
+    let (left, right) = render_stereo(&instance, seconds(1.0), None);
+    assert!(peak(&right) > 0.05, "sound_out's sound is on output 2, peak {}", peak(&right));
+    assert!((frequency(&right) - 440.0).abs() < 3.0, "output 2 plays the sine, heard {:.1} Hz", frequency(&right));
+    assert!(peak(&left) < 1e-3, "and not on output 1, peak {}", peak(&left));
+}
+
+#[test]
+fn the_hosts_input_is_heard_through_live_audio_and_only_while_it_is_asked_for() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    let quiet = render_stereo(&instance, seconds(0.5), Some(330.0)).0;
+    assert!(peak(&quiet) < 1e-6, "the host's input is not heard until a program asks for it, peak {}", peak(&quiet));
+
+    instance.run("live_audio :in\n");
+    render_stereo(&instance, seconds(1.0), Some(330.0));
+    let heard = render_stereo(&instance, seconds(1.0), Some(330.0)).0;
+    assert!(peak(&heard) > 0.05, "live_audio plays the host's input, peak {}", peak(&heard));
+    assert!((frequency(&heard) - 330.0).abs() < 3.0, "what live_audio plays is the input at 330 Hz, heard {:.1} Hz", frequency(&heard));
+
+    instance.run("live_audio :in, :stop\n");
+    render_stereo(&instance, seconds(1.0), Some(330.0));
+    let after = render_stereo(&instance, seconds(0.5), Some(330.0)).0;
+    assert!(peak(&after) < 1e-3, "stopped, the input is not heard, peak {}", peak(&after));
 }

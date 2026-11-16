@@ -13,7 +13,7 @@ use std::time::{Duration, Instant};
 use sonic_pi_plugin::instance::{Instance, Transport};
 
 mod common;
-use common::{onsets, peak, resources, BLOCK, RATE};
+use common::{frequency, onsets, own_samples, peak, resources, BLOCK, RATE};
 
 /// Renders `instance` in real time on a thread of its own, as a host's audio thread does, keeping every frame.
 struct Host {
@@ -129,12 +129,6 @@ impl Drop for Host {
             t.join().unwrap();
         }
     }
-}
-
-/// The pitch of a steady tone, by its rising zero crossings.
-fn frequency(samples: &[f32]) -> f64 {
-    let rising = samples.windows(2).filter(|w| w[0] <= 0.0 && w[1] > 0.0).count();
-    rising as f64 * RATE / samples.len() as f64
 }
 
 /// Waits until `host` has rendered `seconds` more, and returns that stretch.
@@ -499,22 +493,6 @@ fn many_reverbs_at_once_have_the_memory_they_need() {
     assert!(peak(&sound) > 0.01, "they sound: peak {}", peak(&sound));
 }
 
-/// A folder of the player's own samples, outside Sonic Pi's: two files copied from the built-in ones.
-fn own_samples() -> PathBuf {
-    let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let etc = std::env::var("SONIC_PI_ETC")
-        .map(PathBuf::from)
-        .unwrap_or_else(|_| manifest.join("../../etc"));
-    let dir = manifest.join("target/test-own-samples");
-    std::fs::create_dir_all(&dir).unwrap();
-    for (from, to) in [("bd_haus.flac", "kick.flac"), ("sn_dolf.flac", "snare.flac")] {
-        let to = dir.join(to);
-        if !to.exists() {
-            std::fs::copy(etc.join("samples").join(from), &to).unwrap();
-        }
-    }
-    dir
-}
 
 /// What a program plays, heard: no /fail from the engine, and something louder than `level`.
 fn plays(code: &str, level: f32) {
