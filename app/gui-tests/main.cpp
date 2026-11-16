@@ -145,6 +145,12 @@ int main(int argc, char** argv)
     QTemporaryDir runtimeDir;
     if (qEnvironmentVariableIsEmpty("XDG_RUNTIME_DIR") && runtimeDir.isValid())
         qputenv("XDG_RUNTIME_DIR", runtimeDir.path().toLocal8Bit());
+#ifdef Q_OS_WIN
+    // The offscreen platform has no fonts of its own on Windows: it looks in Qt's lib/fonts, which no Qt install
+    // has, and warns that there are none. It is given the system's, so text is measured in real fonts.
+    if (qEnvironmentVariableIsEmpty("QT_QPA_FONTDIR"))
+        qputenv("QT_QPA_FONTDIR", (qEnvironmentVariable("WINDIR", QStringLiteral("C:\\Windows")) + QStringLiteral("\\Fonts")).toLocal8Bit());
+#endif
     qInstallMessageHandler(failOnQtWarning);
     QApplication app(argc, argv);
     started("application made");
