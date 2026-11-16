@@ -180,3 +180,9 @@ set_tests_properties(${PROJECT_NAME}-screen-reader PROPERTIES ENVIRONMENT "SONIC
 # A run that stops is a failure in minutes, not whenever CI gives the job up (six hours): the whole suite takes
 # about a minute on a developer's machine.
 set_tests_properties(${PROJECT_NAME} ${PROJECT_NAME}-screen-reader PROPERTIES TIMEOUT 1200)
+# On Windows the test program loads Qt's libraries from wherever the search path leads, and nothing has put Qt's
+# folder on it: the tests are given it, so they run from a build tree as they are (CI's did not load at all).
+if(WIN32)
+  set_tests_properties(${PROJECT_NAME} ${PROJECT_NAME}-screen-reader PROPERTIES
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:$<TARGET_FILE_DIR:Qt6::Core>")
+endif()

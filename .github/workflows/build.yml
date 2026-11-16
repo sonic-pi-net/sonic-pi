@@ -308,41 +308,34 @@ jobs:
         run: ctest --verbose
         if: matrix.os == 'ubuntu-latest'
 
-      # DIAGNOSIS, to be removed once the Windows run is understood. The test
-      # program stops on Windows before its first case and says nothing. This
-      # starts it with a filter no case matches, so it only starts up and ends.
-      # If it has not ended in a minute this says what it is doing (its output,
-      # its window if it has put one up, and its threads' stacks where the
-      # machine has a debugger), ends it and fails, so the full run below is
-      # not waited for.
-      - name: GUI Tests - Windows, does the test program start
+      # DIAGNOSIS, to be removed once the Windows run is green. The test program
+      # did not load on Windows (it ended with 0xC0000135, a library not found).
+      # This lists the libraries it asks for and where each is found on the
+      # search path, and never fails.
+      - name: GUI Tests - Windows, the libraries the test program loads
         if: startsWith(matrix.os, 'windows')
         shell: pwsh
         working-directory: ${{ github.workspace }}\app\build\gui-tests
-        env:
-          QT_QPA_PLATFORM: offscreen
-          SONIC_PI_TEST_NAMES: 1
         run: |
           $exe = Join-Path $PWD "${{ matrix.build_type }}\gui-tests.exe"
-          $p = Start-Process -FilePath $exe -ArgumentList '"no case has this name"' -PassThru -NoNewWindow -RedirectStandardOutput out.txt -RedirectStandardError err.txt
-          if ($p.WaitForExit(60000)) {
-            "ended by itself, with $($p.ExitCode)"
-            Get-Content out.txt, err.txt
-            exit 0
+          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+          $dumpbin = & $vswhere -latest -find "VC\Tools\MSVC\*\bin\Hostx64\x64\dumpbin.exe" | Select-Object -Last 1
+          "dumpbin: $dumpbin"
+          & $dumpbin /dependents $exe | Where-Object { $_ -match '^\s+\S+\.dll\s*$' } | ForEach-Object {
+            $dll = $_.Trim()
+            $at = (where.exe $dll 2>$null | Select-Object -First 1)
+            "{0,-40} {1}" -f $dll, $(if ($at) { $at } else { 'NOT ON THE SEARCH PATH' })
           }
-          "still running after a minute. Its output:"
-          Get-Content out.txt, err.txt
-          Get-Process -Id $p.Id | Format-List Id, Responding, MainWindowTitle, MainWindowHandle, @{ n = 'Threads'; e = { $_.Threads.Count } }
-          tasklist /v /fi "PID eq $($p.Id)"
-          $cdb = Get-Item "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\cdb.exe" -ErrorAction SilentlyContinue
-          if ($cdb) { & $cdb.FullName -pv -p $p.Id -c "~*kb 40; qd" } else { "no cdb on this machine" }
-          Stop-Process -Id $p.Id -Force
-          exit 1
+          "Qt on the search path: " + (($env:PATH -split ';' | Where-Object { $_ -match 'Qt' }) -join ' ; ')
+          exit 0
 
       # A Visual Studio build has a configuration a test runs from: ctest is told
       # which, or it runs nothing ("Test not available without configuration").
+      # In PowerShell, not cmd: a program that cannot load (a library not
+      # found) then ends at once with its error. Started from cmd, Windows asks
+      # about it in a dialog and the run waits on that until its time limit.
       - name: GUI Tests - Windows
-        shell: cmd
+        shell: pwsh
         working-directory: ${{ github.workspace }}\app\build\gui-tests
         env:
           QT_QPA_PLATFORM: offscreen
