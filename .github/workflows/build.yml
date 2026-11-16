@@ -308,27 +308,6 @@ jobs:
         run: ctest --verbose
         if: matrix.os == 'ubuntu-latest'
 
-      # DIAGNOSIS, to be removed once the Windows run is green. The test program
-      # did not load on Windows (it ended with 0xC0000135, a library not found).
-      # This lists the libraries it asks for and where each is found on the
-      # search path, and never fails.
-      - name: GUI Tests - Windows, the libraries the test program loads
-        if: startsWith(matrix.os, 'windows')
-        shell: pwsh
-        working-directory: ${{ github.workspace }}\app\build\gui-tests
-        run: |
-          $exe = Join-Path $PWD "${{ matrix.build_type }}\gui-tests.exe"
-          $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
-          $dumpbin = & $vswhere -latest -find "VC\Tools\MSVC\*\bin\Hostx64\x64\dumpbin.exe" | Select-Object -Last 1
-          "dumpbin: $dumpbin"
-          & $dumpbin /dependents $exe | Where-Object { $_ -match '^\s+\S+\.dll\s*$' } | ForEach-Object {
-            $dll = $_.Trim()
-            $at = (where.exe $dll 2>$null | Select-Object -First 1)
-            "{0,-40} {1}" -f $dll, $(if ($at) { $at } else { 'NOT ON THE SEARCH PATH' })
-          }
-          "Qt on the search path: " + (($env:PATH -split ';' | Where-Object { $_ -match 'Qt' }) -join ' ; ')
-          exit 0
-
       # A Visual Studio build has a configuration a test runs from: ctest is told
       # which, or it runs nothing ("Test not available without configuration").
       # In PowerShell, not cmd: a program that cannot load (a library not
