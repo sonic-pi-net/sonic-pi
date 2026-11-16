@@ -1,4 +1,4 @@
-# The Sonic Pi plugin (app/plugin): built from a clean checkout, then tested as a host loads it.
+# The Sonic Pi plugin (app/plugin): built from a clean checkout.
 #
 # The plugin is four things built together: Sonic Pi's runtime (app/web/runtime, as a native library), the page
 # it shows (app/web), the engine (app/external/supersonic, compiled into the plugin) and SuperSonic's JavaScript
@@ -24,7 +24,7 @@ concurrency:
 
 jobs:
   mac:
-    name: build and test · macOS
+    name: build · macOS
     runs-on: macos-latest
     timeout-minutes: 90
     steps:
@@ -85,20 +85,11 @@ jobs:
           scripts/build-runtime.sh --native
           node scripts/build-app.mjs
 
-      # The bundle, the offline tests (instances rendered by hand, no audio device), then the test host against
-      # the bundle: its editor in an off-screen window, its sound rendered and measured.
-      - name: Build the plugin and test it
+      # The bundle only. The plugin's tests render in real time, since its runtime schedules on the wall clock, and
+      # a shared machine cannot keep that pace: they are run on a developer's machine (scripts/build.sh --test)
+      # until they keep time from the audio they render.
+      - name: Build the plugin
         working-directory: app/plugin
         env:
           SUPERSONIC_DIST: ${{ github.workspace }}/app/external/supersonic/dist
-        run: scripts/build.sh --test
-
-      - name: The logs of a run that failed
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: plugin-logs-macos
-          path: |
-            app/plugin/target/host.log
-            app/web/build/*.log
-          if-no-files-found: ignore
+        run: scripts/build.sh
