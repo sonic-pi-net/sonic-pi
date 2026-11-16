@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (c) 2026 Sam Aaron
 //! Offline instances: time is counted from rendered frames (Instance::offline), so these tests render in a plain
-//! loop as fast as the machine goes and use no clock. The same code must give the same audio on every run.
+//! loop as fast as the machine goes and nothing they check depends on a clock. The same code must give the same
+//! audio on every run. The only wait is for the built-in synthdefs to load before a test starts.
 
 use sonic_pi_plugin::instance::Instance;
 
@@ -29,17 +30,19 @@ fn render(instance: &Instance, blocks: usize) -> Vec<f32> {
     out
 }
 
-/// Renders until the instance has nothing left to load. Loading is file IO on other threads, so this is the one
-/// place that yields to them; it is bounded by a count of buffers, not by time.
+/// Renders until the instance has nothing left to load. Loading is file IO on other threads and takes real time,
+/// which differs from machine to machine, so this waits for the loads themselves: a buffer, a short sleep, and
+/// again. The two-minute limit only stops a run that would otherwise hang; nothing is measured against it.
 fn render_until_loaded(instance: &Instance) {
-    for _ in 0..200_000 {
+    let give_up = std::time::Instant::now() + std::time::Duration::from_secs(120);
+    loop {
         render(instance, 1);
         if instance.loading() == 0 {
             return;
         }
-        std::thread::yield_now();
+        assert!(std::time::Instant::now() < give_up, "the instance was still loading after two minutes");
+        std::thread::sleep(std::time::Duration::from_millis(1));
     }
-    panic!("the instance was still loading after 200,000 buffers");
 }
 
 fn seconds(s: f64) -> usize {

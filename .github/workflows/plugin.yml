@@ -85,11 +85,15 @@ jobs:
           scripts/build-runtime.sh --native
           node scripts/build-app.mjs
 
-      # The bundle only. The plugin's tests render in real time, since its runtime schedules on the wall clock, and
-      # a shared machine cannot keep that pace: they are run on a developer's machine (scripts/build.sh --test)
-      # until they keep time from the audio they render.
       - name: Build the plugin
         working-directory: app/plugin
         env:
           SUPERSONIC_DIST: ${{ github.workspace }}/app/external/supersonic/dist
         run: scripts/build.sh
+
+      # The offline tests only: they keep time from rendered frames, so their results do not depend on this
+      # machine's speed. The live tests (test/sound.rs) and the test host render in real time and are run on a
+      # developer's machine with scripts/build.sh --test.
+      - name: Offline tests
+        working-directory: app/plugin
+        run: cargo test --release --test offline
