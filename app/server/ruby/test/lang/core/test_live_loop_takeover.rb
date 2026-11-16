@@ -72,6 +72,15 @@ module SonicPi
       @lang.__spider_eval(code, {workspace: workspace})
     end
 
+    # A run that takes over a loop already going. It has taken it over once
+    # its own code has got past the live_loop, and says so: the gate the loop
+    # waits at is not opened before, or the loop would go round once more with
+    # the code it had (a busy machine did, and the case failed).
+    def take_over_from(workspace, code)
+      run_from workspace, code + "__test_log :taken_over\n"
+      assert_equal :taken_over, next_logged("the run to take the loop over")
+    end
+
     def next_logged(what)
       Timeout.timeout(WAIT) { @log.pop }
     rescue Timeout::Error
@@ -92,7 +101,7 @@ module SonicPi
     def test_a_run_again_takes_over_its_own_live_loop
       run_from "workspace_one", loop_logging(:groove, :first, :groove)
       assert_equal :first, next_logged("the first run's loop")
-      run_from "workspace_one", loop_logging(:groove, :second, :groove)
+      take_over_from "workspace_one", loop_logging(:groove, :second, :groove)
       @gates[:groove] << :go
       assert_equal :second, next_logged("the loop to go round with the second run's code")
     end
@@ -100,7 +109,7 @@ module SonicPi
     def test_a_card_takes_over_another_cards_live_loop
       run_from "sonic-pi-quickstart-0-1", loop_logging(:groove, :first, :groove)
       assert_equal :first, next_logged("the first card's loop")
-      run_from "sonic-pi-quickstart-0-2", loop_logging(:groove, :second, :groove)
+      take_over_from "sonic-pi-quickstart-0-2", loop_logging(:groove, :second, :groove)
       @gates[:groove] << :go
       assert_equal :second, next_logged("the loop to go round with the second card's code")
     end
@@ -111,7 +120,7 @@ module SonicPi
     def test_a_loop_another_card_takes_over_flashes_that_cards_lines
       run_from "sonic-pi-quickstart-0-1", "live_loop :groove do\n  __test_log __test_where\n  __test_gate :groove\n  sleep 0.01\nend\n"
       assert_equal ["sonic-pi-quickstart-0-1", 2], next_logged("the first card's sound")
-      run_from "sonic-pi-quickstart-0-2", "live_loop :groove do\n  sleep 0.01\n  __test_log __test_where\n  __test_gate :groove\nend\n"
+      take_over_from "sonic-pi-quickstart-0-2", "live_loop :groove do\n  sleep 0.01\n  __test_log __test_where\n  __test_gate :groove\nend\n"
       @gates[:groove] << :go
       assert_equal ["sonic-pi-quickstart-0-2", 3], next_logged("the second card's sound")
     end
@@ -119,7 +128,7 @@ module SonicPi
     def test_a_loop_another_buffer_takes_over_flashes_that_buffers_lines
       run_from "workspace_one", "live_loop :groove do\n  __test_log __test_where\n  __test_gate :groove\n  sleep 0.01\nend\n"
       assert_equal ["workspace_one", 2], next_logged("the first buffer's sound")
-      run_from "workspace_two", "live_loop :groove do\n  sleep 0.01\n  __test_log __test_where\n  __test_gate :groove\nend\n"
+      take_over_from "workspace_two", "live_loop :groove do\n  sleep 0.01\n  __test_log __test_where\n  __test_gate :groove\nend\n"
       @gates[:groove] << :go
       assert_equal ["workspace_two", 3], next_logged("the second buffer's sound")
     end
