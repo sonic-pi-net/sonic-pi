@@ -3189,4 +3189,7 @@ if (!infoOpen()) wakeEditor();
 // session starts with the page, so its Stop reaches what plays, and the first Run waits for nothing
 if (inPlugin) ensureSession().catch(() => {});
 else for (const type of ["pointerover", "pointerdown", "focusin"]) infoCard.addEventListener(type, (e) => { if (e.target.closest?.(".qs-card, .home-synth")) startRuntime().catch(() => {}); }, { passive: true });
-window.sonicPi = { editor, workspace, keyboard: codeKeyboard, api, theme, get session() { return session; }, get runtimeVersion() { return versions.runtime; }, docs: () => docs, quickstart: () => quickstart, scope, logs, processTree: () => insight.tree.snapshot(), pianoRoll: () => insight.roll.snapshot(), flight, keys, shortcuts: shortcutEditor, get engine() { return engineRef; } };
+window.sonicPi = { editor, workspace, keyboard: codeKeyboard, api, theme, get session() { return session; }, get runtimeVersion() { return versions.runtime; }, docs: () => docs, quickstart: () => quickstart, scope, logs, processTree: () => insight.tree.snapshot(), pianoRoll: () => insight.roll.snapshot(), flight, keys, shortcuts: shortcutEditor, get engine() { return engineRef; },
+  // whether a message is showing in the status bar in place of the engine's state (toast): it goes after a set time,
+  // which changes the page, so a check that watches the page for changes waits for it to go first
+  get statusMessageShowing() { return messageTimer != null; } };

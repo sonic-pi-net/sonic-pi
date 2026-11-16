@@ -31,14 +31,17 @@ await loadShareCodec();
 const results = [];
 let engine = "";
 const say = (mark, name, detail) => console.log(`${engine.padEnd(8)} ${mark} ${name}${detail ? ` — ${detail}` : ""}`);
-const check = (name, ok, detail = "") => { results.push({ engine, name, ok }); say(ok ? "ok  " : "FAIL", name, detail); };
+const check = (name, ok, detail = "") => { results.push({ engine, name, ok, at: Date.now() }); say(ok ? "ok  " : "FAIL", name, detail); };
+// The check that had last been made at a moment (ms since the epoch, as the page's Date.now() gives): where in the
+// run something the page noted happened.
+const checkBefore = (at) => results.filter((r) => r.engine === engine && r.at <= at).pop()?.name ?? "the start";
 // What a page-wide watcher hears in ms: an ad blocker's (AdBlock's element hiding: a MutationObserver on the document,
 // then every hiding rule tried against the whole page a second after any change), which a page changing as a program
 // plays keeps scanning back to back, the page frozen through each. Each change by the nearest element with an id, and
 // its kind, counted: nothing, where the page is still (app/src/shadow.js says what may change, and where).
 const stillness = (pg, ms = 2500) => pg.evaluate((ms) => new Promise((resolve) => {
   const by = {};
-  const mo = new MutationObserver((list) => { for (const m of list) { let e = m.target.nodeType === 1 ? m.target : m.target.parentElement; while (e && !e.id) e = e.parentElement; const k = `${e ? "#" + e.id : "the page"} ${m.type}`; by[k] = (by[k] ?? 0) + 1; } });
+  const mo = new MutationObserver((list) => { for (const m of list) { let e = m.target.nodeType === 1 ? m.target : m.target.parentElement; while (e && !e.id) e = e.parentElement; const t = m.target.nodeType === 1 ? m.target : m.target.parentElement; const what = t ? `<${t.localName}${t.className && typeof t.className === "string" ? "." + t.className.trim().split(/\s+/).join(".") : ""}>` : ""; const k = `${e ? "#" + e.id : "the page"} ${what} ${m.type}${m.attributeName ? ":" + m.attributeName : ""}`; by[k] = (by[k] ?? 0) + 1; } });
   mo.observe(document, { childList: true, attributes: true, subtree: true, characterData: true });
   setTimeout(() => { mo.disconnect(); resolve(by); }, ms);
 }), ms);
@@ -229,7 +232,11 @@ const footFloats = async (pg, where) => {
 // the dev server speaks https with a certificate it signed itself (scripts/serve.mjs): the browser is told to go on
 const HTTPS = { ignoreHTTPSErrors: BASE.startsWith("https:") };
 
-for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
+// CHECK_ENGINES=chromium (or webkit) runs one engine only. CHECK_CPU_THROTTLE=6 slows the app page's main thread
+// six times in Chromium (the DevTools CPU throttle), to see what a slow machine does without loading this one.
+const ENGINES = (process.env.CHECK_ENGINES ?? "chromium,webkit").split(",");
+const CPU_THROTTLE = Number(process.env.CHECK_CPU_THROTTLE ?? 0);
+for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].filter(([n]) => ENGINES.includes(n))) {
   engine = name;
   // Chromium wants telling that a page may make a sound unasked; WebKit has no such switch
   const browser = quiet(await engineType.launch(name === "chromium" ? { args: ["--autoplay-policy=no-user-gesture-required", "--mute-audio"] } : {}));
@@ -252,6 +259,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
   try {
     // ── the app ──
     const page = await browser.newPage({ ...HTTPS, viewport: { width: 1400, height: 900 } });
+    if (CPU_THROTTLE > 1 && name === "chromium") {
+      const cdp = await page.context().newCDPSession(page);
+      await cdp.send("Emulation.setCPUThrottlingRate", { rate: CPU_THROTTLE });
+    }
     const pageErrors = [];
     page.on("pageerror", (e) => pageErrors.push(e.message));
     // where each synthdef is fetched from: the engine loads them in a worker, so this watches the whole context
@@ -381,7 +392,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const jobs = await page.locator("#status-jobs").getAttribute("title");
     check("Run plays both live loops", /:kick/.test(jobs) && /:hat/.test(jobs), jobs);
     // every refusal from scsynth from here on, in its own words, for the check that there are none (all session long)
-    await page.evaluate(() => { window.__refused = []; window.sonicPi.engine.on?.("in", (m) => { if (m?.[0] === "/fail") window.__refused.push(m.map(String).join(" ").slice(0, 200)); }); });
+    await page.evaluate(() => { window.__refused = []; window.sonicPi.engine.on?.("in", (m) => { if (m?.[0] === "/fail") window.__refused.push({ at: Date.now(), said: m.map(String).join(" ").slice(0, 200) }); }); });
     // The page stays still as a program plays (stillness, above): what changes as it plays is in shadow roots
     // (app/src/shadow.js), or drawn on a canvas, or said only as it changes. Here the editor, the log and the cues;
     // below, the Threads pane open, a docs card, a quickstart card, a site page's card and the phone's page.
@@ -835,7 +846,9 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     const newVerbs = await logText();
     check("control, set and get, spread, MIDI and chord_invert run", /control node/.test(newVerbs) && /42/.test(newVerbs) && /\(ring true, false, false, true/.test(newVerbs) && /\(ring 64, 67, 72\)/.test(newVerbs), newVerbs.slice(-200));
     const refused = await page.evaluate(() => ({ failures: window.sonicPi.session.failures, said: window.__refused ?? [] }));
-    check("controls and samples all session long: scsynth has refused nothing", refused.failures === 0, refused.failures ? JSON.stringify(refused) : "");
+    // a refusal is reported with the check that had last been made when it came, so a failure says where in the run
+    check("controls and samples all session long: scsynth has refused nothing", refused.failures === 0,
+      refused.failures ? JSON.stringify({ failures: refused.failures, said: refused.said.map((r) => `${r.said} (after "${checkBefore(r.at)}")`) }) : "");
     const bent = (await page.evaluate(() => window.sonicPi.pianoRoll())).notes.filter((n) => n.notes[0] === 60);
     check("the piano roll bends a controlled note to its new pitch", bent.some((n) => n.notes.includes(72)), JSON.stringify(bent.map((n) => n.notes)));
     // and a refusal is seen: control a synth that has already ended
@@ -905,7 +918,23 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     await page.click(".docs-tabs button:has-text('FX')");
     await page.click("#docs-pane .docs-item[data-key='autotuner']");
     await page.locator("#docs-pane .pg-card .qs-card-foot .qs-transport button").first().click();
-    await page.waitForTimeout(3000);
+    // Wait for the demo itself, not for an amount of time: its card showing it plays, and its loop's scope drawn
+    // with a moving trace. How long that takes depends on the machine (the FX and its sample have to load). The
+    // timeouts only end a run where it never happens; the checks below then say what was missing.
+    await page.waitForFunction(() => document.querySelector("#docs-pane .pg-card .qs-transport")?.classList.contains("playing"), null, { timeout: 30000 }).catch(() => {});
+    await page.waitForFunction(() => {
+      const c = document.querySelector("#docs-pane .pg-card .sp-loop-scope");
+      if (!c) return false;
+      const d = c.getContext("2d").getImageData(0, 0, c.width, c.height).data;
+      let lit = 0;
+      for (let i = 3; i < d.length; i += 4) if (d[i] > 8) lit++;
+      return lit > c.width * 1.4;
+    }, null, { timeout: 30000 }).catch(() => {});
+    // Two things would change the page during the watch below and are not the demo's doing: the tooltip of the
+    // button the pointer was left on, and a status bar message timing out. Move the pointer off, and wait for any
+    // message to go.
+    await page.mouse.move(5, 5);
+    await page.waitForFunction(() => !window.sonicPi.statusMessageShowing && !document.querySelector(".sp-tip.in"), null, { timeout: 30000 }).catch(() => {});
     const heardDocs = await stillness(page);
     check("the page stays still as a docs card's live demo plays", still(heardDocs), JSON.stringify(heardDocs));
     const fxDemo = await page.evaluate(() => ({ pane: /thread safe|docs_fx/.test(document.getElementById("error-pane").hidden ? "" : document.getElementById("error-pane").textContent), card: document.querySelector("#docs-pane .pg-card.errored .qs-state")?.textContent ?? null }));   // the pane may hold an earlier check's error: only this demo's counts
@@ -1421,7 +1450,13 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
     check("no uncaught errors loading and dropping files", fileErrors.filter((m) => !/ResizeObserver loop/.test(m)).length === 0, fileErrors.slice(0, 3).join(" | "));
     await fp.close();
 
-    // the flight recorder: samples every clock, marks moments, reports
+    // the flight recorder: samples every clock, marks moments, reports. A report holds the programs running and the
+    // records within three seconds of a mark, so a program is run here and its sounds waited for. Whatever an
+    // earlier check happened to leave playing is not relied on.
+    await setCode("live_loop :flight do\n  play 60, amp: 0.1\n  sleep 0.25\nend");
+    const sentBeforeFlight = await page.evaluate(() => window.sonicPi.session.bridge.sent);
+    await page.click("#btn-run");
+    await page.waitForFunction((b) => window.sonicPi.session.bridge.sent >= b + 3, sentBeforeFlight, { timeout: 30000 }).catch(() => {});
     const flight = await page.evaluate(() => {
       const f = window.sonicPi.flight;
       f.mark("heard", "check");
@@ -1431,7 +1466,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]]) {
         sounds: f.summary(0).sounds };
     });
     check("the flight recorder samples the engine, the runtime and the page", flight.samples > 50 && flight.withEngine > 10 && flight.withRuntime > 10 && flight.errors === 0 && flight.sounds > 0, JSON.stringify(flight));
-    check("a flight report carries the marks, the programs and the records", flight.heard && flight.programs > 0 && flight.records > 0);
+    check("a flight report carries the marks, the programs and the records", flight.heard && flight.programs > 0 && flight.records > 0, JSON.stringify(flight));
+    await page.click("#btn-stop");
     // keyboard shortcuts: native's keymaps, pressed, and its shortcut editor
     const keymap = await page.evaluate(() => ({ platform: window.sonicPi.keys.platform, mode: window.sonicPi.keys.mode }));
     const meta = keymap.platform === "mac" ? "Meta" : "Alt";     // native's Meta: Cmd on a Mac, Alt elsewhere
