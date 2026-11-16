@@ -94,6 +94,9 @@ public:
     // on the one and checks the other.
     int framesRendered() const { return m_framesRendered.load(std::memory_order_relaxed); }
     int linesShaped() const { return m_linesShaped.load(std::memory_order_relaxed); }
+    // True once the most recently requested frame has been drawn. A frame counted by framesRendered() may be an
+    // older request, so a test waits on this before grabbing the picture or reading linesShaped(). GUI thread.
+    bool frameCurrent() const { return m_frameDrawn.load(std::memory_order_acquire) == m_framesRequested; }
 
 protected:
     void paintEvent(QPaintEvent*) override;
@@ -141,6 +144,7 @@ private:
         Pos    selTo;
         QColor selBackground;
         QColor selText;
+        int    request = 0;      // m_framesRequested when this frame was asked for
         bool   valid = false;
     };
     void updateScrollRange();
@@ -185,6 +189,8 @@ private:
     QMutex         m_frontMutex;
     QImage         m_front;
     std::atomic<int> m_framesRendered{ 0 };
+    int              m_framesRequested = 0;   // GUI thread only
+    std::atomic<int> m_frameDrawn{ 0 };       // the request number of the last frame drawn (or skipped as empty)
     std::atomic<int> m_linesShaped{ 0 };
     std::thread    m_renderThread;
 };

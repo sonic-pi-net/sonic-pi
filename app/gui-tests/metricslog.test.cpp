@@ -57,6 +57,13 @@ struct Shown
     {
         return QTest::qWaitFor([&] { return log.framesRendered() >= atLeast; }, 2000);
     }
+    // Waits until the newest requested frame has been drawn, so a grab shows the result of everything done so far.
+    // Events are processed first, because some changes request their frame from a posted event.
+    bool drawn()
+    {
+        QApplication::processEvents();
+        return QTest::qWaitFor([&] { return log.frameCurrent(); }, 5000);
+    }
     int visibleLines() const { return int(log.viewport()->height() / QFontMetricsF(log.font()).height()); }
 };
 
@@ -163,7 +170,7 @@ TEST_CASE("metrics log: draws off the GUI thread, and shows what was appended", 
     const int before = s.log.framesRendered();
     s.log.append(lines(0, 3, Qt::white));
     REQUIRE(s.framed(before + 1));
-    QTest::qWait(80);   // the blit lands on a pacer tick
+    REQUIRE(s.drawn());
     const QImage img = s.log.viewport()->grab().toImage();
     CHECK(litPixels(img, 0, img.height()) > 0);
 }
@@ -177,8 +184,7 @@ TEST_CASE("metrics log: draws its text at the font's size", "[metricslog]")
     f.setPixelSize(20);
     s.log.setFont(f);
     s.log.append({ { { Qt::white, QStringLiteral("HHHH"), QString() } } });
-    REQUIRE(s.framed(1));
-    QTest::qWait(80);
+    REQUIRE(s.drawn());
     const QImage img = s.log.viewport()->grab().toImage();
     int top = img.height(), bottom = -1;
     for (int y = 0; y < img.height(); ++y)
@@ -206,14 +212,17 @@ TEST_CASE("metrics log: shapes a line once, however many frames show it", "[metr
     int frames = s.log.framesRendered();
     s.log.resize(300, 180);   // a frame for the same lines, same look
     REQUIRE(s.framed(frames + 1));
+    REQUIRE(s.drawn());
     CHECK(s.log.linesShaped() == 5);   // drawn again, not shaped again
     frames = s.log.framesRendered();
     s.log.setColours(Qt::black, Qt::white);   // a new look: shaped once more
     REQUIRE(s.framed(frames + 1));
+    REQUIRE(s.drawn());
     CHECK(s.log.linesShaped() == 10);
     frames = s.log.framesRendered();
     s.log.append(lines(5, 1, Qt::white));
     REQUIRE(s.framed(frames + 1));
+    REQUIRE(s.drawn());
     CHECK(s.log.linesShaped() == 11);   // only the new line
 }
 
@@ -221,8 +230,7 @@ TEST_CASE("metrics log: short content sits at the bottom", "[metricslog]")
 {
     Shown s(300, 200);
     s.log.append(lines(0, 2, Qt::white));
-    REQUIRE(s.framed(1));
-    QTest::qWait(80);
+    REQUIRE(s.drawn());
     const QImage img = s.log.viewport()->grab().toImage();
     const int h = img.height();
     CHECK(litPixels(img, 0, h / 2) == 0);        // nothing in the top half
@@ -410,7 +418,7 @@ TEST_CASE("metrics log: the selection is drawn in the selection's colours", "[me
     int frames = s.log.framesRendered();
     drag(s.log, at(s.log, "line 1", 1, 0), at(s.log, "line 1", 1, 6));
     REQUIRE(s.framed(frames + 1));
-    QTest::qWait(80);   // the blit lands on a pacer tick
+    REQUIRE(s.drawn());
     const QImage img = s.log.viewport()->grab().toImage();
     const qreal dpr = img.devicePixelRatio();
     const qreal lineH = QFontMetricsF(s.log.font()).height() * dpr;
@@ -421,7 +429,7 @@ TEST_CASE("metrics log: the selection is drawn in the selection's colours", "[me
     frames = s.log.framesRendered();
     click(s.log, at(s.log, "line 3", 3, 1));
     REQUIRE(s.framed(frames + 1));
-    QTest::qWait(80);
+    REQUIRE(s.drawn());
     CHECK(pixelsOf(s.log.viewport()->grab().toImage(), selection, 0, img.height()) == 0);
 }
 
@@ -434,8 +442,7 @@ TEST_CASE("metrics log: its frame is opaque whatever the theme's background", "[
     log.resize(300, 100);
     log.show();
     log.append(lines(0, 3, Qt::white));
-    REQUIRE(QTest::qWaitFor([&] { return log.framesRendered() >= 1; }, 2000));
-    QTest::qWait(80);
+    REQUIRE(QTest::qWaitFor([&] { QApplication::processEvents(); return log.frameCurrent(); }, 5000));
     // Over two different backgrounds the result is the same: nothing shows through.
     auto over = [&](const QColor& behind) {
         QImage img(log.viewport()->size(), QImage::Format_ARGB32_Premultiplied);

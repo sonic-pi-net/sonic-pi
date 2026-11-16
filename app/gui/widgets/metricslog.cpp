@@ -249,6 +249,7 @@ void MetricsLog::requestFrame()
     f.selTo = selTo();
     f.selBackground = m_selBackground;
     f.selText = m_selText;
+    f.request = ++m_framesRequested;
     f.valid = true;
     QMutexLocker lock(&m_frameMutex);
     m_pending = std::move(f);   // a frame not yet drawn is replaced: only the newest is worth drawing
@@ -334,7 +335,10 @@ void MetricsLog::renderLoop()
         }
         const QSize px = frame.size * frame.dpr;
         if (px.isEmpty())
+        {
+            m_frameDrawn.store(frame.request, std::memory_order_release);   // nothing to draw at this size
             continue;
+        }
         if (back.size() != px)
             back = QImage(px, QImage::Format_ARGB32_Premultiplied);
         back.setDevicePixelRatio(frame.dpr);
@@ -343,6 +347,7 @@ void MetricsLog::renderLoop()
             QMutexLocker lock(&m_frontMutex);
             std::swap(m_front, back);
         }
+        m_frameDrawn.store(frame.request, std::memory_order_release);
         m_framesRendered.fetch_add(1, std::memory_order_relaxed);
         // The blit goes with the frame pacer's tick, in the same pass as the
         // scopes' repaints. Queued: safe from here, and dropped if the widget
