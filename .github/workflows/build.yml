@@ -308,6 +308,37 @@ jobs:
         run: ctest --verbose
         if: matrix.os == 'ubuntu-latest'
 
+      # DIAGNOSIS, to be removed once the Windows run is understood. The test
+      # program stops on Windows before its first case and says nothing. This
+      # starts it with a filter no case matches, so it only starts up and ends.
+      # If it has not ended in a minute this says what it is doing (its output,
+      # its window if it has put one up, and its threads' stacks where the
+      # machine has a debugger), ends it and fails, so the full run below is
+      # not waited for.
+      - name: GUI Tests - Windows, does the test program start
+        if: startsWith(matrix.os, 'windows')
+        shell: pwsh
+        working-directory: ${{ github.workspace }}\app\build\gui-tests
+        env:
+          QT_QPA_PLATFORM: offscreen
+          SONIC_PI_TEST_NAMES: 1
+        run: |
+          $exe = Join-Path $PWD "${{ matrix.build_type }}\gui-tests.exe"
+          $p = Start-Process -FilePath $exe -ArgumentList '"no case has this name"' -PassThru -NoNewWindow -RedirectStandardOutput out.txt -RedirectStandardError err.txt
+          if ($p.WaitForExit(60000)) {
+            "ended by itself, with $($p.ExitCode)"
+            Get-Content out.txt, err.txt
+            exit 0
+          }
+          "still running after a minute. Its output:"
+          Get-Content out.txt, err.txt
+          Get-Process -Id $p.Id | Format-List Id, Responding, MainWindowTitle, MainWindowHandle, @{ n = 'Threads'; e = { $_.Threads.Count } }
+          tasklist /v /fi "PID eq $($p.Id)"
+          $cdb = Get-Item "C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\cdb.exe" -ErrorAction SilentlyContinue
+          if ($cdb) { & $cdb.FullName -pv -p $p.Id -c "~*kb 40; qd" } else { "no cdb on this machine" }
+          Stop-Process -Id $p.Id -Force
+          exit 1
+
       # A Visual Studio build has a configuration a test runs from: ctest is told
       # which, or it runs nothing ("Test not available without configuration").
       - name: GUI Tests - Windows

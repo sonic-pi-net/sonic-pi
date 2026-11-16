@@ -113,8 +113,18 @@ CATCH_REGISTER_LISTENER(CaseNames)
 namespace SonicPi { void setPopupBelowSwitcher(void*) {} void setWindowAccessibilityIgnored(void*) {} }
 #endif
 
+// SONIC_PI_TEST_NAMES also has the program say how far its own start has got, before any case.
+static void started(const char* what)
+{
+    if (qEnvironmentVariableIsEmpty("SONIC_PI_TEST_NAMES"))
+        return;
+    std::fprintf(stderr, "gui-tests: %s\n", what);
+    std::fflush(stderr);
+}
+
 int main(int argc, char** argv)
 {
+    started("main entered");
 #ifdef Q_OS_WIN
     // On Windows a failure that ends the process (abort, a failed assertion in the C runtime, a crash) first asks
     // about it in a dialog, and a run with nobody to answer waits on it for ever: CI's did, for six hours a time.
@@ -137,6 +147,7 @@ int main(int argc, char** argv)
         qputenv("XDG_RUNTIME_DIR", runtimeDir.path().toLocal8Bit());
     qInstallMessageHandler(failOnQtWarning);
     QApplication app(argc, argv);
+    started("application made");
     // SONIC_PI_TEST_SCREEN_READER: accessibility on for the whole run, as a running screen reader has it from before
     // any widget is made. A widget's interface is then made as the widget is, ahead of what is set on it afterwards,
     // which a run with accessibility off never sees (CMakeLists.txt runs the [a11y] cases a second time so). Qt 6.4's
