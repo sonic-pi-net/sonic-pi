@@ -180,9 +180,11 @@ set_tests_properties(${PROJECT_NAME}-screen-reader PROPERTIES ENVIRONMENT "SONIC
 # A run that stops is a failure in minutes, not whenever CI gives the job up (six hours): the whole suite takes
 # about a minute on a developer's machine.
 set_tests_properties(${PROJECT_NAME} ${PROJECT_NAME}-screen-reader PROPERTIES TIMEOUT 1200)
-# On Windows the test program loads Qt's libraries from wherever the search path leads, and nothing has put Qt's
-# folder on it: the tests are given it, so they run from a build tree as they are (CI's did not load at all).
+# On Windows kissfft is a library of its own, which sonic-pi-api links: it is put beside the test program, as it
+# is beside the app and the API's tests, or the program does not load.
 if(WIN32)
-  set_tests_properties(${PROJECT_NAME} ${PROJECT_NAME}-screen-reader PROPERTIES
-      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:$<TARGET_FILE_DIR:Qt6::Core>")
+  add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different
+          ${API_VENDORED_KISSFFT_DLL}
+          $<TARGET_FILE_DIR:${PROJECT_NAME}>)
 endif()
