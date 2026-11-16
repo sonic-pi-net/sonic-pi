@@ -750,7 +750,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // the kick and bass playing since before, they already show what went (the bass's s_new) and what came back (the
     // synthdefs' loads answered) before anyone was looking — a refusal from scsynth is heard first and looked for after
     await openPane("debug");
-    await page.waitForTimeout(300);   // shown() draws what waited on the next frame
+    // shown() draws what waited on the next frame: both lists have lines once it has
+    await page.waitForFunction(() => { const s = [...document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source")]; return s.length === 2 && s.every((l) => l.querySelector(".logs-line")); }, null, { timeout: 10000 }).catch(timedOut);
     const debugBefore = await page.evaluate(() => [...document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelectorAll(".logs-source")].map((s) => s.querySelectorAll(".logs-line").length));
     check("the Debug pane opened after a program started shows the OSC that went before it was opened, both ways", debugBefore.length === 2 && debugBefore[0] > 0 && debugBefore[1] > 0, JSON.stringify(debugBefore));
     // a synth not heard yet: its synthdef loads, and the engine's answer to that comes back
@@ -856,7 +857,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // Pause is the head's own button, beside the view picker, and holds every view — the tree, the timeline and the roll
     const pause = page.locator(".insight-pause");
     await pause.click();
-    await page.waitForTimeout(150);
+    await twoFrames(page);
     const roll = await page.evaluate(() => window.sonicPi.pianoRoll());
     const bass = roll.notes.filter((n) => n.label === ":bass" && n.start <= n.end);
     const sorted = [...bass].sort((a, b) => a.note - b.note);
@@ -881,7 +882,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await page.waitForFunction(aheadNow, null, { timeout: 5000 }).catch(timedOut);
     const ahead = await page.evaluate(aheadNow);
     const stoppedAt = await page.evaluate(() => { document.getElementById("btn-stop").click(); return window.sonicPi.session.clockNow(); });
-    await page.waitForTimeout(300);
+    await page.waitForFunction((at) => window.sonicPi.pianoRoll().notes.every((n) => n.start <= at), stoppedAt, { timeout: 10000 }).catch(timedOut);
     const rollStopped = await page.evaluate(() => window.sonicPi.pianoRoll());
     // none ahead: say what the roll had, and when, for a machine where it fails
     const rollSaid = ahead > 0 ? "" : ` (stopped at ${stoppedAt}: the roll had ${rollStopped.notes.length} notes, the latest starting ${Math.max(...rollStopped.notes.map((n) => n.start))})`;
