@@ -1,0 +1,104 @@
+# The Sonic Pi plugin (app/plugin): built from a clean checkout, then tested as a host loads it.
+#
+# The plugin is four things built together: Sonic Pi's runtime (app/web/runtime, as a native library), the page
+# it shows (app/web), the engine (app/external/supersonic, compiled into the plugin) and SuperSonic's JavaScript
+# client, which the page uses to read the engine's memory. The client has to be the engine's own, so it is built
+# here from the same checkout as the engine and not taken from a release.
+name: Plugin
+
+on:
+  push:
+    paths: ["app/plugin/**", "app/web/**", "app/external/supersonic", "etc/synthdefs/compiled/**", "etc/samples/**", "etc/buffers/**", ".github/workflows/plugin.yml"]
+  pull_request:
+    paths: ["app/plugin/**", "app/web/**", "app/external/supersonic", "etc/synthdefs/compiled/**", "etc/samples/**", "etc/buffers/**", ".github/workflows/plugin.yml"]
+
+env:
+  # What SuperSonic's own web build is made with (app/external/supersonic/.github/workflows/deploy.yml).
+  EMSDK_VERSION: "4.0.21"
+  RUST_NIGHTLY: nightly-2026-07-02
+  WASM_BINDGEN_VERSION: "0.2.127"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  mac:
+    name: build and test · macOS
+    runs-on: macos-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"     # rake builds mruby; qt-doc.rb writes the tutorial the page shows
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: app/web/package-lock.json
+
+      # Two Rust toolchains: the nightly SuperSonic's web build asks for by name, then stable, which is installed
+      # last so that it is the default and the plugin is built with it.
+      - name: Rust nightly, for SuperSonic's web build
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ env.RUST_NIGHTLY }}
+          targets: wasm32-unknown-unknown,wasm32-unknown-emscripten
+          components: rust-src
+      - name: Rust stable, for the plugin
+        uses: dtolnay/rust-toolchain@stable
+      - name: wasm-bindgen
+        uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-bindgen-cli@${{ env.WASM_BINDGEN_VERSION }}
+      - name: Emscripten ${{ env.EMSDK_VERSION }}
+        uses: emscripten-core/setup-emsdk@v16
+        with:
+          version: ${{ env.EMSDK_VERSION }}
+          actions-cache-folder: emsdk-cache
+
+      - name: SuperSonic's client, from the engine's own checkout
+        working-directory: app/external/supersonic
+        run: |
+          npm install
+          ./scripts/build-web.sh --release
+
+      - id: pins
+        run: echo "mruby=$(git rev-parse HEAD:app/web/runtime/mruby)" >> "$GITHUB_OUTPUT"
+      - name: Cache mruby
+        uses: actions/cache@v4
+        with:
+          path: app/web/build/mruby
+          key: mruby-${{ runner.os }}-${{ steps.pins.outputs.mruby }}-${{ hashFiles('app/web/runtime/build_config.rb', 'app/web/runtime/mruby-patches/**') }}
+      - name: The tutorial, from the documentation in this repository
+        working-directory: app/server/ruby
+        run: |
+          ruby bin/qt-doc.rb
+          ruby bin/web-tutorial.rb
+      - name: The runtime and the page
+        working-directory: app/web
+        run: |
+          npm ci
+          scripts/build-runtime.sh --native
+          node scripts/build-app.mjs
+
+      # The bundle, the offline tests (instances rendered by hand, no audio device), then the test host against
+      # the bundle: its editor in an off-screen window, its sound rendered and measured.
+      - name: Build the plugin and test it
+        working-directory: app/plugin
+        env:
+          SUPERSONIC_DIST: ${{ github.workspace }}/app/external/supersonic/dist
+        run: scripts/build.sh --test
+
+      - name: The logs of a run that failed
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-logs-macos
+          path: |
+            app/plugin/target/host.log
+            app/web/build/*.log
+          if-no-files-found: ignore
