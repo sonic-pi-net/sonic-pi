@@ -21,6 +21,12 @@ end
 
 MRuby::Build.new("host") do |conf|
   conf.toolchain
+  # macOS only: SP_MRUBY_ARCHS="arm64 x86_64" builds libmruby for both, which a universal plugin links
+  # (app/plugin/scripts/build.sh --universal). Unset, the build is for this machine's architecture.
+  ENV.fetch("SP_MRUBY_ARCHS", "").split.each do |arch|
+    conf.cc.flags << "-arch" << arch
+    conf.linker.flags << "-arch" << arch
+  end
   COMMON_GEMS.call(conf)
   conf.gembox "stdlib-io"         # File, for reading the random tables natively
   conf.gem core: "mruby-bin-mrbc"

@@ -20,7 +20,7 @@ MR="$ROOT/runtime/mruby"                 # mruby as upstream has it: the submodu
 SRC="$ROOT/build/mruby-src"             # the copy the build patches and builds
 PATCHES="$ROOT/runtime/mruby-patches"   # ours, over the pin
 export MRUBY_CONFIG="$ROOT/runtime/build_config.rb"
-export MRUBY_BUILD_DIR="$ROOT/build/mruby"
+export MRUBY_BUILD_DIR="${SP_MRUBY_BUILD_DIR:-$ROOT/build/mruby}"   # SP_MRUBY_BUILD_DIR: another build of mruby beside the usual one
 OUT="$ROOT/build/runtime"
 mkdir -p "$OUT"
 [ -f "$MR/Rakefile" ] || { echo "no mruby: git submodule update --init --depth 1 runtime/mruby" >&2; exit 1; }
@@ -67,6 +67,9 @@ if [ -n "$NEED_MRUBY" ]; then
   echo "$FROM" > "$MRUBY_BUILD_DIR/host/built-from"
   if [ "$NEED_MRUBY" != "host" ]; then echo "$FROM" > "$MRUBY_BUILD_DIR/emscripten/built-from"; fi
 fi
+# Another build of mruby beside the usual one (SP_MRUBY_BUILD_DIR, with SP_MRUBY_ARCHS: the other architecture of a
+# universal plugin) is only that: the runtime and sp-trace in build/runtime stay the usual build's.
+if [ -n "${SP_MRUBY_BUILD_DIR:-}" ]; then exit 0; fi
 
 # The runtime's Ruby, in load order, as one bytecode blob.
 LIB="$ROOT/runtime/lib/sonic_pi"

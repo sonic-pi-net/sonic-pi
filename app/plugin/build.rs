@@ -28,6 +28,8 @@ fn main() {
         .include(&vst3)
         .include("core")
         .flag("-fvisibility=hidden")
+        // the version a host is told is this crate's (Cargo.toml), as the bundle's Info.plist is (scripts/build.sh)
+        .define("SONIC_PI_PLUGIN_VERSION", Some(format!("\"{}\"", std::env::var("CARGO_PKG_VERSION").unwrap()).as_str()))
         .file("vst3/shell.cpp")
         .compile("sp_shell");
 
@@ -104,7 +106,10 @@ fn runtime(clockwork: &[String]) {
     let web = std::env::var("SONIC_PI_WEB_ROOT")
         .map(PathBuf::from)
         .unwrap_or_else(|_| manifest.join("../web"));
-    let mruby = web.join("build/mruby/host");
+    // SONIC_PI_MRUBY: another build of mruby than the web's usual one (scripts/build.sh --universal gives one that
+    // holds both of a Mac's architectures)
+    println!("cargo:rerun-if-env-changed=SONIC_PI_MRUBY");
+    let mruby = std::env::var("SONIC_PI_MRUBY").map(PathBuf::from).unwrap_or_else(|_| web.join("build/mruby/host"));
     let irep = web.join("build/runtime/runtime_native_irep.c");
     assert!(
         mruby.join("lib/libmruby.a").is_file() && irep.is_file(),

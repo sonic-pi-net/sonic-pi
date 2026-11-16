@@ -43,6 +43,10 @@ symphonia-bundle-flac = { path = "../external/supersonic/clockwork/external/symp
 [profile.release]
 lto = "fat"
 codegen-units = 1
+# Not stripped by cargo. Rust 1.96 strips a release library by default and left this one with a string table
+# at an offset that is not a multiple of 8, which macOS 27's loader refuses ("mis-aligned LINKEDIT string
+# pool"): the arm64 half of a universal build would not load. The symbols also make a crash report readable.
+strip = "none"
 
 # A stripped proc-macro dylib has lost the metadata rustc loads it by.
 [profile.release.build-override]

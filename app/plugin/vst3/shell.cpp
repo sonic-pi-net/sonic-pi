@@ -609,7 +609,7 @@ public:
         std::strncpy (info->name, base.name, PClassInfo::kNameSize - 1);
         std::strncpy (info->subCategories, PlugType::kInstrument, PClassInfo2::kSubCategoriesSize - 1);
         std::strncpy (info->vendor, "Sonic Pi", PClassInfo2::kVendorSize - 1);
-        std::strncpy (info->version, "0.1.0", PClassInfo2::kVersionSize - 1);
+        std::strncpy (info->version, SONIC_PI_PLUGIN_VERSION, PClassInfo2::kVersionSize - 1);   // Cargo.toml's, from build.rs
         std::strncpy (info->sdkVersion, kVstVersionString, PClassInfo2::kVersionSize - 1);
         return kResultOk;
     }
