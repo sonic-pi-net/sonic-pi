@@ -83,6 +83,12 @@ const until = async (probe, ms = 30000) => {
     await new Promise((r) => setTimeout(r, 50));
   }
 };
+// Waits until the playing program has sent `n` more sounds to the engine. For a check that something is still
+// playing after an action: the same amount of playing passes on a fast machine and a slow one.
+const played = async (pg, n) => {
+  const from = await pg.evaluate(() => window.sonicPi.session.bridge.sent);
+  await pg.waitForFunction(([from, n]) => window.sonicPi.session.bridge.sent >= from + n, [from, n], { timeout: 30000 }).catch(timedOut);
+};
 // Waits two animation frames in the page, so a change made just before has been rendered.
 const twoFrames = (pg) => pg.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
 // Waits for layout to finish after a resize, a drawer opening or a divider drag. A size change is handled one frame
@@ -556,7 +562,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     defURLs.length = 0;
     await setCode("use_synth :sine\nplay 60, release: 0.1\nuse_synth :mod_beep\nplay 62, release: 0.1");
     await page.click("#btn-run");
-    await page.waitForTimeout(1500);
+    await until(() => defURLs.some((u) => u.endsWith("sonic-pi-mod_sine.scsyndef")));   // the second synth's, so the first's has been asked for too
     await page.click("#btn-stop");
     const aliasDefs = defURLs.map((u) => u.split("/").pop());
     check("a synth alias loads the synthdef it plays (:sine → sonic-pi-beep, :mod_beep → sonic-pi-mod_sine), and no made-up one",
@@ -765,7 +771,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const marks = await page.evaluate(() => { const to = document.querySelector("#debug-pane .debug-logs").shadowRoot.querySelector(".logs-source"); const text = [...to.querySelectorAll(".logs-line")].map((l) => l.textContent).join("\n"); return { marked: (text.match(/[+-]\d+\.\d{3}s \//g) ?? []).length, doubled: text.includes("+-") }; });
     check("each timed bundle to SuperSonic is marked with how far ahead it arrived, its sign written once", marks.marked > 0 && !marks.doubled, JSON.stringify(marks));
     await openPane("insight");
-    await page.waitForTimeout(1500);
+    await page.waitForFunction(() => window.sonicPi.processTree().length > 0, null, { timeout: 30000 }).catch(timedOut);
+    await settled(page);
     const heardThreads = await stillness(page);
     check("the page stays still as a program plays with the Threads pane open", still(heardThreads), JSON.stringify(heardThreads));
     const tree = await page.evaluate(() => window.sonicPi.processTree());
@@ -826,7 +833,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       return n && r ? { x: r.left + n.x, y: r.top + n.y } : null;
     });
     if (kickNode) { await page.keyboard.down("Shift"); await page.mouse.click(kickNode.x, kickNode.y); await page.keyboard.up("Shift"); }
-    await page.waitForTimeout(1500);
+    await played(page, 4);   // had the click stopped the kick, it would be gone from the tree by now
     const kickAfter = await page.evaluate(() => ({ named: window.sonicPi.session.status().named, tree: window.sonicPi.processTree().filter((x) => x.label === "live_loop :kick").map((x) => x.state) }));
     check("a shift-click on a node of the Threads view stops nothing: the view changes no state", kickNode != null && kickAfter.named.includes("live_loop_kick") && kickAfter.tree.some((st) => st <= 2), JSON.stringify({ node: kickNode, after: kickAfter }));
     // a loop held on a sync says so in its scope
