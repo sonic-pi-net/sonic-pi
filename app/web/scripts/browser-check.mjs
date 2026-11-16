@@ -46,13 +46,23 @@ const calm = async (pg) => {
   await pg.mouse.move(5, 5);
   await pg.waitForFunction(() => !window.sonicPi?.statusMessageShowing && !document.querySelector(".sp-tip.in"), null, { timeout: 30000 }).catch(timedOut);
 };
-const stillness = async (pg, ms = 2500) => { await calm(pg); return watchForChanges(pg, ms); };
-const watchForChanges = (pg, ms) => pg.evaluate((ms) => new Promise((resolve) => {
+// The watch lasts until the playing program has sent SOUNDS more sounds to the engine (session.bridge.sent), not for
+// an amount of time: the same amount of playing is watched on a fast machine and a slow one. On a page with no
+// session to count from (a site page's own card player), it falls back to `ms` milliseconds; 60 s is a hang guard.
+const SOUNDS = 8;
+const stillness = async (pg, ms = 2500) => { await calm(pg); return watchForChanges(pg, ms, SOUNDS); };
+const watchForChanges = (pg, ms, sounds) => pg.evaluate(({ ms, sounds }) => new Promise((resolve) => {
   const by = {};
   const mo = new MutationObserver((list) => { for (const m of list) { let e = m.target.nodeType === 1 ? m.target : m.target.parentElement; while (e && !e.id) e = e.parentElement; const t = m.target.nodeType === 1 ? m.target : m.target.parentElement; const what = t ? `<${t.localName}${t.className && typeof t.className === "string" ? "." + t.className.trim().split(/\s+/).join(".") : ""}>` : ""; const k = `${e ? "#" + e.id : "the page"} ${what} ${m.type}${m.attributeName ? ":" + m.attributeName : ""}`; by[k] = (by[k] ?? 0) + 1; } });
   mo.observe(document, { childList: true, attributes: true, subtree: true, characterData: true });
-  setTimeout(() => { mo.disconnect(); resolve(by); }, ms);
-}), ms);
+  const done = () => { mo.disconnect(); resolve(by); };
+  const sent = () => window.sonicPi?.session?.bridge?.sent;
+  const from = sent();
+  if (typeof from !== "number") return void setTimeout(done, ms);
+  const guard = setTimeout(done, 60000);
+  const look = () => (sent() >= from + sounds ? (clearTimeout(guard), done()) : requestAnimationFrame(look));
+  requestAnimationFrame(look);
+}), { ms, sounds });
 const still = (heard) => !Object.keys(heard).length;
 // Error handler for waits: `.catch(timedOut)`. A TimeoutError is ignored, because the check after the wait reports
 // the missing state. Any other error means the wait's predicate threw (for example on a null), so it never waited;
