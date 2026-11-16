@@ -19,9 +19,11 @@ pub fn resources() -> String {
     let dir = manifest.join("target/test-resources");
     std::fs::create_dir_all(&dir).unwrap();
     for (name, from) in [("synthdefs", "synthdefs/compiled"), ("samples", "samples"), ("buffers", "buffers")] {
-        let link = dir.join(name);
-        if std::fs::symlink_metadata(&link).is_err() {
-            std::os::unix::fs::symlink(etc.join(from), &link).unwrap();
+        // Tests run on several threads and each calls this, so another may make the link first: that is fine.
+        match std::os::unix::fs::symlink(etc.join(from), dir.join(name)) {
+            Ok(()) => {}
+            Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => {}
+            Err(e) => panic!("could not link {name} into {}: {e}", dir.display()),
         }
     }
     dir.to_string_lossy().into_owned()
