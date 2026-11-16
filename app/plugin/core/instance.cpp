@@ -78,7 +78,9 @@ public:
 
     ~Engine() { close(); }
 
-    bool attach(double rate, uint32_t maxFrames, Heard heard, std::string* why)
+    // `timeOrigin`: 0 for a live engine, whose clock follows the wall clock; otherwise the engine's clock is
+    // timeOrigin + frames rendered / rate (Clockwork's time_origin_ntp).
+    bool attach(double rate, uint32_t maxFrames, double timeOrigin, Heard heard, std::string* why)
     {
         ClockworkProfile profile{};
         profile.struct_bytes = sizeof profile;
@@ -94,6 +96,7 @@ public:
         c.profile = &profile;
         c.assets_bytes = ASSETS_BYTES;
         c.guest_config = GUEST_OPTIONS;
+        c.time_origin_ntp = timeOrigin;
         ClockworkStatus status = CLOCKWORK_OK;
         m_embed = clockwork_embed_attach(&c, &status);
         if (!m_embed)
@@ -134,6 +137,8 @@ public:
         c.max_render_frames = maxFrames;
         return m_embed && clockwork_embed_reconfigure(m_embed, &c) == CLOCKWORK_OK;
     }
+
+    double rate() const { return clockwork_embed_sample_rate(m_embed); }
 
     uint32_t render(float* const* out, uint32_t outChannels, const float* const* in, uint32_t inChannels, uint32_t frames)
     {
@@ -274,6 +279,12 @@ struct SpInstance final : AssetLoader
     std::vector<double> lastTable;           // the process table the page last heard (the runtime's thread)
     std::atomic<bool> alignBars{ true };     // the instance's bars follow its host's, and not its tempo alone
     std::atomic<bool> hostSaid{ false };     // a host has said its transport
+    // Offline (SpInstanceConfig::time_origin_ntp): the time the audio rendered so far ends at, NTP seconds. 0 when
+    // live. Written by render, read by the runtime's thread only inside render's advanceTo and by stop.
+    std::atomic<double> offlineNow{ 0.0 };
+    bool offline() const { return offlineNow.load(std::memory_order_relaxed) != 0.0; }
+    // The instance's current time: the wall clock when live, the rendered audio's end when offline.
+    double now() const { return offline() ? offlineNow.load(std::memory_order_relaxed) : ntpNow(); }
     double hostBpm = 0;                      // as it was last heard (the engine's thread)
     bool hostPlaying = false;
 
@@ -357,7 +368,8 @@ struct SpInstance final : AssetLoader
         synthdefDir = res + "/synthdefs";
         samplesDir = res + "/samples";
         buffersDir = res + "/buffers";
-        if (!engine.attach(cfg.sample_rate, cfg.max_frames ? cfg.max_frames : 4096,
+        offlineNow.store(cfg.time_origin_ntp, std::memory_order_relaxed);
+        if (!engine.attach(cfg.sample_rate, cfg.max_frames ? cfg.max_frames : 4096, cfg.time_origin_ntp,
                            [this](const uint8_t* d, uint32_t n) { heard(d, n); }, why))
             return false;
 
@@ -374,7 +386,8 @@ struct SpInstance final : AssetLoader
         engine.send(osc::Message("/d_loadDir").addStr(synthdefDir));
 
         RuntimeHost::Deps deps;
-        deps.now = [] { return ntpNow(); };
+        deps.now = [this] { return now(); };
+        deps.stepped = offline();   // offline, render moves the runtime's time (sp_instance_render)
         deps.send = [this](const std::vector<uint8_t>& b) { engine.send(b); };
         deps.loader = this;
         deps.record = [this](const osc::Message& m) { record(m); };
@@ -664,10 +677,26 @@ int sp_instance_reconfigure(SpInstance* instance, double rate, uint32_t maxFrame
     return instance && instance->engine.reconfigure(rate, maxFrames) ? 0 : 1;
 }
 
+uint32_t sp_instance_loading(SpInstance* instance)
+{
+    std::lock_guard<std::mutex> lk(instance->loadMutex);
+    uint32_t pending = 0;
+    for (const auto& [name, load] : instance->synthdefs) pending += load == SpInstance::Load::Pending;
+    for (const auto& [bufnum, load] : instance->buffers) pending += load == SpInstance::Load::Pending;
+    return pending;
+}
+
 uint32_t sp_instance_render(SpInstance* instance, float* const* out, uint32_t outChannels,
                             const float* const* in, uint32_t inChannels, uint32_t frames)
 {
-    return instance->engine.render(out, outChannels, in, inChannels, frames);
+    if (!instance->offline()) return instance->engine.render(out, outChannels, in, inChannels, frames);
+    // Offline: run the Sonic Pi code due up to the end of this buffer first, so every sound in the buffer is in the
+    // engine, with its exact time, before the buffer is rendered. This blocks while the code runs.
+    const double end = instance->offlineNow.load(std::memory_order_relaxed) + frames / instance->engine.rate();
+    instance->runtime.advanceTo(end);
+    const uint32_t done = instance->engine.render(out, outChannels, in, inChannels, frames);
+    instance->offlineNow.store(end, std::memory_order_relaxed);
+    return done;
 }
 
 void sp_instance_transport(SpInstance* instance, const SpTransport* transport)
@@ -700,7 +729,7 @@ void sp_instance_stop(SpInstance* instance)
     // As the desktop's Stop: the runtime stops, the engine's schedule is emptied of what was still to sound, then
     // the runs fade out and are freed as the fade ends.
     instance->runtime.stopAll([instance] {
-        const double since = ntpNow();
+        const double since = instance->now();
         instance->engine.send(osc::Message("/clockwork/sched/flush").addStr("synth"));
         instance->engine.send(osc::Message("/clockwork/sched/flush").addStr("default"));
         instance->runtime.silence(STOP_FADE, since);

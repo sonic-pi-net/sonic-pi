@@ -26,11 +26,18 @@ typedef struct SpInstanceConfig {
     double      sample_rate;
     uint32_t    max_frames;     /* the most frames one render will ask for */
     const char* resources;      /* synthdefs/, samples/, buffers/ (the bundle's Resources) */
+    double      time_origin_ntp; /* 0: live, time follows the wall clock. Non-zero: offline. Time is
+                                  * time_origin_ntp + frames rendered / sample_rate, no clock is read, and each
+                                  * render first runs the Sonic Pi code due up to the end of its buffer. Render
+                                  * may then block, so it is for offline rendering and tests, not live audio. */
 } SpInstanceConfig;
 
 /* NULL, with the reason in `why`, when it could not start. */
 SpInstance* sp_instance_new(const SpInstanceConfig* config, char* why, uint32_t why_bytes);
 void        sp_instance_free(SpInstance* instance);
+
+/* How many synthdefs and samples the instance has asked for that have neither loaded nor failed. Any thread. */
+uint32_t sp_instance_loading(SpInstance* instance);
 
 /* The host's rate or largest buffer changed: not while render runs. 0 when the engine took it. */
 int sp_instance_reconfigure(SpInstance* instance, double sample_rate, uint32_t max_frames);

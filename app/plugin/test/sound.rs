@@ -12,26 +12,8 @@ use std::time::{Duration, Instant};
 
 use sonic_pi_plugin::instance::{Instance, Transport};
 
-const RATE: f64 = 48_000.0;
-const BLOCK: usize = 512;
-
-/// Sonic Pi's files as an instance finds them in a bundle: synthdefs/, samples/ and buffers/, here links into the
-/// checkout's etc/.
-fn resources() -> String {
-    let manifest = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-    let etc = std::env::var("SONIC_PI_ETC")
-        .map(PathBuf::from)
-        .unwrap_or_else(|_| manifest.join("../../etc"));
-    let dir = manifest.join("target/test-resources");
-    std::fs::create_dir_all(&dir).unwrap();
-    for (name, from) in [("synthdefs", "synthdefs/compiled"), ("samples", "samples"), ("buffers", "buffers")] {
-        let link = dir.join(name);
-        if std::fs::symlink_metadata(&link).is_err() {
-            std::os::unix::fs::symlink(etc.join(from), &link).unwrap();
-        }
-    }
-    dir.to_string_lossy().into_owned()
-}
+mod common;
+use common::{onsets, peak, resources, BLOCK, RATE};
 
 /// Renders `instance` in real time on a thread of its own, as a host's audio thread does, keeping every frame.
 struct Host {
@@ -149,10 +131,6 @@ impl Drop for Host {
     }
 }
 
-fn peak(samples: &[f32]) -> f32 {
-    samples.iter().fold(0.0f32, |m, s| m.max(s.abs()))
-}
-
 /// The pitch of a steady tone, by its rising zero crossings.
 fn frequency(samples: &[f32]) -> f64 {
     let rising = samples.windows(2).filter(|w| w[0] <= 0.0 && w[1] > 0.0).count();
@@ -173,25 +151,6 @@ fn listen_all(hosts: &[&Host], seconds: f64) -> Vec<Vec<f32>> {
         thread::sleep(Duration::from_millis(20));
     }
     hosts.iter().zip(&from).map(|(h, f)| h.since(*f)).collect()
-}
-
-/// Where each sound starts in `samples`: the first frame over a fiftieth of full scale after a tenth of a second
-/// under it.
-fn onsets(samples: &[f32]) -> Vec<usize> {
-    let quiet_for = (0.1 * RATE) as usize;
-    let mut found = Vec::new();
-    let mut quiet = quiet_for;
-    for (i, s) in samples.iter().enumerate() {
-        if s.abs() > 0.02 {
-            if quiet >= quiet_for {
-                found.push(i);
-            }
-            quiet = 0;
-        } else {
-            quiet += 1;
-        }
-    }
-    found
 }
 
 /// A loop in a host playing at 120 and then 90, heard against the host's beats. None when the machine held the

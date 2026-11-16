@@ -17,6 +17,10 @@ crate-type = ["cdylib", "rlib"]
 name = "sound"
 path = "test/sound.rs"
 
+[[test]]
+name = "offline"
+path = "test/offline.rs"
+
 [dependencies]
 raw-window-handle = "0.6"
 wry = "0.57"

@@ -17,6 +17,7 @@ struct Config {
     sample_rate: f64,
     max_frames: u32,
     resources: *const c_char,
+    time_origin_ntp: f64,
 }
 
 /// What the instance says (instance.h): a record for the page, a log line, whether it runs, a run's job, an error.
@@ -53,6 +54,7 @@ pub type Listener = unsafe extern "C" fn(ctx: *mut c_void, kind: u32, bytes: *co
 unsafe extern "C" {
     fn sp_instance_new(config: *const Config, why: *mut c_char, why_bytes: u32) -> *mut RawInstance;
     fn sp_instance_free(instance: *mut RawInstance);
+    fn sp_instance_loading(instance: *mut RawInstance) -> u32;
     fn sp_instance_render(
         instance: *mut RawInstance,
         out: *const *mut f32,
@@ -89,12 +91,24 @@ impl Instance {
     /// An engine at `sample_rate`, rendered in at most `max_frames` at a time, with Sonic Pi's files under
     /// `resources` (synthdefs/, samples/, buffers/). Blocks while the runtime boots.
     pub fn new(sample_rate: f64, max_frames: u32, resources: &str) -> Result<Instance, String> {
+        Instance::with_origin(sample_rate, max_frames, resources, 0.0)
+    }
+
+    /// An offline instance. Its time is `time_origin_ntp` (NTP seconds, not 0) plus the frames rendered so far, and
+    /// it reads no clock. Each render first runs the Sonic Pi code due up to the end of its buffer, so render can
+    /// block: use it for offline rendering and tests, not for live audio.
+    pub fn offline(sample_rate: f64, max_frames: u32, resources: &str, time_origin_ntp: f64) -> Result<Instance, String> {
+        Instance::with_origin(sample_rate, max_frames, resources, time_origin_ntp)
+    }
+
+    fn with_origin(sample_rate: f64, max_frames: u32, resources: &str, time_origin_ntp: f64) -> Result<Instance, String> {
         let resources = CString::new(resources).map_err(|_| "a NUL in the resources path".to_owned())?;
         let config = Config {
             struct_bytes: size_of::<Config>() as u32,
             sample_rate,
             max_frames,
             resources: resources.as_ptr(),
+            time_origin_ntp,
         };
         let mut why = [0 as c_char; 512];
         // SAFETY: a config that says its own size, live for the call; `why` holds what it is told it holds.
@@ -107,6 +121,12 @@ impl Instance {
 
     pub fn as_ptr(&self) -> *mut RawInstance {
         self.0.as_ptr()
+    }
+
+    /// How many synthdefs and samples it has asked for that have neither loaded nor failed.
+    pub fn loading(&self) -> u32 {
+        // SAFETY: a live instance; the count is read under the instance's own lock.
+        unsafe { sp_instance_loading(self.0.as_ptr()) }
     }
 
     /// Stereo out, no input: the audio thread's.
