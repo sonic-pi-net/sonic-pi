@@ -193,14 +193,11 @@ module SonicPi
         t2 = in_thread do
           sync "/foo/bar"
         end
-        Kernel.sleep 0.1
-        assert_equal 2,  @event_history.event_matchers.matchers.size
+        assert wait_until { @event_history.event_matchers.matchers.size == 2 }, "both threads are waiting on sync"
         t.kill
-        Kernel.sleep 0.1
-        assert_equal 1,  @event_history.event_matchers.matchers.size
+        assert wait_until { @event_history.event_matchers.matchers.size == 1 }, "the killed thread's matcher goes"
         t2.kill
-        Kernel.sleep 0.1
-        assert_equal 0,  @event_history.event_matchers.matchers.size
+        assert wait_until { @event_history.event_matchers.matchers.size == 0 }, "and the other's"
       end
     end
 

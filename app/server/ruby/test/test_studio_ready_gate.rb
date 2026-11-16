@@ -58,14 +58,9 @@ module SonicPi
       @gate = StudioReadyGate.new
     end
 
-    # Waits until `thread` is blocked (Ruby reports a thread waiting on a lock as "sleep") or has finished. The
-    # limit is a hang guard, not part of what is tested.
-    def blocked_or_done(thread, secs = 30)
-      deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + secs
-      until thread.status == "sleep" || !thread.status
-        flunk "the thread neither blocked nor finished in #{secs}s" if Process.clock_gettime(Process::CLOCK_MONOTONIC) > deadline
-        sleep 0.001
-      end
+    # Waits until `thread` is blocked (Ruby reports a thread waiting on a lock as "sleep") or has finished.
+    def blocked_or_done(thread)
+      assert wait_until { thread.status == "sleep" || !thread.status }, "the thread neither blocked nor finished"
     end
 
     def test_concurrent_readers_do_not_block_each_other

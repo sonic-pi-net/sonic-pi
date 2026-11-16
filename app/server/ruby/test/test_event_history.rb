@@ -444,8 +444,7 @@ module SonicPi
       t2 = Thread.new do
         history.sync 0, 0, i2, 0, 0, m, "/foo/bar/baz"
       end
-      Kernel.sleep 0.1
-      assert_equal 2, history.event_matchers.matchers.size
+      assert wait_until { history.event_matchers.matchers.size == 2 }, "both threads are waiting on sync"
       history.event_matchers.prune(i)
       assert_equal 1, history.event_matchers.matchers.size
       history.event_matchers.prune(i2)

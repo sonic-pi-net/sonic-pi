@@ -56,15 +56,6 @@ module SonicPi
       ks
     end
 
-    def wait_until(timeout)
-      deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + timeout
-      until yield
-        return false if Process.clock_gettime(Process::CLOCK_MONOTONIC) > deadline
-        sleep 0.01
-      end
-      true
-    end
-
     def test_without_a_pipe_silence_still_takes_the_session_down
       ks = kill_switch
       assert wait_until(WARMUP + TIMEOUT * 3) { @exit.exits > 0 },

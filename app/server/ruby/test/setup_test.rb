@@ -14,6 +14,19 @@ require 'minitest'
 def (Minitest).load_plugins; end
 require 'minitest/autorun'
 
+# For a test waiting on a state another thread reaches: true once the block returns true, false if `secs` of wall
+# clock pass first. The limit is a hang guard, not part of what is tested: assert on the result. Top level, so a block
+# a mock language runs (instance_eval'd on it) can call it too; Kernel.sleep, because inside one a bare sleep is
+# Sonic Pi's own.
+def wait_until(secs = 30)
+  deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + secs
+  until yield
+    return false if Process.clock_gettime(Process::CLOCK_MONOTONIC) > deadline
+    Kernel.sleep 0.001
+  end
+  true
+end
+
 # As bin/spider-server.rb does: the runtime's helper classes (Jobs, stopping a
 # run) call Util's thread-local accessors as though they were their own.
 include SonicPi::Util
