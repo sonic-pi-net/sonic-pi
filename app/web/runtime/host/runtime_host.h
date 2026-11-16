@@ -192,6 +192,7 @@ private:
         std::string name;   // the synthdef, when it starts one
         int buf = -1;
         bool failed = false;
+        bool structure = false;   // never dropped by a Stop (Native.structure)
     };
     using Clock = std::chrono::steady_clock;
 

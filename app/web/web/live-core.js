@@ -8,7 +8,7 @@
  * records and its word on what to load and free. The scheduler never sleeps;
  * this loop does, until the next wake time the runtime reports.
  */
-import { decode, forEachFrame, FRAME_SOUND, FRAME_HOST, FRAME_GUI } from "./osc.js";
+import { decode, forEachFrame, FRAME_SOUND, FRAME_STRUCTURE, FRAME_HOST, FRAME_GUI } from "./osc.js";
 import { programNeeds } from "./runtime.js";
 
 /** Timings since the last takePerf(). */
@@ -227,10 +227,13 @@ export class LiveCore {
     this.#expectedWake = null;
     this.#lastNow = null;
     this.#runtime.module._sp_stop_all();
-    this.#queue.length = 0;   // what the queue held never goes, and the stop's own frees need nothing loaded
+    // The sounds the queue held never go. Its structure does (the studio, a run's groups and mixer): the runtime has
+    // them down as made, and the Stop's fade names them. They go in order, each once what it needs has loaded.
+    this.#queue = this.#queue.filter((q) => q.structure);
     this.#gate = null;
     this.#drain();
     this.#stops++;
+    this.#pump();
     this.running = false;
     this.#deps.ticked?.();
     this.#deps.state?.(false);
@@ -293,7 +296,7 @@ export class LiveCore {
     // window a sound whose own things are ready still waits when a sound after it in the same tick waits on a load
     const sounds = [];
     forEachFrame(bytes, 0, len, (kind, start, size, view, offset) => {
-      if (kind === FRAME_SOUND) sounds.push(this.#sound(bytes, view, start, offset));
+      if (kind === FRAME_SOUND || kind === FRAME_STRUCTURE) sounds.push({ ...this.#sound(bytes, view, start, offset), structure: kind === FRAME_STRUCTURE });
       else if (kind === FRAME_GUI) this.#deps.record?.(bytes.subarray(start, start + size));
       else if (kind === FRAME_HOST) this.#host(decode(bytes.subarray(start, start + size)));
     });

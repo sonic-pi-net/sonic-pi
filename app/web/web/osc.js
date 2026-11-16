@@ -6,6 +6,7 @@
 // {timeTag, packets}, as SuperSonic's own decoder has them.
 
 export const FRAME_SOUND = 1;   // /sonic-pi/sound ,iib synthdef buffer bundle
+export const FRAME_STRUCTURE = 4;   // a sound's frame, for a node the runtime records as made (Native.structure): never dropped
 export const FRAME_HOST = 2;    // /sonic-pi/synthdef, /sonic-pi/sample, /sonic-pi/sample_free ,is
 export const FRAME_GUI = 3;     // /sonic-pi/<kind>: a record for the page (web/gui-stream.js)
 

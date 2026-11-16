@@ -38,6 +38,7 @@ typedef struct sp_host {
   mrb_state *mrb;
   char *last_result;                                // what sp_trace last returned; freed on the next call
   sp_bytes outbox, tags, data, message, bundle, packet;
+  int structure;                                    // Native.structure: sounds are framed as structure (kind 4)
   double *table_buf;                                // the process table (sp_process_table)
   mrb_int table_cap, table_len;
   char said[512];                                   // sp_install_synth's answer
@@ -358,7 +359,18 @@ static void send_sound(sp_host *h, double time, const char *address, mrb_int syn
   put_i32(packet, bufnum);
   put_u32(packet, (uint32_t)bundle->len);
   put(packet, bundle->p, bundle->len);        // a bundle is a multiple of four already
-  frame(h, 1, packet);
+  frame(h, h->structure ? 4 : 1, packet);
+}
+
+// Native.structure(on): while on, each sound is framed as structure (kind 4), not as a sound (kind 1). Structure is
+// what the runtime records as made in the engine and names again later: the studio, and a run's groups and mixer. A
+// host that drops the sounds it is holding (a Stop while they wait on a load) must still send the structure, or the
+// runtime's record of the engine is wrong from then on.
+static mrb_value native_structure(mrb_state *m, mrb_value self) {
+  mrb_bool on;
+  mrb_get_args(m, "b", &on);
+  host_of(m)->structure = on ? 1 : 0;
+  return mrb_nil_value();
 }
 
 // Native.s_new(time, synthdef, bufnum, synth, node, opts[, action, target]):
@@ -606,6 +618,7 @@ SP_EXPORT int sp_live_boot(void) {
   mrb_define_module_function(mrb, native, "n_run", native_n_run, MRB_ARGS_REQ(3));
   mrb_define_module_function(mrb, native, "g_new", native_g_new, MRB_ARGS_REQ(4));
   mrb_define_module_function(mrb, native, "n_order", native_n_order, MRB_ARGS_REQ(4));
+  mrb_define_module_function(mrb, native, "structure", native_structure, MRB_ARGS_REQ(1));
   mrb_define_module_function(mrb, native, "host", native_host, MRB_ARGS_REQ(3));
   int ai = mrb_gc_arena_save(mrb);
   mrb_funcall(mrb, live_module(mrb), "boot_native", 0);

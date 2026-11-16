@@ -8,11 +8,13 @@
 #include "osc_codec.h"
 #include "runtime_host.h"
 
+#include <atomic>
 #include <cmath>
 #include <cstdio>
 #include <filesystem>
 #include <memory>
 #include <mutex>
+#include <set>
 #include <string>
 #include <thread>
 #include <vector>
@@ -52,11 +54,12 @@ struct Host final : AssetLoader
     std::vector<std::pair<double, osc::Message>> timed;   // each bundled message with its bundle's time (NTP seconds)
     std::vector<std::vector<uint8_t>> raw;                // every packet sent, as bytes
     double steppedFrom = 0.0;                             // the runtime's starting time (NTP seconds)
+    std::atomic<bool> defsReady{ true };                  // false: no synthdef has loaded yet, so sounds wait
     RuntimeHost runtime;
 
     void loadSynthDef(const std::string&) override {}
     void loadSynthDefUrl(const std::string&) override {}
-    bool synthDefReady(const std::string&) override { return true; }
+    bool synthDefReady(const std::string&) override { return defsReady.load(); }
     bool synthDefFailed(const std::string&) override { return false; }
     void loadBuffer(int bufnum, const std::string& file) override
     {
@@ -307,6 +310,50 @@ int main(int argc, char** argv)
         for (const Host* h : { beats.get(), again.get(), fast.get(), cued.get() })
             for (const auto& e : h->errors) all += e;
         check("stepped: none of these runs raised an error", all.empty(), all);
+
+        // A run stopped while its sounds wait on a synthdef, then a second run. The Stop drops the sounds it was
+        // holding, and must still send what the runtime has down as made (the studio, the run's groups and mixer):
+        // afterwards no message may name a node that no earlier message made.
+        Host waits;
+        waits.steppedFrom = kSteppedFrom;
+        waits.defsReady = false;
+        std::string why;
+        if (!waits.start(etc, &why)) check("a stepped runtime starts", false, why);
+        else
+        {
+            double at = kSteppedFrom;
+            const auto on = [&](double seconds) { waits.runtime.advanceTo(at += seconds); };
+            waits.runtime.run("play 60\n", 0, nullptr);
+            on(0.1);
+            waits.runtime.stopAll(nullptr);
+            waits.runtime.silence(0.25, at);
+            on(0.1);
+            waits.defsReady = true;
+            waits.runtime.synthdefLoaded("", true);
+            on(0.1);
+            waits.runtime.run("play 62\n", 0, nullptr);
+            on(1.0);
+            waits.runtime.stop();
+            std::set<int> made{ 0 };   // the root group is the engine's own
+            std::string unknown;
+            std::vector<double> notes;
+            for (const auto& m : waits.sent)
+            {
+                const auto id = [&](size_t i) { return i < m.args.size() ? int(m.args[i].number()) : -1; };
+                std::vector<int> named;
+                if (m.address == "/n_set") named = { id(0) };
+                else if (m.address == "/n_order") for (size_t i = 1; i < m.args.size(); ++i) named.push_back(id(i));
+                else if (m.address == "/n_free" || m.address == "/g_freeAll") for (size_t i = 0; i < m.args.size(); ++i) named.push_back(id(i));
+                else if (m.address == "/g_new") named = { id(2) };
+                else if (m.address == "/s_new") named = { id(3) };
+                for (int n : named)
+                    if (!made.count(n)) unknown += m.address + " " + std::to_string(n) + ", ";
+                if (m.address == "/g_new") made.insert(id(0));
+                if (m.address == "/s_new") { made.insert(id(1)); if (opt(m, "note") >= 0) notes.push_back(opt(m, "note")); }
+            }
+            check("stepped: after a Stop while a run's sounds wait on a load, no message names a node the engine was never sent", unknown.empty(), unknown);
+            check("stepped: the stopped run's note is never sent, and the next run's is", notes == std::vector<double>{ 62.0 }, listed(notes));
+        }
     }
 
     std::printf("%d of %d checks failed\n", failures, checks);

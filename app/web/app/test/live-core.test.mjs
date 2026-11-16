@@ -142,6 +142,38 @@ test("a run whose sounds wait on loads starts, all of it together, once they are
   core.stop();
 });
 
+// The ids a message says exist already: a node it sets, moves or frees, and the group it puts a new node in.
+const namedNodes = (m) => m[0] === "/n_set" ? [m[1]] : m[0] === "/n_order" ? m.slice(2) : m[0] === "/n_free" || m[0] === "/g_freeAll" ? m.slice(1)
+  : m[0] === "/g_new" ? [m[3]] : m[0] === "/s_new" ? [m[4]] : [];
+const madeNodes = (m) => m[0] === "/g_new" ? [m[1]] : m[0] === "/s_new" ? [m[2]] : [];
+
+test("a run stopped while its first sounds wait on loads leaves nothing the engine was never sent", { skip, timeout: 10000 }, async () => {
+  const loader = slowLoader();
+  const { core, sent, now } = await session(loader);
+  // from a known state, whatever the tests before left in the shared runtime: the engine made again, so the next
+  // run makes the studio and everything under it, and all of it is in `sent`
+  core.engineLost();
+  core.run("use_synth :zawa\nplay 60\n");
+  await sleep(20);
+  assert.ok(loader.asked.has("sonic-pi-zawa"), "the run is waiting on its synthdef");
+  assert.equal(sent.length, 0, "nothing has gone while it waits");
+  core.stop();
+  core.silence(0.25, now());
+  loader.come();
+  await core.run("use_synth :zawa\nplay 62\n");
+  await new Promise((r) => setImmediate(r));   // one turn of the event loop: the queue sends what the loads released
+  const made = new Set([0]);   // the root group is the engine's own
+  const unknown = [];
+  for (const s of sent) for (const m of s.msgs) {
+    for (const id of namedNodes(m)) if (!made.has(id)) unknown.push(`${m[0]} ${id}`);
+    for (const id of madeNodes(m)) made.add(id);
+  }
+  assert.deepEqual(unknown, [], "messages naming nodes the engine was never sent");
+  const notes = sent.flatMap((s) => s.msgs.filter((m) => m[0] === "/s_new" && m[1] === "sonic-pi-zawa").map((m) => m[m.indexOf("note") + 1]));
+  assert.deepEqual(notes, [62], "the stopped run's note never goes, and the second run's does");
+  core.stop();
+});
+
 test("a run with everything loaded starts a schedule-ahead from now, without waiting", { skip, timeout: 10000 }, async () => {
   const loader = slowLoader(new Set(["sonic-pi-beep", "sonic-pi-mixer", "sonic-pi-basic_mixer", "sonic-pi-fx_scope_out"]));
   const { core, sent, now } = await session(loader);

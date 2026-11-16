@@ -1435,11 +1435,23 @@ module SonicPi
     def ensure_studio(now)
       return if @studio
       @studio = true
-      Native.g_new(studio_time(now), STUDIO_SYNTHS, 0, 0)
-      Native.g_new(studio_time(now), STUDIO_MIXER, 3, STUDIO_SYNTHS)
-      Native.g_new(studio_time(now), DYING, 0, STUDIO_SYNTHS)
-      Native.s_new(studio_time(now), EngineIds.synthdef("sonic-pi-mixer"), -1, "sonic-pi-mixer", MIXER_NODE,
-                   { "in_bus" => MIXER_BUS, "amp" => @volume.to_f, "pre_amp" => @drive.to_f }, 0, STUDIO_MIXER)
+      structure do
+        Native.g_new(studio_time(now), STUDIO_SYNTHS, 0, 0)
+        Native.g_new(studio_time(now), STUDIO_MIXER, 3, STUDIO_SYNTHS)
+        Native.g_new(studio_time(now), DYING, 0, STUDIO_SYNTHS)
+        Native.s_new(studio_time(now), EngineIds.synthdef("sonic-pi-mixer"), -1, "sonic-pi-mixer", MIXER_NODE,
+                     { "in_bus" => MIXER_BUS, "amp" => @volume.to_f, "pre_amp" => @drive.to_f }, 0, STUDIO_MIXER)
+      end
+    end
+
+    # What is sent inside the block is structure (Native.structure): nodes this scheduler records as made and names
+    # again later (@studio, @epoch, a Job's group and mixer). A host holding sounds back for a load drops them on a
+    # Stop, and must not drop these, or a later message names a node the engine never had.
+    def structure
+      Native.structure(true)
+      yield
+    ensure
+      Native.structure(false)
     end
 
     # The studio's mixer set from a program (set_volume!, set_drive!): at the thread's moment, as native's node_ctl
@@ -1463,18 +1475,20 @@ module SonicPi
       return j if j.group
       ensure_studio(now)
       bus = alloc_bus(now) or raise "All busses allocated - unable to create audio bus for job"
-      unless @epoch
-        @epoch = next_node_id
-        Native.g_new(studio_time(now), NODE_BASE + @epoch, 1, STUDIO_SYNTHS)
-      end
       j.bus = bus
-      j.group = next_node_id
-      j.synths = next_node_id
-      j.mixer = next_node_id
-      Native.g_new(studio_time(now), NODE_BASE + j.group, 1, NODE_BASE + @epoch)
-      Native.g_new(studio_time(now), NODE_BASE + j.synths, 0, NODE_BASE + j.group)
-      Native.s_new(studio_time(now), EngineIds.synthdef("sonic-pi-basic_mixer"), -1, "sonic-pi-basic_mixer", NODE_BASE + j.mixer,
-                   { "in_bus" => bus, "out_bus" => MIXER_BUS, "amp" => JOB_MIXER_AMP }, 1, NODE_BASE + j.group)
+      structure do
+        unless @epoch
+          @epoch = next_node_id
+          Native.g_new(studio_time(now), NODE_BASE + @epoch, 1, STUDIO_SYNTHS)
+        end
+        j.group = next_node_id
+        j.synths = next_node_id
+        j.mixer = next_node_id
+        Native.g_new(studio_time(now), NODE_BASE + j.group, 1, NODE_BASE + @epoch)
+        Native.g_new(studio_time(now), NODE_BASE + j.synths, 0, NODE_BASE + j.group)
+        Native.s_new(studio_time(now), EngineIds.synthdef("sonic-pi-basic_mixer"), -1, "sonic-pi-basic_mixer", NODE_BASE + j.mixer,
+                     { "in_bus" => bus, "out_bus" => MIXER_BUS, "amp" => JOB_MIXER_AMP }, 1, NODE_BASE + j.group)
+      end
       j
     end
 

@@ -486,9 +486,12 @@ void RuntimeHost::stopAll(std::function<void()> done)
         m_expectedWake.reset();
         m_lastNow.reset();
         sp_stop_all();
-        m_queue.clear();   // what the queue held never goes, and the stop's own frees need nothing loaded
+        // The sounds the queue held never go. Its structure does (the studio, a run's groups and mixer): the
+        // runtime has them down as made, and the Stop's fade names them.
+        std::erase_if(m_queue, [](const Sound& q) { return !q.structure; });
         drain();
         m_stops++;
+        pump();
         m_running = false;
         if (m_deps.ticked) m_deps.ticked();
         if (m_deps.state) m_deps.state(false);
@@ -678,11 +681,12 @@ void RuntimeHost::drain()
         const uint32_t kind = le32(&bytes[off + 4]);
         const uint8_t* p = &bytes[off + 8];
         if (off + 8 + size > bytes.size()) break;
-        if (kind == 1)
+        if (kind == 1 || kind == 4)   // a sound, or structure: a sound's frame the runtime must not have dropped
         {
             if (auto r = readSoundRecord(p, size))
             {
                 Sound q;
+                q.structure = kind == 4;
                 q.buf = r->buf;
                 q.bundle = std::move(r->bundle);
                 q.starts = r->def >= 0;
