@@ -40,7 +40,8 @@ few dependencies:
 
 1. Xcode (12.1+) and command line tools
 2. Homebrew
-3. All other dependencies - Qt6 (6.2+), CMake (3.18+), pkg-config
+3. All other dependencies - Qt6 (6.2+), CMake (3.18+), pkg-config, Ruby (3.0+)
+4. The Metal Toolchain (a separate Xcode component)
 
 ### 1.1 Install Xcode
 
@@ -69,8 +70,28 @@ Once you have Homebrew installed, pulling in the rest of the
 dependencies is a couple of lines to execute within a terminal:
 
 ```
-brew install qt cmake pkg-config
+brew install qt cmake pkg-config ruby
 
+```
+
+The Ruby that ships with macOS (`/usr/bin/ruby`) is 2.6, which is too
+old to build Sonic Pi. Make sure Homebrew's Ruby comes first on your
+`PATH` in the terminal you build from (you can add this line to your
+`~/.zshrc` to make it permanent):
+
+```
+export PATH="$(brew --prefix ruby)/bin:$PATH"
+```
+
+Check with `ruby -v` - it should report 3.0 or later.
+
+### 1.4 Install the Metal Toolchain
+
+Sonic Pi compiles a Metal shader (for Syphon video output). On Xcode 15+
+the Metal Toolchain is a separate, free download from Apple:
+
+```
+xcodebuild -downloadComponent MetalToolchain
 ```
 
 ## 2. Preparing the Build

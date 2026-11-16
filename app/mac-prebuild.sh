@@ -21,6 +21,22 @@ else
     RUBY=ruby
 fi
 
+# The server code needs Ruby 3.0+ (it uses endless method definitions).
+# macOS still ships Ruby 2.6 at /usr/bin/ruby, which otherwise fails much
+# later in the build with confusing syntax errors from qt-doc.rb. Check now,
+# before the long vcpkg/OpenSSL steps.
+if ! "$RUBY" -e 'exit(Gem::Version.new(RUBY_VERSION) >= Gem::Version.new("3.0") ? 0 : 1)' 2>/dev/null; then
+    echo ""
+    echo "ERROR: Ruby 3.0 or later is required to build Sonic Pi."
+    echo "Found: $("$RUBY" -v 2>/dev/null || echo "no working '$RUBY'") ($(command -v "$RUBY" || echo "$RUBY"))"
+    echo ""
+    echo "Install a newer Ruby and put it first on your PATH, e.g. with Homebrew:"
+    echo "    brew install ruby"
+    echo "    export PATH=\"\$(brew --prefix ruby)/bin:\$PATH\""
+    echo ""
+    exit 1
+fi
+
 cd "${SCRIPT_DIR}"
 
 echo "Fetching submodules (app/external/supersonic)..."
