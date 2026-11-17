@@ -55,6 +55,7 @@ unsafe extern "C" {
     fn sp_instance_new(config: *const Config, why: *mut c_char, why_bytes: u32) -> *mut RawInstance;
     fn sp_instance_free(instance: *mut RawInstance);
     fn sp_instance_loading(instance: *mut RawInstance) -> u32;
+    fn sp_instance_reconfigure(instance: *mut RawInstance, rate: f64, max_frames: u32) -> c_int;
     fn sp_instance_render(
         instance: *mut RawInstance,
         out: *const *mut f32,
@@ -121,6 +122,13 @@ impl Instance {
 
     pub fn as_ptr(&self) -> *mut RawInstance {
         self.0.as_ptr()
+    }
+
+    /// Calls sp_instance_reconfigure with a new sample rate and largest buffer size, as vst3/shell.cpp does from
+    /// setupProcessing. A new rate rebuilds the engine. Returns true on success.
+    pub fn reconfigure(&self, sample_rate: f64, max_frames: u32) -> bool {
+        // SAFETY: a live instance. Hosts call setupProcessing with audio stopped, so nothing is rendering it.
+        unsafe { sp_instance_reconfigure(self.0.as_ptr(), sample_rate, max_frames) == 0 }
     }
 
     /// How many synthdefs and samples it has asked for that have neither loaded nor failed.

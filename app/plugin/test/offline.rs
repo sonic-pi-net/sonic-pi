@@ -410,3 +410,51 @@ fn a_hundred_reverbs_at_once_are_not_refused_by_the_engine() {
     assert_eq!(logged(&heard, "/fail"), None, "the engine refused nothing");
     assert!(peak(&sound) > 0.01, "they sound: peak {}", peak(&sound));
 }
+
+/// After a sample rate change (the host calls setupProcessing again) the engine is rebuilt. Synthdefs and samples
+/// loaded before it are still there, because SuperSonic keeps them as assets. Check that a synth and a sample each
+/// play once after the change. Before sp_instance_reconfigure called runtime.engineLost(), both were silent.
+#[test]
+fn a_new_sample_rate_after_loading_keeps_synths_and_samples_working() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.run("sample :bd_haus");
+    render_until_loaded(&instance);
+    render(&instance, seconds(1.0));
+    assert!(instance.reconfigure(44_100.0, BLOCK as u32), "the instance takes the new rate");
+    render_until_loaded(&instance);
+    instance.run(BEEP);
+    let beep = render(&instance, seconds(1.0));
+    assert_eq!(onsets(&beep).len(), 1, "a beep after the new rate: peak {}", peak(&beep));
+    instance.run("sample :bd_haus");
+    render_until_loaded(&instance);
+    let kick = render(&instance, seconds(1.0));
+    assert_eq!(onsets(&kick).len(), 1, "a sample after the new rate: peak {}", peak(&kick));
+}
+
+/// A sample rate change while the built-in synths are still loading, as when REAPER opens its audio device during a
+/// project load. Render one buffer first, so some definitions are committed and the next batch is in flight when the
+/// engine is rebuilt. The front then fails the /d_loadDir, and the plugin must resend it rather than show an error.
+/// Before the fix, the user saw "Sonic Pi's synths could not be loaded", and each synth was then loaded separately
+/// the first time code used it. Play zawa, because it is the last definition loaded (the front sorts a directory by
+/// name).
+#[test]
+fn a_new_sample_rate_while_the_synths_load_does_not_lose_them() {
+    const LAST: &str = "synth :zawa, note: 84, attack: 0, sustain: 0, release: 0.05, amp: 0.8";
+    let instance = offline();
+    let heard = listening(&instance);
+    render(&instance, 1);
+    assert!(instance.loading() > 0, "the built-in synths are still loading after one buffer");
+    assert!(instance.reconfigure(44_100.0, BLOCK as u32), "the instance takes the new rate");
+    render_until_loaded(&instance);
+    instance.run(LAST);
+    let zawa = render(&instance, seconds(1.0));
+    deaf(&instance);
+    let errors: Vec<String> = heard.0.lock().unwrap().iter()
+        .filter(|(kind, _)| *kind == sonic_pi_plugin::instance::SAYS_ERROR)
+        .map(|(_, b)| String::from_utf8_lossy(b).into_owned())
+        .collect();
+    assert!(errors.is_empty(), "no error for a /d_loadDir interrupted by the rebuild: {errors:?}");
+    assert!(logged(&heard, &format!("synthdefs: {} loaded", 120)).is_some(), "/d_loadDir reported all 120 synthdefs loaded");
+    assert_eq!(onsets(&zawa).len(), 1, "zawa after the new rate: peak {}", peak(&zawa));
+}

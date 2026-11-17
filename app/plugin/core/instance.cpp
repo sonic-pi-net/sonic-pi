@@ -309,9 +309,19 @@ struct SpInstance final : AssetLoader
     std::mutex loadMutex;
     std::map<std::string, Load> synthdefs;   // by name
     std::set<std::string> builtins;          // synthdefs/, loaded whole at the start
-    std::deque<std::string> pendingDefs;     // /d_load, in the order asked
+    struct PendingDef { std::string name, path; uint32_t askedAt; };
+    std::deque<PendingDef> pendingDefs;      // /d_load, in the order asked
     std::map<int, Load> buffers;             // by bufnum
     std::map<int, std::string> bufferFiles;
+    // rebuilds counts engine rebuilds; sp_instance_reconfigure increments it when the sample rate changes. Each load
+    // records the count when it is sent: builtinsAskedAt for the /d_loadDir, PendingDef::askedAt for a /d_load,
+    // bufferAskedAt for a /b_allocRead. If a rebuild interrupts a load, the front answers it with /fail ("the engine
+    // was rebuilt while ... was loading"). doneOrFail resends a failed load whose count is older than rebuilds instead
+    // of reporting it. The new engine keeps the synthdefs and samples committed before the rebuild, so the resend only
+    // adds the rest. A load that fails after being sent since the latest rebuild is a real failure and is reported.
+    uint32_t rebuilds = 0;
+    uint32_t builtinsAskedAt = 0;
+    std::map<int, uint32_t> bufferAskedAt;
 
     std::vector<double> lastTable;           // the process table the page last heard (the runtime's thread)
     std::atomic<bool> alignBars{ true };     // the instance's bars follow its host's, and not its tempo alone
@@ -519,7 +529,7 @@ struct SpInstance final : AssetLoader
             return;
         }
         synthdefs[name] = Load::Pending;
-        pendingDefs.push_back(name);
+        pendingDefs.push_back({ name, path, rebuilds });
         engine.send(osc::Message("/d_load").addStr(path));
     }
 
@@ -547,7 +557,7 @@ struct SpInstance final : AssetLoader
             return;
         }
         synthdefs[name] = Load::Pending;
-        pendingDefs.push_back(name);
+        pendingDefs.push_back({ name, path, rebuilds });
         engine.send(osc::Message("/d_load").addStr(path));
     }
 
@@ -572,8 +582,16 @@ struct SpInstance final : AssetLoader
         if (it != buffers.end() && it->second != Load::Failed) return;
         buffers[bufnum] = Load::Pending;
         bufferFiles[bufnum] = file;
+        askForBuffer(bufnum);
+    }
+
+    // Sends /b_allocRead for bufferFiles[bufnum] and records the rebuild count. Call with loadMutex held.
+    void askForBuffer(int bufnum)
+    {
+        const std::string& file = bufferFiles[bufnum];
         // the studio's random stream, which the runtime names by its file alone (rand_buf)
         const std::string path = file == "rand-stream.wav" ? buffersDir + "/rand-stream.wav" : file;
+        bufferAskedAt[bufnum] = rebuilds;
         engine.send(osc::Message("/b_allocRead").addInt(bufnum).addStr(path).addInt(0).addInt(0));
     }
 
@@ -582,6 +600,7 @@ struct SpInstance final : AssetLoader
         std::lock_guard<std::mutex> lk(loadMutex);
         buffers.erase(bufnum);
         bufferFiles.erase(bufnum);
+        bufferAskedAt.erase(bufnum);
         engine.send(osc::Message("/b_free").addInt(bufnum));
     }
 
@@ -657,6 +676,13 @@ struct SpInstance final : AssetLoader
         {
             {
                 std::lock_guard<std::mutex> lk(loadMutex);
+                if (!ok && builtinsAskedAt < rebuilds)
+                {
+                    builtinsAskedAt = rebuilds;
+                    engine.send(osc::Message("/d_loadDir").addStr(synthdefDir));
+                    log("synthdefs: resending /d_loadDir after the engine was rebuilt");
+                    return;
+                }
                 for (const auto& name : builtins) synthdefs[name] = ok ? Load::Ready : Load::Failed;
             }
             if (!ok) error("Sonic Pi's synths could not be loaded: " + m.strArg(1));
@@ -670,8 +696,16 @@ struct SpInstance final : AssetLoader
             {
                 std::lock_guard<std::mutex> lk(loadMutex);
                 if (pendingDefs.empty()) return;
-                name = pendingDefs.front();
+                PendingDef def = pendingDefs.front();
                 pendingDefs.pop_front();
+                if (!ok && def.askedAt < rebuilds)
+                {
+                    def.askedAt = rebuilds;
+                    engine.send(osc::Message("/d_load").addStr(def.path));
+                    pendingDefs.push_back(std::move(def));
+                    return;
+                }
+                name = def.name;
                 synthdefs[name] = ok ? Load::Ready : Load::Failed;
             }
             if (!ok) error("The synth " + name + " could not be loaded: " + m.strArg(1));
@@ -686,6 +720,11 @@ struct SpInstance final : AssetLoader
                 std::lock_guard<std::mutex> lk(loadMutex);
                 auto it = buffers.find(bufnum);
                 if (it == buffers.end()) return;
+                if (!ok && bufferAskedAt[bufnum] < rebuilds)
+                {
+                    askForBuffer(bufnum);
+                    return;
+                }
                 it->second = ok ? Load::Ready : Load::Failed;
                 if (!ok) error("The sample " + bufferFiles[bufnum] + " could not be loaded: " + m.strArg(1));
             }
@@ -732,7 +771,22 @@ void sp_instance_free(SpInstance* instance)
 
 int sp_instance_reconfigure(SpInstance* instance, double rate, uint32_t maxFrames)
 {
-    return instance && instance->engine.reconfigure(rate, maxFrames) ? 0 : 1;
+    if (!instance) return 1;
+    // A new rate always rebuilds the engine: clockwork_embed_reconfigure keeps the instance only if the rate is
+    // unchanged or the guest accepts the new one, and scsynth's dsp_reconfigure refuses every change. The rebuilt
+    // engine has none of the groups and mixer nodes the runtime made, so call runtime.engineLost(), as the browser
+    // does (sonic_pi.js). Synthdefs and samples are assets, so the new engine already has them. Increment rebuilds
+    // before reconfiguring: the front can fail an in-flight load as soon as the old instance is gone, and doneOrFail
+    // must already see the new count.
+    const double before = instance->engine.rate();
+    if (rate != before)
+    {
+        std::lock_guard<std::mutex> lk(instance->loadMutex);
+        ++instance->rebuilds;
+    }
+    if (!instance->engine.reconfigure(rate, maxFrames)) return 1;
+    if (instance->engine.rate() != before) instance->runtime.engineLost();
+    return 0;
 }
 
 uint32_t sp_instance_loading(SpInstance* instance)
