@@ -36,7 +36,10 @@ case "$MODE" in ""|--wasm|--native|--bytecode) ;; *) echo "usage: $(basename "$0
 # so a fresh checkout can go straight to either, and a checkout that has one can ask for the other. --native needs
 # the host interpreter alone and asks for no Emscripten; --wasm needs the emscripten target too, which a --native
 # build leaves out.
-FROM="$(git -C "$MR" rev-parse HEAD) $(cat "$PATCHES"/*.patch | { sha256sum 2>/dev/null || shasum -a 256; } | cut -d' ' -f1)"
+# What mruby is built from: the pin, our patches, the build config, and the gems it compiles in (runtime/mrbgems). A
+# change to any of them builds mruby again. Before the gems and the config were part of it, an edited gem kept the
+# mruby built before the edit, here and in every CI cache (sonic-pi-core's float printing, 2026-11-17).
+FROM="$(git -C "$MR" rev-parse HEAD) $( { cat "$PATCHES"/*.patch "$ROOT/runtime/build_config.rb"; find "$ROOT/runtime/mrbgems" -type f | LC_ALL=C sort | while read -r f; do cat "$f"; done; } | { sha256sum 2>/dev/null || shasum -a 256; } | cut -d' ' -f1)"
 HOST_MRBC="$MRUBY_BUILD_DIR/host/bin/mrbc"
 EM_CONFIG="$MRUBY_BUILD_DIR/emscripten/host-bin/mruby-config"
 built() { [ "$(cat "$MRUBY_BUILD_DIR/$1/built-from" 2>/dev/null)" = "$FROM" ]; }   # a target, built from FROM
