@@ -865,6 +865,21 @@ int main (int argc, char** argv)
     check ("the page raised no error", lines (a.editor, @"page error").count == 0
            && lines (a.editor, @"\"t\":\"error\"").count == 0 && lines (a.editor, @"\"t\":\"rejection\"").count == 0,
            lines (a.editor, @"\"t\":\"error\"").firstObject ?: lines (a.editor, @"page error").firstObject);
+    // The status line shows the Sonic Pi version (from VERSION) and "VST". About shows the plugin's version, which
+    // must match the bundle's Info.plist
+    {
+        NSString* own = [NSBundle bundleWithPath:@(argv[1])].infoDictionary[@"CFBundleShortVersionString"];
+        NSDictionary* shown = jsJSON (a, @"({status: document.getElementById('status-version')?.textContent, "
+                                           "target: document.getElementById('about-v-target')?.textContent})");
+        NSString* status = shown[@"status"];
+        const bool releaseShown = [status isKindOfClass:NSString.class]
+            && [status rangeOfString:@"^Sonic Pi v[0-9]+\\.[0-9]+ VST$" options:NSRegularExpressionSearch].location != NSNotFound;
+        check ("status line reads 'Sonic Pi vX.Y VST'", releaseShown,
+               [NSString stringWithFormat:@"%@", status]);
+        check ("About shows 'VST' and the bundle's version",
+               own && [shown[@"target"] isEqual:[@"VST " stringByAppendingString:own]],
+               [NSString stringWithFormat:@"About shows %@, bundle version is %@", shown[@"target"], own]);
+    }
 
     // ── Keys, in each kind of host ──
     keyChecks (a, true);

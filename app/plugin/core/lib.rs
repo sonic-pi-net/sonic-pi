@@ -405,6 +405,8 @@ fn attach(parent: *mut c_void, width: u32, height: u32, instance: *mut RawInstan
         .with_accept_first_mouse(true)
         // the page's storage as the plugin keeps it, before the bridge that serves it to the page
         .with_initialization_script(&format!("window.__sonicPiPluginSeed = {};", store_json(plugin)))
+        // The plugin's version from Cargo.toml, shown in the page's About card (bridge.js: __sonicPiPlugin.version)
+        .with_initialization_script(concat!("window.__sonicPiPluginVersion = \"", env!("CARGO_PKG_VERSION"), "\";"))
         .with_initialization_script(include_str!("bridge.js"));
     // The test host's view of the page (test/host.mm): what reaches it, in the log. Never in a host's process
     // unless asked for.
