@@ -1,13 +1,36 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (c) 2026 Sam Aaron
-//! The C and C++ beside the Rust: the VST3 shell, the AppKit glue, and
+//! The C and C++ beside the Rust: the VST3 shell, the AppKit (or Win32) glue, and
 //! SuperSonic's front, compiled with exactly the flags Clockwork was (its
 //! layout constants are compile-time, and a front built with others reads
 //! the engine's memory wrong).
 use std::path::{Path, PathBuf};
 
+/// Building for Windows with MSVC: cl's flags, not clang's, and Windows' libraries in place of Apple's frameworks.
+fn msvc() -> bool {
+    std::env::var("CARGO_CFG_TARGET_ENV").as_deref() == Ok("msvc")
+}
+
+fn macos() -> bool {
+    std::env::var("CARGO_CFG_TARGET_OS").as_deref() == Ok("macos")
+}
+
+/// Only the entry points are exported (clang's -fvisibility=hidden); MSVC exports nothing it is not told to.
+fn hidden(b: &mut cc::Build) -> &mut cc::Build {
+    if !msvc() {
+        b.flag("-fvisibility=hidden");
+    }
+    b
+}
+
+/// A C standard: cl has no gnu99 (or c99), and takes C11 for what it is asked to compile from C99 on
+/// (sp_host.c's _Thread_local is C11's, which clang and gcc allow in gnu99).
+fn c_std<'a>(b: &'a mut cc::Build, std: &str) -> &'a mut cc::Build {
+    b.std(if msvc() { "c11" } else { std })
+}
+
 fn main() {
-    for file in ["vst3/shell.cpp", "core/mac.mm"] {
+    for file in ["vst3/shell.cpp", "core/mac.mm", "core/win.cpp"] {
         println!("cargo:rerun-if-changed={file}");
     }
     println!("cargo:rerun-if-env-changed=VST3_PLUGINTERFACES_INCLUDE_DIR");
@@ -22,25 +45,30 @@ fn main() {
         vst3.display()
     );
 
-    cc::Build::new()
+    let mut shell = cc::Build::new();
+    hidden(&mut shell)
         .cpp(true)
         .std("c++17")
         .include(&vst3)
         .include("core")
-        .flag("-fvisibility=hidden")
         // the version a host is told is this crate's (Cargo.toml), as the bundle's Info.plist is (scripts/build.sh)
         .define("SONIC_PI_PLUGIN_VERSION", Some(format!("\"{}\"", std::env::var("CARGO_PKG_VERSION").unwrap()).as_str()))
         .file("vst3/shell.cpp")
         .compile("sp_shell");
 
-    cc::Build::new()
-        .cpp(true)
-        .std("c++17")
-        .flag("-fobjc-arc")
-        .flag("-fvisibility=hidden")
-        .file("core/mac.mm")
-        .compile("sp_mac");
-    println!("cargo:rustc-link-lib=framework=AppKit");
+    if macos() {
+        cc::Build::new()
+            .cpp(true)
+            .std("c++17")
+            .flag("-fobjc-arc")
+            .flag("-fvisibility=hidden")
+            .file("core/mac.mm")
+            .compile("sp_mac");
+        println!("cargo:rustc-link-lib=framework=AppKit");
+    } else {
+        cc::Build::new().cpp(true).std("c++17").file("core/win.cpp").compile("sp_win");
+        println!("cargo:rustc-link-lib=dylib=user32");
+    }
 
     let flags = front();
     runtime(&flags);
@@ -72,9 +100,9 @@ fn front() -> Vec<String> {
         .unwrap_or_else(|| "unknown".into());
 
     let mut b = cc::Build::new();
-    b.cpp(true)
+    hidden(&mut b)
+        .cpp(true)
         .std("c++20")
-        .flag("-fvisibility=hidden")
         .define("SUPERSONIC_VERSION_STRING", format!("\"{version}\"").as_str())
         .include(&front)
         .include(supersonic.join("dsp/scsynth"))
@@ -111,14 +139,16 @@ fn runtime(clockwork: &[String]) {
     println!("cargo:rerun-if-env-changed=SONIC_PI_MRUBY");
     let mruby = std::env::var("SONIC_PI_MRUBY").map(PathBuf::from).unwrap_or_else(|_| web.join("build/mruby/host"));
     let irep = web.join("build/runtime/runtime_native_irep.c");
+    // MSVC's mruby (its visualcpp toolchain) is libmruby.lib
+    let libmruby = mruby.join(if msvc() { "lib/libmruby.lib" } else { "lib/libmruby.a" });
     assert!(
-        mruby.join("lib/libmruby.a").is_file() && irep.is_file(),
+        libmruby.is_file() && irep.is_file(),
         "no native runtime under {}: run scripts/build-runtime.sh --native there",
         web.display()
     );
     let host = web.join("runtime/host");
     let seam = host.join("sp_host.c");
-    for f in [seam.clone(), irep.clone(), mruby.join("lib/libmruby.a")] {
+    for f in [seam.clone(), irep.clone(), libmruby.clone()] {
         println!("cargo:rerun-if-changed={}", f.display());
     }
 
@@ -128,11 +158,16 @@ fn runtime(clockwork: &[String]) {
         .lines()
         .find_map(|l| l.strip_prefix("MRUBY_CFLAGS = "))
         .expect("MRUBY_CFLAGS in libmruby.flags.mak");
-    let defines: Vec<String> = cflags.split_whitespace().filter(|w| w.starts_with("-D")).map(str::to_owned).collect();
+    // cl's are /D, which cc passes on as -D as it does its own
+    let defines: Vec<String> = cflags
+        .split_whitespace()
+        .filter_map(|w| w.strip_prefix("-D").or_else(|| w.strip_prefix("/D")))
+        .map(|d| format!("-D{d}"))
+        .collect();
     let mruby_include = mruby.join("include");
 
     let mut c = cc::Build::new();
-    c.std("gnu99").include(&mruby_include).flag("-fvisibility=hidden").warnings(false);
+    c_std(hidden(&mut c), "gnu99").include(&mruby_include).warnings(false);
     for d in &defines {
         c.flag(d);
     }
@@ -141,7 +176,10 @@ fn runtime(clockwork: &[String]) {
     // aubio's onset detector, as Sonic Pi vendors it: its own file readers (io/) left out
     let aubio = web.join("../external/aubio-0.4.9/src");
     let mut a = cc::Build::new();
-    a.std("c99").include(&aubio).flag("-fvisibility=hidden").warnings(false);
+    c_std(hidden(&mut a), "c99").include(&aubio).warnings(false);
+    if msvc() {
+        a.define("_CRT_SECURE_NO_WARNINGS", "1");
+    }
     for d in ["HAVE_STDLIB_H", "HAVE_STDIO_H", "HAVE_MATH_H", "HAVE_STRING_H", "HAVE_LIMITS_H", "HAVE_STDARG_H", "HAVE_ERRNO_H", "HAVE_C99_VARARGS_MACROS"] {
         a.define(d, "1");
     }
@@ -161,9 +199,9 @@ fn runtime(clockwork: &[String]) {
     a.compile("aubio_onset");
 
     let mut x = cc::Build::new();
-    x.cpp(true)
+    hidden(&mut x)
+        .cpp(true)
         .std("c++20")
-        .flag("-fvisibility=hidden")
         .include(&host)
         .include(&aubio)
         .include(&mruby_include);
@@ -183,9 +221,19 @@ fn runtime(clockwork: &[String]) {
     x.file("core/sound_files.cpp").file("core/instance.cpp").compile("sp_instance");
 
     println!("cargo:rustc-link-search=native={}", mruby.join("lib").display());
-    println!("cargo:rustc-link-lib=static=mruby");
+    if msvc() {
+        println!("cargo:rustc-link-lib=static=libmruby");
+        // mruby's sockets (its MRUBY_LIBS)
+        for lib in ["ws2_32", "iphlpapi"] {
+            println!("cargo:rustc-link-lib=dylib={lib}");
+        }
+    } else {
+        println!("cargo:rustc-link-lib=static=mruby");
+    }
     // aubio's vector maths, on Apple platforms
-    println!("cargo:rustc-link-lib=framework=Accelerate");
+    if macos() {
+        println!("cargo:rustc-link-lib=framework=Accelerate");
+    }
 }
 
 /// The -D and -I flags Clockwork's own sources were compiled with, read from
@@ -204,13 +252,19 @@ fn clockwork_flags(build: &Path) -> Vec<String> {
         .expect("Clockwork's embed source in compile_commands.json");
     let words: Vec<String> = match entry["arguments"].as_array() {
         Some(args) => args.iter().filter_map(|a| a.as_str().map(str::to_owned)).collect(),
-        None => split_command(entry["command"].as_str().unwrap_or("")),
+        None => split_command(entry["command"].as_str().unwrap_or(""), msvc()),
     };
     let mut flags = Vec::new();
     let mut words = words.into_iter();
     while let Some(w) = words.next() {
         if w.starts_with("-D") || w.starts_with("-I") {
             flags.push(w);
+        } else if let Some(rest) = w.strip_prefix("/D").or_else(|| w.strip_prefix("/I")) {
+            // cl's own spelling, which CMake uses for some (/DWIN32, /DNDEBUG)
+            flags.push(format!("-{}{rest}", &w[1..2]));
+        } else if let Some(dir) = w.strip_prefix("-external:I").or_else(|| w.strip_prefix("/external:I")) {
+            // cl's -isystem
+            flags.push(format!("-I{dir}"));
         } else if w == "-isystem" {
             if let Some(dir) = words.next() {
                 flags.push("-isystem".into());
@@ -222,8 +276,10 @@ fn clockwork_flags(build: &Path) -> Vec<String> {
 }
 
 /// A shell command line as the words a shell would make of it: spaces split,
-/// double quotes group, a backslash takes the next character as it is.
-fn split_command(line: &str) -> Vec<String> {
+/// double quotes group, a backslash takes the next character as it is. On
+/// Windows (`windows`) a backslash is a path's separator, and only a quote
+/// after one is taken as it is.
+fn split_command(line: &str, windows: bool) -> Vec<String> {
     let mut words = Vec::new();
     let mut word = String::new();
     let mut started = false;
@@ -231,6 +287,15 @@ fn split_command(line: &str) -> Vec<String> {
     let mut chars = line.chars();
     while let Some(c) = chars.next() {
         match c {
+            '\\' if windows => {
+                if chars.clone().next() == Some('"') {
+                    word.push('"');
+                    chars.next();
+                } else {
+                    word.push('\\');
+                }
+                started = true;
+            }
             '\\' => {
                 if let Some(n) = chars.next() {
                     word.push(n);

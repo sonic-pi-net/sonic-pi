@@ -2,7 +2,7 @@
 // Copyright (c) 2026 Sam Aaron
 //! Sonic Pi as a VST3: the editor, which is Sonic Pi's web GUI in a web view
 //! inside the host's window, talking to its own instance (instance.rs).
-#![cfg(target_os = "macos")]
+#![cfg(any(target_os = "macos", windows))]
 
 use std::borrow::Cow;
 use std::cell::Cell;
@@ -13,12 +13,15 @@ use std::ptr::{self, NonNull};
 use std::sync::atomic::{AtomicPtr, AtomicU32, Ordering};
 use std::sync::{Arc, Mutex};
 
-use raw_window_handle::{
-    AppKitWindowHandle, HandleError, HasWindowHandle, RawWindowHandle, WindowHandle,
-};
-use wry::dpi::{LogicalPosition, LogicalSize};
+#[cfg(target_os = "macos")]
+use raw_window_handle::AppKitWindowHandle;
+#[cfg(windows)]
+use raw_window_handle::Win32WindowHandle;
+use raw_window_handle::{HandleError, HasWindowHandle, RawWindowHandle, WindowHandle};
 use wry::http::{Request, Response};
 use wry::{Rect, WebView, WebViewBuilder};
+#[cfg(windows)]
+use wry::{WebContext, WebViewBuilderExtWindows};
 
 // The engine: its C++ archives (Clockwork, scsynth), which rustc links only for
 // a crate named here, and its Rust half, which the C++ calls into.
@@ -105,6 +108,9 @@ struct Editor {
     mailbox: Arc<Mailbox>,
     monitor: *mut c_void,
     zoom: Cell<c_int>,
+    /// WebView2's own folder (web_context), kept for as long as the web view, which goes first.
+    #[cfg(windows)]
+    _context: WebContext,
 }
 
 /// What the instance has said and the page has not yet heard. Filled on the instance's threads; emptied on the
@@ -119,10 +125,24 @@ struct HostView(NonNull<c_void>);
 
 impl HasWindowHandle for HostView {
     fn window_handle(&self) -> Result<WindowHandle<'_>, HandleError> {
+        #[cfg(target_os = "macos")]
         let raw = RawWindowHandle::AppKit(AppKitWindowHandle::new(self.0));
+        // The host's HWND, which is never 0 (NonNull).
+        #[cfg(windows)]
+        let raw = RawWindowHandle::Win32(Win32WindowHandle::new(
+            std::num::NonZeroIsize::new(self.0.as_ptr() as isize).ok_or(HandleError::Unavailable)?,
+        ));
         // The host keeps the view alive between attached() and removed().
         Ok(unsafe { WindowHandle::borrow_raw(raw) })
     }
+}
+
+/// WebView2's folder (its cache, its settings): the user's, as a DAW's own folder may not be written to, which is
+/// where WebView2 would otherwise put it.
+#[cfg(windows)]
+fn web_context() -> WebContext {
+    let dir = std::env::var_os("LOCALAPPDATA").map(|d| PathBuf::from(d).join("Sonic Pi").join("Plugin").join("WebView2"));
+    WebContext::new(dir)
 }
 
 /// A line for the plugin's file log (filelog.rs): editor `id`'s, or the plugin's own for 0.
@@ -138,10 +158,16 @@ fn fence<T>(fallback: T, body: impl FnOnce() -> T) -> T {
     })
 }
 
+/// The editor's size as VST3 gives it: points on macOS, pixels on Windows (a host there sizes a view in its
+/// window's pixels).
 fn bounds(width: u32, height: u32) -> Rect {
+    #[cfg(target_os = "macos")]
+    use wry::dpi::{LogicalPosition as Position, LogicalSize as Size};
+    #[cfg(windows)]
+    use wry::dpi::{PhysicalPosition as Position, PhysicalSize as Size};
     Rect {
-        position: LogicalPosition::new(0, 0).into(),
-        size: LogicalSize::new(width, height).into(),
+        position: Position::new(0, 0).into(),
+        size: Size::new(width, height).into(),
     }
 }
 
@@ -237,6 +263,12 @@ fn serve(root: &Path, id: u32, instance: *mut RawInstance, request: Request<Vec<
     };
 
     // Nothing outside the bundle: a page that reaches for the network is refused, and says so (bridge.js).
+    // WebView2 has no schemes of an app's own: wry serves sonicpi://app/ from https://sonicpi.app/, which it
+    // answers itself (nothing goes to the network), so that is the page's origin there.
+    #[cfg(windows)]
+    const NOTHING_OUTSIDE: &str = "default-src https://sonicpi.app blob: data: 'unsafe-inline' 'wasm-unsafe-eval'; \
+        connect-src https://sonicpi.app blob: data:; worker-src https://sonicpi.app blob:";
+    #[cfg(target_os = "macos")]
     const NOTHING_OUTSIDE: &str = "default-src sonicpi: blob: data: 'unsafe-inline' 'wasm-unsafe-eval'; \
         connect-src sonicpi: blob: data:; worker-src sonicpi: blob:";
     let response = Response::builder()
@@ -398,7 +430,14 @@ fn attach(parent: *mut c_void, width: u32, height: u32, instance: *mut RawInstan
     let for_page = mailbox.clone();
     let instance_addr = instance as usize;
     let plugin_addr = plugin as usize;
-    let mut builder = WebViewBuilder::new()
+    #[cfg(windows)]
+    let mut context = web_context();
+    #[cfg(target_os = "macos")]
+    let builder = WebViewBuilder::new();
+    // https: a secure context, for the page's SharedArrayBuffer (COOP and COEP, serve), as sonicpi: is on macOS
+    #[cfg(windows)]
+    let builder = WebViewBuilder::new_with_web_context(&mut context).with_https_scheme(true);
+    let mut builder = builder
         .with_bounds(bounds(width, height))
         // wry's default activates the whole application, which here is the DAW.
         .with_focused(false)
@@ -439,6 +478,8 @@ fn attach(parent: *mut c_void, width: u32, height: u32, instance: *mut RawInstan
         mailbox: mailbox.clone(),
         monitor: ptr::null_mut(),
         zoom: Cell::new(zoom),
+        #[cfg(windows)]
+        _context: context,
     }));
     // SAFETY: just made, on this thread; the monitor is removed (detach) before the editor is freed.
     unsafe { (*editor).monitor = sp_monitor_install(parent, editor.cast()) };

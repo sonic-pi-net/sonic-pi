@@ -16,8 +16,20 @@
 #include "pluginterfaces/vst/vstspeaker.h"
 #include "pluginterfaces/vst/vsttypes.h"
 #include "pluginterfaces/gui/iplugview.h"
+#include "pluginterfaces/gui/iplugviewcontentscalesupport.h"
 
+#ifdef __APPLE__
 #include <CoreFoundation/CoreFoundation.h>
+#endif
+#ifdef _WIN32
+#ifndef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#endif
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
 
 #include <atomic>
 #include <map>
@@ -50,9 +62,10 @@ static const DECLARE_UID (kSonicPiUID, 0x2F6C1D84, 0x7A3B4E19, 0x9C05D6E2, 0x41B
 // <bundle>/Contents/Resources: synthdefs/, samples/, buffers/ and the page.
 std::string resourcesDir ()
 {
-    std::string path = sp_own_path ();   // <bundle>/Contents/MacOS/<binary>
+    // <bundle>/Contents/MacOS/<binary>, or on Windows <bundle>/Contents/<arch>-win/<binary>
+    std::string path = sp_own_path ();
     for (int up = 0; up < 2; ++up) {
-        const auto slash = path.find_last_of ('/');
+        const auto slash = path.find_last_of ("/\\");
         if (slash == std::string::npos) return "";
         path.resize (slash);
     }
@@ -82,13 +95,22 @@ void keepEditorSize (SonicPiProcessor* processor, int32 width, int32 height);
 // The editor open now (lib.rs's), told when the host gives the plugin a state; null when none is.
 void editorOpened (SonicPiProcessor* processor, void* editor);
 
+// The editor's size is kept in points, as macOS has it, so a project's size is the same on either. A Windows host
+// sizes a view in its window's pixels, which are the points times the window's scale: the host's, when it says it
+// (IPlugViewContentScaleSupport), and until then the system's.
 class SonicPiView : public IPlugView
+#ifdef _WIN32
+                  , public IPlugViewContentScaleSupport
+#endif
 {
 public:
     explicit SonicPiView (SonicPiProcessor* processor) : mRefCount (1), mProcessor (processor)
     {
         retainProcessor (processor);
         editorSizeOf (processor, mWidth, mHeight);   // opened at the size it was left at
+#ifdef _WIN32
+        mScale = GetDpiForSystem () / 96.0;
+#endif
     }
     virtual ~SonicPiView () { removed (); releaseProcessor (mProcessor); }
 
@@ -97,6 +119,10 @@ public:
         if (!obj) return kInvalidArgument;
         if (sameIID (iid, FUnknown_iid) || sameIID (iid, IPlugView_iid))
             *obj = static_cast<IPlugView*> (this);
+#ifdef _WIN32
+        else if (sameIID (iid, IPlugViewContentScaleSupport_iid))
+            *obj = static_cast<IPlugViewContentScaleSupport*> (this);
+#endif
         else { *obj = nullptr; return kNoInterface; }
         addRef ();
         return kResultOk;
@@ -111,7 +137,11 @@ public:
 
     tresult PLUGIN_API isPlatformTypeSupported (FIDString type) override
     {
+#ifdef _WIN32
+        return (type && std::strcmp (type, kPlatformTypeHWND) == 0) ? kResultTrue : kResultFalse;
+#else
         return (type && std::strcmp (type, kPlatformTypeNSView) == 0) ? kResultTrue : kResultFalse;
+#endif
     }
 
     tresult PLUGIN_API attached (void* parent, FIDString type) override
@@ -151,43 +181,62 @@ public:
     {
         if (!size) return kInvalidArgument;
         size->left = 0; size->top = 0;
-        size->right = mWidth; size->bottom = mHeight;
+        size->right = px (mWidth); size->bottom = px (mHeight);
         return kResultOk;
     }
 
     tresult PLUGIN_API onSize (ViewRect* newSize) override
     {
         if (!newSize) return kInvalidArgument;
-        mWidth  = newSize->right - newSize->left;
-        mHeight = newSize->bottom - newSize->top;
-        if (mView) sp_view_resize (mView, (unsigned) mWidth, (unsigned) mHeight);
+        mWidth  = pt (newSize->right - newSize->left);
+        mHeight = pt (newSize->bottom - newSize->top);
+        if (mView) sp_view_resize (mView, (unsigned) (newSize->right - newSize->left), (unsigned) (newSize->bottom - newSize->top));
         keepEditorSize (mProcessor, mWidth, mHeight);
         // said, so the log shows who sized it: the person, or a host restoring a size of its own
         sp_host_note (("editor resized to " + std::to_string (mWidth) + "x" + std::to_string (mHeight)).c_str ());
         return kResultOk;
     }
 
-    tresult PLUGIN_API setFrame (IPlugFrame*) override { return kResultOk; }
+    tresult PLUGIN_API setFrame (IPlugFrame* frame) override { mFrame = frame; return kResultOk; }
+
+#ifdef _WIN32
+    // The host's scale for the window it shows the editor in (a monitor's DPI): the editor keeps its size in points
+    // and asks the host for the pixels that now make.
+    tresult PLUGIN_API setContentScaleFactor (ScaleFactor factor) override
+    {
+        if (factor <= 0 || factor == mScale) return kResultTrue;
+        mScale = factor;
+        sp_host_note (("content scale " + std::to_string (factor)).c_str ());
+        ViewRect rect (0, 0, px (mWidth), px (mHeight));
+        if (mFrame && mParent) mFrame->resizeView (this, &rect);
+        return kResultTrue;
+    }
+#endif
     tresult PLUGIN_API canResize () override { return kResultTrue; }
 
     tresult PLUGIN_API checkSizeConstraint (ViewRect* rect) override
     {
         if (!rect) return kInvalidArgument;
-        if (rect->right - rect->left < 640) rect->right = rect->left + 640;
-        if (rect->bottom - rect->top < 420) rect->bottom = rect->top + 420;
+        if (rect->right - rect->left < px (640)) rect->right = rect->left + px (640);
+        if (rect->bottom - rect->top < px (420)) rect->bottom = rect->top + px (420);
         return kResultTrue;
     }
 
 private:
+    // Points to the host's units and back: the same on macOS, pixels on Windows.
+    int32 px (int32 points) const { return static_cast<int32> (points * mScale + 0.5); }
+    int32 pt (int32 units) const { return static_cast<int32> (units / mScale + 0.5); }
+
     // True once there is nothing left to wait for, whether or not it worked.
     bool tryAttach ()
     {
         if (!sp_parent_ready (mParent)) return false;
-        mView = sp_view_attach (mParent, (unsigned) mWidth, (unsigned) mHeight, instanceOf (mProcessor), mProcessor);
+        mView = sp_view_attach (mParent, (unsigned) px (mWidth), (unsigned) px (mHeight), instanceOf (mProcessor), mProcessor);
         editorOpened (mProcessor, mView);
         return true;
     }
 
+#ifdef __APPLE__
     static void retry (CFRunLoopTimerRef, void* info)
     {
         auto* self = static_cast<SonicPiView*> (info);
@@ -210,12 +259,21 @@ private:
         CFRelease (mRetry);
         mRetry = nullptr;
     }
+#else
+    // A Windows host hands over a window that is already there (sp_parent_ready), so there is never a wait.
+    void startRetry () { sp_host_note ("attached to a window that is not there"); }
+    void stopRetry () {}
+#endif
 
     std::atomic<int32> mRefCount;
     SonicPiProcessor* mProcessor;   // held: it owns the instance the editor talks to
     void* mParent = nullptr;
     void* mView = nullptr;
+    IPlugFrame* mFrame = nullptr;   // the host's, while it shows the editor (not held: VST3's rule)
+    double mScale = 1.0;            // the host's pixels to a point: 1 on macOS
+#ifdef __APPLE__
     CFRunLoopTimerRef mRetry = nullptr;
+#endif
     int32 mWidth = 0;
     int32 mHeight = 0;
 };

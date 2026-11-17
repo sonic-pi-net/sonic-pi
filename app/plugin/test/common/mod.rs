@@ -20,13 +20,38 @@ pub fn resources() -> String {
     std::fs::create_dir_all(&dir).unwrap();
     for (name, from) in [("synthdefs", "synthdefs/compiled"), ("samples", "samples"), ("buffers", "buffers")] {
         // Tests run on several threads and each calls this, so another may make the link first: that is fine.
-        match std::os::unix::fs::symlink(etc.join(from), dir.join(name)) {
+        match link_dir(&etc.join(from), &dir.join(name)) {
             Ok(()) => {}
             Err(e) if e.kind() == std::io::ErrorKind::AlreadyExists => {}
             Err(e) => panic!("could not link {name} into {}: {e}", dir.display()),
         }
     }
     dir.to_string_lossy().into_owned()
+}
+
+#[cfg(unix)]
+fn link_dir(target: &std::path::Path, link: &std::path::Path) -> std::io::Result<()> {
+    std::os::unix::fs::symlink(target, link)
+}
+
+/// A junction: Windows' link to a folder, which, unlike a symbolic link, anyone may make.
+#[cfg(windows)]
+fn link_dir(target: &std::path::Path, link: &std::path::Path) -> std::io::Result<()> {
+    if link.exists() {
+        return Err(std::io::ErrorKind::AlreadyExists.into());
+    }
+    // backslashes throughout: cmd takes a / in a path (target/test-resources) for one of its switches
+    let windows = |p: &std::path::Path| p.to_string_lossy().replace('/', "\\");
+    let made = std::process::Command::new("cmd")
+        .args(["/C", "mklink", "/J"])
+        .arg(windows(link))
+        .arg(windows(target))
+        .output()?;
+    if made.status.success() || link.exists() {
+        Ok(())
+    } else {
+        Err(std::io::Error::other(String::from_utf8_lossy(&made.stderr).into_owned()))
+    }
 }
 
 pub fn peak(samples: &[f32]) -> f32 {

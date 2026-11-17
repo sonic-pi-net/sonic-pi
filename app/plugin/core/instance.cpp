@@ -534,6 +534,9 @@ struct SpInstance final : AssetLoader
         if (!path.empty() && path[0] == '~')
         {
             const char* home = std::getenv("HOME");
+#ifdef _WIN32
+            if (!home) home = std::getenv("USERPROFILE");
+#endif
             path = std::string(home ? home : "") + path.substr(1);
         }
         std::lock_guard<std::mutex> lk(loadMutex);

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (c) 2026 Sam Aaron
 
-//! The plugin's file log: one file a host session in `~/Library/Logs/Sonic Pi/`, the last ten kept, as native keeps
+//! The plugin's file log: one file a host session in `~/Library/Logs/Sonic Pi/` (on Windows
+//! `%LOCALAPPDATA%\Sonic Pi\Logs\`), the last ten kept, as native keeps
 //! its own in `~/.sonic-pi/log`. Each line says how long the session has run, in ms, and whose it is: `[2]` instance
 //! 2's (its engine, its runtime, its own), `[2/5]` that of the editor (the fifth this session) showing instance 2,
 //! `[0]` the plugin's. An instance writes whether an editor is open or not. Only a plugin a host has loaded writes
@@ -75,7 +76,7 @@ fn open() -> Option<File> {
     if !ENABLED.load(Ordering::Acquire) {
         return None;
     }
-    let dir = PathBuf::from(std::env::var_os("HOME")?).join("Library/Logs/Sonic Pi");
+    let dir = log_dir()?;
     std::fs::create_dir_all(&dir).ok()?;
     prune(&dir);
     let secs = SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0);
@@ -87,6 +88,17 @@ fn open() -> Option<File> {
     let mut f = OpenOptions::new().create(true).append(true).open(dir.join(session_name(secs, &host, pid))).ok()?;
     let _ = writeln!(f, "Sonic Pi plugin {} in {host} (pid {pid}), from {}", env!("CARGO_PKG_VERSION"), utc(secs));
     Some(f)
+}
+
+/// Where a host session's log goes: the platform's place for an application's logs.
+#[cfg(target_os = "macos")]
+fn log_dir() -> Option<PathBuf> {
+    Some(PathBuf::from(std::env::var_os("HOME")?).join("Library/Logs/Sonic Pi"))
+}
+
+#[cfg(windows)]
+fn log_dir() -> Option<PathBuf> {
+    Some(PathBuf::from(std::env::var_os("LOCALAPPDATA")?).join("Sonic Pi").join("Logs"))
 }
 
 /// The older sessions' files, leaving room for this one among the KEEP.
