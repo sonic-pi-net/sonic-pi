@@ -719,6 +719,29 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         && runsOn(paneOlder.ns) && paneOlder.ns[0] < paneHeld.ns[0] && paneOlder.seen === paneHeld.ns[0]
         && runsOn(paneCaughtUp.ns) && paneCaughtUp.atEnd && paneCaughtUp.rows === 150 && paneCaughtUp.ns.at(-1) > paneHeld.ns.at(-1),
       JSON.stringify({ before: paneSpan(paneBefore), left: paneSpan(paneLeft), held: paneSpan(paneHeld), older: paneSpan(paneOlder), caughtUp: paneSpan(paneCaughtUp) }));
+    // A wheel scroll the browser animates (WebKit on Linux, Chromium on Linux and Windows): a wheel event, then
+    // scrollTop moving up 10 px a frame. Playwright's wheel is not animated in either browser here, so the animation
+    // is done in the page. It stops if scrollTop jumps towards the end, as a browser stops its own animation when code
+    // sets scrollTop. A move the other way is Chromium's scroll anchoring keeping the view still as the oldest row
+    // leaves the top, which a browser's animation carries on through, so this one does too. Before the fix, the first
+    // step left the pane within 40 px of the end, still following, and the next line's drawPane set scrollTop to the
+    // end, which stopped the scroll at its first frame (2026-11-17, WebKit in CI: the pane check above failed with the
+    // pane still at its end 900 ms after the wheel).
+    const animatedScroll = await page.evaluate(() => new Promise((resolve) => {
+      const box = document.querySelector("#cues");
+      box.dispatchEvent(new WheelEvent("wheel", { deltaY: -300, bubbles: true }));
+      let frame = 0, expected = box.scrollTop, stoppedAt = null;
+      const finish = () => setTimeout(() => resolve({ stoppedAt, fromBottom: Math.round(box.scrollHeight - box.scrollTop - box.clientHeight) }), 200);
+      const step = () => {
+        if (box.scrollTop > expected + 1) { stoppedAt = frame; return finish(); }
+        if (frame++ >= 30) return finish();
+        box.scrollTop = expected = Math.max(0, box.scrollTop - 10);
+        requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    }));
+    check("an animated wheel scroll moves the cues pane off its end while lines arrive, and the new lines do not move it back",
+      animatedScroll.stoppedAt === null && animatedScroll.fromBottom >= 40, JSON.stringify(animatedScroll));
     await page.click("#btn-stop");
     // both Clears pressed and the panes read in the one moment: what the run sent before its Stop goes on arriving a
     // while after it (each line at its own time), and would be counted otherwise

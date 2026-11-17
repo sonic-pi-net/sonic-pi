@@ -877,10 +877,10 @@ const WINDOW = 150;          // lines in the document at once: a tall pane shows
 // The window is drawn in the box's shadow root (shadow.js: lines arriving as a program plays are out of sight of a
 // page-wide watcher's), and the box itself scrolls. It says when it has nothing to show (data-empty); an empty
 // pane stays blank.
-const panes = new Map();     // box → { rows, first, pending, following, shown, inner }
+const panes = new Map();     // box → { rows, first, pending, following, shown, inner, userAt }
 const paneOf = (box) => {
   let pane = panes.get(box);
-  if (!pane) panes.set(box, (pane = { rows: [], first: 0, pending: [], following: true, shown: [], inner: shadowPane(box) }));
+  if (!pane) panes.set(box, (pane = { rows: [], first: 0, pending: [], following: true, shown: [], inner: shadowPane(box), userAt: -Infinity }));
   return pane;
 };
 let painting = false;
@@ -906,7 +906,11 @@ function drawPane(box, pane) {
   if (at) pane.inner.insertBefore(make(want.slice(0, at)), pane.inner.firstChild);
   if (at + stay.length < want.length) pane.inner.appendChild(make(want.slice(at + stay.length)));
   pane.shown = want;
-  if (pane.following) box.scrollTop = box.scrollHeight;
+  // Skip this within USER_SCROLL_MS of a wheel, touch, key or pointer scroll: setting scrollTop stops any scroll
+  // animation the browser is running (wheel scrolling on Linux and Windows), and its first frames are still within
+  // 40 px of the end, where pane.following stays true. Without the skip, the next line stopped the scroll at its first
+  // frame, and a filling pane could not be scrolled back with the wheel.
+  if (pane.following && performance.now() - pane.userAt >= USER_SCROLL_MS) box.scrollTop = box.scrollHeight;
 }
 
 function paintPanes() {
@@ -943,14 +947,13 @@ const USER_SCROLL_MS = 1000;
 const lineTop = (node) => ((node.getClientRects().length ? node : [...node.children].find((c) => c.getClientRects().length)) ?? node).offsetTop;
 for (const box of [logBox, cueBox]) {
   paneOf(box);   // its shadow root, from the start
-  let userAt = -Infinity;
-  const byUser = () => { userAt = performance.now(); };
+  const byUser = () => { paneOf(box).userAt = performance.now(); };
   for (const ev of ["wheel", "touchmove", "pointerdown"]) box.addEventListener(ev, byUser, { passive: true });
   box.addEventListener("keydown", (e) => { if (/^(Arrow(Up|Down)|Page(Up|Down)|Home|End| )$/.test(e.key)) byUser(); });
   box.addEventListener("scroll", () => {
     const pane = paneOf(box);
     const atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 40;
-    const user = performance.now() - userAt < USER_SCROLL_MS;
+    const user = performance.now() - pane.userAt < USER_SCROLL_MS;
     if (!atBottom && pane.following && !user) { box.scrollTop = box.scrollHeight; return; }   // not the player: back to the end
     if (atBottom !== pane.following) {
       pane.following = atBottom;
