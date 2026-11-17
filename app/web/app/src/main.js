@@ -2230,9 +2230,11 @@ async function showInfo(tab = null, id = null, { history: how = "push" } = {}) {
   document.body.classList.add("info-open");
   editorReachable(false);
   editor.aside();   // its completion would float over the page
-  try { await infoApi?.go(at, id, { history: how }); }
+  let shown;
+  try { shown = await infoApi?.go(at, id, { history: how }); }
   catch (e) { logs.add("Host", `the page did not load: ${describe(e)}`); const file = infoApi?.fileOf(at); if (file) location.assign(file + (id ? `#${id}` : "")); return; }   // the page itself, as a link would
-  infoApi?.focus();
+  // go() returns false if another page or the editor was chosen before it finished: then this page's tab mustn't be lit
+  if (shown) infoApi.focus();
 }
 function closeInfo({ push = true } = {}) {
   if (!infoOpen()) return;

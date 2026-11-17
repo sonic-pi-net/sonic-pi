@@ -1719,8 +1719,9 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       await arrived("learn.html", "#talks", "talks");
       // a page gone back to by its tab opens at its top, wherever it was left: WebKit keeps a hidden column's scroll
       // (a smooth scroll to the top is dropped), and Safari paints nothing there
+      // No pause before switching tab: show() in info.js now stops any section correction (toSection's loop) still
+      // running from the earlier visit, which is what used to scroll Learn back down when the tab was switched quickly.
       await site.evaluate(() => document.getElementById("teachers").scrollIntoView({ behavior: "instant" }));
-      await site.waitForTimeout(800);   // still a sleep: switching tab sooner makes Learn reopen scrolled down in Chromium (cause not yet found)
       await site.click('#site-nav .ic-tab[data-tab="support"]');
       await site.waitForFunction(() => location.pathname.endsWith("support.html"), null, { timeout: 10000 }).catch(timedOut);
       await site.click('#site-nav .ic-tab[data-tab="learn"]');
@@ -1732,6 +1733,32 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       await site.waitForFunction(() => location.hash === "#community", null, { timeout: 5000 }).catch(timedOut);
       w = await where();
       check("the address follows the section being read", w.at === "learn.html#community", JSON.stringify(w));
+      // Going to the editor while a page is still opening must leave the Code tab highlighted. learn.html#talks waits
+      // up to 2 s for its pictures before scrolling to Talks again; we hold the picture requests so that wait never
+      // ends on its own, and pause the page's clock so the test decides when it ends. Before, showInfo() in main.js
+      // called focus() after the editor had opened, which highlighted Learn again.
+      {
+        const slow = await browser.newPage({ ...HTTPS, viewport: { width: 1280, height: 900 } });
+        await slow.addInitScript(() => { try { localStorage.setItem("sp-help-seen", "true"); } catch {} });
+        await slow.route(/\/site\/media\//, () => {});   // never answer, so Learn's pictures never finish loading
+        const t0 = Date.now();
+        await slow.clock.install({ time: t0 });
+        await slow.clock.pauseAt(t0 + 1);
+        // advance the paused clock 16 ms at a time until `cond` is true
+        const frames = async (cond) => { for (let n = 0; n < 40; n++) { if (await slow.evaluate(cond)) return true; await slow.clock.runFor(16); } return false; };
+        await slow.goto(BASE + "learn.html#talks", { waitUntil: "domcontentloaded" });
+        await frames(() => location.hash === "#talks" && document.querySelector(".site-body:not([hidden]) .ic-side .docs-item.active")?.dataset.key === "talks");
+        await slow.click("#site-nav .sn-code");
+        await frames(() => location.pathname.endsWith("code.html"));
+        await slow.clock.runFor(2100);   // past info.js's 2 s wait for the pictures
+        await slow.clock.runFor(200);
+        const lit = await slow.evaluate(() => ({ at: location.pathname.split("/").pop(),
+          code: document.querySelector("#site-nav .ic-tab-code").classList.contains("active"),
+          learn: document.querySelector('#site-nav .ic-tab[data-tab="learn"]').classList.contains("active") }));
+        check("going to the editor while a page is still opening leaves the Code tab highlighted, not the page's",
+          lit.at === "code.html" && lit.code && !lit.learn, JSON.stringify(lit));
+        await slow.close();
+      }
       const old = [];
       for (const [from, to] of [["#mac", "index.html#mac"], ["#schools", "learn.html#teachers"], ["#learn", "learn.html"], ["#tutorial", "tutorial.html"], ["#patreon", "support.html"], ["#app", "code.html"]]) {
         // each on a page of its own, left once it has loaded: WebKit calls a load cut short by the next one an

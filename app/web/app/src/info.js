@@ -106,6 +106,7 @@ export function createInfo(card, hooks) {
 
   /** A page by key, at an anchor on it: made live if it is new, shown, and the address its own. */
   async function go(key, id = null, { history: how = "push" } = {}) {
+    const v = ++visit;
     if (current) current.settled = false;   // on its way: what moves under the page now is not a section being read
     let p = pages.get(key);
     if (!p) {
@@ -119,6 +120,8 @@ export function createInfo(card, hooks) {
       // how long a first visit took, and where: the network, or the making live (the Logs pane says, on any device)
       const t2 = performance.now();
       requestAnimationFrame(() => requestAnimationFrame(() => hooks.log?.(`${key}: first visit, waited ${(t1 - t0).toFixed(0)} ms for the page, ${(t2 - t1).toFixed(0)} ms making it live, drawn ${(performance.now() - t2).toFixed(0)} ms later`)));
+      // Another page or the editor was chosen while this one loaded. Keep the loaded page for later, but don't show it.
+      if (v !== visit) return false;
     }
     const moved = current && current !== p;
     if (current !== p) {
@@ -134,8 +137,11 @@ export function createInfo(card, hooks) {
     const url = fileOf(key) + (id ? `#${id}` : "");
     if (how === "push" && !sameAddress(url)) history.pushState(null, "", url);
     else if (how === "replace") history.replaceState(null, "", url);
-    await show(id);
+    return show(id, v);
   }
+  // Incremented by every page change: go(), and blur() when the editor opens. go() and show() compare it after each
+  // await and stop if it has moved on, so an earlier page change can't scroll the page or highlight a tab later.
+  let visit = 0;
   const sameAddress = (url) => { const u = new URL(url, location.href); return u.pathname === location.pathname && u.hash === location.hash; };
 
   // ── a page made live ──
@@ -265,17 +271,20 @@ export function createInfo(card, hooks) {
     return p;
   }
 
-  /** The current page, at its top or at an anchor on it. The address follows the page's reading once it is there. */
-  async function show(id = null) {
+  /** The current page, at its top or at an anchor on it. The address follows the page's reading once it is there.
+   *  Returns false if another page change (visit) happened before it finished. */
+  async function show(id, v) {
     const p = current;
     p.stage?.start();
     p.settled = false;
+    aiming++;   // stop any section correction still running from an earlier visit (toSection)
     const target = id ? document.getElementById(id) : null;
     tellFold(p);
     if (target) {
       await toSection(target, { instant: true });
       await p.ready;   // its images in: laid out as it will stay
-      if (current === p && !card.hidden) await toSection(target, { instant: true });
+      if (v !== visit) return false;
+      if (!card.hidden) await toSection(target, { instant: true });
     } else {
       // at once: the column scrolls smoothly (site.css), and WebKit drops a smooth scroll on a column just unhidden,
       // leaving it where it was, which Safari then does not paint (a blank page)
@@ -283,9 +292,10 @@ export function createInfo(card, hooks) {
       p.page.querySelector(".ic-main")?.scrollTo({ top: 0, behavior: "instant" });
     }
     await new Promise(requestAnimationFrame);
-    if (current !== p) return;
+    if (v !== visit) return false;
     p.settled = true;
     p.looks.forEach((look) => look.again());
+    return true;
   }
 
   // the page's fold, to the host's chip: the section the page is at (its list's lit entry, as the page scrolls), or
@@ -472,7 +482,7 @@ export function createInfo(card, hooks) {
     /** The page's next or previous entry (by 1 or -1), or a group's first: the page bar's ‹ › and line. */
     stepContents, contentsGroup, contentsItem: (k) => contentsItem(k),
     /** The card put away (the editor showing): the stage rests, the address is the editor's, and Code is the tab lit */
-    blur() { current.stage?.stop(); current.settled = false; lightTab("code"); },
+    blur() { visit++; aiming++; current.stage?.stop(); current.settled = false; lightTab("code"); },
     /** The page is showing again. */
     focus() { current.stage?.start(); lightTab(current.key); },
     get current() { return current.key; },
