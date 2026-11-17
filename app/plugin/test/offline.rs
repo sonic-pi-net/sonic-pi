@@ -152,6 +152,32 @@ fn the_built_in_synthdefs_load_in_the_same_number_of_buffers_every_time() {
     assert!(buffers.iter().all(|b| *b == buffers[0]), "buffers rendered until loaded, three times: {buffers:?}");
 }
 
+/// With 4096-frame buffers, SuperSonic's front could send up to 256 KB of synthdefs per buffer into the plugin's
+/// 64 KB command ring. The ones that didn't fit were dropped, loading never finished, and no synth played. Found
+/// while porting the plugin to Windows, where a host that renders straight away with no editor hit it every time.
+#[test]
+fn the_built_in_synthdefs_load_and_a_synth_sounds_when_the_host_renders_big_buffers() {
+    const BIG: usize = 4096;
+    let instance = Instance::offline(RATE, BIG as u32, &resources(), ORIGIN).expect("an offline instance");
+    let (mut left, mut right) = (vec![0.0f32; BIG], vec![0.0f32; BIG]);
+    let mut buffers = 0;
+    loop {
+        instance.render(&mut left, &mut right);
+        buffers += 1;
+        if instance.loading() == 0 {
+            break;
+        }
+        assert!(buffers < 2_000, "still loading after 2,000 buffers of {BIG} frames");
+    }
+    instance.run(&format!("{BEEP}\n"));
+    let mut out = Vec::new();
+    for _ in 0..(RATE as usize / BIG + 2) {
+        instance.render(&mut left, &mut right);
+        out.extend_from_slice(&left);
+    }
+    assert!(peak(&out) > 0.1, "the beep after loading peaked at {}", peak(&out));
+}
+
 #[test]
 fn a_sample_named_in_the_code_plays_on_the_exact_frame_and_identically_twice() {
     let play = || {
