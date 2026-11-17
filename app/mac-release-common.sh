@@ -107,19 +107,43 @@ release_identity() {
         return 0
     fi
 
-    local line
-    line="$(security find-identity -v -p codesigning 2>/dev/null \
-        | grep -E '"Developer ID Application:' \
-        | head -n 1 || true)"
-
-    if [ -z "$line" ]; then
-        die "No 'Developer ID Application' identity found in keychain.
+    local identity
+    identity="$(keychain_identity "Developer ID Application" codesigning)"
+    [ -n "$identity" ] || die "No 'Developer ID Application' identity found in keychain.
     Either install one, or set SONIC_PI_RELEASE_IDENTITY=\"Developer ID Application: ...\",
     or set SONIC_PI_RELEASE_ADHOC=1 to ad-hoc sign for local testing."
+    printf '%s' "$identity"
+}
+
+# Resolve a Developer ID Installer identity, which signs a .pkg, from the user's login keychain.
+# Override with env SONIC_PI_RELEASE_INSTALLER_IDENTITY (full quoted identity string).
+# Returns "" if SONIC_PI_RELEASE_ADHOC=1: the package is then left unsigned.
+release_installer_identity() {
+    if [ "${SONIC_PI_RELEASE_ADHOC:-0}" = "1" ]; then
+        return 0
     fi
 
-    # Extract the quoted identity
-    printf '%s' "$line" | sed -E 's/^[^"]*"([^"]+)".*$/\1/'
+    if [ -n "${SONIC_PI_RELEASE_INSTALLER_IDENTITY:-}" ]; then
+        printf '%s' "${SONIC_PI_RELEASE_INSTALLER_IDENTITY}"
+        return 0
+    fi
+
+    local identity
+    # an installer identity is not a code-signing one: only the basic policy lists it
+    identity="$(keychain_identity "Developer ID Installer" basic)"
+    [ -n "$identity" ] || die "No 'Developer ID Installer' identity found in keychain.
+    Either install one, or set SONIC_PI_RELEASE_INSTALLER_IDENTITY=\"Developer ID Installer: ...\",
+    or set SONIC_PI_RELEASE_ADHOC=1 to leave the package unsigned for local testing."
+    printf '%s' "$identity"
+}
+
+# The first valid identity in the login keychain whose name starts with $1, listed under the security policy $2,
+# printed as its full name ("Developer ID Application: Name (TEAMID)"). Prints nothing if there is none.
+keychain_identity() {
+    security find-identity -v -p "$2" 2>/dev/null \
+        | grep -F "\"$1:" \
+        | head -n 1 \
+        | sed -E 's/^[^"]*"([^"]+)".*$/\1/' || true
 }
 
 release_team_id() {
