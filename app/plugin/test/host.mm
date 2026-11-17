@@ -873,8 +873,8 @@ int main (int argc, char** argv)
                                            "target: document.getElementById('about-v-target')?.textContent})");
         NSString* status = shown[@"status"];
         const bool releaseShown = [status isKindOfClass:NSString.class]
-            && [status rangeOfString:@"^Sonic Pi v[0-9]+\\.[0-9]+ VST$" options:NSRegularExpressionSearch].location != NSNotFound;
-        check ("status line reads 'Sonic Pi vX.Y VST'", releaseShown,
+            && [status rangeOfString:@"^Sonic Pi v[0-9]+\\.[0-9]+ VST( [A-Za-z0-9]+)?$" options:NSRegularExpressionSearch].location != NSNotFound;
+        check ("status line reads 'Sonic Pi vX.Y VST', with a pre-release's word after it (beta1)", releaseShown,
                [NSString stringWithFormat:@"%@", status]);
         check ("About shows 'VST' and the bundle's version",
                own && [shown[@"target"] isEqual:[@"VST " stringByAppendingString:own]],

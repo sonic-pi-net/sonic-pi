@@ -7,19 +7,21 @@
  * own versions, from package.json and Cargo.toml. scripts/lib/versions.mjs reads the files; this file only formats.
  */
 
-/** Parses VERSION's text into { full, short }. Accepts the same forms as native's Version.init_from_string and
- * throws the same error for anything else. */
+/** Parses VERSION's text into { full, short, pre }: pre is a pre-release's word ("beta1" for 5.1.0-beta1), or "".
+ * Accepts the same forms as native's Version.init_from_string and throws the same error for anything else. */
 export function releaseVersion(text) {
   const s = String(text).trim();
   const m = /^[vV]?(\d+)(?:\.(\d+)(?:\.(\d+)(?:-(.+))?)?)?$/.exec(s);
   if (!m) throw new Error(`Malformed version: ${s}. Expecting something of the form v2.1.0-RC3`);
   const [major, minor, patch] = [m[1], m[2] ?? 0, m[3] ?? 0].map(Number), dev = m[4];
   const full = dev ? `v${major}.${minor}.${patch}-${dev}` : patch === 0 ? `v${major}.${minor}` : `v${major}.${minor}.${patch}`;
-  return { full, short: `v${major}.${minor}` };
+  return { full, short: `v${major}.${minor}`, pre: dev ?? "" };
 }
 
-/** The status line: "Sonic Pi v5.1 on Web" or "Sonic Pi v5.1 VST" (native's is "Sonic Pi v5.1 on Mac"). */
-export const versionLine = (short, inPlugin) => `Sonic Pi ${short} ${inPlugin ? "VST" : "on Web"}`;
+/** The status line for a release (releaseVersion): "Sonic Pi v5.1 VST", and for a pre-release "Sonic Pi v5.1 VST beta1".
+ * Native's is "Sonic Pi v5.1.0-beta1 on Mac". */
+export const versionLine = (release, inPlugin) =>
+  `Sonic Pi ${release.short} ${inPlugin ? "VST" : "on Web"}${release.pre ? ` ${release.pre}` : ""}`;
 
 /** The text for About's App row: "Web 1.0.0" or "VST 0.1.0". */
 export const targetVersion = (inPlugin, own) => (inPlugin ? `VST ${own.plugin}` : `Web ${own.web}`);

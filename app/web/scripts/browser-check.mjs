@@ -354,7 +354,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         language: document.getElementById("about-v-language")?.textContent ?? null,
         target: document.getElementById("about-v-target")?.textContent ?? null,
       }));
-      const want = { status: versionLine(RELEASE.short, false), language: `Sonic Pi ${RELEASE.full}`, target: targetVersion(false, OWN) };
+      const want = { status: versionLine(RELEASE, false), language: `Sonic Pi ${RELEASE.full}`, target: targetVersion(false, OWN) };
       check("status line and About show the versions from VERSION and package.json",
         JSON.stringify(shown) === JSON.stringify(want), `shown ${JSON.stringify(shown)}, want ${JSON.stringify(want)}`);
       const served = await (await page.request.get(BASE + "index.html")).text();

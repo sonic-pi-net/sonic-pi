@@ -164,7 +164,7 @@ const versions = { runtime: null };
 // The build injects the Sonic Pi version (from VERSION) and the web version (from package.json) as
 // __SONIC_PI_VERSIONS__ (scripts/lib/versions.mjs). In the VST, the plugin's version comes from bridge.js.
 const RELEASE = releaseVersion(__SONIC_PI_VERSIONS__.release);
-const VERSION_LINE = versionLine(RELEASE.short, inPlugin);
+const VERSION_LINE = versionLine(RELEASE, inPlugin);
 const TARGET_VERSION = targetVersion(inPlugin, { web: __SONIC_PI_VERSIONS__.web, plugin: globalThis.__sonicPiPlugin?.version ?? "?" });
 $("status-version").textContent = VERSION_LINE;   // build-site.mjs already wrote the web line into the HTML; this also covers the VST
 $("about-v-language").textContent = `Sonic Pi ${RELEASE.full}`;
