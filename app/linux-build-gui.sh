@@ -26,4 +26,4 @@ for generated in ruby_help.h completion_argkinds.gen.h \
 done
 
 cd "${SCRIPT_DIR}"/build
-cmake --build .
+cmake --build . --parallel "$(nproc)"
