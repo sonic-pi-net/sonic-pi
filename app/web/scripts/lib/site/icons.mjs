@@ -2,8 +2,9 @@
 // Tabler's outline icons (@tabler/icons), the set the app draws its own from, inline so they take the theme's ink.
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const TABLER = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../node_modules/@tabler/icons/icons/outline");
+const TABLER = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../node_modules/@tabler/icons/icons/outline");
 
 // class: tb-icon for a list's icon, dl-mark for a row's action, dl-glyph for a mark that means something.
 // label: what the icon says, for one that is not decoration.

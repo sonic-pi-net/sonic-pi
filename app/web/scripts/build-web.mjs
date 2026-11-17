@@ -18,11 +18,12 @@
 //   node scripts/build-web.mjs [--out build/web] [--supersonic cdn[@version]|local] [--assets cdn[@version]|local]
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { specsJSON } from "./specs-json.mjs";
 import { copyRuntime, copySynthdefs, resolveSupersonic, describeSupersonic, supersonicVersionJSON, supersonicShims, flagValue } from "./lib/runtime-assets.mjs";
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const i = process.argv.indexOf("--out");
 const OUT = path.resolve(i >= 0 ? process.argv[i + 1] : path.join(ROOT, "build/web"));
 execFileSync(process.execPath, [path.join(ROOT, "scripts/build-app.mjs")], { stdio: "inherit" });

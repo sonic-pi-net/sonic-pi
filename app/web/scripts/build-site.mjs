@@ -21,6 +21,7 @@
 //   node scripts/build-site.mjs [--out web/site]      the pages go beside the directory given
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { render } from "./lib/site/template.mjs";
 import { icon } from "./lib/site/icons.mjs";
@@ -32,7 +33,7 @@ import { cardHTML } from "../app/src/ui/card-html.js";
 import { releaseVersion, versionLine } from "../app/src/versions.js";
 import { pageVersions } from "./lib/versions.mjs";
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback; };
 const SITE = path.join(ROOT, "site");
 const OUT = path.resolve(arg("--out", path.join(ROOT, "web/site")));
