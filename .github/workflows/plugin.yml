@@ -72,7 +72,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/web/build/mruby
-          key: mruby-${{ runner.os }}-${{ steps.pins.outputs.mruby }}-${{ hashFiles('app/web/runtime/build_config.rb', 'app/web/runtime/mruby-patches/**') }}
+          # everything mruby is built from (app/web/scripts/build-runtime.sh, FROM), the gems it compiles in included
+          key: mruby-${{ runner.os }}-${{ steps.pins.outputs.mruby }}-${{ hashFiles('app/web/runtime/build_config.rb', 'app/web/runtime/mruby-patches/**', 'app/web/runtime/mrbgems/**') }}
       - name: The tutorial, from the documentation in this repository
         working-directory: app/server/ruby
         run: |

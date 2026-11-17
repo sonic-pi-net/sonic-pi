@@ -47,7 +47,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/web/build/mruby   # relative to the repository root: actions ignore the run steps' working directory
-          key: mruby-${{ runner.os }}-${{ steps.pins.outputs.mruby }}-${{ hashFiles('app/web/runtime/build_config.rb', 'app/web/runtime/mruby-patches/**') }}
+          # everything mruby is built from (scripts/build-runtime.sh, FROM), the gems it compiles in included
+          key: mruby-${{ runner.os }}-${{ steps.pins.outputs.mruby }}-${{ hashFiles('app/web/runtime/build_config.rb', 'app/web/runtime/mruby-patches/**', 'app/web/runtime/mrbgems/**') }}
       - name: Build the runtime
         shell: bash
         run: scripts/build-runtime.sh --native
@@ -57,6 +58,10 @@ jobs:
       - name: Run every example and tutorial snippet with Safe mode on
         shell: bash
         run: ADAPTER="$PWD/build/runtime/sp-trace" ruby scripts/check-corpus.rb
+      # The runner has no German locale, and the decimal-comma checks (runtime_host_check.cpp) skip without one.
+      - name: Add a German locale (Linux)
+        if: runner.os == 'Linux'
+        run: sudo locale-gen de_DE.UTF-8
       - name: Test the runtime in a native host
         # the way the plugin or app runs it: samples by path and from folders (native.rb), several runtimes at once
         shell: bash
@@ -97,7 +102,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: app/web/build/mruby   # relative to the repository root: actions ignore the run steps' working directory
-          key: mruby-wasm-${{ steps.pins.outputs.mruby }}-${{ env.EMSDK_VERSION }}-${{ hashFiles('app/web/runtime/build_config.rb', 'app/web/runtime/mruby-patches/**') }}
+          # everything mruby is built from (scripts/build-runtime.sh, FROM), the gems it compiles in included
+          key: mruby-wasm-${{ steps.pins.outputs.mruby }}-${{ env.EMSDK_VERSION }}-${{ hashFiles('app/web/runtime/build_config.rb', 'app/web/runtime/mruby-patches/**', 'app/web/runtime/mrbgems/**') }}
       - name: Build the runtime
         run: scripts/build-runtime.sh
       - name: Run the specs on the wasm runtime
