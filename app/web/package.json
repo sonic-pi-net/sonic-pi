@@ -2,7 +2,7 @@
   "name": "sonic-pi-web",
   "version": "1.0.0",
   "private": true,
-  "supersonicVersion": "0.98.0",
+  "supersonicVersion": "0.99.0",
   "type": "module",
   "description": "Sonic Pi on mruby and SuperSonic, in the browser; judged against Sonic Pi's own runtime",
   "scripts": {
