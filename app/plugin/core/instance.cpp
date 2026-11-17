@@ -11,6 +11,7 @@
 extern "C" void sp_log_line(unsigned instance, const char* text);   // log.rs: the plugin's file log
 
 #include <algorithm>
+#include <charconv>
 #include <atomic>
 #include <chrono>
 #include <cstdio>
@@ -468,7 +469,13 @@ struct SpInstance final : AssetLoader
         deps.describeSample = [](const std::string& path, SoundFacts& facts) { return sound_files::describe(path, facts); };
         deps.sampleOnsets = [](const std::string& path) { return sound_files::onsets(path); };
         if (!runtime.start({ buffersDir, samplesDir }, std::move(deps), why)) return false;
-        runtime.post([this] { runtime.eval("SonicPi.sched_ahead = " + std::to_string(SCHED_AHEAD)); });
+        // std::to_chars, not std::to_string: to_string uses the process locale, and in a German host's process it wrote
+        // "0,200000", which Ruby reads as the array [0, 200000], so the first run raised a TypeError and never started.
+        runtime.post([this] {
+            char ahead[32];
+            const auto written = std::to_chars(ahead, ahead + sizeof ahead, SCHED_AHEAD);
+            runtime.eval("SonicPi.sched_ahead = " + std::string(ahead, written.ptr));
+        });
         return true;
     }
 

@@ -416,8 +416,8 @@ fn said(heard: &Heard, needle: &str, seconds: f64) -> bool {
 #[test]
 fn numbers_are_the_same_under_a_host_with_a_decimal_comma() {
     // SAFETY: this test's process; setlocale is not called concurrently here (the tests run one at a time).
-    let set = unsafe { libc_setlocale(6 /* LC_ALL */, c"de_DE.UTF-8".as_ptr()) };
-    assert!(!set.is_null(), "this machine has the de_DE.UTF-8 locale");
+    let set = unsafe { libc_setlocale(LC_ALL, GERMAN.as_ptr()) };
+    assert!(!set.is_null(), "this machine has the {GERMAN:?} locale");
     let instance = Arc::new(Instance::new(RATE, BLOCK as u32, &resources()).expect("an instance"));
     let heard = Heard(Mutex::new(Vec::new()));
     // SAFETY: `heard` outlives the listening, which stops below.
@@ -427,10 +427,22 @@ fn numbers_are_the_same_under_a_host_with_a_decimal_comma() {
     let point = said(&heard, "0.25", 3.0);
     let comma = said(&heard, "0,25", 0.1);
     unsafe { instance.listen(None, std::ptr::null_mut()) };
-    unsafe { libc_setlocale(6, c"C".as_ptr()) };
+    unsafe { libc_setlocale(LC_ALL, c"C".as_ptr()) };
     drop(host);
     assert!(point && !comma, "1.0 / 4 printed as 0.25 (point {point}, comma {comma})");
 }
+
+// LC_ALL is 6 in glibc but 0 on macOS and Windows, where 6 is LC_MESSAGES: with 6 there the test never changed how
+// numbers are written, and passed without testing anything (found porting the plugin to Windows).
+#[cfg(target_os = "linux")]
+const LC_ALL: i32 = 6;
+#[cfg(not(target_os = "linux"))]
+const LC_ALL: i32 = 0;
+// A locale whose decimal separator is a comma. Windows names it without the underscore.
+#[cfg(windows)]
+const GERMAN: &std::ffi::CStr = c"de-DE.UTF-8";
+#[cfg(not(windows))]
+const GERMAN: &std::ffi::CStr = c"de_DE.UTF-8";
 
 unsafe extern "C" {
     #[link_name = "setlocale"]
