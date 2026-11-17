@@ -1,4 +1,5 @@
 # History
+- [v5.1.0 'Clockwork'](#v5.1.0), To be released...
 - [v5.0.0 'SuperSonic'](#v5.0.0), 7th August, 2026
 - [v4.6.0 'Tuplet'](#v4.6.0), 26th June, 2025
 - [v4.5.1 '8oh8'](#v4.5.1), 26th April, 2024
@@ -34,6 +35,44 @@
 - [v2.1 'Core'](#v2.1), 21st Nov, 2014
 - [v2.0.1](#v2.0.1), 9th Sept, 2014
 - [v2.0 'Phoenix'](#v2.0), 2nd Sept, 2014
+
+<a name="v5.1.0"></a>
+
+## Version 5.1.0 'Clockwork'
+
+[(view commits)](https://github.com/sonic-pi-net/sonic-pi/commits/v5.1.0):
+
+Welcome to Sonic Pi 5.1 beta 1
+
+### Breaking Changes
+* macOS 14.4 or later is now required (previously 14.0).
+
+### New
+* Save and Share. Share the current buffer, or the whole set, as a link, a QR code or a file.
+
+### Improvements
+* GUI zooming has been overhauled. All buffers now share one code size. Reset Code Size is in the View menu and in Preferences, and the log's text size is set relative to the code size.
+* Syphon, Spout and the session recorder no longer include the window's title bar on macOS and Windows.
+* Live loop scopes and the log use less CPU.
+* Clearer log colours in the Signal, Mild Dark and Phosphor themes.
+* Ableton Link updated to 4.1.1 (from 4.0).
+
+### Bugfixes
+* Fixed a crash when an audio device is unplugged.
+* Fixed a crash when the audio device changes during a session recording.
+* A sample that fails to load now raises an error instead of hanging.
+* Changing the buffer size or audio device no longer clicks - the sound dips briefly instead.
+* An audio device picked while another device change is still underway is no longer ignored.
+* The scopes no longer freeze after the first audio device change.
+* Recordings made from a 44.1 kHz audio device no longer play back too fast.
+* Recordings made on Windows no longer drift out of sync with their audio.
+* Incoming Link Audio no longer glitches when a peer's clock is re-measured (for example over WiFi) or when the peer runs at a different sample rate.
+* The Share Audio setting for Link Audio now survives a fresh launch.
+* Scrolling the docs with a mouse wheel no longer changes a synth or FX dial that passes under the pointer.
+* Stop on a synth page now also stops notes played on its keyboard.
+* With Reduce animations on, code no longer flashes as it runs.
+* Undo now works after typing over a completion preview.
+* Choosing only an input device no longer changes the output device.
 
 <a name="v5.0.0"></a>
 
