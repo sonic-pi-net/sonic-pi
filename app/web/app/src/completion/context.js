@@ -169,6 +169,15 @@ export function caretAfterClosedValue(line, caretCol) {
  * case-insensitive. Tiers: exact > prefix > substring (word boundary > mid
  * word) > scattered, shorter winning ties. Returns the score, or null.
  */
+// Ruby keywords are complete words, not names to complete: typing `end` must not open a list of every name that
+// happens to contain those letters (osc_send, midi_pitch_bend, ...), which Return would then take. The same list as
+// native's kRubyKeywords (SonicPiScintilla::updateCompletion).
+const COMPLETE_WORDS = new Set([
+  "end", "do", "then", "begin", "rescue", "ensure", "else", "elsif", "when", "while", "until", "for", "if", "unless",
+  "case", "def", "class", "module", "return", "next", "break", "yield", "and", "or", "not", "in",
+]);
+export const isCompleteWord = (word) => COMPLETE_WORDS.has(word);
+
 export function fuzzyMatch(pat, text) {
   if (!pat) return 0;
   const lower = (c) => c.toLowerCase();

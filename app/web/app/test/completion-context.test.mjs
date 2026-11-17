@@ -3,7 +3,7 @@
 // editor must read a line the way the native one does.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { scanLineToCaret, tokenEndAtCaret, lineToContext, caretAfterClosedValue, resolveArgKind, resolveFnOpts, atOptKeySlot, fuzzyMatch } from "../src/completion/context.js";
+import { scanLineToCaret, tokenEndAtCaret, lineToContext, caretAfterClosedValue, resolveArgKind, resolveFnOpts, atOptKeySlot, fuzzyMatch, isCompleteWord } from "../src/completion/context.js";
 
 const partialAt = (line, caret) => { const ctx = lineToContext(line, caret); return ctx.length ? ctx[ctx.length - 1] : ""; };
 
@@ -166,4 +166,16 @@ test("fuzzy ranking: exact > prefix > substring > scattered, shorter wins ties",
   assert.ok(s("pla", "play") > s("pla", "sample"));
   assert.ok(s("amp", "amp:") > s("amp", "pre_amp:"));
   assert.ok(s("", "anything") === 0);
+});
+
+// Native's kRubyKeywords (SonicPiScintilla::updateCompletion): no list opens on these, so Return after `end` is a new
+// line. The letters of `end` are in osc_send, so without this the list offers osc_send and Return takes it.
+test("Ruby keywords like end and do count as complete words, matching native's list", () => {
+  for (const w of ["end", "do", "then", "begin", "rescue", "ensure", "else", "elsif", "when", "while", "until", "for",
+                   "if", "unless", "case", "def", "class", "module", "return", "next", "break", "yield", "and", "or",
+                   "not", "in"]) {
+    assert.equal(isCompleteWord(w), true, w);
+  }
+  for (const w of ["loop", "play", "en", "ends", "osc_send", ""]) assert.equal(isCompleteWord(w), false, w);
+  assert.notEqual(fuzzyMatch("end", "osc_send"), null, "end matches inside osc_send");
 });

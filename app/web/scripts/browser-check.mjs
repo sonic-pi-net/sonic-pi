@@ -439,6 +439,16 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     await page.waitForTimeout(150);
     const stays = await page.evaluate(() => !window.sonicPi.editor.view.root.querySelector(".sp-slider"));
     check("Escape puts the value's slider away, and it stays away on that value", hasSlider && gone && stays, `${gone} ${stays}`);
+    // Return after `end` starts a new line. `end` is a complete word, as native has it (SonicPiScintilla::updateCompletion,
+    // kRubyKeywords), so no list opens on it. Before, the list matched the letters inside osc_send and Return took it.
+    // CodeMirror opens a list within its typing delay (100 ms), so waiting 1.5 s for one that never comes is the bound.
+    await setCode("");
+    await caretToEnd();
+    await page.keyboard.type("end");
+    await page.waitForSelector(".cm-tooltip-autocomplete li", { timeout: 1500 }).catch(() => {});
+    await page.keyboard.press("Enter");
+    const afterEnd = await page.evaluate(() => window.sonicPi.editor.getCode());
+    check("Return after end starts a new line rather than completing it to osc_send", afterEnd.startsWith("end\n") && !afterEnd.includes("osc_send"), JSON.stringify(afterEnd));
     await setCode("use_synth :prophet\nplay 60, ");
     await caretToEnd();
     await page.keyboard.type("res");

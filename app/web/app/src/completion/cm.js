@@ -10,7 +10,7 @@ import { autocompletion, startCompletion, completionStatus, currentCompletions, 
 import { announce, Announcement } from "../announce.js";
 import { EditorView, ViewPlugin, showTooltip, tooltips, keymap } from "@codemirror/view";
 import { StateField, StateEffect, Prec } from "@codemirror/state";
-import { scanLineToCaret, caretAfterClosedValue, fuzzyMatch, tokenEndAtCaret, lineToContext } from "./context.js";
+import { scanLineToCaret, caretAfterClosedValue, fuzzyMatch, tokenEndAtCaret, lineToContext, isCompleteWord } from "./context.js";
 import { synthAt } from "./api.js";
 import { renderCode } from "../highlight.js";
 
@@ -377,6 +377,7 @@ export function completionExtensions(api, hooks = {}) {
     const kind = items[0].kind;
     if (scan.inString && !["cue", "port", "sample"].includes(kind)) return null;
     let partial = context[context.length - 1] ?? "";
+    if (isCompleteWord(partial)) return null;   // a Ruby keyword like `end`: no list, so Return is a new line (native's rule)
     const end = tokenEndAtCaret(text, col);
     let start = end - partial.length;
     if (start < 0 || start > col) start = col;
