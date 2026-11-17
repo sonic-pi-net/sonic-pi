@@ -28,6 +28,7 @@ import { createDeck } from "./ui/deck.js";
 import { pageFromMeta, pageFromSynthdef } from "./synth-meta.js";
 import { createQuickstart } from "./quickstart.js";
 import { createInsight, threadLabel } from "./insight.js";
+import { releaseVersion, versionLine, targetVersion } from "./versions.js";
 import { loopName } from "./loop-name.js";
 import { createFlightRecorder } from "./flight.js";
 import { createAudioTrail, trailText } from "./audio-trail.js";
@@ -159,9 +160,15 @@ let bootAnnouncementsReady = false;
 const status = (text, assertive = false) => { if (bootAnnouncementsReady) announce(text, assertive); };
 const versions = { runtime: null };
 // what this build is made of: the Info overlay says (native's λ), the status bar does not
-// the foot, as native's status bar says it ("Sonic Pi v5.0 on Mac"): the version and where it runs, the rest in About
-const VERSION_LINE = inPlugin ? "Sonic Pi v5.0 VST" : "Sonic Pi v5.0 on Web";
-$("status-version").textContent = VERSION_LINE;   // index.html says the web's, for the moment before this runs
+// The status bar line, in the same form as native's ("Sonic Pi v5.1 on Mac"). The full versions go in About.
+// The build injects the Sonic Pi version (from VERSION) and the web version (from package.json) as
+// __SONIC_PI_VERSIONS__ (scripts/lib/versions.mjs). In the VST, the plugin's version comes from bridge.js.
+const RELEASE = releaseVersion(__SONIC_PI_VERSIONS__.release);
+const VERSION_LINE = versionLine(RELEASE.short, inPlugin);
+const TARGET_VERSION = targetVersion(inPlugin, { web: __SONIC_PI_VERSIONS__.web, plugin: globalThis.__sonicPiPlugin?.version ?? "?" });
+$("status-version").textContent = VERSION_LINE;   // build-site.mjs already wrote the web line into the HTML; this also covers the VST
+$("about-v-language").textContent = `Sonic Pi ${RELEASE.full}`;
+$("about-v-target").textContent = TARGET_VERSION;
 const paintVersions = () => { $("info-versions").textContent = VERSION_LINE; };
 paintVersions();
 supersonicVersion().then(paintVersions, () => {});   // the local build's version.json (unreadable: the engine's boot says so)
@@ -1234,7 +1241,7 @@ function showJobs(s) {
 const flight = createFlightRecorder({
   session: () => session,
   programs: () => [...programs.values()],
-  versions: () => ({ language: "Sonic Pi v5.0.0", runtime: versions.runtime, supersonic: SUPERSONIC_VERSION }),
+  versions: () => ({ language: `Sonic Pi ${RELEASE.full}`, target: TARGET_VERSION, runtime: versions.runtime, supersonic: SUPERSONIC_VERSION }),
   // what happened to the audio (audio-trail.js); what a run is still waiting to load, and the Host log's last lines (the
   // loads asked and answered): a Run that made no sound on a phone (2026-09-28) was one held by its gate
   extra: () => ({ audioTrail: audioTrail.lines, pendingLoads: session?.bridge?.pending?.() ?? null, hostLog: logs.recent("Host", 80), ...(beforeRestart ? { beforeRestart } : {}) }),

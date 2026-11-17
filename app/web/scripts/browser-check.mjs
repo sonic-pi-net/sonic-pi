@@ -16,11 +16,15 @@
 import { quiet } from "./lib/quiet.mjs";
 import fs from "node:fs";
 import path from "node:path";
+import { releaseVersion, versionLine, targetVersion } from "../app/src/versions.js";
 // Sonic Pi's own synthdefs, which every synthdef the page fetches must be byte for byte
 const COMPILED = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../etc/synthdefs/compiled");
 // the studio's random stream's first values, as native's scsynth reads them: 16-bit samples over 32768
 const RAND_STREAM = fs.readFileSync(path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../etc/buffers/rand-stream.wav"));
 const RAND_FIRST = Array.from({ length: 8 }, (_, i) => Math.fround(RAND_STREAM.readInt16LE(44 + 2 * i) / 32768));
+// The versions the page should show, read straight from VERSION and package.json (not from the build's output)
+const RELEASE = releaseVersion(fs.readFileSync(path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../VERSION"), "utf8"));
+const OWN = { web: JSON.parse(fs.readFileSync(path.resolve(path.dirname(new URL(import.meta.url).pathname), "../package.json"), "utf8")).version };
 const BASE = process.argv[2] ?? "http://127.0.0.1:8460/web/";
 const { chromium, webkit, devices } = await import(process.env.PLAYWRIGHT ?? "playwright");
 // a QR code read off the page as a phone's camera would, and the link in it read as the app reads one
@@ -342,6 +346,21 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const runtimeSaid = await page.evaluate(() => [...document.querySelectorAll("#logs-list, #pane-logs")].map((n) => n.textContent).join(" "));
     const versions = await page.locator("#info-versions").textContent();   // the corner says which Sonic Pi this is
     check("the runtime loads in the page", /mruby runtime \S+ loaded/.test(runtimeSaid) || /Sonic Pi v\d/.test(versions), versions);
+    // Check the status line and About show the versions from VERSION and package.json, and that the served HTML
+    // already has the status line before any script runs
+    {
+      const shown = await page.evaluate(() => ({
+        status: document.getElementById("status-version")?.textContent ?? null,
+        language: document.getElementById("about-v-language")?.textContent ?? null,
+        target: document.getElementById("about-v-target")?.textContent ?? null,
+      }));
+      const want = { status: versionLine(RELEASE.short, false), language: `Sonic Pi ${RELEASE.full}`, target: targetVersion(false, OWN) };
+      check("status line and About show the versions from VERSION and package.json",
+        JSON.stringify(shown) === JSON.stringify(want), `shown ${JSON.stringify(shown)}, want ${JSON.stringify(want)}`);
+      const served = await (await page.request.get(BASE + "index.html")).text();
+      const line = /<span id="status-version"[^>]*>([^<]*)</.exec(served)?.[1];
+      check("served HTML has the same status line before any script runs", line === want.status, `served "${line}"`);
+    }
     const setCode = (code) => page.evaluate((c) => window.sonicPi.editor.setCode(c), code);
     // the log's lines are in its shadow root (app/src/shadow.js): the box's own text is only its placeholder's
     const logText = () => page.evaluate(() => document.getElementById("log").shadowRoot.textContent);

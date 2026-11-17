@@ -187,7 +187,8 @@
   <span id="status-jobs"></span>
   <span class="spacer"></span>
   <!-- the flight recorder's count of trouble: shown only when it has some (main.js); its buttons are in Preferences too -->
-  <span id="status-version" class="status-version">Sonic Pi v5.0 on Web</span>
+  <!-- build-site.mjs fills this in for the web; main.js sets it again at startup, for the web or the VST -->
+  <span id="status-version" class="status-version"></span>
 </footer>
 <!-- Info, native's λ, with sonic-pi.net as its pages (info.js): the pages in a shadow root under the bar, the build's versions -->
 <div id="info-card" hidden>
@@ -215,7 +216,8 @@
           <div><h3 id="about-title">Sonic Pi</h3><p class="info-lead">Lowering the many barriers of entry for creative experiences with code.</p></div>
         </div>
         <dl class="info-versions">
-          <div><dt>Language</dt><dd>Sonic Pi v5.0.0</dd></div>
+          <div><dt>App</dt><dd id="about-v-target"></dd></div>
+          <div><dt>Language</dt><dd id="about-v-language"></dd></div>
           <div><dt>Sound</dt><dd id="about-v-sound">SuperSonic</dd></div>
         </dl>
         <div class="info-panels">

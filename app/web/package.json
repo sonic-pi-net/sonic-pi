@@ -1,5 +1,6 @@
 {
   "name": "sonic-pi-web",
+  "version": "1.0.0",
   "private": true,
   "supersonicVersion": "0.98.0",
   "type": "module",

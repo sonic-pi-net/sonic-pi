@@ -1,0 +1,25 @@
+// SPDX-License-Identifier: AGPL-3.0-or-later
+// Copyright (c) 2026 Sam Aaron
+/**
+ * Formats the versions the page shows. The Sonic Pi version comes from the repository's VERSION file and is
+ * formatted the same way as native's Version#to_s (server/ruby/lib/sonicpi/version.rb): 5.1.0-beta1 becomes
+ * v5.1.0-beta1 and 5.1.0 becomes v5.1. The status line uses major.minor only. The web and the VST also have their
+ * own versions, from package.json and Cargo.toml. scripts/lib/versions.mjs reads the files; this file only formats.
+ */
+
+/** Parses VERSION's text into { full, short }. Accepts the same forms as native's Version.init_from_string and
+ * throws the same error for anything else. */
+export function releaseVersion(text) {
+  const s = String(text).trim();
+  const m = /^[vV]?(\d+)(?:\.(\d+)(?:\.(\d+)(?:-(.+))?)?)?$/.exec(s);
+  if (!m) throw new Error(`Malformed version: ${s}. Expecting something of the form v2.1.0-RC3`);
+  const [major, minor, patch] = [m[1], m[2] ?? 0, m[3] ?? 0].map(Number), dev = m[4];
+  const full = dev ? `v${major}.${minor}.${patch}-${dev}` : patch === 0 ? `v${major}.${minor}` : `v${major}.${minor}.${patch}`;
+  return { full, short: `v${major}.${minor}` };
+}
+
+/** The status line: "Sonic Pi v5.1 on Web" or "Sonic Pi v5.1 VST" (native's is "Sonic Pi v5.1 on Mac"). */
+export const versionLine = (short, inPlugin) => `Sonic Pi ${short} ${inPlugin ? "VST" : "on Web"}`;
+
+/** The text for About's App row: "Web 1.0.0" or "VST 0.1.0". */
+export const targetVersion = (inPlugin, own) => (inPlugin ? `VST ${own.plugin}` : `Web ${own.web}`);

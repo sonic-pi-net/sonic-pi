@@ -14,6 +14,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { themeDefaultsCSS } from "./lib/theme-defaults.mjs";
+import { pageVersions } from "./lib/versions.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SRC = path.join(ROOT, "app/src");
@@ -56,6 +57,8 @@ const options = {
   splitting: true,
   sourcemap: true,
   minify: !process.argv.includes("--watch") && !process.argv.includes("--raw"),   // --raw: names kept, for profiling
+  // The Sonic Pi version (VERSION) and the web version (package.json), for main.js to show
+  define: { __SONIC_PI_VERSIONS__: JSON.stringify(pageVersions(ROOT)) },
   plugins: [externals, { name: "static", setup(b) { b.onEnd(async (r) => { if (!r.errors.length) { await copyStatic(); console.log("built web/app.js, web/app.css"); } }); } }],
 };
 

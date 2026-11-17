@@ -29,6 +29,8 @@ import { logo } from "./lib/site/logo.mjs";
 import { patreonSupporters } from "./lib/supporters.mjs";
 import { highlightHTML } from "../app/src/highlight.js";
 import { cardHTML } from "../app/src/ui/card-html.js";
+import { releaseVersion, versionLine } from "../app/src/versions.js";
+import { pageVersions } from "./lib/versions.mjs";
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback; };
@@ -320,6 +322,7 @@ function pageBar(entries) {
 
 // ── each page: the app's own document, the page in its Info card and the site bar's tabs as links ──
 const shell = read(ROOT, "app/src/index.html");
+const VERSION_LINE = versionLine(releaseVersion(pageVersions(ROOT).release).short, false);
 const pages = [...PAGES, ...TUTORIAL];
 const bodies = new Map(pages.map((p) => [p.key, pageBody(p)]));
 const idsOf = (html) => [...new Set([...html.replace(/<svg[\s\S]*?<\/svg>/g, "").matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]))];   // an id inside a drawing (a mask, a glyph) is the drawing's own
@@ -350,6 +353,8 @@ function tabs(current) {
 function document(page, { code = false } = {}) {
   const swap = (html, from, to) => { if (!html.includes(from)) throw new Error(`app/src/index.html has no ${from}`); return html.replace(from, () => to); };
   let html = shell;
+  // Write the web status line into the HTML so it shows before main.js runs
+  html = swap(html, '<span id="status-version" class="status-version"></span>', `<span id="status-version" class="status-version">${esc(VERSION_LINE)}</span>`);
   html = swap(html, "<title>Sonic Pi</title>", `<title>${esc(code ? CODE.title : page.docTitle ?? `${page.title} · Sonic Pi`)}</title>`);
   html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${esc(code ? CODE.description : page.description)}">`);
   // what a link to the page shows where it is shared (Open Graph, and X's twitter: tags): the page's own title and
