@@ -13,6 +13,7 @@
 
 #include "osc_codec.h"
 
+#include <charconv>
 #include <cmath>
 #include <cstdio>
 #include <cstring>
@@ -152,12 +153,9 @@ std::string Value::inspect() const
     {
         if (std::isnan(d)) return "NaN";
         if (std::isinf(d)) return d > 0 ? "Infinity" : "-Infinity";
-        for (int p = 1; p <= 17; p++)   // the shortest decimal that reads back the same
-        {
-            snprintf(buf, sizeof buf, "%.*g", p, d);
-            if (std::strtod(buf, nullptr) == d) break;
-        }
-        std::string s = buf;
+        // the shortest decimal that reads back the same, as %g writes it, with a point whatever the locale
+        const auto written = std::to_chars(buf, buf + sizeof buf, d, std::chars_format::general);
+        std::string s(buf, written.ptr);
         if (s.find_first_of(".eE") == std::string::npos) s += ".0";
         return s;
     }
@@ -172,8 +170,7 @@ std::string Value::inspect() const
     case Nil:
         return "nil";
     case TimeTag:
-        snprintf(buf, sizeof buf, "%.6f", d);
-        return buf;
+        return std::string(buf, std::to_chars(buf, buf + sizeof buf, d, std::chars_format::fixed, 6).ptr);
     case Array:
     {
         std::string out = "[";

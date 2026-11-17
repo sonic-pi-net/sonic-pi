@@ -8,6 +8,8 @@
 #include "osc_codec.h"
 #include "runtime_host.h"
 
+#include <algorithm>
+#include <clocale>
 #include <atomic>
 #include <cmath>
 #include <cstdio>
@@ -51,6 +53,7 @@ struct Host final : AssetLoader
     std::vector<osc::Message> sent;                       // every message of every bundle
     std::vector<std::pair<int, std::string>> buffers;     // what loadBuffer was asked for
     std::vector<std::string> errors;                      // the runtime's error records
+    std::vector<std::string> said;                        // every string in every other record (puts output among them)
     std::vector<std::pair<double, osc::Message>> timed;   // each bundled message with its bundle's time (NTP seconds)
     std::vector<std::vector<uint8_t>> raw;                // every packet sent, as bytes
     double steppedFrom = 0.0;                             // the runtime's starting time (NTP seconds)
@@ -85,7 +88,11 @@ struct Host final : AssetLoader
             for (auto& m : p.messages) sent.push_back(std::move(m));
         };
         deps.record = [this](const osc::Message& m) {
-            if (m.address != "/sonic-pi/error") return;
+            if (m.address != "/sonic-pi/error") {
+                std::lock_guard<std::mutex> lk(mutex);
+                for (const auto& v : m.args) if (v.type == osc::Value::String) said.push_back(v.s);
+                return;
+            }
             std::string text;
             for (const auto& v : m.args) text += (v.type == osc::Value::String ? v.s : v.inspect()) + " ";
             std::lock_guard<std::mutex> lk(mutex);
@@ -219,6 +226,41 @@ int main(int argc, char** argv)
         const auto claimed = readSoundRecord(claims.data(), uint32_t(claims.size()));
         check("a sound record whose bundle claims nearly 4 GB of a 40-byte record has none", claimed && claimed->bundle.empty());
         check("a record too short for a sound's parts is none", !readSoundRecord(fits.data(), 35));
+    }
+
+    // A host whose process locale uses a decimal comma: a DAW on a German machine calls setlocale(LC_ALL, ""), and the
+    // runtime runs in its process. Numbers must still print with a point, and a float the host hands in as a cue (a
+    // MIDI value) must arrive as the same number. Before, 1.0 / 4 printed as 0.2,5 (SonicPi::Native.float_to_s kept
+    // the locale's separator) and a cue's 0.25 arrived as 0 (cueValues wrote "0,25", which to_f reads as 0).
+    {
+        const char* german = std::setlocale(LC_ALL, "de_DE.UTF-8");
+        if (!german) german = std::setlocale(LC_ALL, "de-DE.UTF-8");   // Windows's name for it
+        if (!german) {
+            std::printf("skip  no German locale on this machine: the decimal-comma checks did not run\n");
+        } else {
+            const auto printed = stepped(etc, "puts 1.0 / 4\nputs 2.5e-7\n", 1.0);
+            const auto saidText = [](const Host& h) { std::string all; for (const auto& s : h.said) all += s + " | "; return all; };
+            const auto has = [](const Host& h, const std::string& s) { return std::find(h.said.begin(), h.said.end(), s) != h.said.end(); };
+            check("under a decimal-comma locale, 1.0 / 4 prints as 0.25 and 2.5e-7 as 2.5e-07",
+                  has(*printed, "0.25") && has(*printed, "2.5e-07"), saidText(*printed));
+
+            auto cued = std::make_unique<Host>();
+            cued->steppedFrom = kSteppedFrom;
+            std::string why;
+            if (cued->start(etc, &why)) {
+                cued->runtime.run("puts sync(\"/test/value\")\n", 0, nullptr);   // sync returns the cue's values as an array
+                osc::Value quarter;
+                quarter.type = osc::Value::Double;
+                quarter.d = 0.25;
+                cued->runtime.cue("/test/value", { quarter });
+                for (int block = 1; block * kBlockSeconds <= 1.0; ++block) cued->runtime.advanceTo(kSteppedFrom + block * kBlockSeconds);
+                cued->runtime.stop();
+                check("under a decimal-comma locale, a host's cue of 0.25 arrives as 0.25", has(*cued, "[0.25]"), saidText(*cued));
+            } else {
+                check("a runtime starts under a decimal-comma locale", false, why);
+            }
+            std::setlocale(LC_ALL, "C");
+        }
     }
 
     // Every check below uses stepped runtimes: the check moves their time itself, so nothing waits on a clock and

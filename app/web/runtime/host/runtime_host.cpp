@@ -13,6 +13,7 @@
 
 #include "runtime_host.h"
 
+#include <charconv>
 #include <algorithm>
 #include <chrono>
 #include <cstdlib>
@@ -117,9 +118,12 @@ std::string cueValues(const std::vector<osc::Value>& args)
         case osc::Value::Float:
         case osc::Value::Double:
         {
+            // std::to_chars, not snprintf: it never uses the locale, so a German host's process still writes 0.25
+            // here, which adapter.rb's to_f reads (it would read "0,25" as 0)
             char buf[64];
-            snprintf(buf, sizeof buf, "f%.17g", v.d);
-            out += buf;
+            const auto written = std::to_chars(buf, buf + sizeof buf, v.d, std::chars_format::general, 17);
+            out += 'f';
+            out.append(buf, written.ptr);
             break;
         }
         case osc::Value::True:

@@ -28,12 +28,13 @@ static mrb_value float_to_s(mrb_state *mrb, mrb_value self) {
     snprintf(buf, sizeof buf, "%.*e", p - 1, f);
     if (strtod(buf, NULL) == f) break;
   }
-  // buf is d.ddd…e±xx (or d e±xx); take the digits and the exponent
+  // buf is d.ddd…e±xx (or d e±xx); take the digits and the exponent. The separator between the digits is the
+  // locale's (a comma in a German host's process), so take every digit and skip whatever separator it wrote.
   char digits[32];
   int nd = 0, exp = 0;
   const char *s = buf;
   if (*s == '-') s++;
-  for (; *s && *s != 'e'; s++) if (*s != '.') digits[nd++] = *s;
+  for (; *s && *s != 'e'; s++) if (*s >= '0' && *s <= '9') digits[nd++] = *s;
   digits[nd] = 0;
   if (*s == 'e') exp = atoi(s + 1);
   while (nd > 1 && digits[nd - 1] == '0') digits[--nd] = 0;
