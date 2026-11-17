@@ -97,3 +97,27 @@ jobs:
       - name: Offline tests
         working-directory: app/plugin
         run: cargo test --release --test offline
+
+      # pluginval (Tracktion's plugin checker) loads the bundle as a DAW would: at 44.1, 48 and 96 kHz with block
+      # sizes from 64 to 1024, opening and closing its window, saving and restoring its state, and calling it from
+      # other threads. It checks for crashes, hangs and wrong answers, not timing, so a slow runner does not change
+      # the result. The version and the zip's SHA-256 are fixed, so a new pluginval release cannot change this job.
+      # It exits non-zero when it finds no plugin at the path.
+      - name: pluginval
+        working-directory: app/plugin
+        env:
+          PLUGINVAL_VERSION: v1.0.4
+          PLUGINVAL_SHA256: 3c4c533bda0c5059eea3ddaea752d757ee2025041f0f47e6bcb0e87f6082b29f
+        run: |
+          curl -fsSL -o "$RUNNER_TEMP/pluginval.zip" \
+            "https://github.com/Tracktion/pluginval/releases/download/$PLUGINVAL_VERSION/pluginval_macOS.zip"
+          echo "$PLUGINVAL_SHA256  $RUNNER_TEMP/pluginval.zip" | shasum -a 256 -c -
+          unzip -q "$RUNNER_TEMP/pluginval.zip" -d "$RUNNER_TEMP/pluginval"
+          "$RUNNER_TEMP/pluginval/pluginval.app/Contents/MacOS/pluginval" \
+            --strictness-level 10 --random-seed 1 --verbose --validate "dist/Sonic Pi.vst3"
+      - name: The plugin's own logs, on a failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: plugin-logs
+          path: ~/Library/Logs/Sonic Pi/
