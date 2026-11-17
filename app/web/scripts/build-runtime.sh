@@ -8,6 +8,8 @@
 #   scripts/build-runtime.sh            # everything
 #   scripts/build-runtime.sh --wasm     # relink the wasm
 #   scripts/build-runtime.sh --native   # relink sp-trace, building only the host mruby if it is missing
+#   scripts/build-runtime.sh --bytecode # the host mruby if it is missing, and the runtime's bytecode: what a native
+#                                       # host links (app/plugin), with no Emscripten and no sp-trace
 #
 # Needs rake, a C compiler and Emscripten (emcc on PATH). --native wants no
 # Emscripten: it links the runtime against the host's mruby, so the specs can
@@ -26,7 +28,7 @@ mkdir -p "$OUT"
 [ -f "$MR/Rakefile" ] || { echo "no mruby: git submodule update --init --depth 1 runtime/mruby" >&2; exit 1; }
 
 MODE="${1:-}"
-case "$MODE" in ""|--wasm|--native) ;; *) echo "usage: $(basename "$0") [--wasm|--native]" >&2; exit 1;; esac
+case "$MODE" in ""|--wasm|--native|--bytecode) ;; *) echo "usage: $(basename "$0") [--wasm|--native|--bytecode]" >&2; exit 1;; esac
 
 # mruby itself, from the pin with our patches over it (runtime/mruby-patches), in a copy the build owns: the
 # submodule stays as upstream has it, and nothing that updates submodules can take a patch back out. The whole build
@@ -41,7 +43,7 @@ built() { [ "$(cat "$MRUBY_BUILD_DIR/$1/built-from" 2>/dev/null)" = "$FROM" ]; }
 NEED_MRUBY=""
 if [ -z "$MODE" ]; then
   NEED_MRUBY="host + emscripten"
-elif [ "$MODE" = "--native" ] && { ! built host || [ ! -x "$HOST_MRBC" ]; }; then
+elif { [ "$MODE" = "--native" ] || [ "$MODE" = "--bytecode" ]; } && { ! built host || [ ! -x "$HOST_MRBC" ]; }; then
   NEED_MRUBY="host"
 elif [ "$MODE" = "--wasm" ] && { ! built host || ! built emscripten || [ ! -x "$HOST_MRBC" ] || [ ! -x "$EM_CONFIG" ]; }; then
   NEED_MRUBY="host + emscripten"
@@ -69,7 +71,8 @@ if [ -n "$NEED_MRUBY" ]; then
 fi
 # Another build of mruby beside the usual one (SP_MRUBY_BUILD_DIR, with SP_MRUBY_ARCHS: the other architecture of a
 # universal plugin) is only that: the runtime and sp-trace in build/runtime stay the usual build's.
-if [ -n "${SP_MRUBY_BUILD_DIR:-}" ]; then exit 0; fi
+# --bytecode goes on, for the bytecode from that mruby (a Windows plugin's, built with MSVC for each architecture).
+if [ -n "${SP_MRUBY_BUILD_DIR:-}" ] && [ "$MODE" != "--bytecode" ]; then exit 0; fi
 
 # The runtime's Ruby, in load order, as one bytecode blob.
 LIB="$ROOT/runtime/lib/sonic_pi"
@@ -82,7 +85,7 @@ cat "$LIB/errors.rb" "$LIB/defaults.rb" "$SERVER_LIB/validation.rb" "$LIB/float_
 cat "$OUT/runtime.rb" "$LIB/native.rb" > "$OUT/runtime_native.rb"
 "$MRUBY_BUILD_DIR/host/bin/mrbc" -B sp_runtime_irep -o "$OUT/runtime_native_irep.c" "$OUT/runtime_native.rb"
 
-if [ "$MODE" != "--native" ]; then
+if [ -z "$MODE" ] || [ "$MODE" = "--wasm" ]; then
   CONFIG="$MRUBY_BUILD_DIR/emscripten/host-bin/mruby-config"
   emcc $("$CONFIG" --cflags) $("$CONFIG" --ldflags) \
     "$ROOT/runtime/host/sp_host.c" "$OUT/runtime_irep.c" $("$CONFIG" --libs) \
@@ -108,7 +111,7 @@ fi
 # against the host's mruby. SP_ASSET_ROOT is where it looks for the random
 # tables and the built-in sounds when it is not told; this checkout, since
 # that is what the specs are run from.
-if [ "$MODE" != "--wasm" ]; then
+if [ -z "$MODE" ] || [ "$MODE" = "--native" ]; then
   # mruby's flags, read from the file its mruby-config is made from: a shell script elsewhere, but a .bat on Windows,
   # which bash cannot run, so the file itself (its $(MRUBY_PACKAGE_DIR) the host build, its quotes dropped: the
   # words go to the compiler as they are)
