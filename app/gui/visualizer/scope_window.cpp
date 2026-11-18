@@ -690,8 +690,9 @@ void ScopeWindow::DrawWave(const ProcessedAudio& audio, QPainter& painter, Scope
             lo = std::min(lo, pSamples[i]);
             hi = std::max(hi, pSamples[i]);
         }
-        panel.waveLines[x] = QLine(left + x, int(lo * yScale + y),
-                                   left + x, int(hi * yScale + y) + 1);
+        // Positive up, as the web's scope draws it (scope.js) and an oscilloscope does.
+        panel.waveLines[x] = QLine(left + x, int(y - hi * yScale),
+                                   left + x, int(y - lo * yScale) + 1);
     }
     painter.setPen(panel.pen);
     painter.drawLines(&panel.waveLines[0], width);
