@@ -857,10 +857,20 @@ int main (int argc, char** argv)
     Plugin a;
     check ("the plugin starts when the host sets up processing", start (a));
     check ("it is silent before anything runs", peakOver (a, 0.5) < 1e-6);
-    check ("it tells the host of the audio it has, and of no MIDI: it has none yet",
-           a.component->getBusCount (kAudio, kOutput) == 1 && a.component->getBusCount (kAudio, kInput) == 1
-           && a.component->getBusCount (kEvent, kInput) == 0 && a.component->getBusCount (kEvent, kOutput) == 0,
-           [NSString stringWithFormat:@"event in %d, out %d", a.component->getBusCount (kEvent, kInput), a.component->getBusCount (kEvent, kOutput)]);
+    check ("it tells the host of the audio it has",
+           a.component->getBusCount (kAudio, kOutput) == 1 && a.component->getBusCount (kAudio, kInput) == 1);
+    // Ableton Live 12 refuses an instrument with no MIDI input ("plugin has instrument category, but no valid event
+    // input bus"), so there is one, though nothing reads it yet.
+    BusInfo midiIn {};
+    const bool hasMidiIn = a.component->getBusCount (kEvent, kInput) == 1
+                        && a.component->getBusInfo (kEvent, kInput, 0, midiIn) == kResultOk;
+    check ("it has a MIDI input, which a host needs of an instrument, and no MIDI output",
+           hasMidiIn && midiIn.mediaType == kEvent && midiIn.direction == kInput && midiIn.busType == kMain
+           && midiIn.channelCount == 16 && (midiIn.flags & BusInfo::kDefaultActive)
+           && a.component->activateBus (kEvent, kInput, 0, true) == kResultOk
+           && a.component->getBusCount (kEvent, kOutput) == 0,
+           [NSString stringWithFormat:@"event in %d (%d channels), out %d", a.component->getBusCount (kEvent, kInput),
+                                      midiIn.channelCount, a.component->getBusCount (kEvent, kOutput)]);
     const bool ready = openEditor (a, 0);
     NSString* readyLine = lines (a.editor, @"\"t\":\"ready\"").lastObject;
     check ("the editor loads the page", ready && [readyLine containsString:@"Sonic Pi"], readyLine);

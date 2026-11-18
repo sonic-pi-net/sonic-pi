@@ -321,11 +321,12 @@ public:
     tresult PLUGIN_API getControllerClassId (TUID) override { return kNotImplemented; }
     tresult PLUGIN_API setIoMode (IoMode) override { return kResultOk; }
 
-    int32 PLUGIN_API getBusCount (MediaType type, BusDirection) override
+    int32 PLUGIN_API getBusCount (MediaType type, BusDirection dir) override
     {
-        // A stereo output, and a stereo input for live_audio. No event bus: the plugin takes and sends no MIDI yet,
-        // and tells its host of nothing it does not have.
-        return type == kAudio ? 1 : 0;
+        // A stereo output, and a stereo input for live_audio. A MIDI input too, which nothing reads yet: Ableton Live
+        // refuses an instrument without one ("plugin has instrument category, but no valid event input bus").
+        if (type == kAudio) return 1;
+        return (type == kEvent && dir == kInput) ? 1 : 0;
     }
 
     tresult PLUGIN_API getBusInfo (MediaType type, BusDirection dir, int32 index, BusInfo& bus) override
@@ -348,13 +349,18 @@ public:
             toStr128 ("In", bus.name);
             return kResultOk;
         }
+        if (type == kEvent && dir == kInput) {
+            bus.channelCount = 16;
+            toStr128 ("MIDI In", bus.name);
+            return kResultOk;
+        }
         return kInvalidArgument;
     }
 
     tresult PLUGIN_API getRoutingInfo (RoutingInfo&, RoutingInfo&) override { return kNotImplemented; }
-    tresult PLUGIN_API activateBus (MediaType, BusDirection, int32 index, TBool) override
+    tresult PLUGIN_API activateBus (MediaType type, BusDirection dir, int32 index, TBool) override
     {
-        return index == 0 ? kResultOk : kInvalidArgument;
+        return index < getBusCount (type, dir) && index >= 0 ? kResultOk : kInvalidArgument;
     }
     tresult PLUGIN_API setActive (TBool) override { return kResultOk; }
     // The state a host keeps in its project, the component's and the controller's alike (one object is both), every
