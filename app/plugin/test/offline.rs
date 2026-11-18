@@ -346,6 +346,33 @@ fn an_editor_that_opens_later_is_told_the_time_warp_the_instance_keeps() {
     assert_eq!(told, [-35.0]);
 }
 
+/// The page times what it shows (a log line, a cue, a live loop's scope) against a clock, and drops what is more
+/// than two seconds behind it. The instance's time is the audio rendered, which stops whenever the host renders
+/// nothing, so the page must keep the instance's time and not the wall clock: 0.1.1's page kept the wall clock, and
+/// after REAPER had been stopped a while it showed nothing at all. The instance says its time as it moves.
+#[test]
+fn the_instance_says_its_time_as_the_audio_moves_and_to_an_editor_that_opens() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    let heard = listening(&instance);
+    let times = |heard: &Heard| -> Vec<f64> {
+        heard.0.lock().unwrap().iter()
+            .filter(|(kind, _)| *kind == sonic_pi_plugin::instance::SAYS_CLOCK)
+            .map(|(_, bytes)| f64::from_le_bytes(bytes[..8].try_into().unwrap()))
+            .collect()
+    };
+    render(&instance, seconds(1.0));
+    let said = times(&heard);
+    assert!(said.len() >= 10, "told {} times over a second of audio", said.len());
+    assert!(said.windows(2).all(|w| w[1] - w[0] >= 0.05 && w[1] - w[0] < 0.11), "a twentieth of a second apart, or a little more: {said:?}");
+    let last = *said.last().unwrap();
+    instance.earlier();
+    let now = *times(&heard).last().unwrap();
+    deaf(&instance);
+    assert!(now >= last && now - last < 0.06, "an editor that opens is told the time as it stands: {now} after {last}");
+    assert!(now > ORIGIN && now < ORIGIN + 3600.0, "the instance's time, from its origin: {now}");
+}
+
 #[test]
 fn two_instances_side_by_side_each_render_only_their_own_code() {
     let (a, b) = (offline(), offline());

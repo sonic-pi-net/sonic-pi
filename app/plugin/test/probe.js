@@ -144,7 +144,7 @@
     const box = document.querySelector("#log");
     const pane = [...((box?.shadowRoot ?? box)?.querySelectorAll(".log-line") ?? [])].map((el) => el.textContent).join("\n");
     const now = JSON.stringify({
-      engine: has("SuperSonic", "[clock]"),
+      engine: has("SuperSonic", "DSP: SuperSonic"),   // the engine's first line, said as it starts
       runtime: has("Runtime", "load synthdef sonic-pi-beep"),
       marked: pane.split("kept in the log").length - 1,
     });

@@ -32,6 +32,7 @@ pub const SAYS_RUNTIME: u32 = 9;
 pub const SAYS_LOADS: u32 = 10;
 pub const SAYS_TEMPO: u32 = 11;
 pub const SAYS_WARP: u32 = 12;
+pub const SAYS_CLOCK: u32 = 13;
 /// The kinds whose messages start with their number, a little-endian u64 (instance.h).
 pub const NUMBERED: [u32; 5] = [SAYS_RECORD, SAYS_LOG, SAYS_ENGINE, SAYS_RUNTIME, SAYS_LOADS];
 

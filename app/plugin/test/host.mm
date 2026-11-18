@@ -231,6 +231,7 @@ struct Plugin {
     // the render thread's
     std::thread render;
     std::atomic<bool> quit { false };
+    std::atomic<bool> held { false };   // while set the host renders nothing, as a stopped REAPER that does not run FX
     std::mutex heardMutex;
     std::vector<float> heard;   // the left channel, every frame rendered
 };
@@ -259,9 +260,14 @@ static bool start (Plugin& p)
         data.numSamples = kBlock;
         data.numOutputs = 1;
         data.outputs = &out;
-        const auto begin = std::chrono::steady_clock::now ();
+        auto begin = std::chrono::steady_clock::now ();
         long long frames = 0;
         while (!p.quit.load ()) {
+            if (p.held.load ()) {
+                const auto from = std::chrono::steady_clock::now ();
+                while (p.held.load () && !p.quit.load ()) std::this_thread::sleep_for (std::chrono::milliseconds (5));
+                begin += std::chrono::steady_clock::now () - from;
+            }
             p.processor->process (data);
             {
                 std::lock_guard<std::mutex> lk (p.heardMutex);
@@ -899,6 +905,16 @@ int main (int argc, char** argv)
     check ("Run plays through the host's render", soundsWithin (a, from, 3));
     check ("Space in the editor is not the host's transport", (key (a, @" ", 49), gTransport == 0));
     check ("the log shows what a run plays", waitFor (a.editor, @"synth :beep", 3), lines (a.editor, @"\"t\":\"log\"").lastObject);
+    // A host that renders nothing for a while (REAPER, stopped, its FX not run): the instance's time stops with the
+    // audio, and the page keeps it. While the page kept the wall clock every record after such a stop was more than
+    // two seconds old to it, and it showed none: no log lines, no cues, no live loop scopes, no load_example.
+    a.held = true;
+    pump (3.0);
+    a.held = false;
+    pump (0.3);
+    typeAndRun (a, @"play 67");
+    check ("after its host has rendered nothing for a while, the log still shows what a run plays",
+           waitFor (a.editor, @"note: 67", 3), lines (a.editor, @"\"t\":\"log\"").lastObject);
     // the System log as the web's: the engine's lines under SuperSonic (its first, from before the editor opened), the
     // runtime's under Runtime
     check ("the System log has the engine's lines, from before the editor opened", waitFor (a.editor, @"\"engine\":true", 3),

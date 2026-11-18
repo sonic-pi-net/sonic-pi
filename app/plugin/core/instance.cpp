@@ -343,6 +343,16 @@ struct SpInstance final : AssetLoader
     bool isOffline = false;
     bool offline() const { return isOffline; }
     double now() const { return renderedTo.load(std::memory_order_relaxed); }
+    // The time the page was last told (SP_SAYS_CLOCK). The page keeps it going between tellings, so it is told again
+    // once the time has moved a twentieth of a second, and not at all while the host renders nothing.
+    std::atomic<double> clockSaid{ 0.0 };
+    void sayClock(bool whatever)
+    {
+        const double t = now();
+        if (!whatever && t - clockSaid.load(std::memory_order_relaxed) < 0.05) return;
+        clockSaid.store(t, std::memory_order_relaxed);
+        say(SP_SAYS_CLOCK, &t, sizeof t);
+    }
     double hostBpm = 0;                      // as it was last heard (the engine's thread)
     bool hostPlaying = false;
 
@@ -433,6 +443,7 @@ struct SpInstance final : AssetLoader
         // 120 moves nothing: no notice comes, and the runtime would stay at Sonic Pi's own 60. So until the runtime
         // has the host's timeline, look for it directly whenever replies are collected.
         engine.afterReplies([this] {
+            sayClock(false);
             if (transportGiven.load(std::memory_order_relaxed) && !hostSaid.load()) timelineMoved();
         });
         if (!engine.attach(cfg.sample_rate, cfg.max_frames ? cfg.max_frames : 4096, clockBase, isOffline,
@@ -911,6 +922,8 @@ void sp_instance_earlier(SpInstance* instance)
     // and the host's tempo as it stands, for an editor opened after the host said it
     ClockworkClientClock c{};
     if (instance->hostSaid.load() && instance->engine.clock(c)) instance->sayTempo(c.bpm, c.is_playing != 0);
+    // its time, which the page times what it shows by
+    instance->sayClock(true);
     // and its time warp: the instance kept it while it played on with no editor
     const double warp = instance->warpMs.load();
     instance->say(SP_SAYS_WARP, &warp, sizeof warp);

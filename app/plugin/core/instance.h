@@ -88,11 +88,13 @@ void sp_instance_group_under(SpInstance* instance, int group, int parent);
  *   SP_SAYS_RUNTIME # a line of the runtime's, for the Runtime tab (UTF-8)
  *   SP_SAYS_LOADS   # what the runtime asked to load or free: address, number and name, tab-separated (UTF-8)
  *   SP_SAYS_TEMPO   two doubles: the tempo the instance now keeps (its host's), and 1 while the host plays, else 0
+ *   SP_SAYS_CLOCK   one double: the instance's time (NTP seconds), as it moves and to an editor that asked. It is
+ *                   the audio rendered so far, not the wall clock: the page times what it shows by it
  *   SP_SAYS_WARP    one double: the global time warp in milliseconds as it stands, for an editor that asked
  *                   (sp_instance_earlier): the instance plays on without its editor, and keeps its warp
  * #: the message starts with its number, a little-endian u64, counting what this instance has said that way. */
 enum { SP_SAYS_RECORD = 1, SP_SAYS_LOG = 2, SP_SAYS_STATE = 3, SP_SAYS_RUN = 4, SP_SAYS_ERROR = 5, SP_SAYS_TABLE = 6,
-       SP_SAYS_EARLIER = 7, SP_SAYS_ENGINE = 8, SP_SAYS_RUNTIME = 9, SP_SAYS_LOADS = 10, SP_SAYS_TEMPO = 11, SP_SAYS_WARP = 12 };
+       SP_SAYS_EARLIER = 7, SP_SAYS_ENGINE = 8, SP_SAYS_RUNTIME = 9, SP_SAYS_LOADS = 10, SP_SAYS_TEMPO = 11, SP_SAYS_WARP = 12, SP_SAYS_CLOCK = 13 };
 typedef void (*SpInstanceListener)(void* ctx, uint32_t kind, const uint8_t* bytes, uint32_t size);
 
 /* One listener at a time; NULL stops it. Returns once no call to the last one is under way. */

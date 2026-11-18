@@ -885,8 +885,9 @@ export class WorkerSession {
 // ── In a plugin ───────────────────────────────────────────────────────────
 
 // What the plugin says (sonic-pi-plugin's instance.h, and its editor's hello)
-const PLUGIN_SAYS = { hello: 0, record: 1, log: 2, state: 3, run: 4, error: 5, table: 6, earlier: 7, engine: 8, runtime: 9, loads: 10, tempo: 11, warp: 12 };
+const PLUGIN_SAYS = { hello: 0, record: 1, log: 2, state: 3, run: 4, error: 5, table: 6, earlier: 7, engine: 8, runtime: 9, loads: 10, tempo: 11, warp: 12, clock: 13 };
 // the kinds whose messages start with their number in what the instance has said (a little-endian u64; instance.h)
+const CLOCK_RUNS_ON_SECS = 0.25;   // how long the page runs the plugin's time on without hearing it again
 const NUMBERED = new Set([PLUGIN_SAYS.record, PLUGIN_SAYS.log, PLUGIN_SAYS.engine, PLUGIN_SAYS.runtime, PLUGIN_SAYS.loads]);
 const numberOf = (b) => { const v = new DataView(b.buffer, b.byteOffset, 8); return v.getUint32(0, true) + v.getUint32(4, true) * 2 ** 32; };
 const utf8 = new TextDecoder();
@@ -935,6 +936,7 @@ export class PluginSession {
   #runs = [];          // what each run waits on: its job id, in the order the runs were asked for
   #firstLive = null;   // the number of the first numbered message heard as it was said: what came before it is earlier's
   #t0 = null;
+  #clock = null;       // the instance's time as last said, and performance.now() when it was heard
   perf = freshPerf();
   failures = 0;
   bridge = null;
@@ -974,6 +976,9 @@ export class PluginSession {
       const said = new Float64Array(bytes.slice().buffer);
       this.linkBpm = said[0];
       this.#on.tempo?.(said[0], said[1] === 1);
+    } else if (kind === PLUGIN_SAYS.clock) {
+      // the instance's time, and when this page heard it (clockNow)
+      this.#clock = { time: new Float64Array(bytes.slice().buffer)[0], heard: performance.now() };
     } else if (kind === PLUGIN_SAYS.warp) {
       // the global time warp the instance keeps, in ms: said to a page that has just opened
       this.#on.warp?.(new Float64Array(bytes.slice().buffer)[0]);
@@ -1047,7 +1052,15 @@ export class PluginSession {
   processTable() { return this.#table; }
   threadName(uid) { return this.#records.thread(uid); }
   nodeName(node) { return this.#records.node(node); }
-  clockNow() { return wallNtp(); }
+  /**
+   * The instance's time: the audio its host has rendered so far, which stops while the host renders nothing. The
+   * plugin says it every twentieth of a second of audio, and between tellings it runs on here, for no longer than
+   * the plugin would leave it unsaid. The wall clock only until the plugin has first said it.
+   */
+  clockNow() {
+    if (!this.#clock) return wallNtp();
+    return this.#clock.time + Math.min((performance.now() - this.#clock.heard) / 1000, CLOCK_RUNS_ON_SECS);
+  }
 
   /** In a plugin the host's tempo leads: what the page sets is not sent, and the host's comes as on.tempo. */
   setLinkBpm(bpm) { this.linkBpm = clampBpm(bpm); }
