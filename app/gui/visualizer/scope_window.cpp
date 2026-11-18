@@ -699,8 +699,10 @@ void ScopeWindow::DrawWave(const ProcessedAudio& audio, QPainter& painter, Scope
 
 void ScopeWindow::DrawLissajous(const ProcessedAudio& audio, QPainter& painter, ScopeWindowPanel& panel)
 {
-    float yScale = float(panel.rcGraph.height() / 2.0f);
-    float xScale = float(panel.rcGraph.width() / 2.0f);
+    // As the web's scope draws it (scope.js): the left channel across and the right channel up, both to one scale from
+    // the graph's shorter side, so a circle is round whatever the panel's shape (#3567), and each held to ±1, so a
+    // loud sound stays inside the graph.
+    const float scale = std::min(panel.rcGraph.width(), panel.rcGraph.height()) * 0.45f;
 
     QPoint center = panel.rcGraph.center();
 
@@ -713,8 +715,9 @@ void ScopeWindow::DrawLissajous(const ProcessedAudio& audio, QPainter& painter, 
     }
     int offset = int(m_audioFrameSamples) - samples;
     auto point = [&](int sample) {
-        return center + QPoint(audio.m_samples[0][offset + sample] * xScale,
-                               audio.m_samples[1][offset + sample] * yScale);
+        const float left = std::clamp(audio.m_samples[0][offset + sample], -1.0f, 1.0f);
+        const float right = std::clamp(audio.m_samples[1][offset + sample], -1.0f, 1.0f);
+        return center + QPoint(int(left * scale), int(-right * scale));
     };
 
     // One line per sample step, not one polyline. Qt strokes a polyline as a
