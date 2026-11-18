@@ -15,7 +15,6 @@
 
 #include <charconv>
 #include <algorithm>
-#include <chrono>
 #include <cstdlib>
 #include <cstring>
 #include <map>
@@ -94,11 +93,6 @@ RuntimeHost* runtimeOf(mrb_state* mrb)
 uint32_t le32(const uint8_t* p) { return uint32_t(p[0]) | (uint32_t(p[1]) << 8) | (uint32_t(p[2]) << 16) | (uint32_t(p[3]) << 24); }
 int32_t be32(const uint8_t* p) { return int32_t((uint32_t(p[0]) << 24) | (uint32_t(p[1]) << 16) | (uint32_t(p[2]) << 8) | uint32_t(p[3])); }
 
-double steadySeconds()
-{
-    using namespace std::chrono;
-    return duration_cast<duration<double>>(steady_clock::now().time_since_epoch()).count();
-}
 
 // A cue's values, each tagged with its kind for adapter.rb's host_values:
 // i an integer, f a float, b a boolean, s a string; a unit separator between.
@@ -351,7 +345,7 @@ void RuntimeHost::stop()
         std::lock_guard<std::mutex> lk(m_mutex);
         m_quit = true;
     }
-    m_cv.notify_all();
+    m_wake.release();
     if (m_thread.joinable()) m_thread.join();
 }
 
@@ -361,18 +355,24 @@ void RuntimeHost::post(std::function<void()> fn)
         std::lock_guard<std::mutex> lk(m_mutex);
         m_commands.push_back(std::move(fn));
     }
-    m_cv.notify_all();
+    m_wake.release();
 }
 
-void RuntimeHost::arm(double delaySeconds)
+// The next tick is for the engine time `at`: the thread sleeps until timeMoved says the clock is there.
+void RuntimeHost::arm(double at)
 {
-    const auto d = std::chrono::duration_cast<Clock::duration>(std::chrono::duration<double>(std::max(0.0, delaySeconds)));
-    m_deadline = Clock::now() + d;
+    m_wakeAt.store(at);
+    m_wakeSaid.store(false);
 }
 
 void RuntimeHost::disarm()
 {
-    m_deadline.reset();
+    m_wakeAt.store(NEVER);
+}
+
+void RuntimeHost::timeMoved(double now)
+{
+    if (now >= m_wakeAt.load(std::memory_order_relaxed) && !m_wakeSaid.exchange(true)) m_wake.release();
 }
 
 void RuntimeHost::threadMain(Paths paths, std::promise<std::string>* booted)
@@ -398,27 +398,23 @@ void RuntimeHost::threadMain(Paths paths, std::promise<std::string>* booted)
     for (;;)
     {
         std::deque<std::function<void()>> cmds;
-        bool due = false;
         {
-            std::unique_lock<std::mutex> lk(m_mutex);
-            while (!m_quit && m_commands.empty())
-            {
-                if (!m_deadline)
-                {
-                    m_cv.wait(lk);
-                }
-                else if (m_cv.wait_until(lk, *m_deadline) == std::cv_status::timeout)
-                {
-                    break;
-                }
-            }
+            std::lock_guard<std::mutex> lk(m_mutex);
             if (m_quit) return;
             cmds.swap(m_commands);
-            if (m_deadline && Clock::now() >= *m_deadline) { due = true; m_deadline.reset(); }
         }
         for (auto& c : cmds)
             c();
-        if (due) tick();
+        // The tick that is due, by the engine's clock. Looked at here as well as in timeMoved: the clock may have
+        // passed a wake time in the moment before it was armed.
+        if (!m_deps.stepped && m_deps.now && m_deps.now() >= m_wakeAt.load())
+        {
+            tick();
+            continue;
+        }
+        // Nothing to do until a command is posted or the clock reaches the wake time. A release with nothing behind
+        // it (a wake time this thread got to first) costs one more turn of this loop.
+        if (cmds.empty()) m_wake.acquire();
     }
 }
 
@@ -488,7 +484,6 @@ void RuntimeHost::stopAll(std::function<void()> done)
     post([this, done = std::move(done)] {
         disarm();
         m_expectedWake.reset();
-        m_lastNow.reset();
         sp_stop_all();
         // The sounds the queue held never go. Its structure does (the studio, a run's groups and mixer): the
         // runtime has them down as made, and the Stop's fade names them.
@@ -605,7 +600,7 @@ void RuntimeHost::hold(double seconds)
         if (seconds <= 0) return;
         sp_hold(seconds);
         m_heldTotal += seconds;
-        m_lastNow.reset();
+        m_expectedWake.reset();
         if (m_running) tick();
     });
 }
@@ -638,23 +633,18 @@ void RuntimeHost::tick()
         return;
     }
     disarm();
-    const double t0 = steadySeconds();
-    const double late = m_expectedWake ? t0 - *m_expectedWake : 0.0;
-    m_expectedWake.reset();
     const double now = this->now();
-    // time lost since the last tick — this thread held, or the engine's clock
-    // jumped — over a second of it moves the schedule on by that much, so the
-    // music carries on from where it was instead of racing through what it missed
-    const double jumped = m_lastNow ? (now - *m_lastNow) - (t0 - *m_lastWall) : 0.0;
-    const double lost = std::max(late, jumped);
+    // Time lost: the engine's clock is this far past the time this tick was for (this thread was held while the
+    // audio went on, or the clock jumped). Over a second of it moves the schedule on by that much, so the music
+    // carries on from where it was instead of racing through what it missed.
+    const double lost = m_expectedWake ? now - *m_expectedWake : 0.0;
+    m_expectedWake.reset();
     if (lost > HOLD_SECS)
     {
         sp_hold(lost);
         m_heldTotal += lost;
         if (m_deps.log) m_deps.log("runtime: held " + std::to_string(lost) + " s");
     }
-    m_lastNow = now;
-    m_lastWall = t0;
     const double next = sp_tick(now);
     drain();
     if (m_deps.ticked) m_deps.ticked();
@@ -662,13 +652,11 @@ void RuntimeHost::tick()
     if (next < 0)
     {
         m_running = false;
-        m_lastNow.reset();
         if (m_deps.state) m_deps.state(false);
         return;
     }
-    const double delay = std::max(0.0, next - now);
-    m_expectedWake = steadySeconds() + delay;
-    arm(delay);
+    m_expectedWake = std::max(next, now);
+    arm(next);
 }
 
 void RuntimeHost::drain()

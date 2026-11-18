@@ -82,9 +82,10 @@ public:
 
     ~Engine() { close(); }
 
-    // `timeOrigin`: 0 for a live engine, whose clock follows the wall clock; otherwise the engine's clock is
-    // timeOrigin + frames rendered / rate (Clockwork's time_origin_ntp).
-    bool attach(double rate, uint32_t maxFrames, double timeOrigin, Heard heard, std::string* why)
+    // The engine's clock is timeOrigin + frames rendered / rate (Clockwork's time_origin_ntp), live and offline: it
+    // reads no wall clock, so how early or how unevenly a host renders moves nothing. `offline`: nothing runs on a
+    // thread of its own, and the guest's random numbers are seeded, so every render is the same.
+    bool attach(double rate, uint32_t maxFrames, double timeOrigin, bool offline, Heard heard, std::string* why)
     {
         ClockworkProfile profile{};
         profile.struct_bytes = sizeof profile;
@@ -99,7 +100,7 @@ public:
         c.max_render_frames = maxFrames;
         c.profile = &profile;
         c.assets_bytes = ASSETS_BYTES;
-        const std::string options = std::string(GUEST_OPTIONS) + (timeOrigin != 0.0 ? OFFLINE_GUEST_OPTIONS : "");
+        const std::string options = std::string(GUEST_OPTIONS) + (offline ? OFFLINE_GUEST_OPTIONS : "");
         c.guest_config = options.c_str();
         c.time_origin_ntp = timeOrigin;
         ClockworkStatus status = CLOCKWORK_OK;
@@ -114,7 +115,7 @@ public:
                                                             clockwork_arena_header(core)->arena_bytes, &status);
         // Offline the front starts no threads: its file work and its replies are done in the render call
         // (service, collect), in one fixed order, so a load takes the same number of buffers on every run.
-        m_offline = timeOrigin != 0.0;
+        m_offline = offline;
         m_front = own ? supersonic_commands_open(own, m_offline ? 0 : 1) : nullptr;
         if (!m_front)
         {
@@ -328,16 +329,20 @@ struct SpInstance final : AssetLoader
     std::atomic<bool> alignBars{ true };     // the instance's bars follow its host's, and not its tempo alone
     std::atomic<bool> hostSaid{ false };     // a host has said its transport, and the runtime has taken it
     std::atomic<bool> transportGiven{ false };   // sp_instance_transport has been called (the audio thread sets it)
-    // Offline (SpInstanceConfig::time_origin_ntp): the time the audio rendered so far ends at, NTP seconds. 0 when
-    // live. Written by render, read by the runtime's thread only inside render's advanceTo and by stop.
-    std::atomic<double> offlineNow{ 0.0 };
-    // Offline time is offlineOrigin + offlineFrames / rate, as the engine's is, so the two agree to the bit for any
-    // sizes of buffer. Summing each buffer's seconds drifts by a different amount for each size.
-    double offlineOrigin = 0.0;
-    uint64_t offlineFrames = 0;   // render's alone
-    bool offline() const { return offlineNow.load(std::memory_order_relaxed) != 0.0; }
-    // The instance's current time: the wall clock when live, the rendered audio's end when offline.
-    double now() const { return offline() ? offlineNow.load(std::memory_order_relaxed) : ntpNow(); }
+    // The instance's time, NTP seconds: the time the audio rendered so far ends at. It starts at an origin (offline,
+    // SpInstanceConfig::time_origin_ntp; live, the wall clock as the instance starts) and moves only as the host
+    // renders, so a host that renders early, in bursts, or not at all for a while is all the same to it. Until
+    // 0.1.0 a live instance read the wall clock here, and in a host that rendered a third of a second early
+    // (REAPER, a track not armed) every sound reached the engine after its time. Written by render.
+    std::atomic<double> renderedTo{ 0.0 };
+    // It is clockBase + framesSinceBase / rate, as the engine's own clock is, so the two agree to the bit for any
+    // sizes of buffer: summing each buffer's seconds drifts by a different amount for each size. A new rate starts
+    // the count again from the time reached, as the engine's clock carries on from its value (reconfigure).
+    double clockBase = 0.0;
+    uint64_t framesSinceBase = 0;   // render's alone
+    bool isOffline = false;
+    bool offline() const { return isOffline; }
+    double now() const { return renderedTo.load(std::memory_order_relaxed); }
     double hostBpm = 0;                      // as it was last heard (the engine's thread)
     bool hostPlaying = false;
 
@@ -421,15 +426,16 @@ struct SpInstance final : AssetLoader
         synthdefDir = res + "/synthdefs";
         samplesDir = res + "/samples";
         buffersDir = res + "/buffers";
-        offlineOrigin = cfg.time_origin_ntp;
-        offlineNow.store(cfg.time_origin_ntp, std::memory_order_relaxed);
+        isOffline = cfg.time_origin_ntp != 0.0;
+        clockBase = isOffline ? cfg.time_origin_ntp : ntpNow();
+        renderedTo.store(clockBase, std::memory_order_relaxed);
         // The engine sends a notice when its timeline moves, and a host whose first tempo is the timeline's starting
         // 120 moves nothing: no notice comes, and the runtime would stay at Sonic Pi's own 60. So until the runtime
         // has the host's timeline, look for it directly whenever replies are collected.
         engine.afterReplies([this] {
             if (transportGiven.load(std::memory_order_relaxed) && !hostSaid.load()) timelineMoved();
         });
-        if (!engine.attach(cfg.sample_rate, cfg.max_frames ? cfg.max_frames : 4096, cfg.time_origin_ntp,
+        if (!engine.attach(cfg.sample_rate, cfg.max_frames ? cfg.max_frames : 4096, clockBase, isOffline,
                            [this](const uint8_t* d, uint32_t n) { heard(d, n); }, why))
             return false;
 
@@ -786,7 +792,13 @@ int sp_instance_reconfigure(SpInstance* instance, double rate, uint32_t maxFrame
         ++instance->rebuilds;
     }
     if (!instance->engine.reconfigure(rate, maxFrames)) return 1;
-    if (instance->engine.rate() != before) instance->runtime.engineLost();
+    if (instance->engine.rate() != before)
+    {
+        // the clock carries on from the time reached, counted in the new rate's frames
+        instance->clockBase = instance->now();
+        instance->framesSinceBase = 0;
+        instance->runtime.engineLost();
+    }
     return 0;
 }
 
@@ -802,18 +814,26 @@ uint32_t sp_instance_loading(SpInstance* instance)
 uint32_t sp_instance_render(SpInstance* instance, float* const* out, uint32_t outChannels,
                             const float* const* in, uint32_t inChannels, uint32_t frames)
 {
-    if (!instance->offline()) return instance->engine.render(out, outChannels, in, inChannels, frames);
+    instance->framesSinceBase += frames;
+    const double end = instance->clockBase + static_cast<double>(instance->framesSinceBase) / instance->engine.rate();
+    if (!instance->offline())
+    {
+        // Live: the time is this buffer's end once it is rendered, and the runtime's thread is woken if the code
+        // it next has to run is due by then.
+        const uint32_t done = instance->engine.render(out, outChannels, in, inChannels, frames);
+        instance->renderedTo.store(end, std::memory_order_relaxed);
+        instance->runtime.timeMoved(end);
+        return done;
+    }
     // Offline: run the Sonic Pi code due up to the end of this buffer first, so every sound in the buffer is in the
     // engine, with its exact time, before the buffer is rendered. This blocks while the code runs.
-    instance->offlineFrames += frames;
-    const double end = instance->offlineOrigin + static_cast<double>(instance->offlineFrames) / instance->engine.rate();
     instance->runtime.advanceTo(end);
     // Then the file work that code asked for, the buffer, and the engine's replies to it, in that order every time.
     // A sound waiting on a load is sent by the next render's advanceTo, once the reply saying it is in has been heard.
     instance->engine.service();
     const uint32_t done = instance->engine.render(out, outChannels, in, inChannels, frames);
     instance->engine.collectOffline();
-    instance->offlineNow.store(end, std::memory_order_relaxed);
+    instance->renderedTo.store(end, std::memory_order_relaxed);
     return done;
 }
 

@@ -31,7 +31,6 @@
 #pragma once
 
 #include <atomic>
-#include <condition_variable>
 #include <cstdint>
 #include <deque>
 #include <functional>
@@ -39,6 +38,7 @@
 #include <map>
 #include <mutex>
 #include <optional>
+#include <semaphore>
 #include <string>
 #include <thread>
 #include <vector>
@@ -91,7 +91,9 @@ class RuntimeHost
 public:
     struct Deps
     {
-        std::function<double()> now;                                     // the engine's clock, NTP seconds
+        // The engine's clock, NTP seconds. The runtime thread reads no other: it sleeps until timeMoved says the
+        // clock has reached its next wake time.
+        std::function<double()> now;
         // Stepped mode. The runtime thread never waits on a clock: time moves only when the caller calls advanceTo,
         // and `now` is read once, at start, for the starting time. For offline rendering and tests, where the result
         // must not depend on how fast the machine runs.
@@ -167,6 +169,10 @@ public:
     // time, and return once it has all run and its sounds have been sent. Later calls must not go back in time.
     void advanceTo(double time);
 
+    // Live (not stepped): the engine's clock has reached `now`. Any thread, the audio thread's included: it takes no
+    // lock and allocates nothing, and wakes the runtime's thread only when its next wake time has come.
+    void timeMoved(double now);
+
     std::vector<double> processTable();
     // The runs with something of theirs live (web/runtime.js liveRuns).
     static std::vector<int> liveRuns(const std::vector<double>& table);
@@ -194,7 +200,6 @@ private:
         bool failed = false;
         bool structure = false;   // never dropped by a Stop (Native.structure)
     };
-    using Clock = std::chrono::steady_clock;
 
     bool boot(const Paths& paths, std::string* err);
     void threadMain(Paths paths, std::promise<std::string>* booted);
@@ -210,7 +215,7 @@ private:
     void handleHost(const osc::Message& m);
     void preload(const std::string& code);
     void installNativeHooks();
-    void arm(double delaySeconds);
+    void arm(double at);
     void disarm();
 
 public:
@@ -228,18 +233,20 @@ private:
 
     std::thread m_thread;
     std::mutex m_mutex;
-    std::condition_variable m_cv;
+    std::counting_semaphore<> m_wake{ 0 };            // a command was posted, or the clock reached m_wakeAt
     std::deque<std::function<void()>> m_commands;
     bool m_quit = false;
-    std::optional<Clock::time_point> m_deadline;      // the next tick
+    // live: the engine time of the next tick (arm), or NEVER; and whether timeMoved has woken the thread for it
+    static constexpr double NEVER = 1e300;
+    std::atomic<double> m_wakeAt{ NEVER };
+    std::atomic<bool> m_wakeSaid{ false };
 
     // live-core.js's state, on the runtime's thread
     bool m_running = false;
     std::optional<double> m_t0;
-    std::optional<double> m_expectedWake;             // seconds on the steady clock
+    std::optional<double> m_expectedWake;             // live: the engine time the next tick is for
     double m_steppedNow = 0.0;                        // stepped mode: the time advanced to
     std::optional<double> m_nextWake;                 // stepped mode: when the runtime next wants a tick; none: now
-    std::optional<double> m_lastNow, m_lastWall;
     int m_stops = 0;
     std::deque<Sound> m_queue;
     std::vector<std::string> m_synthdefs;             // the runtime's numbering

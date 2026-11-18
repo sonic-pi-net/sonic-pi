@@ -23,6 +23,8 @@ struct Host {
     /// Buffers this thread started more than 50 ms after they were due: the machine held it up, and the engine's
     /// clock, which follows the wall clock, stepped on past the audio.
     stalls: Arc<AtomicU32>,
+    /// While set the host renders nothing, and afterwards carries on from the frame it had reached.
+    paused: Arc<AtomicBool>,
     quit: Arc<AtomicBool>,
     thread: Option<thread::JoinHandle<()>>,
 }
@@ -62,28 +64,42 @@ impl Daw {
 
 impl Host {
     fn start(instance: Arc<Instance>) -> Host {
-        Host::start_with(instance, None, None)
+        Host::start_with(instance, None, None, 0.0)
     }
 
     /// The same, in a host with a transport, said before each buffer.
     fn start_in(instance: Arc<Instance>, daw: Option<Arc<Mutex<Daw>>>) -> Host {
-        Host::start_with(instance, daw, None)
+        Host::start_with(instance, daw, None, 0.0)
+    }
+
+    /// The same, in a host that renders each buffer `ahead` seconds before it is due, as REAPER renders a track
+    /// that is not armed (its anticipative FX): the audio is made early and played on time.
+    fn start_ahead(instance: Arc<Instance>, daw: Option<Arc<Mutex<Daw>>>, ahead: f64) -> Host {
+        Host::start_with(instance, daw, None, ahead)
     }
 
     /// The same, and with `input`: the pitch of a sine at half scale the host hands the instance on its left input,
     /// its right input silent.
-    fn start_with(instance: Arc<Instance>, daw: Option<Arc<Mutex<Daw>>>, input: Option<f64>) -> Host {
+    fn start_with(instance: Arc<Instance>, daw: Option<Arc<Mutex<Daw>>>, input: Option<f64>, ahead: f64) -> Host {
         let rendered = Arc::new(Mutex::new(Vec::new()));
         let right_kept = Arc::new(Mutex::new(Vec::new()));
         let kept = right_kept.clone();
         let quit = Arc::new(AtomicBool::new(false));
         let stalls = Arc::new(AtomicU32::new(0));
-        let (r, q, held) = (rendered.clone(), quit.clone(), stalls.clone());
+        let paused = Arc::new(AtomicBool::new(false));
+        let (r, q, held, wait) = (rendered.clone(), quit.clone(), stalls.clone(), paused.clone());
         let thread = thread::spawn(move || {
             let (mut left, mut right) = (vec![0.0f32; BLOCK], vec![0.0f32; BLOCK]);
-            let start = Instant::now();
+            let mut start = Instant::now();
             let mut frames = 0u64;
             while !q.load(Ordering::Relaxed) {
+                if wait.load(Ordering::Relaxed) {
+                    let began = Instant::now();
+                    while wait.load(Ordering::Relaxed) && !q.load(Ordering::Relaxed) {
+                        thread::sleep(Duration::from_millis(2));
+                    }
+                    start += began.elapsed();
+                }
                 if start.elapsed().as_secs_f64() - frames as f64 / RATE > 0.05 {
                     held.fetch_add(1, Ordering::Relaxed);
                 }
@@ -103,13 +119,13 @@ impl Host {
                 r.lock().unwrap().extend_from_slice(&left);
                 kept.lock().unwrap().extend_from_slice(&right);
                 frames += BLOCK as u64;
-                let due = Duration::from_secs_f64(frames as f64 / RATE);
+                let due = Duration::from_secs_f64((frames as f64 / RATE - ahead).max(0.0));
                 if let Some(wait) = due.checked_sub(start.elapsed()) {
                     thread::sleep(wait);
                 }
             }
         });
-        Host { rendered, right: right_kept, quit, stalls, thread: Some(thread) }
+        Host { rendered, right: right_kept, quit, stalls, paused, thread: Some(thread) }
     }
 
     /// The frames rendered from `from` on.
@@ -191,6 +207,54 @@ fn loop_in_a_playing_host() -> Option<()> {
     Some(())
 }
 
+/// REAPER rendered a track that was not armed about a third of a second before it was heard. The instance kept time
+/// from the wall clock, so each sound reached the engine after the audio for its time was already made, and
+/// played late by the difference: 35 to 80 ms behind the host's beat, the engine logging LATE for each (18 November
+/// 2026). The instance's time is the audio the host has rendered, so how early a host renders moves nothing.
+#[test]
+fn a_host_that_renders_far_ahead_of_the_clock_hears_a_loop_on_its_beats() {
+    let instance = Arc::new(Instance::new(RATE, BLOCK as u32, &resources()).expect("an instance"));
+    let heard = Box::new(Heard(Mutex::new(Vec::new())));
+    // SAFETY: the box outlives the listening, which ends below
+    unsafe { instance.listen(Some(keep), (&*heard as *const Heard).cast_mut().cast()) };
+    let daw = Daw::playing_at(120.0);
+    let host = Host::start_ahead(instance.clone(), Some(daw.clone()), 0.4);
+    listen(&host, 2.0);
+    instance.run("link\nlive_loop :t do\n  synth :beep, note: 84, attack: 0, sustain: 0, release: 0.05, amp: 0.8\n  sleep 1\nend\n");
+    let from = host.len();
+    let sounds = listen(&host, 8.0);
+    let off: Vec<f64> = onsets(&sounds)
+        .iter()
+        .map(|s| {
+            let beat = daw.lock().unwrap().beat_at((from + s) as u64);
+            (beat - beat.round()) * 500.0
+        })
+        .collect();
+    let late = logged(&heard, "LATE");
+    unsafe { instance.listen(None, std::ptr::null_mut()) };
+    assert!(off.len() >= 12, "the loop sounded {} times in eight seconds", off.len());
+    assert!(off.iter().all(|ms| ms.abs() < 6.0), "ms from the host's beat, each sound: {off:.1?}");
+    assert!(late.is_none(), "the engine took a sound late: {late:?}");
+}
+
+/// A host that stops rendering (REAPER, stopped, with its FX not run) and starts again: the loop carries on from
+/// where it was, its sounds as far apart in the audio as they were.
+#[test]
+fn a_loop_carries_on_from_where_it_was_when_its_host_stops_rendering_for_a_while() {
+    let instance = Arc::new(Instance::new(RATE, BLOCK as u32, &resources()).expect("an instance"));
+    let host = Host::start(instance.clone());
+    listen(&host, 1.0);
+    instance.run("live_loop :t do\n  synth :beep, note: 84, attack: 0, sustain: 0, release: 0.05, amp: 0.8\n  sleep 0.5\nend\n");
+    let from = host.len();
+    listen(&host, 1.6);
+    host.paused.store(true, Ordering::Relaxed);
+    thread::sleep(Duration::from_millis(700));
+    host.paused.store(false, Ordering::Relaxed);
+    listen(&host, 2.5);
+    let apart: Vec<f64> = onsets(&host.since(from)).windows(2).map(|w| (w[1] - w[0]) as f64 / RATE).collect();
+    assert!(apart.len() >= 6 && apart.iter().all(|g| (g - 0.5).abs() < 0.003), "half a second of audio apart, each: {apart:.3?}");
+}
+
 #[test]
 fn a_loop_keeps_its_hosts_tempo_and_link_waits_for_its_bar() {
     let heard = (0..4).find_map(|_| loop_in_a_playing_host());
@@ -231,7 +295,7 @@ fn a_stopped_host_at_the_timelines_starting_tempo_is_followed() {
 #[test]
 fn the_hosts_input_sounds_through_live_audio() {
     let instance = Arc::new(Instance::new(RATE, BLOCK as u32, &resources()).expect("an instance"));
-    let host = Host::start_with(instance.clone(), None, Some(330.0));
+    let host = Host::start_with(instance.clone(), None, Some(330.0), 0.0);
     let quiet = listen(&host, 0.5);
     assert!(peak(&quiet) < 1e-6, "the host's input is not heard until a program asks for it, peak {}", peak(&quiet));
 
