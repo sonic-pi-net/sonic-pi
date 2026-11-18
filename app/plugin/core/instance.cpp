@@ -324,6 +324,7 @@ struct SpInstance final : AssetLoader
     std::map<int, uint32_t> bufferAskedAt;
 
     std::vector<double> lastTable;           // the process table the page last heard (the runtime's thread)
+    std::atomic<double> warpMs{ 0.0 };       // the global time warp, as last set (sp_instance_time_warp)
     std::atomic<bool> alignBars{ true };     // the instance's bars follow its host's, and not its tempo alone
     std::atomic<bool> hostSaid{ false };     // a host has said its transport, and the runtime has taken it
     std::atomic<bool> transportGiven{ false };   // sp_instance_transport has been called (the audio thread sets it)
@@ -842,6 +843,13 @@ void sp_instance_run(SpInstance* instance, const char* code, int group)
     });
 }
 
+void sp_instance_time_warp(SpInstance* instance, double ms)
+{
+    if (!instance || !std::isfinite(ms)) return;
+    instance->warpMs.store(ms);
+    instance->runtime.setTimeWarp(ms);
+}
+
 void sp_instance_stop(SpInstance* instance)
 {
     // As the desktop's Stop: the runtime stops, the engine's schedule is emptied of what was still to sound, then
@@ -883,6 +891,9 @@ void sp_instance_earlier(SpInstance* instance)
     // and the host's tempo as it stands, for an editor opened after the host said it
     ClockworkClientClock c{};
     if (instance->hostSaid.load() && instance->engine.clock(c)) instance->sayTempo(c.bpm, c.is_playing != 0);
+    // and its time warp: the instance kept it while it played on with no editor
+    const double warp = instance->warpMs.load();
+    instance->say(SP_SAYS_WARP, &warp, sizeof warp);
 }
 
 unsigned sp_instance_number(const SpInstance* instance)

@@ -291,6 +291,61 @@ fn a_loop_follows_a_playing_hosts_tempo_and_link_starts_it_on_a_bar() {
     assert!(slower.len() >= 5 && on_the_beat(&slower, 32_000), "at 90: {:?}", gaps(&slower));
 }
 
+/// The page's Global Time Warp reached nothing in the plugin: its session's setTimeWarp was empty, so the control
+/// moved its number and no sound (0.1.0). The warp is the runtime's, as on the web and the desktop: every sound
+/// that much later, or earlier.
+#[test]
+fn the_global_time_warp_moves_every_sound_by_its_milliseconds() {
+    let first_sound = |warp: Option<f64>| {
+        let instance = offline();
+        render_until_loaded(&instance);
+        if let Some(ms) = warp {
+            instance.time_warp(ms);
+        }
+        render(&instance, seconds(0.5));
+        instance.run(&format!("{BEEP}\n"));
+        onsets(&render(&instance, seconds(1.5)))[0] as i64
+    };
+    // 100 ms is 4,800 frames, to within the engine block (64 frames) a sound starts in
+    let plain = first_sound(None);
+    let later = first_sound(Some(100.0)) - plain;
+    let earlier = first_sound(Some(-100.0)) - plain;
+    assert!((later - 4_800).abs() <= 64, "a warp of 100 ms moved the sound {later} frames");
+    assert!((earlier + 4_800).abs() <= 64, "a warp of -100 ms moved the sound {earlier} frames");
+    assert_eq!(first_sound(Some(0.0)), plain);
+}
+
+#[test]
+fn a_time_warp_set_while_a_run_plays_moves_the_sounds_still_to_come() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.run(&format!("{BEEP}\nsleep 1\n{BEEP}\nsleep 1\n{BEEP}\n"));
+    let mut heard = render(&instance, seconds(0.5));
+    instance.time_warp(100.0);
+    heard.extend(render(&instance, seconds(1.0)));
+    instance.time_warp(0.0);
+    heard.extend(render(&instance, seconds(1.5)));
+    let apart = gaps(&onsets(&heard));
+    let within_a_block = |frames: usize, of: usize| (frames as i64 - of as i64).abs() <= 64;
+    assert!(apart.len() == 2 && within_a_block(apart[0], 48_000 + 4_800) && within_a_block(apart[1], 48_000 - 4_800),
+            "the second sound 100 ms late, the third back in its place: {apart:?}");
+}
+
+#[test]
+fn an_editor_that_opens_later_is_told_the_time_warp_the_instance_keeps() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.time_warp(-35.0);
+    let heard = listening(&instance);
+    instance.earlier();
+    let told: Vec<f64> = heard.0.lock().unwrap().iter()
+        .filter(|(kind, _)| *kind == sonic_pi_plugin::instance::SAYS_WARP)
+        .map(|(_, bytes)| f64::from_le_bytes(bytes[..8].try_into().unwrap()))
+        .collect();
+    deaf(&instance);
+    assert_eq!(told, [-35.0]);
+}
+
 #[test]
 fn two_instances_side_by_side_each_render_only_their_own_code() {
     let (a, b) = (offline(), offline());

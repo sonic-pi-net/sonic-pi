@@ -885,7 +885,7 @@ export class WorkerSession {
 // ── In a plugin ───────────────────────────────────────────────────────────
 
 // What the plugin says (sonic-pi-plugin's instance.h, and its editor's hello)
-const PLUGIN_SAYS = { hello: 0, record: 1, log: 2, state: 3, run: 4, error: 5, table: 6, earlier: 7, engine: 8, runtime: 9, loads: 10, tempo: 11 };
+const PLUGIN_SAYS = { hello: 0, record: 1, log: 2, state: 3, run: 4, error: 5, table: 6, earlier: 7, engine: 8, runtime: 9, loads: 10, tempo: 11, warp: 12 };
 // the kinds whose messages start with their number in what the instance has said (a little-endian u64; instance.h)
 const NUMBERED = new Set([PLUGIN_SAYS.record, PLUGIN_SAYS.log, PLUGIN_SAYS.engine, PLUGIN_SAYS.runtime, PLUGIN_SAYS.loads]);
 const numberOf = (b) => { const v = new DataView(b.buffer, b.byteOffset, 8); return v.getUint32(0, true) + v.getUint32(4, true) * 2 ** 32; };
@@ -943,7 +943,8 @@ export class PluginSession {
 
   /**
    * As LiveSession's, plus note(text, tab): a line from the plugin for the System log's tab (Host, SuperSonic,
-   * Runtime), and earlier(r): a record from before this page, its line for the Log pane or its cue.
+   * Runtime), earlier(r): a record from before this page, its line for the Log pane or its cue, and warp(ms): the
+   * global time warp the plugin kept while it had no page.
    */
   constructor(on = {}) {
     this.#on = on;
@@ -973,6 +974,9 @@ export class PluginSession {
       const said = new Float64Array(bytes.slice().buffer);
       this.linkBpm = said[0];
       this.#on.tempo?.(said[0], said[1] === 1);
+    } else if (kind === PLUGIN_SAYS.warp) {
+      // the global time warp the instance keeps, in ms: said to a page that has just opened
+      this.#on.warp?.(new Float64Array(bytes.slice().buffer)[0]);
     }
   }
 
@@ -1048,7 +1052,8 @@ export class PluginSession {
   /** In a plugin the host's tempo leads: what the page sets is not sent, and the host's comes as on.tempo. */
   setLinkBpm(bpm) { this.linkBpm = clampBpm(bpm); }
   followLinkBpm(bpm) { this.linkBpm = bpm; }
-  setTimeWarp() {}
+  /** The global time warp, in ms: the plugin's runtime takes it, as the web's worker does. */
+  setTimeWarp(ms) { this.#plugin.post({ t: "timeWarp", ms }); }
   hold() {}
 
   /** Seconds since the session's first run, for a record's time. */

@@ -31,6 +31,7 @@ pub const SAYS_ENGINE: u32 = 8;
 pub const SAYS_RUNTIME: u32 = 9;
 pub const SAYS_LOADS: u32 = 10;
 pub const SAYS_TEMPO: u32 = 11;
+pub const SAYS_WARP: u32 = 12;
 /// The kinds whose messages start with their number, a little-endian u64 (instance.h).
 pub const NUMBERED: [u32; 5] = [SAYS_RECORD, SAYS_LOG, SAYS_ENGINE, SAYS_RUNTIME, SAYS_LOADS];
 
@@ -66,6 +67,7 @@ unsafe extern "C" {
     ) -> u32;
     fn sp_instance_transport(instance: *mut RawInstance, transport: *const Transport);
     fn sp_instance_align_bars(instance: *mut RawInstance, on: c_int);
+    fn sp_instance_time_warp(instance: *mut RawInstance, ms: f64);
     fn sp_instance_run(instance: *mut RawInstance, code: *const c_char, group: c_int);
     fn sp_instance_stop(instance: *mut RawInstance);
     fn sp_instance_stop_run(instance: *mut RawInstance, job: c_int, fade: f64);
@@ -162,6 +164,12 @@ impl Instance {
     pub fn align_bars(&self, on: bool) {
         // SAFETY: a live instance.
         unsafe { sp_instance_align_bars(self.as_ptr(), on as c_int) };
+    }
+
+    /// The global time warp, in milliseconds: every sound from then on is that much later (below 0, earlier).
+    pub fn time_warp(&self, ms: f64) {
+        // SAFETY: a live instance.
+        unsafe { sp_instance_time_warp(self.as_ptr(), ms) };
     }
 
     pub fn run(&self, code: &str) {

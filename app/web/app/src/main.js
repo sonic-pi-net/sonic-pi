@@ -571,6 +571,7 @@ async function ensureSession() {
       fail: (msg) => logs.add("SuperSonic", `/fail ${msg.slice(1).map(describe).join(" ")}`),     // a message the engine refused, as it said it
       note: (text, tab = "Host") => logs.add(tab, text),   // a line from the plugin, under its tab (PluginSession)
       tempo: (bpm) => setLinkBpm(bpm, true),                 // the plugin's host's tempo, which its runtime keeps
+      warp: (ms) => { linkState.warp = Math.round(ms); paintWarp(); },   // the time warp the plugin kept while its editor was closed
       // a record from before the page (a plugin's editor opened after it ran): its line in the log, its cue
       earlier: (r) => { if (r.kind === "output") output(r); else if (r.kind === "log") log(r); else if (r.kind === "cue") addCue(r.address, r.val, r.t); },
       synthMeta: registerSynths,   // a program's own synths (load_synthdef), as the runtime now knows them

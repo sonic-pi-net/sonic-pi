@@ -43,6 +43,7 @@ unsafe extern "C" {
     fn sp_main_async(ctx: *mut c_void, work: extern "C" fn(*mut c_void));
     fn sp_instance_run(instance: *mut RawInstance, code: *const c_char, group: c_int);
     fn sp_instance_stop(instance: *mut RawInstance);
+    fn sp_instance_time_warp(instance: *mut RawInstance, ms: f64);
     fn sp_instance_stop_run(instance: *mut RawInstance, job: c_int, fade: f64);
     fn sp_instance_stop_group(instance: *mut RawInstance, group: c_int, fade: f64);
     fn sp_instance_group_under(instance: *mut RawInstance, group: c_int, parent: c_int);
@@ -414,6 +415,10 @@ fn page_message(id: u32, instance: *mut RawInstance, host: *mut c_void, mailbox:
         "stopGroup" => {
             log(id, &format!("page stops group {} over {} s", int("group"), num("fade")));
             unsafe { sp_instance_stop_group(instance, int("group"), num("fade")) }
+        }
+        "timeWarp" => {
+            log(id, &format!("page sets the global time warp to {} ms", num("ms")));
+            unsafe { sp_instance_time_warp(instance, num("ms")) }
         }
         "groupUnder" => unsafe { sp_instance_group_under(instance, int("group"), int("parent")) },
         // the test host's probe (probe.js) and anything else: kept in the log as it came
