@@ -29,6 +29,8 @@
 #include <QWheelEvent>
 #include <QScrollBar>
 #include <QScrollArea>
+#include <QTextBlock>
+#include <QTextLayout>
 
 #include "accessibility_on.h"
 #include "widgets/tutorialwidgets.h"
@@ -561,14 +563,13 @@ TEST_CASE("a code block lights its lines behind their code, as the editor's flas
           "[tutorialwidgets]")
 {
     TutProseText code(nullptr);
-    code.setHtml("<p>play 60<br>  sleep 1<br>play 64</p>");
+    code.setHtml("<p>play 60<br>&nbsp;&nbsp;sleep 1<br>play 64</p>");   // as tutorialdocs indents a line
     code.resize(600, 400);
     code.setWashColour(QColor(255, 0, 0));
     // Sampled halfway down each of the three lines as laid out: in the gap
     // after each line's first word, in the second's indent, and at the right
     // edge, far past the short lines' code.
     const qreal lineHeight = code.heightForWidth(code.width()) / 3.0;
-    const QFontMetricsF fm(code.font());
     auto red = [&](int line, qreal x) {
         const QImage shot = code.grab().toImage();
         const int px = qRound(x * shot.devicePixelRatio());
@@ -576,9 +577,17 @@ TEST_CASE("a code block lights its lines behind their code, as the editor's flas
         return shot.pixelColor(px, y).red() > 200 && shot.pixelColor(px, y).green() < 60;
     };
     const QPointF origin = code.document()->documentLayout()->blockBoundingRect(code.document()->begin()).topLeft();
-    const qreal gap0 = origin.x() + fm.horizontalAdvance("play") + fm.horizontalAdvance(' ') / 2;
-    const qreal gap1 = origin.x() + fm.horizontalAdvance("  sleep") + fm.horizontalAdvance(' ') / 2;
-    const qreal indent1 = origin.x() + fm.horizontalAdvance(' ') / 2;
+    // The middle of a blank character, from the layout itself: a font's own
+    // widths for a space and a non-breaking space need not agree.
+    const QTextLayout* layout = code.document()->begin().layout();
+    auto blankAt = [&](int line, int column) {
+        const QTextLine l = layout->lineAt(line);
+        const int at = l.textStart() + column;
+        return origin.x() + (l.cursorToX(at) + l.cursorToX(at + 1)) / 2;
+    };
+    const qreal gap0 = blankAt(0, 4);
+    const qreal gap1 = blankAt(1, 7);
+    const qreal indent1 = blankAt(1, 0);
 
     CHECK_FALSE(code.isWashed(1));
     code.setWashed(0, true);
