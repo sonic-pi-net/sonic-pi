@@ -147,7 +147,7 @@ body.info-open .sn-close { display: none; }
 .ic-foot { padding: 4px 12px; border-top: 1px solid var(--WindowBorder); background: var(--raisedSurface); font: var(--t-label) var(--code-font); color: var(--mutedForeground); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: right; }
 .ic-foot { display: flex; align-items: center; gap: 2px; }
 .ic-foot #info-versions { margin-left: auto; }   /* the version at the right */
-/* the bar folded: a slim strip with the wordmark alone at the top left, where the site and the bar have it — the way back */
+/* the bar folded: a slim strip with the wordmark at the top left, where the site and the bar have it, and the fold turned down at the right */
 #site-nav.folded { height: calc(24px + env(safe-area-inset-top)); }
 #site-nav.folded .sn-brand { margin: 0; font-size: var(--t-small); translate: 0 0.08em; }   /* the font centres its line, not its letters, which ride high in it: down by the font's own share, at any size */
 /* the quiet stop beside the wordmark: there while anything sounds, its room kept while nothing does, so the bar never shifts */
@@ -160,7 +160,11 @@ body.loading .sn-stop { visibility: visible; }
 body.loading .sn-stop .tb-icon { visibility: hidden; }
 .sn-stop:hover, .sn-stop:focus-visible { color: var(--HighlightedBackground); }
 #site-nav.folded .sn-stop { width: 16px; height: 16px; margin: 0 6px 0 2px; }
-#site-nav.folded .ic-tabs, #site-nav.folded .sn-close { display: none; }
+#site-nav.folded .ic-tabs { display: none; }
+/* folded, the fold stays, turned down, before the palette and at its size: the bar back over the editor (the wordmark
+   is the site's home page) */
+body:not(.info-open) #site-nav.folded .sn-close { display: inline-flex; order: 0; width: 22px; height: 22px; margin: 0 0 0 auto; color: var(--softForeground); }
+body:not(.info-open) #site-nav.folded .sn-close svg { width: 15px; height: 15px; rotate: 180deg; }
 /* The bar's tabs, at every width as on a phone: words, the one showing in the accent with a bar under it; the code
    icon after them lit as they are (index.html's .sn-code: the editor), the theme's palette at the right; the stop everything first, always there,
    quiet until anything sounds.
@@ -186,7 +190,7 @@ body.scope-line:not(.info-open, .no-scope) #site-nav .ic-tabs { flex: 0 1 auto; 
 .sn-theme:focus-visible, .sn-theme.on { color: var(--HighlightedBackground); outline: none; }   /* lit while its menu is open */
 @media (hover: hover) { .sn-theme:hover { color: var(--HighlightedBackground); } }   /* not on a touch screen, where a tap leaves :hover behind */
 .sn-theme:focus-visible { box-shadow: 0 0 0 2px var(--HighlightedBackground); }
-#site-nav.folded .sn-theme { width: 22px; height: 22px; margin: 0 0 0 auto; }
+#site-nav.folded .sn-theme { width: 22px; height: 22px; margin: 0 0 0 4px; }
 #site-nav.folded .sn-theme .tb-icon { width: 15px; height: 15px; }
 /* its menu: the picker's surface, hung from the button's right edge */
 #theme-menu { position: fixed; z-index: 400; top: var(--picker-top, 60px); right: var(--menu-right, 12px); width: min(360px, calc(100vw - 24px)); max-height: calc(100dvh - var(--picker-top, 60px) - 24px); overflow: auto; padding: 12px 14px; box-sizing: border-box; background: var(--pop-bg); border: var(--pop-border); border-radius: var(--r-m); box-shadow: var(--pop-shadow); color: var(--WindowForeground); font: var(--t-ui) var(--prose-font); }
@@ -2216,7 +2220,7 @@ body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after 
   #site-nav { flex-wrap: nowrap; row-gap: 0; padding-right: max(14px, env(safe-area-inset-right)); }
   #site-nav .sn-brand, #site-nav .sn-contents, body.info-open #site-nav .sn-contents:not([hidden]), #site-nav .sn-close, body #site-nav > .sn-scope { display: none; }
   /* in the editor the code icon's place is the fold's (the up chevron): the tabs and the icons fold away as a wide
-     screen's do, the wordmark left to bring them back; on the site's pages it is the code icon, and there is no fold */
+     screen's do, the fold, turned down, left to bring them back; on the site's pages it is the code icon, and there is no fold */
   body:not(.info-open) #site-nav .sn-code { display: none; }
   body:not(.info-open) #site-nav:not(.folded) .sn-close { display: inline-flex; width: 24px; height: 24px; margin: 0 0 4px; color: var(--softForeground); }   /* as the icons beside it */
   #site-nav .sn-theme { order: 1; }   /* the palette last, after the code icon or the fold */

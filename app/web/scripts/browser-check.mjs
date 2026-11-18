@@ -1782,6 +1782,34 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
           lit.at === "code.html" && lit.code && !lit.learn, JSON.stringify(lit));
         await slow.close();
       }
+      // The bar folded (#3591): its fold stays on the strip, turned down, and brings the bar back over the editor,
+      // where the wordmark would open the site's home page. Folded is kept across a reload. A wide screen and a phone.
+      for (const width of [1280, 390]) {
+        const fp = await browser.newPage({ ...HTTPS, viewport: { width, height: 800 } });
+        await fp.addInitScript(() => { try { localStorage.setItem("sp-help-seen", "true"); } catch {} });
+        const ready = async () => { await fp.waitForFunction(() => !!window.sonicPi?.editor, null, { timeout: 30000 }).catch(timedOut); await twoFrames(fp); };
+        const bar = () => fp.evaluate(() => {
+          const nav = document.getElementById("site-nav"), fold = nav.querySelector(".sn-close");
+          return { folded: nav.classList.contains("folded"), shown: fold.offsetParent !== null, expanded: fold.getAttribute("aria-expanded"), label: fold.getAttribute("aria-label"),
+            at: location.pathname.split("/").pop() + location.hash, card: !document.getElementById("info-card").hidden };
+        });
+        await fp.goto(BASE + "code.html");
+        await ready();
+        await fp.click("#site-nav .sn-close");
+        await twoFrames(fp);
+        const folded = await bar();
+        await fp.reload();
+        await ready();
+        const reloaded = await bar();
+        if (reloaded.shown) await fp.click("#site-nav .sn-close");
+        await twoFrames(fp);
+        const back = await bar();
+        const isFolded = (s) => s.folded && s.shown && s.expanded === "false" && s.label === "Show the sonic-pi.net bar" && s.at === "code.html" && !s.card;
+        check(`${width}px wide: the bar folded keeps its fold, turned down, across a reload, and it brings the bar back over the editor`,
+          isFolded(folded) && isFolded(reloaded) && !back.folded && back.shown && back.expanded === "true" && back.label === "Hide the sonic-pi.net bar" && back.at === "code.html" && !back.card,
+          JSON.stringify({ folded, reloaded, back }));
+        await fp.close();
+      }
       const old = [];
       for (const [from, to] of [["#mac", "index.html#mac"], ["#schools", "learn.html#teachers"], ["#learn", "learn.html"], ["#tutorial", "tutorial.html"], ["#patreon", "support.html"], ["#app", "code.html"]]) {
         // each on a page of its own, left once it has loaded: WebKit calls a load cut short by the next one an

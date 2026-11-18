@@ -2059,9 +2059,10 @@ createSetsView({ slot: tabs.slot, menu: $("sets-menu"), workspace, toast });
 // in the history, so Back is the card again. Another page of the site is another document.
 // The website's bar (#site-nav) keeps the site's nav across the top of the
 // app — a way back to the web parts until you are happy in the app and close
-// it, when it folds to a slim strip with its wordmark at the top left; that,
-// or λ, opens the bar and the pages again. The pages fill the window under it.
-const infoCard = $("info-card"), siteNav = $("site-nav"), brand = siteNav.querySelector(".sn-brand");
+// it, when it folds to a slim strip with its wordmark at the top left and its
+// fold turned down at the right. The fold brings the bar back over the editor;
+// the wordmark, or λ, the bar and the pages. The pages fill the window under it.
+const infoCard = $("info-card"), siteNav = $("site-nav"), brand = siteNav.querySelector(".sn-brand"), navFold = siteNav.querySelector(".sn-close");
 // The bar's words, between its icons (the mark at its start, the tablet and the palette at its end): spread evenly
 // across the room between them, but no further apart than SPREAD_MAX; past that the words keep that spacing and sit
 // centred between the icons, the rest of the room either side. Where the row takes only its words' room (the editor's,
@@ -2106,11 +2107,17 @@ const SPREAD_MAX = 48;
 let info = null, infoApi = null;   // the promise of the page made live, and what it resolved to
 function showSiteNav(on) {
   siteNav.classList.toggle("folded", !on);
+  navFold.setAttribute("aria-expanded", String(on));
+  navFold.title = on ? "Hide the sonic-pi.net bar" : "Show the sonic-pi.net bar";
+  navFold.setAttribute("aria-label", navFold.title);
   if (on) ensureInfo();
   store.set("sp-site-nav", on ? null : "closed");
   if (infoOpen()) placeInfo();
 }
-siteNav.querySelector(".sn-close").addEventListener("click", () => { showSiteNav(false); closeInfo(); });
+navFold.addEventListener("click", () => {
+  if (siteNav.classList.contains("folded")) return showSiteNav(true);
+  showSiteNav(false); closeInfo();
+});
 brand.addEventListener("click", (e) => { showSiteNav(true); if (infoApi?.page === "about") { e.preventDefault(); pickTab("about"); } });   // Home: this page's top, or the page itself
 // A phone's page bar (ui/pagebar.js), under the tabs: where you are in the page showing — its group and section —
 // ‹ › to the section either side, a tap in the middle for the page's whole list, and the line through the page.
