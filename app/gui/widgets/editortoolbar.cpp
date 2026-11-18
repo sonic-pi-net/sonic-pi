@@ -195,9 +195,11 @@ void EditorToolbar::wakeFromGhost()
 
 void EditorToolbar::animateGhost(qreal target)
 {
-    if (qFuzzyCompare(m_ghostMix, target))
-        return;
+    // Stop first: a fade that has not moved yet is still heading for the other end. Returning early because the mix
+    // was already at the target let it carry on there, which left the pill a ghost over no code at start (#3599).
     m_ghostAnim->stop();
+    if (qFuzzyIsNull(m_ghostMix - target))
+        return;
     m_ghostAnim->setStartValue(m_ghostMix);
     m_ghostAnim->setEndValue(target);
     m_ghostAnim->start();
