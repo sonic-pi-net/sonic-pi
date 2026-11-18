@@ -1,0 +1,93 @@
+name: A problem while Sonic Pi is running 
+description: Sonic Pi starts up, but behaves unexpectedly during use.
+labels: ["triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hello! Thank you for wanting to raise an issue for us, so that we know what's not working for you.
+
+        Sorry you're having issues while Sonic Pi is running! We're always working to improve its behaviour.
+
+        The core Sonic Pi development team is fairly small and made up of volunteers (with the exception of Sam Aaron, who relies much on crowd-funding) so the more help we can receive to manage, troubleshoot and hopefully fix your issues for you the better - help us to help you! Please follow the checklist below - that way you might not even need to raise an issue after all :smile:
+  - type: checkboxes
+    id: read-troubleshooting-guide
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I've read the [Sonic Pi troubleshooting guide](https://github.com/sonic-pi-net/sonic-pi/wiki/Troubleshooting-Issues) and followed its suggestions where relevant
+          required: true
+  - type: input
+    id: sonic-pi-version
+    attributes:
+      label: Sonic Pi Version
+      description: "What version of Sonic Pi were you running? Was it a release version, Beta, or a version you compiled from source yourself?"
+      placeholder: "Examples: 'v4.0-Beta5', 'self compiled dev build', 'v3.3.1' ..."
+    validations:
+      required: true
+  - type: input
+    id: dev-commit
+    attributes:
+      label: Self compiled commit id
+      description: "If you were using a version of Sonic Pi that you compiled yourself, what was the Git commit id of the code?"
+      placeholder: "Example: 00f737e"
+    validations:
+      required: false
+  - type: input
+    id: os-version
+    attributes:
+      label: Operating System
+      description: "What Operating System (and which version) were you using?"
+      placeholder: "Example: Windows 10"
+    validations:
+      required: true
+  - type: textarea
+    id: repro-steps
+    attributes:
+      label: What were you doing when Sonic Pi behaved unexpectedly?
+      description: |
+        You can drag related images into the description if you like.
+        If you were trying to run some code when Sonic Pi behaved unexpectedly, please share a _small_ code example here that demonstrates the unexpected behaviour. (The simpler it is the better).
+        Please use code formatting for the example - if you're not sure how, please see GitHub's guide: [Quoting code](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#quoting-code).
+      placeholder: "Example: I typed the following code into Sonic Pi, and then hit 'Run': `play foobar`"
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: |
+        You can drag related images into the description if you like.
+        If Sonic Pi gave you an error, please share it below along with the stacktrace so that we can use it to investigate the cause.
+      placeholder: |
+        Example: Sonic Pi gave me an error. It said:
+        ```
+        Runtime Error: [buffer 0, line 1] - NameError
+        Thread death!
+        undefined local variable or method `foobar' for Runtime:SonicPiLang
+        workspace_seven:1:in `block (2 levels) in __spider_eval'
+        ```
+    validations:
+      required: true
+  - type: textarea
+    id: expecting
+    attributes:
+      label: What were you expecting to happen instead?
+      description: "You can drag related images into the description if you like"      
+      placeholder: "Example: I was expecting a sound to play."
+    validations:
+      required: true
+  - type: textarea
+    id: other-details
+    attributes:
+      label: Other Details
+      description: |
+        You can drag related images into the description if you like.
+        Feel free to provide any other relevant information about the issue if you have it, or can get it:
+        - Ideas about possible root causes
+        - Links to the problematic commit or location in the source code on GitHub
+        - Workarounds or potential solutions (or even better, send us a pull request!)
+        - Etc...
+      placeholder: "Example: Could this be related to X? Maybe it might be fixed by editing the foo file."
+    validations:
+      required: false
