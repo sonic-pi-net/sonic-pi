@@ -141,5 +141,38 @@ module SonicPi
       assert wait_until(1.0) { @exit.exits > 0 }, "the GUI's process ended: its pipe closed"
       assert ks.fired?
     end
+
+    # #3614: on Windows the daemon hung at boot. Its pipe thread waited in a
+    # read of stdin while the daemon started SuperSonic, and the start waited
+    # for that read to end, which it did only when the GUI gave up and closed
+    # its end. This case is the daemon's shape in a process of its own: its
+    # stdin a pipe this test holds open, the kill switch watching it, then a
+    # process started with Open3 as ProcessBooter starts one. The process must
+    # start while the pipe is still open. A start that waited shows here as
+    # no answer until the test closes the pipe, 30 s on.
+    def test_a_process_starts_while_the_switch_watches_an_open_pipe
+      child = <<~RUBY
+        require #{File.expand_path("../lib/sonicpi/daemon/kill_switch", __dir__).inspect}
+        require "open3"
+        ks = SonicPi::Daemon::KillSwitch.new(Class.new { def exit; end }.new, log: ->(_) {}, gui_pipe: STDIN)
+        watcher = ks.instance_variable_get(:@pipe_thread)
+        Thread.pass until watcher.status == "sleep"   # waiting on the pipe
+        _in, _out, wait = Open3.popen2e(#{RbConfig.ruby.inspect}, "-e", "exit 0")
+        wait.join
+        puts "started"
+        STDOUT.flush
+        exit!(0)
+      RUBY
+      IO.popen([RbConfig.ruby, "-e", child, err: [:child, :out]], "r+") do |io|
+        line = nil
+        reader = Thread.new { line = io.gets }
+        reader.join(30)
+        while_open = line
+        io.close_write
+        reader.join
+        assert_equal "started", while_open&.chomp,
+                     "the process start waited for the GUI's pipe to close (#3614); once it closed: #{line.inspect}"
+      end
+    end
   end
 end

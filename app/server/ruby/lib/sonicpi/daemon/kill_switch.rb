@@ -62,8 +62,8 @@ module SonicPi
 
         @pipe_thread = gui_pipe && Thread.new do
           begin
-            gui_pipe.read   # returns only at EOF: the GUI's end has closed
-          rescue IOError, SystemCallError
+            watch(gui_pipe)   # returns only once the GUI's end has closed
+          rescue EOFError, IOError, SystemCallError
           end
           fire("The GUI's end of the daemon's stdin pipe closed: the GUI has gone.")
         end
@@ -103,6 +103,16 @@ module SonicPi
       end
 
       private
+
+      # Never waits in a read. On Windows a read waiting on the daemon's stdin
+      # held up every process the daemon started until the read ended, so
+      # SuperSonic did not start until the GUI gave up and closed the pipe
+      # (#3614). IO.select asks whether the pipe can be read (on Windows it
+      # looks without reading), and only then is it read: what the GUI wrote,
+      # which is nothing, or EOFError once its end has closed.
+      def watch(pipe)
+        loop { pipe.readpartial(4096) if IO.select([pipe], nil, nil, 1) }
+      end
 
       def check_silence
         gap = @clock.call - @last_seen
