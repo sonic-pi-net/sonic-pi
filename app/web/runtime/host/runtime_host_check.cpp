@@ -56,6 +56,7 @@ struct Host final : AssetLoader
     std::vector<std::string> said;                        // every string in every other record (puts output among them)
     std::vector<std::pair<double, osc::Message>> timed;   // each bundled message with its bundle's time (NTP seconds)
     std::vector<std::vector<uint8_t>> raw;                // every packet sent, as bytes
+    std::vector<std::string> lates;                       // what each sound said to have left late waited on (Deps::late)
     double steppedFrom = 0.0;                             // the runtime's starting time (NTP seconds)
     std::atomic<bool> defsReady{ true };                  // false: no synthdef has loaded yet, so sounds wait
     RuntimeHost runtime;
@@ -86,6 +87,10 @@ struct Host final : AssetLoader
             raw.push_back(bytes);
             for (const auto& m : p.messages) timed.emplace_back(p.timeTag, m);
             for (auto& m : p.messages) sent.push_back(std::move(m));
+        };
+        deps.late = [this](double, const std::string& what) {
+            std::lock_guard<std::mutex> lk(mutex);
+            lates.push_back(what);
         };
         deps.record = [this](const osc::Message& m) {
             if (m.address != "/sonic-pi/error") {
@@ -177,6 +182,13 @@ std::vector<double> timesOf(const Host& host, double note)
     for (const auto& [time, m] : host.timed)
         if (m.address == "/s_new" && opt(m, "note") == note) times.push_back(time);
     return times;
+}
+
+std::string listed(const std::vector<std::string>& v)
+{
+    std::string out;
+    for (const auto& x : v) out += (out.empty() ? "" : ", ") + x;
+    return out.empty() ? "none" : out;
 }
 
 std::string listed(const std::vector<double>& v)
@@ -395,6 +407,41 @@ int main(int argc, char** argv)
             }
             check("stepped: after a Stop while a run's sounds wait on a load, no message names a node the engine was never sent", unknown.empty(), unknown);
             check("stepped: the stopped run's note is never sent, and the next run's is", notes == std::vector<double>{ 62.0 }, listed(notes));
+        }
+    }
+
+    {
+        // A sound held for a load that leaves after its time is said to be late, with what it waited on. One that
+        // leaves after its time having waited on nothing (a run counted from a time already past, as a plugin's is
+        // when its host's Play starts it) is not said to have waited on a load: every late sound once was.
+        Host held;
+        held.steppedFrom = kSteppedFrom;
+        held.defsReady = false;
+        std::string why;
+        if (!held.start(etc, &why)) check("a stepped runtime starts", false, why);
+        else
+        {
+            held.runtime.run("play 60\n", 0, nullptr);
+            held.runtime.advanceTo(kSteppedFrom + 0.5);
+            held.defsReady = true;
+            held.runtime.synthdefLoaded("", true);
+            held.runtime.advanceTo(kSteppedFrom + 0.6);
+            held.runtime.stop();
+            const bool said = !held.lates.empty() && std::all_of(held.lates.begin(), held.lates.end(), [](const std::string& w) { return w.rfind("synthdef ", 0) == 0; });
+            check("stepped: a sound held for a synthdef and sent after its time is said to be late, with the synthdef it waited on", said, listed(held.lates));
+        }
+        Host past;
+        past.steppedFrom = kSteppedFrom;
+        if (!past.start(etc, &why)) check("a stepped runtime starts", false, why);
+        else
+        {
+            past.runtime.advanceTo(kSteppedFrom + 1.0);
+            past.runtime.run("play 60\n", 0, nullptr, kSteppedFrom + 0.5);   // counted from half a second ago
+            past.runtime.advanceTo(kSteppedFrom + 1.5);
+            past.runtime.stop();
+            bool sounded = false;
+            for (const auto& m : past.sent) sounded = sounded || (m.address == "/s_new" && opt(m, "note") == 60.0);
+            check("stepped: a run counted from a time already past plays, and no load is said to have held its sounds", sounded && past.lates.empty(), listed(past.lates));
         }
     }
 

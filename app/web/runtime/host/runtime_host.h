@@ -205,6 +205,7 @@ private:
         int buf = -1;
         bool failed = false;
         bool structure = false;   // never dropped by a Stop (Native.structure)
+        std::string waitedOn;     // the load the queue was held for while this was in it (pump), or empty: it waited on none
     };
 
     bool boot(const Paths& paths, std::string* err);

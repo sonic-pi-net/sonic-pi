@@ -809,25 +809,34 @@ void RuntimeHost::pump()
     {
         Sound& q = m_queue.front();
         bool failed = false;
-        if (!loaded(q, failed)) break;
+        if (!loaded(q, failed))
+        {
+            // held for this one's load, and everything behind it with it: the queue goes in order
+            const std::string what = q.buf >= 0 && !(m_deps.loader && m_deps.loader->bufferReady(q.buf)) ? "buffer " + std::to_string(q.buf) : "synthdef " + q.name;
+            for (Sound& held : m_queue)
+                if (held.waitedOn.empty()) held.waitedOn = what;
+            break;
+        }
         Sound taken = std::move(q);
         m_queue.pop_front();
         if (!failed) sendSound(taken);
     }
 }
 
-// A timed bundle leaving after its time was held up by a load (an immediate one has no time to be late for):
-// said, never silently, with what it waited on.
+// A timed bundle that was held for a load and leaves after its time (an immediate one has no time to be late for):
+// said, never silently, with what it waited on. One that is late and waited on no load is not this function's to
+// explain (a run counted from a time already past, a thread held up): the engine says LATE for every one it takes
+// late. Until 20 November 2026 every late sound was said to have waited on its synthdef, loading or not.
 void RuntimeHost::sendSound(Sound& q)
 {
-    if (q.bundle.size() >= 16 && m_deps.late && m_deps.now)
+    if (!q.waitedOn.empty() && q.bundle.size() >= 16 && m_deps.late && m_deps.now)
     {
         const uint32_t secs = uint32_t(be32(&q.bundle[8]));
         if (secs != 0)
         {
             const double time = double(secs) + double(uint32_t(be32(&q.bundle[12]))) / 4294967296.0;
             const double now = this->now();
-            if (time < now) m_deps.late(now - time, q.buf >= 0 ? "buffer " + std::to_string(q.buf) : "synthdef " + q.name);
+            if (time < now) m_deps.late(now - time, q.waitedOn);
         }
     }
     if (m_deps.send) m_deps.send(q.bundle);

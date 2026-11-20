@@ -745,6 +745,11 @@ fn an_armed_buffer_runs_when_the_host_plays_and_stops_when_it_stops() {
         .map(|(_, b)| (i32::from_le_bytes(b[0..4].try_into().unwrap()), i32::from_le_bytes(b[4..8].try_into().unwrap()))).collect();
     assert!(said.len() == 1 && said[0].0 >= 0 && said[0].1 == 3, "one run, of buffer 3: {said:?}");
 
+    // Its first sound is already due when the word of the host's Play comes, and leaves late. Nothing was loading,
+    // and the log does not say something was: it once blamed the sound's synthdef for every late sound.
+    let blamed = logged(&heard, "waited on");
+    assert!(blamed.is_none(), "a load is blamed for a sound that waited on none: {blamed:?}");
+
     daw.playing = false;
     daw.render(&instance, seconds(0.5));
     assert!(onsets(&daw.render(&instance, seconds(2.0))).is_empty(), "the loop stopped with the host");
