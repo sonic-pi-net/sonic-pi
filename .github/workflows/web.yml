@@ -119,6 +119,16 @@ jobs:
             app/web/build/runtime/sp_runtime.wasm
             app/web/build/runtime/sp_runtime.mjs
           if-no-files-found: error
+      # The share link's codec, built here with the runtime (scripts/build-runtime.sh). A build with no Emscripten
+      # (the plugin's on Windows, app/plugin/scripts/build-windows.ps1) takes it from this, at the same commit:
+      # the link's tables are compiled in.
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sp_share
+          path: |
+            app/web/build/runtime/sp_share.wasm
+            app/web/build/runtime/sp_share.mjs
+          if-no-files-found: error
 
   # ── the web's generated data must match the Ruby server it is generated from ─────────────────────────
   data:
