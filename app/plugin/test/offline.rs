@@ -677,3 +677,23 @@ fn a_note_off_from_the_host_is_a_cue_too_and_what_is_not_a_note_is_refused() {
     assert!(!instance.midi_in(&[0xF0, 1, 2, 0xF7], 0), "system exclusive is not carried");
     assert!(!instance.midi_in(&[60, 100], 0), "data with no status is no message");
 }
+
+/// How far ahead of its time a sound is handed to the engine follows the host's largest buffer: the buffer's length
+/// and 15 ms, 25 ms at the least. The same beep, run at the same frame, starts that much later in a host of
+/// 2048-frame buffers than in one of 512.
+#[test]
+fn the_schedule_ahead_time_follows_the_hosts_buffer() {
+    let first_sound = |max_frames: u32| {
+        let instance = Instance::offline(RATE, max_frames, &resources(), ORIGIN).expect("an offline instance");
+        render(&instance, 400);
+        assert_eq!(instance.loading(), 0, "loaded");
+        instance.run(BEEP);
+        *onsets(&render(&instance, seconds(0.5))).first().expect("the beep sounds")
+    };
+    let (small, large) = (first_sound(512), first_sound(2048));
+    // 512 frames are 10.7 ms, so 25.7 ms: 1232 frames, and the engine's own 73 to 201 after a sound's time
+    assert!((1232 + 73..=1232 + 201).contains(&small), "with 512-frame buffers the beep starts {small} frames after it was run");
+    // 2048 frames are 42.7 ms, so 57.7 ms: 1536 frames more
+    assert_eq!(large - small, 1536, "with 2048-frame buffers the beep starts {large} frames after it was run, with 512 {small}");
+}
+

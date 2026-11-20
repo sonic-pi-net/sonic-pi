@@ -51,7 +51,17 @@ namespace {
 constexpr const char* MIDI_PORT = "daw";
 constexpr const char* MIDI_IN = "/clockwork/midi/in/";
 constexpr double STOP_FADE = 1.0;      // seconds a Stop fades over (Scheduler#silence), as the desktop's
-constexpr double SCHED_AHEAD = 0.2;    // the desktop's: a native thread wakes less surely than the web's 0.05 assumes
+// How far ahead of its time a sound is handed to the engine: the host's largest buffer and AHEAD_MARGIN, AHEAD_LEAST
+// at the least. The language thread is woken as the host renders, so a buffer's length can pass before it runs; the
+// margin is for the pass itself. Measured on 20 November 2026 with a program of 200 messages a second, three minutes
+// at each of 128, 512, 1024 and 2048 frames: no sound reached the engine late (test/ahead.rs). It was 0.2 s, the
+// desktop's, until then.
+constexpr double AHEAD_MARGIN = 0.015;
+constexpr double AHEAD_LEAST = 0.025;
+double schedAhead(double rate, uint32_t maxFrames)
+{
+    return std::max(AHEAD_LEAST, (rate > 0 ? maxFrames / rate : 0.0) + AHEAD_MARGIN);
+}
 
 // The engine as the desktop app starts it (v6 EngineHost): the assets area its samples load into, as address space
 // (pages are taken only as samples are written, so the size is how much may be loaded at once, not memory spent),
@@ -343,6 +353,7 @@ struct SpInstance final : AssetLoader
     std::atomic<double> warpMs{ 0.0 };       // the global time warp, as last set (sp_instance_time_warp)
     std::atomic<bool> alignBars{ true };     // the instance's bars follow its host's, and not its tempo alone
     std::atomic<bool> hostSaid{ false };     // a host has said its transport, and the runtime has taken it
+    std::atomic<double> ahead{ AHEAD_LEAST };    // the schedule-ahead time the runtime has (setSchedAhead)
     std::atomic<bool> transportGiven{ false };   // sp_instance_transport has been called (the audio thread sets it)
     // The instance's time, NTP seconds: the time the audio rendered so far ends at. It starts at an origin (offline,
     // SpInstanceConfig::time_origin_ntp; live, the wall clock as the instance starts) and moves only as the host
@@ -577,12 +588,21 @@ struct SpInstance final : AssetLoader
         if (!runtime.start({ buffersDir, samplesDir }, std::move(deps), why)) return false;
         // std::to_chars, not std::to_string: to_string uses the process locale, and in a German host's process it wrote
         // "0,200000", which Ruby reads as the array [0, 200000], so the first run raised a TypeError and never started.
-        runtime.post([this] {
+        setSchedAhead(cfg.sample_rate, cfg.max_frames ? cfg.max_frames : 4096);
+        return true;
+    }
+
+    // The schedule-ahead time for a host of these buffers, to the runtime. A change while a program runs moves its
+    // sounds by the difference; a host changes its buffers while it is not rendering.
+    void setSchedAhead(double rate, uint32_t maxFrames)
+    {
+        const double secs = schedAhead(rate, maxFrames);
+        ahead.store(secs);
+        runtime.post([this, secs] {
             char ahead[32];
-            const auto written = std::to_chars(ahead, ahead + sizeof ahead, SCHED_AHEAD);
+            const auto written = std::to_chars(ahead, ahead + sizeof ahead, secs);
             runtime.eval("SonicPi.sched_ahead = " + std::string(ahead, written.ptr));
         });
-        return true;
     }
 
     // Ends in the order things depend on each other: the runtime (it sends to the engine), then the engine's
@@ -882,6 +902,7 @@ int sp_instance_reconfigure(SpInstance* instance, double rate, uint32_t maxFrame
         ++instance->rebuilds;
     }
     if (!instance->engine.reconfigure(rate, maxFrames)) return 1;
+    instance->setSchedAhead(instance->engine.rate(), maxFrames);
     if (instance->engine.rate() != before)
     {
         // the clock carries on from the time reached, counted in the new rate's frames

@@ -21,6 +21,10 @@ path = "test/sound.rs"
 name = "offline"
 path = "test/offline.rs"
 
+[[test]]
+name = "ahead"
+path = "test/ahead.rs"
+
 [dependencies]
 raw-window-handle = "0.6"
 wry = "0.57"
