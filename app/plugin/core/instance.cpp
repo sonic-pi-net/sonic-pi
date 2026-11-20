@@ -62,6 +62,9 @@ double schedAhead(double rate, uint32_t maxFrames)
 {
     return std::max(AHEAD_LEAST, (rate > 0 ? maxFrames / rate : 0.0) + AHEAD_MARGIN);
 }
+// A pass of the language thread this long is said in the System log (RuntimeHost::Deps::longPass): a quarter of
+// the least schedule-ahead time, under which a pass cannot make a sound late.
+constexpr double LONG_PASS = AHEAD_LEAST / 4;
 
 // The engine as the desktop app starts it (v6 EngineHost): the assets area its samples load into, as address space
 // (pages are taken only as samples are written, so the size is how much may be loaded at once, not memory spent),
@@ -574,6 +577,7 @@ struct SpInstance final : AssetLoader
             const uint8_t b = running ? 1 : 0;
             say(SP_SAYS_STATE, &b, 1);
         };
+        deps.longPass = LONG_PASS;
         deps.log = [this](const std::string& s) { runtimeLine(s.rfind("runtime: ", 0) == 0 ? s.substr(9) : s); };
         // what runs, for the page's status (a card's Stop is live while its run is): after a tick, a stop or a job
         // ending, when it changed

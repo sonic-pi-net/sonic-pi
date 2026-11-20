@@ -12,6 +12,8 @@
 //++
 
 #include "runtime_host.h"
+#include <chrono>
+#include <cstdio>
 
 #include <charconv>
 #include <algorithm>
@@ -66,6 +68,7 @@ const char* sp_synthdef_for(const char* name, int fx);
 int sp_buffer_for(const char* file);
 void sp_gc_when_idle(void);
 int sp_gc_step(void);
+double sp_gc_interrupted(void);
 }
 
 namespace SonicPi
@@ -657,8 +660,11 @@ void RuntimeHost::tick()
         m_heldTotal += lost;
         if (m_deps.log) m_deps.log("runtime: held " + std::to_string(lost) + " s");
     }
+    const auto began = std::chrono::steady_clock::now();
+    const double interrupted = sp_gc_interrupted();
     const double next = sp_tick(now);
     drain();
+    sayLongPass(std::chrono::duration<double>(std::chrono::steady_clock::now() - began).count(), sp_gc_interrupted() - interrupted);
     if (m_deps.ticked) m_deps.ticked();
     // Nothing scheduled, so nothing that could lose time: the last tick is forgotten.
     if (next < 0)
@@ -669,6 +675,23 @@ void RuntimeHost::tick()
     }
     m_expectedWake = std::max(next, now);
     arm(next);
+}
+
+// A pass that held the thread for longer than the host can spare (Deps::longPass) is said in the log, with the
+// collector's part of it where mruby keeps that time: a line a second at most, with the count so far.
+void RuntimeHost::sayLongPass(double secs, double collecting)
+{
+    if (m_deps.longPass <= 0 || secs < m_deps.longPass) return;
+    m_longPasses++;
+    const auto now = std::chrono::steady_clock::now();
+    if (m_longPassSaid && now - *m_longPassSaid < std::chrono::seconds(1)) return;
+    m_longPassSaid = now;
+    char text[128];
+    if (collecting > 0)
+        std::snprintf(text, sizeof text, "runtime: a pass took %.1f ms (collector %.1f ms), %u so far", secs * 1000, collecting * 1000, m_longPasses);
+    else
+        std::snprintf(text, sizeof text, "runtime: a pass took %.1f ms, %u so far", secs * 1000, m_longPasses);
+    if (m_deps.log) m_deps.log(text);
 }
 
 void RuntimeHost::drain()

@@ -31,6 +31,7 @@
 #pragma once
 
 #include <atomic>
+#include <chrono>
 #include <cstdint>
 #include <deque>
 #include <functional>
@@ -106,6 +107,9 @@ public:
         std::function<void(bool)> state;                                 // a run started; everything ended
         std::function<void()> ticked;                                    // the process table may have moved
         std::function<void(const std::string&)> log;
+        // A pass of the runtime's thread that takes this many seconds or more is said in the log; 0 says none. A
+        // pass much shorter than the schedule-ahead time cannot make a sound late.
+        double longPass = 0.0;
         // What is in a sound file (frames, channels, rate), from its headers; false when it is not one the host reads.
         std::function<bool(const std::string&, SoundFacts&)> describeSample;
         // A sound file's onsets in seconds, as the host's detector finds them; nullopt when it cannot read the file.
@@ -208,6 +212,7 @@ private:
     double now() const;
     void runDue(double until);
     void drain();
+    void sayLongPass(double secs, double collecting);
     bool ready(const Sound& q);
     bool loaded(const Sound& q, bool& failed);
     void pump();
@@ -240,6 +245,8 @@ private:
     static constexpr double NEVER = 1e300;
     std::atomic<double> m_wakeAt{ NEVER };
     std::atomic<bool> m_wakeSaid{ false };
+    uint32_t m_longPasses = 0;                                             // sayLongPass
+    std::optional<std::chrono::steady_clock::time_point> m_longPassSaid;
 
     // live-core.js's state, on the runtime's thread
     bool m_running = false;

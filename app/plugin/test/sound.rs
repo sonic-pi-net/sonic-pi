@@ -690,3 +690,23 @@ fn records_are_kept_for_the_page_reader() {
     assert!(!lines.is_empty(), "the program made records");
     std::fs::write(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("target/records.hex"), lines.join("\n")).unwrap();
 }
+
+/// A pass of the language thread that holds it for longer than the plugin can spare is said in the System log: here
+/// one that works a long sum out before its sound. The sum is long by any machine's measure (a tenth of a second or
+/// more against the 12 ms that is said), so the line does not hang on how fast this one is.
+#[test]
+fn a_pass_that_holds_the_language_thread_is_said_in_the_log() {
+    let instance = Arc::new(Instance::new(RATE, BLOCK as u32, &resources()).expect("an instance"));
+    let heard = Box::new(Heard(Mutex::new(Vec::new())));
+    // SAFETY: the box outlives the listening, which ends below
+    unsafe { instance.listen(Some(keep), (&*heard as *const Heard).cast_mut().cast()) };
+    let host = Host::start(instance.clone());
+    listen(&host, 0.5);
+    instance.run("sleep 0.25\nx = 0\n3_000_000.times { |i| x += i % 7 }\nsynth :beep, note: 60, amp: 0.1\n");
+    listen(&host, 3.0);
+    let said = logged(&heard, "a pass took");
+    let quick = logged(&heard, "a pass took 0.");
+    unsafe { instance.listen(None, std::ptr::null_mut()) };
+    assert!(said.is_some(), "the long pass was not said in the log");
+    assert!(quick.is_none(), "a pass of under a millisecond was said: {quick:?}");
+}

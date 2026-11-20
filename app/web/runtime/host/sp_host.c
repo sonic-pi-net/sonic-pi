@@ -882,6 +882,15 @@ SP_EXPORT int sp_gc_step(void) {
   return mrb_gc_scheduler_pending(mrb) ? 1 : 0;
 }
 
+// How long the collector has interrupted the program's own work so far, in seconds: what a long pass is checked
+// against. 0 from an mruby built without MRB_GC_PROFILE, which keeps no such time.
+SP_EXPORT double sp_gc_interrupted(void) {
+#ifdef MRB_GC_PROFILE
+  if (current) return (double)current->mrb->gc.prof_sync.total_us / 1e6;
+#endif
+  return 0.0;
+}
+
 // Every job stops where it stands. Nothing goes to the engine: the host empties its schedule, then sp_silence.
 SP_EXPORT void sp_stop_all(void) {
   if (!current) return;
