@@ -162,6 +162,39 @@ WKWebView* webIn(NSView* view)
 // and the last hid them from the host for good. The main thread's.
 int gFullScreens = 0;
 NSApplicationPresentationOptions gPresentation = 0;
+bool gPresentationChanged = false;   // whether the host's were changed for the first, and so are to be put back
+
+// The host's menu bar and Dock out of the way, for the first page to go full screen. A host that is itself full
+// screen (in a Space of its own) has them hiding themselves already, and is left as it is: macOS takes "hidden" and
+// "hides itself" together for an error and raises NSInvalidArgumentException, which, uncaught, went up through the
+// plugin and brought the host down when the page's full screen button was pressed there (Live, 0.2.0, 20 November
+// 2026). Nothing AppKit raises here is let out: full screen without the menu bar hidden is still full screen.
+void hideHostBars()
+{
+    gPresentation = NSApp.presentationOptions;
+    gPresentationChanged = false;
+    const NSApplicationPresentationOptions already = NSApplicationPresentationFullScreen
+        | NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar
+        | NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar;
+    if (gPresentation & already) return;
+    @try {
+        NSApp.presentationOptions = gPresentation | NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar;
+        gPresentationChanged = true;
+    } @catch (NSException* e) {
+        sp_host_note([NSString stringWithFormat:@"full screen: the menu bar and the Dock could not be hidden (%@)", e.reason].UTF8String);
+    }
+}
+
+void showHostBars()
+{
+    if (!gPresentationChanged) return;
+    gPresentationChanged = false;
+    @try {
+        NSApp.presentationOptions = gPresentation;
+    } @catch (NSException* e) {
+        sp_host_note([NSString stringWithFormat:@"full screen off: the menu bar and the Dock could not be put back (%@)", e.reason].UTF8String);
+    }
+}
 
 // The page into a window over the whole display, or back into the host's view. The host's window is left as it
 // is, empty while the page is away. `tell`: the editor is told (not as it is being closed).
@@ -185,10 +218,7 @@ void setFullScreen(Monitor* monitor, bool on, bool tell)
         // is in front the window drops to an ordinary one's level, or it would cover that application too.
         const NSInteger level = std::max<NSInteger> (host.window.level, NSFloatingWindowLevel) + 1;
         window.level = NSApp.active ? level : NSNormalWindowLevel;
-        if (gFullScreens++ == 0) {
-            gPresentation = NSApp.presentationOptions;
-            NSApp.presentationOptions = gPresentation | NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar;
-        }
+        if (gFullScreens++ == 0) hideHostBars();
         NSNotificationCenter* centre = NSNotificationCenter.defaultCenter;
         __weak SPFullScreenWindow* weak = window;
         monitor->activeToken = [centre addObserverForName:NSApplicationDidBecomeActiveNotification object:NSApp queue:nil
@@ -215,7 +245,7 @@ void setFullScreen(Monitor* monitor, bool on, bool tell)
         [NSNotificationCenter.defaultCenter removeObserver:monitor->activeToken];
         [NSNotificationCenter.defaultCenter removeObserver:monitor->inactiveToken];
         monitor->activeToken = monitor->inactiveToken = nil;
-        if (--gFullScreens == 0) NSApp.presentationOptions = gPresentation;
+        if (--gFullScreens == 0) showHostBars();
         [web removeFromSuperview];
         [host addSubview:web];
         web.frame = host.bounds;
@@ -251,7 +281,13 @@ extern "C" int sp_monitor_full_screen(void* opaque, int on)
 {
     auto* monitor = static_cast<Monitor*>(opaque);
     if (!monitor) return 0;
-    setFullScreen(monitor, on != 0, true);
+    // Nothing AppKit raises on the way is let out of the plugin: its caller is Rust, which an Objective-C exception
+    // aborts, and the host with it.
+    @try {
+        setFullScreen(monitor, on != 0, true);
+    } @catch (NSException* e) {
+        sp_host_note([NSString stringWithFormat:@"full screen: %@", e.reason].UTF8String);
+    }
     return monitor->full != nil;
 }
 
@@ -310,7 +346,11 @@ extern "C" void sp_monitor_remove(void* opaque)
 {
     auto* monitor = static_cast<Monitor*>(opaque);
     if (!monitor) return;
-    setFullScreen(monitor, false, false);   // the page goes back to the host's view, which is where it is taken from
+    @try {
+        setFullScreen(monitor, false, false);   // the page goes back to the host's view, which is where it is taken from
+    } @catch (NSException* e) {
+        sp_host_note([NSString stringWithFormat:@"full screen off, as the editor closes: %@", e.reason].UTF8String);
+    }
     [NSEvent removeMonitor:monitor->token];
     delete monitor;
 }

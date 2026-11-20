@@ -1264,6 +1264,37 @@ int main (int argc, char** argv)
         check ("and the last to leave puts them back as they were", fullWindows ().count == 0 && NSApp.presentationOptions == before, shown ());
     }
 
+    // A host that is itself full screen (Live, in a Space of its own) already has the menu bar and the Dock hiding
+    // themselves. macOS takes "hidden" and "hides itself" together for an error and raises: the plugin once asked
+    // for both, and the page's full screen button brought the host down (reported in 0.2.0, 20 November 2026). The
+    // host's settings are left as they are, the page goes full screen all the same, and they are as they were after.
+    {
+        const NSApplicationPresentationOptions before = NSApp.presentationOptions;
+        const NSApplicationPresentationOptions hostFull = NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideMenuBar;
+        NSApp.presentationOptions = hostFull;
+        auto fullWindow = [] () -> NSWindow* {
+            for (NSWindow* w in NSApp.windows)
+                if ([NSStringFromClass (w.class) isEqualToString:@"SPFullScreenWindow"] && w.visible) return w;
+            return nil;
+        };
+        auto pressFullScreen = [] (NSView* view) {
+            WKWebView* web = webViewIn (view);
+            __block bool done = web == nil;
+            [web evaluateJavaScript:@"document.getElementById('btn-zen').click()" completionHandler:^(id, NSError*) { done = true; }];
+            NSDate* until = [NSDate dateWithTimeIntervalSinceNow:3];
+            while (!done && [until timeIntervalSinceNow] > 0) pump (0.01);
+            pump (0.5);
+        };
+        pressFullScreen (a.window.contentView);
+        NSWindow* full = fullWindow ();
+        check ("in a host that is itself full screen, the page goes full screen and the host's menu bar settings are left alone",
+               full && NSApp.presentationOptions == hostFull, [NSString stringWithFormat:@"window %@, options %lu", full ? @"there" : @"none", (unsigned long) NSApp.presentationOptions]);
+        if (full) pressFullScreen (full.contentView);
+        check ("and are as the host had them when it leaves", !fullWindow () && NSApp.presentationOptions == hostFull,
+               [NSString stringWithFormat:@"options %lu", (unsigned long) NSApp.presentationOptions]);
+        NSApp.presentationOptions = before;
+    }
+
     // a project or preset loaded with the editor open: the page shows what it holds
     theirs.at = 0;
     const int seen = int (lines (a.editor, @"\"t\":\"ready\"").count);
