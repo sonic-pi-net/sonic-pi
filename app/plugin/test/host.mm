@@ -1231,6 +1231,39 @@ int main (int argc, char** argv)
     a.component->getState (&mine);
     b.component->getState (&theirs);
     check ("what one plugin's editor holds is not the other's", holds (theirs, "play 79") && !holds (mine, "play 79"));
+    // Two plugins full screen at once (a display each, as a performer might have them): the menu bar and the Dock
+    // stay hidden until the last has left, and are then as they were. Each plugin once put back what it had itself
+    // found, so the first to leave showed them under the other, and the last hid them from the host for good.
+    {
+        auto fullWindows = [] () -> NSArray<NSWindow*>* {
+            NSMutableArray<NSWindow*>* found = [NSMutableArray array];
+            for (NSWindow* w in NSApp.windows)
+                if ([NSStringFromClass (w.class) isEqualToString:@"SPFullScreenWindow"] && w.visible) [found addObject:w];
+            return found;
+        };
+        auto pressFullScreen = [] (NSView* view) {
+            WKWebView* web = webViewIn (view);
+            __block bool done = web == nil;
+            [web evaluateJavaScript:@"document.getElementById('btn-zen').click()" completionHandler:^(id, NSError*) { done = true; }];
+            NSDate* until = [NSDate dateWithTimeIntervalSinceNow:3];
+            while (!done && [until timeIntervalSinceNow] > 0) pump (0.01);
+            pump (0.5);
+        };
+        const NSApplicationPresentationOptions hidden = NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar;
+        const NSApplicationPresentationOptions before = NSApp.presentationOptions;
+        auto shown = [&] () { return [NSString stringWithFormat:@"%d full screen, options %lu (%lu before)", (int) fullWindows ().count, (unsigned long) NSApp.presentationOptions, (unsigned long) before]; };
+        pressFullScreen (a.window.contentView);
+        NSWindow* fullA = fullWindows ().firstObject;
+        pressFullScreen (b.window.contentView);
+        NSWindow* fullB = nil;
+        for (NSWindow* w in fullWindows ()) if (w != fullA) fullB = w;
+        check ("two plugins are full screen at once, the menu bar and the Dock hidden", fullA && fullB && (NSApp.presentationOptions & hidden) == hidden, shown ());
+        if (fullA) pressFullScreen (fullA.contentView);
+        check ("the first to leave leaves them hidden for the other", fullWindows ().count == 1 && (NSApp.presentationOptions & hidden) == hidden, shown ());
+        if (fullB) pressFullScreen (fullB.contentView);
+        check ("and the last to leave puts them back as they were", fullWindows ().count == 0 && NSApp.presentationOptions == before, shown ());
+    }
+
     // a project or preset loaded with the editor open: the page shows what it holds
     theirs.at = 0;
     const int seen = int (lines (a.editor, @"\"t\":\"ready\"").count);

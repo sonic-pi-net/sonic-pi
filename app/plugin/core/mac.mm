@@ -40,7 +40,6 @@ struct Monitor {
     NSTimeInterval passedAt = 0;       // the last key the page left, gone on to the host
     NSSet<NSString*>* hostKeys = [NSSet set];
     SPFullScreenWindow* full = nil;    // the page's window while it is full screen
-    NSApplicationPresentationOptions presentation = 0;   // the host's, as it was before the page went full screen
     id activeToken = nil, inactiveToken = nil;            // the application coming forward and going back
     WKWebView* web = nil;              // ... and the page, away from the host's view
     bool saidOffered = false, saidMonitored = false;
@@ -157,6 +156,13 @@ WKWebView* webIn(NSView* view)
     return nil;
 }
 
+// The host's menu bar and Dock are hidden while any page of this process is full screen, and put back as they were
+// when the last has left: how many are, and how the host had them before the first. Each plugin once kept what it
+// had itself found, so of two full screen at once (a display each) the first to leave showed them under the other,
+// and the last hid them from the host for good. The main thread's.
+int gFullScreens = 0;
+NSApplicationPresentationOptions gPresentation = 0;
+
 // The page into a window over the whole display, or back into the host's view. The host's window is left as it
 // is, empty while the page is away. `tell`: the editor is told (not as it is being closed).
 void setFullScreen(Monitor* monitor, bool on, bool tell)
@@ -179,8 +185,10 @@ void setFullScreen(Monitor* monitor, bool on, bool tell)
         // is in front the window drops to an ordinary one's level, or it would cover that application too.
         const NSInteger level = std::max<NSInteger> (host.window.level, NSFloatingWindowLevel) + 1;
         window.level = NSApp.active ? level : NSNormalWindowLevel;
-        monitor->presentation = NSApp.presentationOptions;
-        NSApp.presentationOptions = monitor->presentation | NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar;
+        if (gFullScreens++ == 0) {
+            gPresentation = NSApp.presentationOptions;
+            NSApp.presentationOptions = gPresentation | NSApplicationPresentationHideDock | NSApplicationPresentationHideMenuBar;
+        }
         NSNotificationCenter* centre = NSNotificationCenter.defaultCenter;
         __weak SPFullScreenWindow* weak = window;
         monitor->activeToken = [centre addObserverForName:NSApplicationDidBecomeActiveNotification object:NSApp queue:nil
@@ -207,7 +215,7 @@ void setFullScreen(Monitor* monitor, bool on, bool tell)
         [NSNotificationCenter.defaultCenter removeObserver:monitor->activeToken];
         [NSNotificationCenter.defaultCenter removeObserver:monitor->inactiveToken];
         monitor->activeToken = monitor->inactiveToken = nil;
-        NSApp.presentationOptions = monitor->presentation;
+        if (--gFullScreens == 0) NSApp.presentationOptions = gPresentation;
         [web removeFromSuperview];
         [host addSubview:web];
         web.frame = host.bounds;
