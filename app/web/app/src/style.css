@@ -441,6 +441,24 @@ body.no-metro #link-section { display: none; }   /* hidden until the preference 
    mark too), the same words' weight; what they say apart is only their colour: SET's the sets', JAM's the accent */
 :is(.set-chip, .jam-toggle) { flex: none; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; width: 64px; height: 26px; margin-block: -3px; padding: 0 8px; border: 1px solid var(--WindowBorder); border-radius: var(--r-pill); background: color-mix(in srgb, var(--Background) 90%, transparent); color: var(--mutedForeground); font: 600 var(--t-label)/1 var(--prose-font); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; cursor: pointer; -webkit-tap-highlight-color: transparent; transition: background 0.18s, color 0.18s, border-color 0.18s; }
 .jam-toggle { margin-left: 10px; }
+/* A plugin's: a buffer armed for its host's transport (buffer-tabs.js). Over each tab an arm light, as a DAW's track
+   has: the capsule a grid of two rows, the lights over the numbers, a column for each tab and each bar between. */
+#buffer-tabs.armable:not(.jam-on) .buffer-tabs-list { display: grid; grid-auto-flow: column; grid-template-rows: 14px auto; grid-auto-columns: minmax(0, 1fr) auto; padding-top: 3px; border-radius: var(--r-m); }
+#buffer-tabs.armable:not(.jam-on) .buffer-tab { grid-row: 2; }
+#buffer-tabs.armable:not(.jam-on) .buffer-tab-sep { grid-row: 2; align-self: center; }
+.buffer-arm { grid-row: 1; justify-self: center; display: flex; align-items: center; justify-content: center; width: 24px; height: 14px; padding: 0; border: none; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.buffer-arm::before { content: ""; box-sizing: border-box; width: 8px; height: 8px; border: 1.5px solid var(--faintText); border-radius: 50%; transition: background 0.12s, border-color 0.12s, box-shadow 0.12s; }
+.buffer-arm[aria-pressed="true"]::before { border-color: var(--HighlightedBackground); background: var(--HighlightedBackground); }
+.buffer-arm:focus-visible { outline: none; }
+.buffer-arm:focus-visible::before { outline: 2px solid var(--HighlightedBackground); outline-offset: 2px; }
+@media (hover: hover) { .buffer-arm:not([aria-pressed="true"]):hover::before { border-color: var(--Foreground); } }
+#buffer-tabs.host-playing .buffer-arm[aria-pressed="true"]::before { box-shadow: 0 0 8px var(--HighlightedBackground); animation: arm-pulse 1s ease-in-out infinite; }
+body.reduce-motion #buffer-tabs.host-playing .buffer-arm[aria-pressed="true"]::before { animation: none; }
+@keyframes arm-pulse { 50% { transform: scale(1.35); } }
+/* jam's pads have no light: an armed pad carries a dot in its corner, and is armed with jam off */
+#buffer-tabs.jam-on .buffer-arm { display: none; }
+#buffer-tabs.jam-on .buffer-tab.armed::after { content: ""; position: absolute; top: calc(50% - 20px); right: calc(50% - 20px); width: 7px; height: 7px; border-radius: 50%; background: var(--HighlightedBackground); }
+#buffer-tabs.jam-on .buffer-tab.armed.active::after { background: var(--accentContrastText); }
 /* jam on: the pair in the accent together, framing the pads; the set's list open, a shade brighter */
 :is(.jam-toggle.on, #buffer-tabs.jam-on .set-chip) { border-color: var(--HighlightedBackground); background: var(--HighlightedBackground); color: var(--accentContrastText); }
 #buffer-tabs.jam-on .set-chip[aria-expanded="true"] { filter: brightness(1.12); }

@@ -4,7 +4,7 @@
 //! loop as fast as the machine goes and nothing they check depends on a clock. The same code must give the same
 //! audio on every run, loads included: nothing here sleeps or reads a clock.
 
-use sonic_pi_plugin::instance::{Instance, Transport};
+use sonic_pi_plugin::instance::{Armed, Instance, Transport, SAYS_ARMED};
 
 mod common;
 use common::{frequency, keep, logged, onsets, own_samples, peak, resources, Heard, BLOCK, RATE};
@@ -718,3 +718,52 @@ fn the_schedule_ahead_time_follows_the_hosts_buffer() {
     assert_eq!(large - small, 1536, "with 2048-frame buffers the beep starts {large} frames after it was run, with 512 {small}");
 }
 
+/// An armed buffer needs no editor: the instance itself runs it when the host begins to play, from that moment, and
+/// stops it when the host stops. Before this the page did both, and nothing ran with the plugin's window closed.
+#[test]
+fn an_armed_buffer_runs_when_the_host_plays_and_stops_when_it_stops() {
+    let instance = offline();
+    let heard = Box::new(Heard(std::sync::Mutex::new(Vec::new())));
+    // SAFETY: the box outlives the listening, which ends below
+    unsafe { instance.listen(Some(keep), (&*heard as *const Heard).cast_mut().cast()) };
+    let mut daw = Daw { bpm: 120.0, playing: false, beat: 0.0 };
+    render_until_loaded(&instance);
+    instance.armed(&[Armed { buffer: 3, group: 1003, parent: 999, fade: 0.05, code: format!("live_loop :armed do\n  {BEEP}\n  sleep 1\nend\n") }]);
+    assert!(onsets(&daw.render(&instance, seconds(1.0))).is_empty(), "nothing runs while the host is stopped");
+
+    daw.playing = true;
+    let playing = daw.render(&instance, seconds(2.2));
+    let starts = onsets(&playing);
+    assert!(starts.len() >= 4, "the armed loop plays: {starts:?}");
+    // at 120 a beat is 24,000 frames from the frame the host began, and the engine starts a sound 73 to 201 after
+    for (beat, start) in starts.iter().enumerate().skip(1) {
+        let after = *start as i64 - beat as i64 * 24_000;
+        assert!((73..=201).contains(&after), "beat {beat} starts {after} frames after the host's beat: {starts:?}");
+    }
+    // the page is told which buffer's run it is
+    let said: Vec<(i32, i32)> = heard.0.lock().unwrap().iter().filter(|(kind, _)| *kind == SAYS_ARMED)
+        .map(|(_, b)| (i32::from_le_bytes(b[0..4].try_into().unwrap()), i32::from_le_bytes(b[4..8].try_into().unwrap()))).collect();
+    assert!(said.len() == 1 && said[0].0 >= 0 && said[0].1 == 3, "one run, of buffer 3: {said:?}");
+
+    daw.playing = false;
+    daw.render(&instance, seconds(0.5));
+    assert!(onsets(&daw.render(&instance, seconds(2.0))).is_empty(), "the loop stopped with the host");
+
+    // disarmed, the host's Play runs nothing
+    instance.armed(&[]);
+    daw.playing = true;
+    assert!(onsets(&daw.render(&instance, seconds(1.5))).is_empty(), "nothing armed, nothing runs");
+    unsafe { instance.listen(None, std::ptr::null_mut()) };
+}
+
+#[test]
+fn the_armed_buffers_are_read_from_the_pages_storage_and_nothing_is_guessed() {
+    use sonic_pi_plugin::instance::armed_from_json;
+    let one = Armed { buffer: 2, group: 1002, parent: 999, fade: 0.05, code: "play 60\n".into() };
+    assert_eq!(armed_from_json(r#"[{"buffer":2,"group":1002,"parent":999,"fade":0.05,"code":"play 60\n"}]"#), [one.clone()]);
+    // an entry short of a field is left out, the rest kept
+    assert_eq!(armed_from_json(r#"[{"buffer":1,"group":1001},{"buffer":2,"group":1002,"parent":999,"fade":0.05,"code":"play 60\n"}]"#), [one]);
+    for none in ["", "null", "{}", "[]", "not json", r#"{"buffer":2}"#] {
+        assert!(armed_from_json(none).is_empty(), "{none:?}");
+    }
+}

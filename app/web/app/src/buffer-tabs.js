@@ -13,8 +13,12 @@ const JAM_MODES = [["run", "run", "Tapping a pad will play its buffer on top of 
 /**
  * root: the element the tabs are drawn in; workspace; title(i): a pad's title (its shortcut with it); onPick(i): a pad
  * tapped or its shortcut pressed; store: { get(key, fallback), set(key, value) } for the jam's layout and mode.
+ * transport (a plugin's page): { has(i), toggle(i), playing }, the buffers armed for its host's transport, which the
+ * host's Play runs. With it every tab has an arm light over its number, as a DAW's track has its arm button: lit when
+ * armed, pulsing while the host plays. With jam on the pads are too big for a light over each: an armed pad carries
+ * a dot, and the arming is done with jam off.
  */
-export function createBufferTabs({ root, workspace, title, onPick, store }) {
+export function createBufferTabs({ root, workspace, title, onPick, store, transport = null }) {
   const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
   const saved = store.get("sp-jam", "off");   // an older true was the row
   const jam = { layout: saved === true ? "row" : JAM_LAYOUTS.includes(saved) ? saved : "off", mode: store.get("sp-jam-mode", "run"), get on() { return this.layout !== "off"; } };
@@ -48,6 +52,14 @@ export function createBufferTabs({ root, workspace, title, onPick, store }) {
     root.style.setProperty("--pad-cols", String(Math.ceil(n / 2)));   // the grid: two rows
     for (let i = 0; i < n; i++) {
       if (i) { const sep = el("span", "buffer-tab-sep", "|"); sep.setAttribute("aria-hidden", "true"); list.append(sep); }
+      if (transport) {
+        const light = el("button", "buffer-arm");
+        light.type = "button";
+        light.dataset.idx = i;
+        light.dataset.tipTitle = "";
+        light.addEventListener("click", () => { transport.toggle(i); paint(); });
+        list.append(light);
+      }
       const b = el("button", "buffer-tab", String(i));
       b.type = "button";
       b.dataset.idx = i;
@@ -86,6 +98,15 @@ export function createBufferTabs({ root, workspace, title, onPick, store }) {
       b.classList.toggle("active", on);
       b.setAttribute("aria-selected", String(on));
       b.classList.toggle("has-code", !!workspace.text(i).trim());
+      b.classList.toggle("armed", !!transport?.has(i));
+    }
+    root.classList.toggle("armable", !!transport);
+    root.classList.toggle("host-playing", !!transport?.playing);
+    for (const light of list.querySelectorAll(".buffer-arm")) {
+      const i = Number(light.dataset.idx), on = transport.has(i);
+      light.setAttribute("aria-pressed", String(on));
+      light.setAttribute("aria-label", `Sync buffer ${i}'s start and stop to the DAW`);   // on or off is the button's pressed state
+      light.title = "Sync this buffer's start and stop to the DAW";
     }
   }
   workspace.subscribe(paint);

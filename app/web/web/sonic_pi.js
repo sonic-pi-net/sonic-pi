@@ -885,7 +885,7 @@ export class WorkerSession {
 // ── In a plugin ───────────────────────────────────────────────────────────
 
 // What the plugin says (sonic-pi-plugin's instance.h, and its editor's hello)
-const PLUGIN_SAYS = { hello: 0, record: 1, log: 2, state: 3, run: 4, error: 5, table: 6, earlier: 7, engine: 8, runtime: 9, loads: 10, tempo: 11, warp: 12, clock: 13 };
+const PLUGIN_SAYS = { hello: 0, record: 1, log: 2, state: 3, run: 4, error: 5, table: 6, earlier: 7, engine: 8, runtime: 9, loads: 10, tempo: 11, warp: 12, clock: 13, armed: 14 };
 // the kinds whose messages start with their number in what the instance has said (a little-endian u64; instance.h)
 const CLOCK_RUNS_ON_SECS = 0.25;   // how long the page runs the plugin's time on without hearing it again
 const NUMBERED = new Set([PLUGIN_SAYS.record, PLUGIN_SAYS.log, PLUGIN_SAYS.engine, PLUGIN_SAYS.runtime, PLUGIN_SAYS.loads]);
@@ -968,6 +968,11 @@ export class PluginSession {
       if (running !== this.running) { this.running = running; this.#on.state?.(running); }
     } else if (kind === PLUGIN_SAYS.run) {
       this.#runs.shift()?.(new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength).getInt32(0, true));
+    } else if (kind === PLUGIN_SAYS.armed) {
+      // a run the plugin started itself, as its host began to play: an armed buffer's (instance.h SP_SAYS_ARMED)
+      const said = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+      this.#t0 ??= this.clockNow();
+      this.#on.armed?.(said.getInt32(0, true), said.getInt32(4, true));
     } else if (kind === PLUGIN_SAYS.table) {
       this.#table = new Float64Array(bytes.slice().buffer);   // a copy, aligned for doubles
       this.#report();

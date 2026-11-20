@@ -89,6 +89,20 @@ void sp_instance_time_warp(SpInstance* instance, double ms);
 
 /* A program as a new run, in `group` (0: none in particular). */
 void sp_instance_run(SpInstance* instance, const char* code, int group);
+/* A buffer the host's transport starts and stops: its number, its code as it is to run, the group its runs go in
+ * and the group that one hangs from, and the seconds its sounds take to fade when the host stops. */
+typedef struct SpArmed {
+    int buffer;
+    int group;
+    int parent;
+    double fade;
+    const char* code;
+} SpArmed;
+/* The armed buffers, in place of any said before: each runs when the host begins to play, and counts
+ * its time from that moment, so its sounds are on the host's beats from there (what was due before the word of it
+ * came goes out at once); its group stops when the host stops. The instance keeps its own copy, and
+ * needs no editor for any of it. Any thread. */
+void sp_instance_armed(SpInstance* instance, const SpArmed* armed, unsigned count);
 /* Every run stops where it stands; what sounds fades out. */
 void sp_instance_stop(SpInstance* instance);
 /* A run (by its job) or a group stops, its sounds faded over `fade` seconds; the rest play on. */
@@ -113,10 +127,13 @@ void sp_instance_group_under(SpInstance* instance, int group, int parent);
  *   SP_SAYS_CLOCK   one double: the instance's time (NTP seconds), as it moves and to an editor that asked. It is
  *                   the audio rendered so far, not the wall clock: the page times what it shows by it
  *   SP_SAYS_WARP    one double: the global time warp in milliseconds as it stands, for an editor that asked
+ *   SP_SAYS_ARMED   8 bytes: the job id (int32; -1 when it did not start) and the buffer (int32) of an armed
+ *                   buffer's run, as the host's transport starts it
  *                   (sp_instance_earlier): the instance plays on without its editor, and keeps its warp
  * #: the message starts with its number, a little-endian u64, counting what this instance has said that way. */
 enum { SP_SAYS_RECORD = 1, SP_SAYS_LOG = 2, SP_SAYS_STATE = 3, SP_SAYS_RUN = 4, SP_SAYS_ERROR = 5, SP_SAYS_TABLE = 6,
-       SP_SAYS_EARLIER = 7, SP_SAYS_ENGINE = 8, SP_SAYS_RUNTIME = 9, SP_SAYS_LOADS = 10, SP_SAYS_TEMPO = 11, SP_SAYS_WARP = 12, SP_SAYS_CLOCK = 13 };
+       SP_SAYS_EARLIER = 7, SP_SAYS_ENGINE = 8, SP_SAYS_RUNTIME = 9, SP_SAYS_LOADS = 10, SP_SAYS_TEMPO = 11, SP_SAYS_WARP = 12, SP_SAYS_CLOCK = 13,
+       SP_SAYS_ARMED = 14 };
 typedef void (*SpInstanceListener)(void* ctx, uint32_t kind, const uint8_t* bytes, uint32_t size);
 
 /* One listener at a time; NULL stops it. Returns once no call to the last one is under way. */

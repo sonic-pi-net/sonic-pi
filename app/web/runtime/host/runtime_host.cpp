@@ -434,17 +434,19 @@ void RuntimeHost::threadMain(Paths paths, std::promise<std::string>* booted)
 
 // ── Commands ────────────────────────────────────────────────────────────────
 
-void RuntimeHost::run(std::string code, int group, std::function<void(int)> reply)
+void RuntimeHost::run(std::string code, int group, std::function<void(int)> reply, std::optional<double> at)
 {
-    post([this, code = std::move(code), group, reply = std::move(reply)] { doRun(code, group, reply); });
+    post([this, code = std::move(code), group, reply = std::move(reply), at] { doRun(code, group, reply, at); });
 }
 
 // A run's clock starts now, whatever it names is loading (preload asked for it first): a sound of its whose load is
 // not in by its time goes late, on its own (pump). Timing is never held for a load.
-void RuntimeHost::doRun(const std::string& code, int group, std::function<void(int)> reply)
+void RuntimeHost::doRun(const std::string& code, int group, std::function<void(int)> reply, std::optional<double> at)
 {
     preload(code);
-    const double now = this->now();
+    // The runtime starts a run its lead after the time given (Scheduler#lead, for a warp below 0): a time the host
+    // names is the run's own, so the lead comes off it here.
+    const double now = at ? std::min(*at, this->now()) - m_lead : this->now();
     if (!m_t0) m_t0 = now;
     const int job = sp_run_group(code.c_str(), now, group);
     // the job is known before its first records are read: a record of the run's head (an error, a load_example) names it
@@ -608,6 +610,7 @@ void RuntimeHost::setTimeWarp(double ms)
 {
     post([this, ms] {
         sp_set_time_warp(ms / 1000.0);
+        m_lead = ms < 0 ? -ms / 1000.0 : 0.0;
         // the threads' wake times moved with it (Scheduler#lead): ask again when the next is due
         m_expectedWake.reset();
         if (m_running) tick();

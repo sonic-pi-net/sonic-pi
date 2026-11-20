@@ -50,6 +50,7 @@ using namespace Steinberg::Vst;
 extern "C" {
 void* sp_view_attach (void* parent, unsigned width, unsigned height, SpInstance* instance, void* host);
 void  sp_view_store_replaced (void* view);
+void  sp_armed_from_store (SpInstance* instance, const char* json, size_t length);   // lib.rs: the armed buffers, from the page's storage
 void  sp_log_enable ();   // filelog.rs: a host has loaded the plugin, so its lines go to the user's log folder
 void  sp_view_resize (void* view, unsigned width, unsigned height);
 void  sp_view_detach (void* view);
@@ -466,6 +467,7 @@ public:
             std::lock_guard<std::mutex> lk (mStoreMutex);
             mStore = std::move (store);
         }
+        armedFromStore ();
         if (mEditor) sp_view_store_replaced (mEditor);
         return kResultOk;
     }
@@ -484,18 +486,42 @@ public:
     // The page's storage (lib.rs): main thread's, and a host may ask for the state on another, so under the lock.
     void storePut (std::string key, std::string value)
     {
-        std::lock_guard<std::mutex> lk (mStoreMutex);
-        mStore[std::move (key)] = std::move (value);
+        const bool armed = key == kArmedKey;
+        {
+            std::lock_guard<std::mutex> lk (mStoreMutex);
+            mStore[std::move (key)] = std::move (value);
+        }
+        if (armed) armedFromStore ();
     }
     void storeRemove (const std::string& key)
     {
-        std::lock_guard<std::mutex> lk (mStoreMutex);
-        mStore.erase (key);
+        {
+            std::lock_guard<std::mutex> lk (mStoreMutex);
+            mStore.erase (key);
+        }
+        if (key == kArmedKey) armedFromStore ();
     }
     void storeClear ()
     {
-        std::lock_guard<std::mutex> lk (mStoreMutex);
-        mStore.clear ();
+        {
+            std::lock_guard<std::mutex> lk (mStoreMutex);
+            mStore.clear ();
+        }
+        armedFromStore ();
+    }
+    // The buffers the host's transport starts and stops are the page's to say, in its storage (main.js ARMED_KEY),
+    // and the instance's to act on (sp_instance_armed): told here whenever either is new, so a project opened with
+    // no editor has them as it was saved.
+    static constexpr const char* kArmedKey = "sp-daw-armed";
+    void armedFromStore ()
+    {
+        if (!mInstance) return;
+        std::string value;
+        {
+            std::lock_guard<std::mutex> lk (mStoreMutex);
+            if (const auto it = mStore.find (kArmedKey); it != mStore.end ()) value = it->second;
+        }
+        sp_armed_from_store (mInstance, value.data (), value.size ());
     }
     template <typename Each> void storeEach (Each each)
     {
@@ -559,6 +585,7 @@ public:
                 sp_host_note ((std::string ("Sonic Pi did not start: ") + why).c_str ());
                 return kResultFalse;
             }
+            armedFromStore ();
             // For a test in a real host, where nothing can press Run: the program in the file SONIC_PI_PLUGIN_RUN
             // names is run as the instance starts.
             if (const char* file = std::getenv ("SONIC_PI_PLUGIN_RUN")) {

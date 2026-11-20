@@ -140,7 +140,9 @@ public:
     // ── Commands: any thread, carried out on the runtime's ────────────────
     // A program as a new job in `group` (0: none in particular); `reply`
     // gets the job id (-1: it did not start), on the runtime's thread.
-    void run(std::string code, int group, std::function<void(int)> reply);
+    // `at`: the engine time the run counts from, where that is not now (a host's transport started then, and the
+    // run is to be heard from that moment: what was due before now goes out at once).
+    void run(std::string code, int group, std::function<void(int)> reply, std::optional<double> at = std::nullopt);
     // Every job stops where it stands, nothing more is sent; `done` runs
     // once that is so, for the host to empty the engine's schedule and then
     // call silence().
@@ -207,7 +209,7 @@ private:
 
     bool boot(const Paths& paths, std::string* err);
     void threadMain(Paths paths, std::promise<std::string>* booted);
-    void doRun(const std::string& code, int group, std::function<void(int)> reply);
+    void doRun(const std::string& code, int group, std::function<void(int)> reply, std::optional<double> at = std::nullopt);
     void tick();
     double now() const;
     void runDue(double until);
@@ -245,6 +247,7 @@ private:
     static constexpr double NEVER = 1e300;
     std::atomic<double> m_wakeAt{ NEVER };
     std::atomic<bool> m_wakeSaid{ false };
+    double m_lead = 0.0;                                                   // Scheduler#lead, as setTimeWarp last set it
     uint32_t m_longPasses = 0;                                             // sayLongPass
     std::optional<std::chrono::steady_clock::time_point> m_longPassSaid;
 

@@ -255,6 +255,7 @@ struct Plugin {
     // the render thread's
     std::thread render;
     std::atomic<bool> quit { false };
+    std::atomic<int> transport { -1 };  // the host's transport: -1 none said (no process context), 0 stopped, 1 playing
     std::atomic<bool> held { false };   // while set the host renders nothing, as a stopped REAPER that does not run FX
     std::mutex heardMutex;
     std::vector<float> heard;   // the left channel, every frame rendered
@@ -307,6 +308,12 @@ static bool start (Plugin& p)
                 p.midiToSend.clear ();
             }
             eventsOut.events.clear ();
+            ProcessContext context {};
+            const int transport = p.transport.load ();
+            context.sampleRate = kRate;
+            context.tempo = 60.0;
+            context.state = ProcessContext::kTempoValid | (transport == 1 ? ProcessContext::kPlaying : 0);
+            data.processContext = transport < 0 ? nullptr : &context;
             p.processor->process (data);
             {
                 std::lock_guard<std::mutex> lk (p.heardMutex);
@@ -1123,6 +1130,42 @@ int main (int argc, char** argv)
     stopAll (a);
     check ("and sees none once Stop has stopped it", jobsWithin (a, false, 3), lines (a.editor, @"\"t\":\"status\"").lastObject);
     pump (1.6);
+
+    // A buffer armed for the host is run by the host's Play and stopped by its Stop (the instance does both).
+    // The buffer showing holds the live loop just stopped.
+    {
+        a.transport.store (0);
+        pump (0.5);
+        check ("a host that says it is stopped runs nothing", jobsWithin (a, false, 1), lines (a.editor, @"\"t\":\"status\"").lastObject);
+        NSString* const armLight = @"document.querySelector(`.buffer-arm[data-idx=\"${document.querySelector('.buffer-tab.active').dataset.idx}\"]`)";
+        NSString* marked = js (a, [NSString stringWithFormat:@"(() => { const b = %@; if (!b) return 'no arm light'; b.click(); return b.getAttribute('aria-pressed') === 'true' ? 'on' : 'off'; })()", armLight]);
+        check ("the buffer showing can be armed for the host's transport, by the light over its tab", [marked isEqual:@"on"], marked);
+        a.transport.store (1);
+        const size_t before = heardSoFar (a);
+        check ("the host's Play runs the armed buffer", jobsWithin (a, true, 3), lines (a.editor, @"\"t\":\"status\"").lastObject);
+        check ("which sounds", soundsWithin (a, before, 3));
+        check ("and its light shows the host playing", [js (a, @"document.getElementById('buffer-tabs').classList.contains('host-playing') ? 'yes' : 'no'") isEqual:@"yes"]);
+        // A picture of the page as it stands, armed and playing, for a person to look at: SONIC_PI_HOST_SHOT=<file.png>.
+        if (const char* shot = getenv ("SONIC_PI_HOST_SHOT")) {
+            js (a, @"document.querySelector('.buffer-arm[data-idx=\"2\"]')?.click()");   // a second one armed, not showing
+            pump (0.3);
+            __block bool done = false;
+            NSString* path = @(shot);
+            [webViewIn (a.window.contentView) takeSnapshotWithConfiguration:nil completionHandler:^(NSImage* image, NSError*) {
+                if (NSData* tiff = image.TIFFRepresentation)
+                    [[[NSBitmapImageRep imageRepWithData:tiff] representationUsingType:NSBitmapImageFileTypePNG properties:@{}] writeToFile:path atomically:YES];
+                done = true;
+            }];
+            NSDate* until = [NSDate dateWithTimeIntervalSinceNow:5];
+            while (!done && [until timeIntervalSinceNow] > 0) pump (0.05);
+            js (a, @"document.querySelector('.buffer-arm[data-idx=\"2\"]')?.click()");
+        }
+        a.transport.store (0);
+        check ("and the host's Stop stops it", jobsWithin (a, false, 3), lines (a.editor, @"\"t\":\"status\"").lastObject);
+        js (a, [NSString stringWithFormat:@"%@?.click()", armLight]);   // disarmed again, for what follows
+        a.transport.store (-1);
+        pump (1.0);
+    }
 
     // what was printed before the editor closed is in its log when it opens again, once
     typeAndRun (a, @"puts \"kept in the log\"");

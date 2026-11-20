@@ -573,7 +573,9 @@ async function ensureSession() {
       },
       fail: (msg) => logs.add("SuperSonic", `/fail ${msg.slice(1).map(describe).join(" ")}`),     // a message the engine refused, as it said it
       note: (text, tab = "Host") => logs.add(tab, text),   // a line from the plugin, under its tab (PluginSession)
-      tempo: (bpm) => setLinkBpm(bpm, true),                 // the plugin's host's tempo, which its runtime keeps
+      // the plugin's host's tempo, which its runtime keeps, and whether the host plays
+      tempo: (bpm, playing) => { setLinkBpm(bpm, true); hostTransport(playing); },
+      armed: hostRan,   // a run the plugin started as its host began to play: an armed buffer's
       warp: (ms) => { linkState.warp = Math.round(ms); paintWarp(); },   // the time warp the plugin kept while its editor was closed
       // a record from before the page (a plugin's editor opened after it ran): its line in the log, its cue
       earlier: (r) => { if (r.kind === "output") output(r); else if (r.kind === "log") log(r); else if (r.kind === "cue") addCue(r.address, r.val, r.t); },
@@ -635,6 +637,8 @@ const unknownOpts = { warn: store.get("sp-warn-unknown-opts", true) };
 // buffer, which is the cure for a machine that crackles under a heavy patch — and nothing at all in Safari, which
 // gives its smallest buffer either way.
 const lowLatency = { on: store.get("sp-low-latency", true) };   // read at the engine's boot
+// What every run opens with, for the player's settings: on line 1, so every line keeps its number.
+const runPrefix = () => `${safeMode.on ? "use_arg_checks true; " : ""}${unknownOpts.warn ? "__warn_unknown_opts true; " : ""}${externalSynths.on ? "use_external_synths true; " : ""}`;
 async function play(code, { buffer = null, scopeSlot = null, group = buffer != null ? BUFFER_GROUP + buffer : scopeSlot != null ? CARDS_GROUP : 0 } = {}) {   // a card's run is the one with a scope slot of its own
   const asked = stops;
   loadingStop?.expect();   // this run waits for its first sound: what loads under it holds the comet till then
@@ -651,7 +655,7 @@ async function play(code, { buffer = null, scopeSlot = null, group = buffer != n
     const run = scopeSlot != null ? `${head}with_fx :scope_out, scope_num: ${scopeSlot} do\n${code.slice(head.length)}\nend\n` : code;
     // on line 1, so every line keeps its number (native puts its use_arg_checks on a line of its own); the error card
     // takes the prefix's length off a column on line 1
-    const prefix = `${safeMode.on ? "use_arg_checks true; " : ""}${unknownOpts.warn ? "__warn_unknown_opts true; " : ""}${externalSynths.on ? "use_external_synths true; " : ""}`;
+    const prefix = runPrefix();
     lastRun = { buffer, code, prefix: prefix.length };   // a syntax error names no job: the error card reads the code from here
     const job = await s.run(prefix + run, { group });
     if (buffer != null) { jobBuffer.set(job, buffer); paintLoopScopes(); }
@@ -779,7 +783,62 @@ function pickBuffer(i) {
   if (tabs.jam.mode === "run") run();
   else if (tabs.jam.mode === "exec") stopAndRun();
 }
-const tabs = createBufferTabs({ root: $("buffer-tabs"), workspace, title: (i) => keys.title(`Code buffer ${i}`, `Tab${i}`), onPick: pickBuffer, store });
+// ── Run with the host's transport (a plugin) ──────────────────────────────
+// A buffer can be armed for its host: the host's Play runs every armed buffer of the set showing, on top of whatever
+// plays (as Run does), and its Stop stops those buffers' runs. A buffer not armed is run and stopped by hand alone.
+// Which are armed is kept with the page's storage, which in a plugin is the host's project: by set, the buffers' numbers.
+// The plugin's instance does the running and the stopping (instance.h sp_instance_armed), so they need no editor: the
+// page keeps the armed buffers in its storage as the instance reads them, each with its code as it is to run, and
+// writes them again whenever a light, a buffer's code, the set or a setting a run opens with changes.
+const ARMED_KEY = "sp-daw-armed";   // instance.rs ARMED_KEY
+const hostRuns = {
+  all: () => store.get("sp-host-runs", {}) ?? {},
+  marked() { return (this.all()[workspace.set().id] ?? []).filter((i) => i < workspace.size); },
+  has(i) { return this.marked().includes(i); },
+  get playing() { return hostPlaying === true; },
+  toggle(i) {
+    const all = this.all(), id = workspace.set().id, now = new Set(all[id] ?? []);
+    if (!now.delete(i)) now.add(i);
+    store.set("sp-host-runs", { ...all, [id]: [...now].sort((a, b) => a - b) });
+    saveArmed();
+  },
+};
+let armedSaved = "";      // what the instance last had, as it was written
+let armedRuns = new Map();   // buffer → { code, prefix } as the instance has it: what a run of its is
+function saveArmed() {
+  if (!inPlugin) return;
+  const prefix = runPrefix();
+  // the buffer showing as it reads now, any other as it was left
+  const codeOf = (i) => (i === editor.active ? editor.getCode() : workspace.text(i));
+  const list = hostRuns.marked().map((i) => ({ buffer: i, group: BUFFER_GROUP + i, parent: BUFFERS_GROUP, fade: JAM_FADE, code: prefix + codeOf(i) }));
+  armedRuns = new Map(list.map((a) => [a.buffer, { code: a.code.slice(prefix.length), prefix: prefix.length }]));
+  const text = JSON.stringify(list);
+  if (text === armedSaved) return;
+  armedSaved = text;
+  store.set(ARMED_KEY, list);
+}
+let armedSoon = 0;
+const saveArmedSoon = () => { clearTimeout(armedSoon); armedSoon = setTimeout(saveArmed, 150); };
+let hostPlaying = null;   // not yet said: the first word is where the host stands, not a start or a stop
+function hostTransport(playing) {
+  if (hostPlaying === playing) return;
+  hostPlaying = playing;
+  tabs.paint();   // the armed buffers' lights, which pulse while the host plays
+}
+// A run the plugin started as its host began to play: an armed buffer's, known here as one the page ran is (play).
+function hostRan(job, buffer) {
+  const ran = armedRuns.get(buffer);
+  if (job < 0 || !ran) return;
+  lastRun = { buffer, code: ran.code, prefix: ran.prefix };
+  jobBuffer.set(job, buffer);
+  paintLoopScopes();
+  programs.set(job, { job, buffer, code: ran.code, prefix: ran.prefix, started: new Date().toISOString() });
+  if (programs.size > 20) programs.delete(programs.keys().next().value);
+  refreshJobs();
+}
+const tabs = createBufferTabs({ root: $("buffer-tabs"), workspace, title: (i) => keys.title(`Code buffer ${i}`, `Tab${i}`), onPick: pickBuffer, store, transport: inPlugin ? hostRuns : null });
+workspace.subscribe(saveArmedSoon);   // an edit, another buffer shown, another set
+saveArmedSoon();                      // and as the page opens: its settings may be newer than what was saved
 
 // native's auto-indent on run (on by default): the buffer is re-indented before it is read
 const editorPrefs = { autoIndent: store.get("sp-auto-indent-on-run", true) };
@@ -2875,10 +2934,10 @@ function buildPrefs() {
 
   // native's Studio > Synths and FX
   h("Synths and FX");
-  box.appendChild(toggle("Safe mode", safeMode.on, (on) => { safeMode.on = on; store.set("sp-safe-mode", on); }, "Checks synth arguments before triggering. If disabled, certain synth opt values may create unexpectedly loud or uncomfortable sounds.", "pref-safe"));
-  box.appendChild(toggle("Warn about unknown opts", unknownOpts.warn, (on) => { unknownOpts.warn = on; store.set("sp-warn-unknown-opts", on); },
+  box.appendChild(toggle("Safe mode", safeMode.on, (on) => { safeMode.on = on; store.set("sp-safe-mode", on); saveArmedSoon(); }, "Checks synth arguments before triggering. If disabled, certain synth opt values may create unexpectedly loud or uncomfortable sounds.", "pref-safe"));
+  box.appendChild(toggle("Warn about unknown opts", unknownOpts.warn, (on) => { unknownOpts.warn = on; store.set("sp-warn-unknown-opts", on); saveArmedSoon(); },
     "Warn about an opt a synth, FX or sample doesn't have, which is usually a typo. When off, a misspelt opt silently does nothing", "pref-warn"));
-  box.appendChild(toggle("Enable external synths/FX", externalSynths.on, (on) => { externalSynths.on = on; store.set("sp-external-synths", on); },
+  box.appendChild(toggle("Enable external synths/FX", externalSynths.on, (on) => { externalSynths.on = on; store.set("sp-external-synths", on); saveArmedSoon(); },
     "When enabled, Sonic Pi will allow synths and FX loaded via load_synthdefs to be triggered.\n\nWhen disabled, Sonic Pi will complain when you attempt to use a synth or FX which isn't recognised.", "pref-external"));
 
   h("Audio");

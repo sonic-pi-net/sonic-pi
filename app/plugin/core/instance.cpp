@@ -382,6 +382,10 @@ struct SpInstance final : AssetLoader
         clockSaid.store(t, std::memory_order_relaxed);
         say(SP_SAYS_CLOCK, &t, sizeof t);
     }
+    // The buffers the host's transport starts and stops (sp_instance_armed).
+    struct Armed { int buffer, group, parent; double fade; std::string code; };
+    std::mutex armedMutex;
+    std::vector<Armed> armed;
     double hostBpm = 0;                      // as it was last heard (the engine's thread)
     bool hostPlaying = false;
 
@@ -771,7 +775,11 @@ struct SpInstance final : AssetLoader
         if (!(c.flags & SC_FLAG_HOST_TIMELINE)) return;
         runtime.setLinkGrid(c.bpm, c.beat_origin_ntp);
         const bool playing = c.is_playing != 0;
-        if (!hostSaid.exchange(true) || c.bpm != hostBpm || playing != hostPlaying)
+        const bool first = !hostSaid.exchange(true);
+        // the host began to play, or stopped: the armed buffers go with it. Its first word is where it stands, and
+        // starts nothing.
+        if (!first && playing != hostPlaying) armedFollow(playing);
+        if (first || c.bpm != hostBpm || playing != hostPlaying)
         {
             char text[96];
             std::snprintf(text, sizeof text, "the host's tempo: %.2f bpm, %s", c.bpm, playing ? "playing" : "stopped");
@@ -780,6 +788,53 @@ struct SpInstance final : AssetLoader
         hostBpm = c.bpm;
         hostPlaying = playing;
         sayTempo(c.bpm, playing);
+    }
+
+    // When the host began to play, for an armed buffer's run, which counts its time from then: the moment less the
+    // schedule-ahead time, as a sound is heard that long after its run's time. None when it began over a second
+    // ago: the word of it came too late to be the start's.
+    std::optional<double> playStart()
+    {
+        ClockworkClientClock c{};
+        const double at = now();
+        if (!engine.clock(c) || !(c.flags & SC_FLAG_HOST_TIMELINE) || !c.is_playing) return std::nullopt;
+        if (c.is_playing_at_ntp > at || at - c.is_playing_at_ntp >= 1.0) return std::nullopt;
+        return c.is_playing_at_ntp - ahead.load();
+    }
+
+    // A run, said to the page by its job.
+    void run(const std::string& code, int group, std::optional<double> at)
+    {
+        runtime.run(code, group, [this](int job) {
+            const int32_t id = job;
+            say(SP_SAYS_RUN, &id, sizeof id);
+        }, at);
+    }
+
+    // The host began to play or stopped: each armed buffer runs from the moment it began, or its group stops.
+    void armedFollow(bool playing)
+    {
+        std::vector<Armed> list;
+        {
+            std::lock_guard<std::mutex> lk(armedMutex);
+            list = armed;
+        }
+        if (list.empty()) return;
+        const auto at = playing ? playStart() : std::nullopt;
+        for (const Armed& a : list)
+        {
+            if (!playing)
+            {
+                runtime.stopGroup(a.group, a.fade);
+                continue;
+            }
+            runtime.groupUnder(a.group, a.parent);
+            runtime.run(a.code, a.group, [this, buffer = a.buffer](int job) {
+                const int32_t said[2] = { job, buffer };
+                say(SP_SAYS_ARMED, said, sizeof said);
+            }, at);
+        }
+        log(std::string("the host ") + (playing ? "plays: " : "stopped: ") + std::to_string(list.size()) + " armed buffer" + (list.size() == 1 ? "" : "s") + (playing ? " run" : " stopped"));
     }
 
     void sayTempo(double bpm, bool playing)
@@ -987,10 +1042,17 @@ void sp_instance_align_bars(SpInstance* instance, int on)
 
 void sp_instance_run(SpInstance* instance, const char* code, int group)
 {
-    instance->runtime.run(code ? code : "", group, [instance](int job) {
-        const int32_t id = job;
-        instance->say(SP_SAYS_RUN, &id, sizeof id);
-    });
+    instance->run(code ? code : "", group, std::nullopt);
+}
+
+void sp_instance_armed(SpInstance* instance, const SpArmed* armed, unsigned count)
+{
+    if (!instance) return;
+    std::vector<SpInstance::Armed> list;
+    for (unsigned i = 0; armed && i < count; i++)
+        list.push_back({ armed[i].buffer, armed[i].group, armed[i].parent, armed[i].fade, armed[i].code ? armed[i].code : "" });
+    std::lock_guard<std::mutex> lk(instance->armedMutex);
+    instance->armed = std::move(list);
 }
 
 void sp_instance_time_warp(SpInstance* instance, double ms)

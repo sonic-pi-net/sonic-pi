@@ -31,6 +31,23 @@ use clockwork_sys as _;
 mod filelog;
 pub mod instance;
 
+/// The page's storage has the armed buffers under instance::ARMED_KEY, as `len` bytes of JSON at `json` (none: null
+/// or 0): the instance takes them, in place of any it had. The plugin's shell calls this when it has an instance,
+/// when a host hands it a project's state, and whenever the page writes the key, so the buffers follow the host's
+/// transport with no editor open.
+///
+/// # Safety
+/// `instance` is a live instance; `json` is `len` readable bytes, or null with `len` 0.
+#[unsafe(no_mangle)]
+pub unsafe extern "C" fn sp_armed_from_store(instance: *mut instance::RawInstance, json: *const u8, len: usize) {
+    if instance.is_null() {
+        return;
+    }
+    // SAFETY: `len` bytes, as the caller says.
+    let text = if json.is_null() || len == 0 { "" } else { std::str::from_utf8(unsafe { std::slice::from_raw_parts(json, len) }).unwrap_or("") };
+    instance::set_armed(instance, &instance::armed_from_json(text));
+}
+
 use instance::RawInstance;
 
 unsafe extern "C" {

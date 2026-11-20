@@ -33,6 +33,7 @@ pub const SAYS_LOADS: u32 = 10;
 pub const SAYS_TEMPO: u32 = 11;
 pub const SAYS_WARP: u32 = 12;
 pub const SAYS_CLOCK: u32 = 13;
+pub const SAYS_ARMED: u32 = 14;
 /// The kinds whose messages start with their number, a little-endian u64 (instance.h).
 pub const NUMBERED: [u32; 5] = [SAYS_RECORD, SAYS_LOG, SAYS_ENGINE, SAYS_RUNTIME, SAYS_LOADS];
 
@@ -82,6 +83,7 @@ unsafe extern "C" {
     fn sp_instance_align_bars(instance: *mut RawInstance, on: c_int);
     fn sp_instance_time_warp(instance: *mut RawInstance, ms: f64);
     fn sp_instance_run(instance: *mut RawInstance, code: *const c_char, group: c_int);
+    fn sp_instance_armed(instance: *mut RawInstance, armed: *const RawArmed, count: std::ffi::c_uint);
     fn sp_instance_stop(instance: *mut RawInstance);
     fn sp_instance_stop_run(instance: *mut RawInstance, job: c_int, fade: f64);
     fn sp_instance_listen(instance: *mut RawInstance, listener: Option<Listener>, ctx: *mut c_void);
@@ -107,6 +109,56 @@ unsafe impl Sync for Instance {}
 pub fn midi_port() -> &'static str {
     // SAFETY: a string literal of the C++ side's, which lasts as long as the library.
     unsafe { std::ffi::CStr::from_ptr(sp_midi_port()) }.to_str().unwrap_or_default()
+}
+
+/// instance.h's SpArmed.
+#[repr(C)]
+struct RawArmed {
+    buffer: c_int,
+    group: c_int,
+    parent: c_int,
+    fade: f64,
+    code: *const c_char,
+}
+
+/// A buffer the host's transport starts and stops (instance.h's SpArmed).
+#[derive(Clone, Debug, PartialEq)]
+pub struct Armed {
+    pub buffer: i32,
+    pub group: i32,
+    pub parent: i32,
+    pub fade: f64,
+    pub code: String,
+}
+
+/// The armed buffers as the page keeps them in its storage, under ARMED_KEY: a JSON list of
+/// {buffer, group, parent, fade, code}. Anything else (no value, another shape, an entry short of a field) is no
+/// armed buffers, or that entry left out: what the page wrote is all there is to go on, and nothing runs on a guess.
+pub fn armed_from_json(json: &str) -> Vec<Armed> {
+    let Ok(serde_json::Value::Array(list)) = serde_json::from_str::<serde_json::Value>(json) else {
+        return Vec::new();
+    };
+    list.iter()
+        .filter_map(|a| {
+            let int = |k: &str| a[k].as_i64().and_then(|n| i32::try_from(n).ok());
+            Some(Armed { buffer: int("buffer")?, group: int("group")?, parent: int("parent")?, fade: a["fade"].as_f64()?, code: a["code"].as_str()?.to_owned() })
+        })
+        .collect()
+}
+
+/// The key of the page's storage the armed buffers are under (main.js ARMED_KEY; shell.cpp kArmedKey).
+pub const ARMED_KEY: &str = "sp-daw-armed";
+
+/// The armed buffers, to an instance (sp_instance_armed).
+pub(crate) fn set_armed(instance: *mut RawInstance, armed: &[Armed]) {
+    let codes: Vec<CString> = armed.iter().map(|a| CString::new(a.code.replace('\0', "")).unwrap_or_default()).collect();
+    let raw: Vec<RawArmed> = armed
+        .iter()
+        .zip(&codes)
+        .map(|(a, code)| RawArmed { buffer: a.buffer, group: a.group, parent: a.parent, fade: a.fade, code: code.as_ptr() })
+        .collect();
+    // SAFETY: a live instance; `raw` and the strings it points into last for the call, and the instance copies them.
+    unsafe { sp_instance_armed(instance, raw.as_ptr(), raw.len() as std::ffi::c_uint) };
 }
 
 impl Instance {
@@ -214,6 +266,11 @@ impl Instance {
         let code = CString::new(code.replace('\0', "")).unwrap_or_default();
         // SAFETY: a live instance and a NUL-terminated string, copied before the call returns.
         unsafe { sp_instance_run(self.as_ptr(), code.as_ptr(), group) };
+    }
+
+    /// The buffers the host's transport starts and stops, in place of any said before (sp_instance_armed).
+    pub fn armed(&self, armed: &[Armed]) {
+        set_armed(self.as_ptr(), armed);
     }
 
     /// One run stops, by its job, its sounds faded over `fade` seconds.
