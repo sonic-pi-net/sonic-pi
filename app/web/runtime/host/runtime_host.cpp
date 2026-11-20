@@ -64,6 +64,8 @@ const uint8_t* sp_out_ptr(void);
 int sp_out_len(void);
 const char* sp_synthdef_for(const char* name, int fx);
 int sp_buffer_for(const char* file);
+void sp_gc_when_idle(void);
+int sp_gc_step(void);
 }
 
 namespace SonicPi
@@ -73,6 +75,7 @@ namespace
 {
 
 constexpr double HOLD_SECS = 1.0;     // a gap this long is a hold, not jitter
+constexpr int STEPPED_GC_STEPS = 4;   // stepped mode: steps of collection after each tick, a fixed number so a render is the same every time
 
 // The five random tables, each the bytes of its wav file, named by the
 // source a program asks for (rand.rb's Tables).
@@ -306,6 +309,7 @@ bool RuntimeHost::boot(const Paths& paths, std::string* err)
         return false;
     }
     sp_set_user(this);
+    sp_gc_when_idle();
     m_version = sp_version();
     installNativeHooks();
     for (const auto& t : TABLES)
@@ -412,9 +416,16 @@ void RuntimeHost::threadMain(Paths paths, std::promise<std::string>* booted)
             tick();
             continue;
         }
-        // Nothing to do until a command is posted or the clock reaches the wake time. A release with nothing behind
-        // it (a wake time this thread got to first) costs one more turn of this loop.
-        if (cmds.empty()) m_wake.acquire();
+        // Nothing to do until a command is posted or the clock reaches the wake time: the time the collector gets
+        // (sp_gc_when_idle), a small step at a time, each ended by a look at whether the thread is wanted. A release
+        // with nothing behind it (a wake time this thread got to first) costs one more turn of this loop.
+        if (!cmds.empty()) continue;
+        while (!m_wake.try_acquire())
+        {
+            if (sp_gc_step()) continue;
+            m_wake.acquire();
+            break;
+        }
     }
 }
 
@@ -466,6 +477,7 @@ void RuntimeHost::runDue(double until)
         if (at > until) return;
         m_steppedNow = at;
         const double next = sp_tick(at);
+        for (int i = 0; i < STEPPED_GC_STEPS && sp_gc_step(); i++) {}
         drain();
         if (m_deps.ticked) m_deps.ticked();
         if (next < 0)

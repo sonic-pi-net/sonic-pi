@@ -837,10 +837,58 @@ SP_EXPORT void sp_stop_job(int job) {
   if (mrb->exc) report_exception(mrb, "stopping a job");
 }
 
+#ifdef MRB_GC_PROFILE
+// A measurement build's (mruby and this file built with MRB_GC_PROFILE): how long the collector has held this
+// runtime's thread so far, to stderr. `sync` is collection done in the middle of the program's own work, `step`
+// collection done from the host's idle time.
+static void gc_report(mrb_state *mrb) {
+  const mrb_gc *gc = &mrb->gc;
+  const mrb_gc_prof_hist *h[2] = { &gc->prof_sync, &gc->prof_step };
+  const char *name[2] = { "sync", "step" };
+  for (int k = 0; k < 2; k++) {
+    fprintf(stderr, "sp_host: gc %s: %llu pauses, %llu us in all, longest %llu us; by size (us)", name[k],
+            (unsigned long long)h[k]->count, (unsigned long long)h[k]->total_us, (unsigned long long)h[k]->max_us);
+    for (int i = 0; i < MRB_GC_PROFILE_NBUCKETS; i++)
+      if (h[k]->buckets[i]) fprintf(stderr, " <%u:%u", 1u << i, h[k]->buckets[i]);
+    fprintf(stderr, "\n");
+  }
+  fprintf(stderr, "sp_host: gc live %llu objects, longest final mark %llu us\n", (unsigned long long)gc->live,
+          (unsigned long long)gc->prof_final_mark_max_us);
+}
+#endif
+
+// Collection in the host's idle time. As mruby comes, it collects in the middle of the program's work, whenever
+// enough has been allocated: measured in a plugin on 20 November 2026, a busy program was interrupted 96 times a
+// second for 8% of its time, 8 ms at the longest. After this call the allocating code no longer collects (mruby's
+// scheduler-driven mode, mruby/gc.h); the host calls sp_gc_step while its thread has nothing else to do. A program
+// that allocates GC_DEBT_LIMIT objects more than the collector was due to allow, with no idle time between, is
+// collected as it allocates again, a small step at a time, so memory stays bounded.
+#define GC_DEBT_LIMIT 50000
+SP_EXPORT void sp_gc_when_idle(void) {
+  if (!current) return;
+  mrb_state *mrb = current->mrb;
+  mrb_gc_scheduler_driven(mrb, TRUE);
+  mrb->gc.debt_limit = GC_DEBT_LIMIT;
+  if (mrb->exc) report_exception(mrb, "moving collection to idle time");
+}
+
+// One small step of collection. Returns 1 while there is more to do, 0 when the collector has caught up (or
+// sp_gc_when_idle was never called).
+SP_EXPORT int sp_gc_step(void) {
+  if (!current) return 0;
+  mrb_state *mrb = current->mrb;
+  if (!mrb_gc_scheduler_pending(mrb)) return 0;
+  mrb_gc_step(mrb);
+  return mrb_gc_scheduler_pending(mrb) ? 1 : 0;
+}
+
 // Every job stops where it stands. Nothing goes to the engine: the host empties its schedule, then sp_silence.
 SP_EXPORT void sp_stop_all(void) {
   if (!current) return;
   mrb_state *mrb = current->mrb;
+#ifdef MRB_GC_PROFILE
+  gc_report(mrb);
+#endif
   current->outbox.len = 0;
   int ai = mrb_gc_arena_save(mrb);
   mrb_funcall(mrb, live_module(mrb), "stop_all", 0);
