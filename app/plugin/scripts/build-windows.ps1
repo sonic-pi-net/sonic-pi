@@ -5,13 +5,16 @@
 # one bundle (VST3's own layout for that: Contents\x86_64-win and Contents\arm64-win, one Contents\Resources),
 # the web GUI it shows, and Sonic Pi's synthdefs, samples and random tables.
 #
-#   scripts\build-windows.ps1 [-Arch x64,arm64] [-Sign <thumbprint>] [-Zip] [-Install]
+#   scripts\build-windows.ps1 [-Arch x64,arm64] [-Sign <thumbprint>] [-Zip] [-Installer] [-Install]
 #
-# -Arch     the architectures to build (both by default, as a release is)
-# -Sign     signs each binary with this code-signing certificate (its SHA-1 thumbprint, from the user's or the
-#           machine's certificate store) and a timestamp, so it loads where Smart App Control is on
-# -Zip      zips the bundle as dist\Sonic-Pi-VST3-<version>-windows.zip
-# -Install  copies the bundle to C:\Program Files\Common Files\VST3 (run from an elevated shell)
+# -Arch       the architectures to build (both by default, as a release is)
+# -Sign       signs each binary with this code-signing certificate (its SHA-1 thumbprint, from the user's or the
+#             machine's certificate store) and a timestamp, so it loads where Smart App Control is on; and the
+#             installer and its uninstaller, with -Installer
+# -Zip        zips the bundle as dist\Sonic-Pi-VST3-<version>-windows.zip
+# -Installer  builds dist\Sonic-Pi-VST3-<version>-windows-setup.exe from scripts\installer-windows.iss, which
+#             installs the bundle in Common Files\VST3 (needs Inno Setup 6.3 or later: winget install JRSoftware.InnoSetup)
+# -Install    copies the bundle to C:\Program Files\Common Files\VST3 (run from an elevated shell)
 #
 # Needs: Visual Studio 2022 or later with the MSVC tools for both architectures; CMake and Ninja; rustup with
 # the aarch64-pc-windows-msvc and x86_64-pc-windows-msvc targets; Ruby with rake; Git for Windows (its bash runs
@@ -19,11 +22,16 @@
 # SuperSonic's client is built from app/external/supersonic, which needs `npm ci` there once, and clockwork's
 # browser subsystems (clockwork/scripts/build-web-subsystems.sh: a nightly Rust with wasm32-unknown-unknown, and
 # wasm-bindgen) built once. SUPERSONIC_DIST names a whole SuperSonic web build to use instead.
+# And the share link's codec, sp_share.mjs and sp_share.wasm, which only Emscripten builds (app/web's
+# scripts/build-runtime.sh) and this script does not: in app\web\build\runtime, or in the folder SP_SHARE_DIR names.
+# They are the `sp_share` artifact of the Web workflow's run for the same commit, and in a Mac build's
+# app/web/build/runtime.
 [CmdletBinding()]
 param(
     [ValidateSet('x64', 'arm64')] [string[]] $Arch = @('x64', 'arm64'),
     [string] $Sign,
     [switch] $Zip,
+    [switch] $Installer,
     [switch] $Install
 )
 $ErrorActionPreference = 'Stop'
@@ -90,10 +98,28 @@ if ($Sign) {
     $cert = Get-ChildItem Cert:\CurrentUser\My, Cert:\LocalMachine\My -CodeSigningCert | Where-Object Thumbprint -eq $Sign | Select-Object -First 1
     if (-not $cert) { Die "no code-signing certificate with thumbprint $Sign" }
     if ($cert.NotAfter -lt (Get-Date)) { Die "the certificate $Sign expired on $($cert.NotAfter)" }
-    $SignTool = Find-Tool 'signtool.exe' @("${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\$(if ($HostArch -eq 'arm64') { 'arm64' } else { 'x64' })\signtool.exe",
-                                          "${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64\signtool.exe")
+    # The x64 signtool, on Arm64 Windows too: a certificate whose key is on a card or in the cloud (Certum's
+    # SimplySign) is reached through its vendor's x64 library, which the arm64 signtool cannot load, and so
+    # finds no certificate ("No certificates were found that met all the given criteria").
+    $SignTool = Find-Tool 'signtool.exe' @("${env:ProgramFiles(x86)}\Windows Kits\10\bin\*\x64\signtool.exe")
     if (-not $SignTool) { Die 'no signtool.exe: install the Windows SDK' }
     Write-Host "signing as: $($cert.Subject)"
+}
+# Inno Setup's compiler likewise, before the build.
+$Iscc = $null
+if ($Installer) {
+    $Iscc = Find-Tool 'ISCC.exe' @("$env:LOCALAPPDATA\Programs\Inno Setup 6\ISCC.exe", "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe",
+                                   "$env:ProgramFiles\Inno Setup 6\ISCC.exe")
+    if (-not $Iscc) { Die 'no ISCC.exe: install Inno Setup 6 (winget install JRSoftware.InnoSetup)' }
+}
+# The share link's codec likewise: nothing here builds it (it is Emscripten's), and without it the page build
+# leaves it out without a word and the Share button fails.
+$ShareFiles = 'sp_share.mjs', 'sp_share.wasm'
+$ShareDir = if ($env:SP_SHARE_DIR) { $env:SP_SHARE_DIR } else { Join-Path $Web 'build\runtime' }
+$missing = @($ShareFiles | Where-Object { -not (Test-Path (Join-Path $ShareDir $_) -PathType Leaf) })
+if ($missing) {
+    Die ("no $($missing -join ' or ') in $ShareDir, the share link's codec: take both from the 'sp_share' artifact of the Web " +
+         "workflow's run for this commit, or from a Mac build's app/web/build/runtime, and put them there or in a folder SP_SHARE_DIR names")
 }
 
 # The environment of Visual Studio's developer prompt for a target, for the length of $body.
@@ -229,13 +255,18 @@ foreach ($a in $Arch) {
     Copy-Item $Binaries[$a] (Join-Path $dir "$Name.vst3")
 }
 # The page, less what only the web's own engine and runtime use, as scripts/build.sh leaves out: in the plugin the
-# sound is the plugin's and so is the runtime (web/runtime.js inPlugin).
+# sound is the plugin's and so is the runtime (web/runtime.js inPlugin). The other wasm beside the runtime stays:
+# the Share button makes its links with it (sp_share).
 Copy-Item -Recurse $Page (Join-Path $Resources 'page')
 $p = Join-Path $Resources 'page'
 Get-ChildItem $p -Recurse -Filter *.map | Remove-Item
-foreach ($gone in 'engine\samples', 'engine\synthdefs', 'engine\wasm\clockwork-scsynth*', 'runtime\*.wasm', 'buffers') {
+foreach ($gone in 'engine\samples', 'engine\synthdefs', 'engine\wasm\clockwork-scsynth*', 'runtime\sp_runtime.wasm', 'buffers') {
     Remove-Item -Recurse -Force (Join-Path $p $gone) -ErrorAction SilentlyContinue
 }
+# The codec, from where it was found before the build: the page build brings it only when the wasm runtime is
+# built too (lib/runtime-assets.mjs copyRuntime), which it is not here.
+New-Item -ItemType Directory -Force (Join-Path $p 'runtime') | Out-Null
+foreach ($f in $ShareFiles) { Copy-Item -Force (Join-Path $ShareDir $f) (Join-Path $p 'runtime') }
 New-Item -ItemType Directory -Force (Join-Path $Resources 'synthdefs') | Out-Null
 Copy-Item (Join-Path $Etc 'synthdefs\compiled\*.scsyndef') (Join-Path $Resources 'synthdefs')
 Copy-Item -Recurse (Join-Path $Etc 'samples') (Join-Path $Resources 'samples')
@@ -257,10 +288,26 @@ if ($Zip) {
     $zipPath = Join-Path $Here "dist\Sonic-Pi-VST3-$Version-windows.zip"
     Remove-Item $zipPath -ErrorAction SilentlyContinue
     # Windows' own bsdtar: a zip with forward slashes, which every unzip reads (Compress-Archive in Windows
-    # PowerShell writes backslashes)
+    # PowerShell writes backslashes). By its full path: Git's tar is ahead of it on PATH from Git's bash, and takes
+    # C: for a remote host.
     Push-Location (Join-Path $Here 'dist')
-    try { Run 'tar' { tar.exe -a -c -f $zipPath "$Name.vst3" } } finally { Pop-Location }
+    try { Run 'tar' { & "$env:WINDIR\System32\tar.exe" -a -c -f $zipPath "$Name.vst3" } } finally { Pop-Location }
     Write-Host "zipped $zipPath ($('{0:N0} MB' -f ((Get-Item $zipPath).Length / 1MB)))"
+}
+
+if ($Installer) {
+    Step 'the installer'
+    $out = Join-Path $Here 'dist'
+    $setup = Join-Path $out "Sonic-Pi-VST3-$Version-windows-setup.exe"
+    Remove-Item $setup -ErrorAction SilentlyContinue
+    $iss = @("/DVersion=$Version", "/DBundle=$Bundle", "/DOutDir=$out", '/Q')
+    if ($Sign) {
+        # Inno Setup signs the installer and the uninstaller inside it with this command: $f the file, $q a quote.
+        $iss += '/DSign', "/Ssigntool=`$q$SignTool`$q sign /sha1 $Sign /fd sha256 /tr http://time.certum.pl /td sha256 /d `$qSonic Pi VST3`$q `$f"
+    }
+    Run 'ISCC' { & $Iscc @iss (Join-Path $PSScriptRoot 'installer-windows.iss') }
+    if ($Sign) { Run 'signtool verify (installer)' { & $SignTool verify /pa /q $setup } }
+    Write-Host "installer $setup ($('{0:N0} MB' -f ((Get-Item $setup).Length / 1MB)))"
 }
 
 if ($Install) {
