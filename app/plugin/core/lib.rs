@@ -39,6 +39,8 @@ unsafe extern "C" {
     fn sp_monitor_host_keys(monitor: *mut c_void, chords: *const c_char);
     fn sp_monitor_take_key(monitor: *mut c_void, down: c_int) -> c_int;
     fn sp_monitor_remove(monitor: *mut c_void);
+    fn sp_monitor_full_screen(monitor: *mut c_void, on: c_int) -> c_int;
+    fn sp_monitor_is_full_screen(monitor: *mut c_void) -> c_int;
     fn sp_own_path() -> *const c_char;
     fn sp_main_async(ctx: *mut c_void, work: extern "C" fn(*mut c_void));
     fn sp_instance_run(instance: *mut RawInstance, code: *const c_char, group: c_int);
@@ -382,6 +384,15 @@ fn page_message(id: u32, instance: *mut RawInstance, host: *mut c_void, mailbox:
                 unsafe { sp_monitor_host_keys((*editor).monitor, list.as_ptr()) };
             }
         }
+        // the page full screen, in a window of the plugin's own, or back in the host's (mac.mm); the page is told
+        // what came of it (sp_editor_full_screen)
+        "fullScreen" => {
+            let editor = mailbox.editor.load(Ordering::Acquire);
+            if !editor.is_null() {
+                // SAFETY: set and cleared on this thread, while the editor lives.
+                unsafe { sp_monitor_full_screen((*editor).monitor, c_int::from(m["on"].as_bool() == Some(true))) };
+            }
+        }
         // a write to the page's storage, kept by the plugin (bridge.js)
         "store" if !host.is_null() => {
             if m["clear"].as_bool() == Some(true) {
@@ -453,6 +464,8 @@ fn attach(parent: *mut c_void, width: u32, height: u32, instance: *mut RawInstan
         .with_initialization_script(concat!("window.__sonicPiPluginVersion = \"", env!("CARGO_PKG_VERSION"), "\";"))
         // The host's MIDI port by its name, for the page's preferences and its completion of port: (bridge.js)
         .with_initialization_script(&format!("window.__sonicPiPluginMidiPort = {};", serde_json::to_string(instance::midi_port()).unwrap_or_default()))
+        // Whether full screen is the plugin's own to do (mac.mm) or the web view's, as it has been (Windows, so far)
+        .with_initialization_script(if cfg!(target_os = "macos") { "window.__sonicPiPluginFullScreen = true;" } else { "" })
         .with_initialization_script(include_str!("bridge.js"));
     // The test host's view of the page (test/host.mm): what reaches it, in the log. Never in a host's process
     // unless asked for.
@@ -536,6 +549,10 @@ pub extern "C" fn sp_view_store_replaced(view: *mut c_void) {
 pub extern "C" fn sp_view_resize(view: *mut c_void, width: c_uint, height: c_uint) {
     fence((), || {
         let editor = unsafe { &*view.cast::<Editor>() };
+        // full screen, the page is not in the host's view: it takes that view's size when it comes back (mac.mm)
+        if unsafe { sp_monitor_is_full_screen(editor.monitor) } != 0 {
+            return;
+        }
         if let Err(error) = editor.webview.set_bounds(bounds(width, height)) {
             log(editor.id, &format!("resize failed: {error}"));
         }
@@ -592,6 +609,22 @@ pub extern "C" fn sp_editor_zoom(view: *mut c_void, step: c_int) {
         if !editor.plugin.is_null() {
             // SAFETY: a live plugin (it holds the editor), on the main thread.
             unsafe { sp_host_keep_zoom(editor.plugin, zoom) };
+        }
+    })
+}
+
+/// The page went full screen or came back (mac.mm), by its own asking or by Escape: it is told, for its button.
+#[unsafe(no_mangle)]
+pub extern "C" fn sp_editor_full_screen(view: *mut c_void, on: c_int) {
+    fence((), || {
+        if view.is_null() {
+            return;
+        }
+        // SAFETY: the monitor's editor, which removes the monitor before it is freed, on the main thread.
+        let editor = unsafe { &*view.cast::<Editor>() };
+        let script = format!("window.__sonicPiPlugin&&__sonicPiPlugin.fullScreenChanged&&__sonicPiPlugin.fullScreenChanged({})", on != 0);
+        if let Err(error) = editor.webview.evaluate_script(&script) {
+            log(editor.id, &format!("the page could not be told of full screen: {error}"));
         }
     })
 }

@@ -1064,6 +1064,46 @@ int main (int argc, char** argv)
                lines (a.editor, @" 404 ").lastObject ?: lines (a.editor, @"\"t\":\"rejection\"").lastObject);
     }
 
+    // Full screen is the plugin's own: a browser's leaves the host's floating window over the page, with WebKit's
+    // "Click to Exit Full Screen" in it (Live, 2026-11-19). The page goes into a window over the whole display and
+    // comes back to the host's view.
+    {
+        auto fullWindow = [] () -> NSWindow* {
+            for (NSWindow* w in NSApp.windows)
+                if ([NSStringFromClass (w.class) isEqualToString:@"SPFullScreenWindow"] && w.visible) return w;
+            return nil;
+        };
+        auto pageIn = [] (NSView* view, NSString* script) -> id {
+            WKWebView* web = webViewIn (view);
+            if (!web) return nil;
+            __block id result = nil;
+            __block bool done = false;
+            [web evaluateJavaScript:script completionHandler:^(id value, NSError* error) { result = error ? nil : value; done = true; }];
+            NSDate* until = [NSDate dateWithTimeIntervalSinceNow:3];
+            while (!done && [until timeIntervalSinceNow] > 0) pump (0.01);
+            return result;
+        };
+        NSString* const zenOn = @"document.getElementById('btn-zen').classList.contains('on') ? 'on' : 'off'";
+        js (a, @"document.getElementById('btn-zen').click()");
+        pump (0.5);
+        NSWindow* full = fullWindow ();
+        check ("the full screen button puts the page in a window over the whole display",
+               full && NSEqualRects (full.frame, full.screen.frame) && webViewIn (full.contentView) && !webViewIn (a.window.contentView),
+               full ? NSStringFromRect (full.frame) : @"no such window");
+        // This harness is never the active application, so no window of its is the key window (its own says it
+        // is, HostWindow): what can be seen here is that the window would take the keys, and gives them to the page.
+        const bool pageFirst = [full.firstResponder isKindOfClass:NSView.class]
+                            && [(NSView*) full.firstResponder isDescendantOf:webViewIn (full.contentView)];
+        check ("which can take the keys and gives them to the page, whose button shows on",
+               full.canBecomeKeyWindow && pageFirst && [pageIn (full.contentView, zenOn) isEqual:@"on"],
+               [NSString stringWithFormat:@"can be key %d, page first %d, button %@", (int) full.canBecomeKeyWindow, (int) pageFirst, pageIn (full.contentView, zenOn)]);
+        if (full) pageIn (full.contentView, @"document.getElementById('btn-zen').click()");
+        pump (0.5);
+        check ("and the button again brings it back to the host's view",
+               !fullWindow () && webViewIn (a.window.contentView) && [js (a, zenOn) isEqual:@"off"],
+               [NSString stringWithFormat:@"window %@, button %@", fullWindow () ? @"still there" : @"gone", js (a, zenOn)]);
+    }
+
     // a note held for 8 seconds, then Stop: it fades out within Stop's second
     from = heardSoFar (a);
     typeAndRun (a, @"play 67, sustain: 8");

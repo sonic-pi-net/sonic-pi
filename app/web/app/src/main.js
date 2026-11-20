@@ -1885,8 +1885,14 @@ const isIPhone = /iPhone/.test(navigator.userAgent);
 const standalone = navigator.standalone === true || window.matchMedia("(display-mode: standalone)").matches;
 document.body.classList.toggle("standalone", standalone);
 if (standalone || isIPhone) $("btn-zen").hidden = true;
-const fullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement;
+// In a plugin the page is in its host's window, and a browser's full screen leaves that window floating over it:
+// a plugin that can takes the page full screen itself (app/plugin/core/mac.mm) and says when it has
+// (fullScreenChanged). One that cannot yet (Windows) is left with its web view's own, as it has been.
+const pluginOwnsFullScreen = inPlugin && window.__sonicPiPlugin?.ownFullScreen === true;
+let pluginFullScreen = false;
+const fullscreenElement = () => (pluginOwnsFullScreen ? (pluginFullScreen ? document.documentElement : null) : document.fullscreenElement || document.webkitFullscreenElement);
 $("btn-zen").addEventListener("click", () => {
+  if (pluginOwnsFullScreen) { window.__sonicPiPlugin.post({ t: "fullScreen", on: !pluginFullScreen }); return; }
   if (isIPad && !standalone) { editor.aside(); showDialog("install-overlay", true); return; }
   if (fullscreenElement()) (document.exitFullscreen || document.webkitExitFullscreen).call(document);
   else {
@@ -1900,6 +1906,7 @@ const paintFullscreen = () => {
   $("btn-zen").classList.toggle("on", on);
   if (!quietFullScreenChange) status(on ? "Full screen mode on." : "Full screen mode off.");
 };
+if (pluginOwnsFullScreen) window.__sonicPiPlugin.fullScreenChanged = (on) => { pluginFullScreen = !!on; paintFullscreen(); };
 document.addEventListener("fullscreenchange", paintFullscreen);
 document.addEventListener("webkitfullscreenchange", paintFullscreen);
 $("install-close").addEventListener("click", () => showDialog("install-overlay", false));

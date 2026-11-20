@@ -115,6 +115,9 @@ extern "C" void sp_monitor_host_keys(void*, const char*) {}
 
 // A host that offers keys through IPlugView acts on any we decline: all of them, as the page has its own already.
 extern "C" int sp_monitor_take_key(void*, int) { return 0; }
+// Full screen is the Mac's so far (mac.mm): here the page stays where it is.
+extern "C" int sp_monitor_full_screen(void*, int) { return 0; }
+extern "C" int sp_monitor_is_full_screen(void*) { return 0; }
 
 extern "C" void sp_monitor_remove(void* opaque)
 {
