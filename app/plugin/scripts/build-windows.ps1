@@ -22,10 +22,18 @@
 # SuperSonic's client is built from app/external/supersonic, which needs `npm ci` there once, and clockwork's
 # browser subsystems (clockwork/scripts/build-web-subsystems.sh: a nightly Rust with wasm32-unknown-unknown, and
 # wasm-bindgen) built once. SUPERSONIC_DIST names a whole SuperSonic web build to use instead.
-# And the share link's codec, sp_share.mjs and sp_share.wasm, which only Emscripten builds (app/web's
-# scripts/build-runtime.sh) and this script does not: in app\web\build\runtime, or in the folder SP_SHARE_DIR names.
-# They are the `sp_share` artifact of the Web workflow's run for the same commit, and in a Mac build's
-# app/web/build/runtime.
+#
+# And Emscripten 4.0.14 (the version the web's wasm is built with, .github/workflows/web.yml), for the share link's
+# codec, sp_share.mjs and sp_share.wasm, the one part of the page's wasm a plugin keeps: built here from
+# app\sharelink (app/web's scripts/build-runtime.sh --share) into app\web\build\runtime. From emsdk, which is found
+# by emcc on PATH, by EMSDK, or in %USERPROFILE%\emsdk:
+#   git clone https://github.com/emscripten-core/emsdk.git %USERPROFILE%\emsdk
+#   cd %USERPROFILE%\emsdk
+#   set EMSDK_ARCH=x86_64                (on Arm64 Windows only: emsdk has no Arm64 build for Windows, the x64 one runs)
+#   emsdk install 4.0.14 && emsdk activate 4.0.14
+# Without Emscripten the codec is taken as it is from app\web\build\runtime, or from the folder SP_SHARE_DIR names
+# (which is used in place of building it, when set): the `sp_share` artifact of the Web workflow's run for the same
+# commit, or a Mac build's app/web/build/runtime. The same commit, as the link's tables are compiled in.
 [CmdletBinding()]
 param(
     [ValidateSet('x64', 'arm64')] [string[]] $Arch = @('x64', 'arm64'),
@@ -112,14 +120,22 @@ if ($Installer) {
                                    "$env:ProgramFiles\Inno Setup 6\ISCC.exe")
     if (-not $Iscc) { Die 'no ISCC.exe: install Inno Setup 6 (winget install JRSoftware.InnoSetup)' }
 }
-# The share link's codec likewise: nothing here builds it (it is Emscripten's), and without it the page build
-# leaves it out without a word and the Share button fails.
+# The share link's codec likewise, which is Emscripten's to build: without it the page build leaves it out without a
+# word and the Share button fails. Built below when there is an Emscripten and no folder is named to take it from
+# (SP_SHARE_DIR); else it has to be there already.
 $ShareFiles = 'sp_share.mjs', 'sp_share.wasm'
 $ShareDir = if ($env:SP_SHARE_DIR) { $env:SP_SHARE_DIR } else { Join-Path $Web 'build\runtime' }
-$missing = @($ShareFiles | Where-Object { -not (Test-Path (Join-Path $ShareDir $_) -PathType Leaf) })
-if ($missing) {
-    Die ("no $($missing -join ' or ') in $ShareDir, the share link's codec: take both from the 'sp_share' artifact of the Web " +
-         "workflow's run for this commit, or from a Mac build's app/web/build/runtime, and put them there or in a folder SP_SHARE_DIR names")
+$Emcc = $null
+if (-not $env:SP_SHARE_DIR) {
+    $Emcc = Find-Tool 'emcc.bat' @("$env:EMSDK\upstream\emscripten\emcc.bat", "$env:USERPROFILE\emsdk\upstream\emscripten\emcc.bat")
+}
+if (-not $Emcc) {
+    $missing = @($ShareFiles | Where-Object { -not (Test-Path (Join-Path $ShareDir $_) -PathType Leaf) })
+    if ($missing) {
+        Die ("no $($missing -join ' or ') in $ShareDir, the share link's codec, and no Emscripten to build it with: install " +
+             "Emscripten 4.0.14 (emsdk, as the head of this script says), or take both files from the 'sp_share' artifact of the " +
+             "Web workflow's run for this commit, or from a Mac build's app/web/build/runtime, and put them there or in a folder SP_SHARE_DIR names")
+    }
 }
 
 # The environment of Visual Studio's developer prompt for a target, for the length of $body.
@@ -178,6 +194,30 @@ function Build-SuperSonicClient {
         Copy-Item (Join-Path $from "clockwork_${sub}_bg.wasm") (Join-Path $dist 'wasm')
     }
     return $dist
+}
+
+# ── The share link's codec ──────────────────────────────────────────────────
+# From app\sharelink, by the web's own script, every time: a codec left from an earlier build is another commit's.
+# emcc is run by Git's bash, as a shell script that wants a Python: emsdk's own, and emsdk's settings, unless the
+# environment has them already (emsdk_env).
+if ($Emcc) {
+    Step "the share link's codec, with $Emcc"
+    $emscripten = Split-Path -Parent $Emcc
+    $emsdk = Split-Path -Parent (Split-Path -Parent $emscripten)
+    $savedPath = $env:PATH
+    $ours = @()   # the variables set here, taken away again after
+    $env:PATH = "$emscripten;$env:PATH"
+    if (-not $env:EM_CONFIG -and (Test-Path (Join-Path $emsdk '.emscripten'))) { $env:EM_CONFIG = Join-Path $emsdk '.emscripten'; $ours += 'EM_CONFIG' }
+    $python = Get-ChildItem (Join-Path $emsdk 'python\*\python.exe') -ErrorAction SilentlyContinue | Sort-Object FullName -Descending | Select-Object -First 1
+    if (-not $env:EMSDK_PYTHON -and $python) { $env:EMSDK_PYTHON = $python.FullName; $ours += 'EMSDK_PYTHON' }
+    try {
+        Run 'build-runtime.sh --share' { & $Bash -lc "cd '$(Posix $Web)' && scripts/build-runtime.sh --share" | Out-Null }
+    } finally {
+        $env:PATH = $savedPath
+        foreach ($variable in $ours) { Remove-Item "env:$variable" }
+    }
+    $missing = @($ShareFiles | Where-Object { -not (Test-Path (Join-Path $ShareDir $_) -PathType Leaf) })
+    if ($missing) { Die "build-runtime.sh --share left no $($missing -join ' or ') in $ShareDir" }
 }
 
 # ── The page ────────────────────────────────────────────────────────────────
@@ -263,8 +303,8 @@ Get-ChildItem $p -Recurse -Filter *.map | Remove-Item
 foreach ($gone in 'engine\samples', 'engine\synthdefs', 'engine\wasm\clockwork-scsynth*', 'runtime\sp_runtime.wasm', 'buffers') {
     Remove-Item -Recurse -Force (Join-Path $p $gone) -ErrorAction SilentlyContinue
 }
-# The codec, from where it was found before the build: the page build brings it only when the wasm runtime is
-# built too (lib/runtime-assets.mjs copyRuntime), which it is not here.
+# The codec, from where it was built or found above: the page build brings it only when the wasm runtime is built
+# too (lib/runtime-assets.mjs copyRuntime), which it is not here.
 New-Item -ItemType Directory -Force (Join-Path $p 'runtime') | Out-Null
 foreach ($f in $ShareFiles) { Copy-Item -Force (Join-Path $ShareDir $f) (Join-Path $p 'runtime') }
 New-Item -ItemType Directory -Force (Join-Path $Resources 'synthdefs') | Out-Null

@@ -10,6 +10,8 @@
 #   scripts/build-runtime.sh --native   # relink sp-trace, building only the host mruby if it is missing
 #   scripts/build-runtime.sh --bytecode # the host mruby if it is missing, and the runtime's bytecode: what a native
 #                                       # host links (app/plugin), with no Emscripten and no sp-trace
+#   scripts/build-runtime.sh --share    # the share link's codec alone: what a native host's page needs of the wasm
+#                                       # (app/plugin), with Emscripten and no mruby
 #
 # Needs rake, a C compiler and Emscripten (emcc on PATH). --native wants no
 # Emscripten: it links the runtime against the host's mruby, so the specs can
@@ -25,10 +27,27 @@ export MRUBY_CONFIG="$ROOT/runtime/build_config.rb"
 export MRUBY_BUILD_DIR="${SP_MRUBY_BUILD_DIR:-$ROOT/build/mruby}"   # SP_MRUBY_BUILD_DIR: another build of mruby beside the usual one
 OUT="$ROOT/build/runtime"
 mkdir -p "$OUT"
-[ -f "$MR/Rakefile" ] || { echo "no mruby: git submodule update --init --depth 1 runtime/mruby" >&2; exit 1; }
 
 MODE="${1:-}"
-case "$MODE" in ""|--wasm|--native|--bytecode) ;; *) echo "usage: $(basename "$0") [--wasm|--native|--bytecode]" >&2; exit 1;; esac
+case "$MODE" in ""|--wasm|--native|--bytecode|--share) ;; *) echo "usage: $(basename "$0") [--wasm|--native|--bytecode|--share]" >&2; exit 1;; esac
+
+# The share link's codec (app/sharelink): the native app's own, so a link either writes the other reads, and both
+# write the same link. A module of its own, loaded the first time a link is made or read (app/src/share.js).
+build_share() {
+  local SL
+  SL="$(cd "$ROOT/../sharelink" && pwd)"
+  emcc -Oz -g0 -c "$SL/zstd/zstd.c" -o "$OUT/sp_share_zstd.o"   # C, so apart from the C++ below
+  emcc -std=c++17 -Oz -g0 -sUSE_ZLIB=1 \
+    "$SL/sharelink.cpp" "$SL/sharelink_table1.cpp" "$SL/sharelink_table2.cpp" "$SL/sharelink_qr.cpp" "$SL/qrcodegen/qrcodegen.cpp" "$SL/sharelink_wasm.cpp" "$OUT/sp_share_zstd.o" -o "$OUT/sp_share.mjs" \
+    -sMODULARIZE=1 -sEXPORT_ES6=1 -sENVIRONMENT=node,web,worker -sALLOW_MEMORY_GROWTH=1 \
+    -sEXPORTED_FUNCTIONS=_sl_out_ptr,_sl_out_len,_sl_encode,_sl_decode,_sl_qr,_sl_to_digits,_sl_from_digits,_sl_table_json,_sl_codec_new,_sl_codec_free,_sl_codec_pack,_sl_codec_encode,_sl_codec_unpack,_sl_codec_decode,_malloc,_free \
+    -sEXPORTED_RUNTIME_METHODS=HEAPU8
+  ls -la "$OUT/sp_share.mjs" "$OUT/sp_share.wasm"
+}
+# --share is that and no more: it has nothing of mruby in it, so it asks for none.
+if [ "$MODE" = "--share" ]; then build_share; exit 0; fi
+
+[ -f "$MR/Rakefile" ] || { echo "no mruby: git submodule update --init --depth 1 runtime/mruby" >&2; exit 1; }
 
 # mruby itself, from the pin with our patches over it (runtime/mruby-patches), in a copy the build owns: the
 # submodule stays as upstream has it, and nothing that updates submodules can take a patch back out. The whole build
@@ -98,16 +117,7 @@ if [ -z "$MODE" ] || [ "$MODE" = "--wasm" ]; then
     -sEXPORTED_RUNTIME_METHODS=ccall,cwrap,UTF8ToString,HEAPU8,HEAPF64
   ls -la "$OUT/sp_runtime.mjs" "$OUT/sp_runtime.wasm"
 
-  # The share link's codec (app/sharelink): the native app's own, so a link either writes the other reads, and both
-  # write the same link. A module of its own, loaded the first time a link is made or read (app/src/share.js).
-  SL="$(cd "$ROOT/../sharelink" && pwd)"
-  emcc -Oz -g0 -c "$SL/zstd/zstd.c" -o "$OUT/sp_share_zstd.o"   # C, so apart from the C++ below
-  emcc -std=c++17 -Oz -g0 -sUSE_ZLIB=1 \
-    "$SL/sharelink.cpp" "$SL/sharelink_table1.cpp" "$SL/sharelink_table2.cpp" "$SL/sharelink_qr.cpp" "$SL/qrcodegen/qrcodegen.cpp" "$SL/sharelink_wasm.cpp" "$OUT/sp_share_zstd.o" -o "$OUT/sp_share.mjs" \
-    -sMODULARIZE=1 -sEXPORT_ES6=1 -sENVIRONMENT=node,web,worker -sALLOW_MEMORY_GROWTH=1 \
-    -sEXPORTED_FUNCTIONS=_sl_out_ptr,_sl_out_len,_sl_encode,_sl_decode,_sl_qr,_sl_to_digits,_sl_from_digits,_sl_table_json,_sl_codec_new,_sl_codec_free,_sl_codec_pack,_sl_codec_encode,_sl_codec_unpack,_sl_codec_decode,_malloc,_free \
-    -sEXPORTED_RUNTIME_METHODS=HEAPU8
-  ls -la "$OUT/sp_share.mjs" "$OUT/sp_share.wasm"
+  build_share
 fi
 
 # The native command: the same host seam and the same bytecode, linked

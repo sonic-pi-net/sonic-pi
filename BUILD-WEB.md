@@ -22,6 +22,12 @@ ruby-full nodejs npm`. Emscripten's own instructions are at
 https://emscripten.org/docs/getting_started/downloads.html — pin 4.0.14, since
 the compiler version is part of what the module is.
 
+On Windows the scripts run in Git for Windows' bash, and Emscripten comes from
+emsdk. On Arm64 Windows set `EMSDK_ARCH=x86_64` before `emsdk install 4.0.14`:
+emsdk has no Arm64 build for Windows, and the x64 one runs there. In bash,
+`emcc` wants a Python it can find: point `EMSDK_PYTHON` at emsdk's own
+(`emsdk\python\<version>\python.exe`) or run `emsdk_env` first.
+
 ### Building it
 
 ```bash
@@ -119,6 +125,22 @@ ADAPTER="$PWD/build/runtime/sp-trace" ruby scripts/check.rb
 That builds the host interpreter if it is missing and asks for no Emscripten
 at all.
 
+### The share link's codec alone
+
+The Share button makes and reads its links with a small wasm module of its
+own (`build/runtime/sp_share.mjs` and `sp_share.wasm`), compiled from
+`app/sharelink`, the same code the native app uses. The whole build makes it;
+on its own it needs Emscripten and nothing of mruby:
+
+```bash
+scripts/build-runtime.sh --share
+```
+
+The VST3 plugin's page keeps this module and none of the rest of the wasm (its
+engine and runtime are native), so that is all of Emscripten a plugin build
+needs: `app/plugin/scripts/build-windows.ps1` runs it when it finds emsdk, and
+its head lists everything else a Windows plugin build wants.
+
 ### What is generated, and what is kept
 
 Generated, and committed because the browser cannot generate it:
@@ -142,6 +164,8 @@ Built, and not committed: `build/`, `web/app.js`, `web/index.html`,
   --init --depth 1 app/web/runtime/mruby`.
 - **`emcc: command not found`** — either activate Emscripten's environment
   (`source /path/to/emsdk/emsdk_env.sh`) or build with `--native`.
+- **`Python was not found`, from `emcc` on Windows** — bash found Windows'
+  placeholder `python3`: set `EMSDK_PYTHON` to emsdk's own Python.
 - **No recording and no scopes, and the console mentions SharedArrayBuffer**
   — the two headers above are missing from the host.
 - **There is no Tutorial page** — `ruby bin/qt-doc.rb` and
