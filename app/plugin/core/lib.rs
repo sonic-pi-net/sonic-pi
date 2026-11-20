@@ -21,7 +21,7 @@ use raw_window_handle::{HandleError, HasWindowHandle, RawWindowHandle, WindowHan
 use wry::http::{Request, Response};
 use wry::{Rect, WebView, WebViewBuilder};
 #[cfg(windows)]
-use wry::{WebContext, WebViewBuilderExtWindows};
+use wry::{WebContext, WebViewBuilderExtWindows, WebViewExtWindows};
 
 // The engine: its C++ archives (Clockwork, scsynth), which rustc links only for
 // a crate named here, and its Rust half, which the C++ calls into.
@@ -401,8 +401,8 @@ fn page_message(id: u32, instance: *mut RawInstance, host: *mut c_void, mailbox:
                 unsafe { sp_monitor_host_keys((*editor).monitor, list.as_ptr()) };
             }
         }
-        // the page full screen, in a window of the plugin's own, or back in the host's (mac.mm); the page is told
-        // what came of it (sp_editor_full_screen)
+        // the page full screen, in a window of the plugin's own, or back in the host's (mac.mm, win.cpp); the page
+        // is told what came of it (sp_editor_full_screen)
         "fullScreen" => {
             let editor = mailbox.editor.load(Ordering::Acquire);
             if !editor.is_null() {
@@ -481,9 +481,19 @@ fn attach(parent: *mut c_void, width: u32, height: u32, instance: *mut RawInstan
         .with_initialization_script(concat!("window.__sonicPiPluginVersion = \"", env!("CARGO_PKG_VERSION"), "\";"))
         // The host's MIDI port by its name, for the page's preferences and its completion of port: (bridge.js)
         .with_initialization_script(&format!("window.__sonicPiPluginMidiPort = {};", serde_json::to_string(instance::midi_port()).unwrap_or_default()))
-        // Whether full screen is the plugin's own to do (mac.mm) or the web view's, as it has been (Windows, so far)
-        .with_initialization_script(if cfg!(target_os = "macos") { "window.__sonicPiPluginFullScreen = true;" } else { "" })
+        // Full screen is the plugin's own to do (mac.mm, win.cpp), not the web view's
+        .with_initialization_script("window.__sonicPiPluginFullScreen = true;")
         .with_initialization_script(include_str!("bridge.js"));
+    // Escape leaves full screen when the page left it (a handler that takes it stops it, or prevents its default):
+    // WebView2 hands back no key the page left, as WebKit does (mac.mm), so the page says so itself. Asked once
+    // every listener has had it; out of full screen the asking does nothing (win.cpp setFullScreen).
+    #[cfg(windows)]
+    {
+        builder = builder.with_initialization_script(
+            "if (window.top === window) addEventListener('keydown', (e) => { if (e.key !== 'Escape' || e.isComposing) return; \
+             setTimeout(() => { if (!e.defaultPrevented) window.ipc.postMessage(JSON.stringify({ t: 'fullScreen', on: false })); }, 0); });",
+        );
+    }
     // The test host's view of the page (test/host.mm): what reaches it, in the log. Never in a host's process
     // unless asked for.
     if std::env::var_os("SONIC_PI_PLUGIN_PROBE").is_some() {
@@ -566,7 +576,7 @@ pub extern "C" fn sp_view_store_replaced(view: *mut c_void) {
 pub extern "C" fn sp_view_resize(view: *mut c_void, width: c_uint, height: c_uint) {
     fence((), || {
         let editor = unsafe { &*view.cast::<Editor>() };
-        // full screen, the page is not in the host's view: it takes that view's size when it comes back (mac.mm)
+        // full screen, the page is not in the host's view: it takes that view's size when it comes back (mac.mm, win.cpp)
         if unsafe { sp_monitor_is_full_screen(editor.monitor) } != 0 {
             return;
         }
@@ -630,7 +640,36 @@ pub extern "C" fn sp_editor_zoom(view: *mut c_void, step: c_int) {
     })
 }
 
-/// The page went full screen or came back (mac.mm), by its own asking or by Escape: it is told, for its button.
+/// The web view into another window, or back into the host's (win.cpp, for full screen): under `parent`, filling
+/// `width` by `height` of its pixels, and with the keyboard if `focus`. Non-zero: it is there.
+#[cfg(windows)]
+#[unsafe(no_mangle)]
+pub extern "C" fn sp_editor_place(view: *mut c_void, parent: *mut c_void, width: c_uint, height: c_uint, focus: c_int) -> c_int {
+    fence(0, || {
+        if view.is_null() || parent.is_null() {
+            return 0;
+        }
+        // SAFETY: the monitor's editor, which removes the monitor before it is freed, on the main thread.
+        let editor = unsafe { &*view.cast::<Editor>() };
+        if let Err(error) = editor.webview.reparent(parent as isize) {
+            log(editor.id, &format!("the page could not be moved to another window: {error}"));
+            return 0;
+        }
+        // WebView2 is sized with wry's window, which does not size it of its own accord.
+        if let Err(error) = editor.webview.set_bounds(bounds(width, height)) {
+            log(editor.id, &format!("resize failed: {error}"));
+        }
+        if focus != 0 {
+            if let Err(error) = editor.webview.focus() {
+                log(editor.id, &format!("the page could not be given the keyboard: {error}"));
+            }
+        }
+        1
+    })
+}
+
+/// The page went full screen or came back (mac.mm, win.cpp), by its own asking or by Escape: it is told, for its
+/// button.
 #[unsafe(no_mangle)]
 pub extern "C" fn sp_editor_full_screen(view: *mut c_void, on: c_int) {
     fence((), || {

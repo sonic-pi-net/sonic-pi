@@ -18,7 +18,7 @@
     version: window.__sonicPiPluginVersion,
     /** The name of the host's MIDI port, in and out (lib.rs sets it from instance.cpp's). */
     midiPort: window.__sonicPiPluginMidiPort,
-    /** Whether the plugin takes the page full screen itself, asked by post({t: "fullScreen"}) (lib.rs; mac.mm). */
+    /** Whether the plugin takes the page full screen itself, asked by post({t: "fullScreen"}) (lib.rs; mac.mm, win.cpp). */
     ownFullScreen: window.__sonicPiPluginFullScreen === true,
     /** One verb for the instance: {t: "run", code, group} and the rest (sonic_pi.js PluginSession). */
     post(message) { window.ipc.postMessage(JSON.stringify(message)); },

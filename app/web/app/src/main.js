@@ -1945,8 +1945,8 @@ const standalone = navigator.standalone === true || window.matchMedia("(display-
 document.body.classList.toggle("standalone", standalone);
 if (standalone || isIPhone) $("btn-zen").hidden = true;
 // In a plugin the page is in its host's window, and a browser's full screen leaves that window floating over it:
-// a plugin that can takes the page full screen itself (app/plugin/core/mac.mm) and says when it has
-// (fullScreenChanged). One that cannot yet (Windows) is left with its web view's own, as it has been.
+// a plugin that can takes the page full screen itself (app/plugin/core/mac.mm, win.cpp) and says when it has
+// (fullScreenChanged). One that cannot is left with its web view's own.
 const pluginOwnsFullScreen = inPlugin && window.__sonicPiPlugin?.ownFullScreen === true;
 let pluginFullScreen = false;
 const fullscreenElement = () => (pluginOwnsFullScreen ? (pluginFullScreen ? document.documentElement : null) : document.fullscreenElement || document.webkitFullscreenElement);

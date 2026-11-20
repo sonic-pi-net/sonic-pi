@@ -174,6 +174,18 @@
   }, 200);
   setTimeout(() => post({ t: "clock", page: (performance.timeOrigin + performance.now()) / 1000 + 2208988800, wall: Date.now() / 1000 + 2208988800 }), 3000);
 
+  // The full screen button, as any of it changes: whether it shows on, where its middle is in the web view's own
+  // pixels (test/host_win.cpp clicks it there, having no way to run a script in the page), the page's size, and
+  // whether the page has the keyboard.
+  let lastZen = "";
+  setInterval(() => {
+    const b = document.getElementById("btn-zen");
+    if (!b) return;
+    const r = b.getBoundingClientRect(), dpr = devicePixelRatio;
+    const now = JSON.stringify({ on: b.classList.contains("on"), x: Math.round((r.x + r.width / 2) * dpr), y: Math.round((r.y + r.height / 2) * dpr), vw: Math.round(innerWidth * dpr), vh: Math.round(innerHeight * dpr), focus: document.hasFocus() });
+    if (now !== lastZen) { lastZen = now; post({ t: "zen", ...JSON.parse(now) }); }
+  }, 100);
+
   // Ready once the editor has stopped moving: the page lays itself out in stages.
   let lastAt = "", steady = 0;
   const whenEditor = setInterval(() => {
