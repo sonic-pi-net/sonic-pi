@@ -12,6 +12,8 @@ extern "C" void sp_log_line(unsigned instance, const char* text);   // log.rs: t
 
 #include <algorithm>
 #include <charconv>
+#include <cmath>
+#include <cstddef>
 #include <atomic>
 #include <chrono>
 #include <cstdio>
@@ -45,6 +47,9 @@ using namespace SonicPi;
 
 namespace {
 
+// The host's MIDI: the name of the instance's one port each way, and where a message from it is heard.
+constexpr const char* MIDI_PORT = "daw";
+constexpr const char* MIDI_IN = "/clockwork/midi/in/";
 constexpr double STOP_FADE = 1.0;      // seconds a Stop fades over (Scheduler#silence), as the desktop's
 constexpr double SCHED_AHEAD = 0.2;    // the desktop's: a native thread wakes less surely than the web's 0.05 assumes
 
@@ -110,6 +115,8 @@ public:
             *why = std::string("the engine did not start: ") + clockwork_client_status_text(status);
             return false;
         }
+        // The host's MIDI is the instance's one port each way, as Sonic Pi names it.
+        clockwork_embed_midi_ports(m_embed, MIDI_PORT, MIDI_PORT);
         ClockworkCore* core = clockwork_client_core(clockwork_embed_client(m_embed));
         ClockworkClient* own = clockwork_client_open_memory(clockwork_lanes_base(core),
                                                             clockwork_arena_header(core)->arena_bytes, &status);
@@ -153,6 +160,14 @@ public:
     {
         return clockwork_embed_render(m_embed, out, outChannels, in, inChannels, frames);
     }
+
+    // The audio thread: a note from the host for a frame of the next render, and after a render what was sent to
+    // the host's port in it.
+    bool midiIn(const uint8_t* bytes, uint32_t length, uint32_t frame)
+    {
+        return clockwork_embed_midi_in(m_embed, bytes, length, frame) == CLOCKWORK_OK;
+    }
+    uint32_t midiOut(ClockworkEmbedMidi* events, uint32_t capacity) { return clockwork_embed_midi_out(m_embed, events, capacity); }
 
     // The audio thread, before the render it is true at: the host's own transport, each part it says, for the
     // render's first frame. The engine's timeline takes them as it takes a Link peer's; what the host does not say
@@ -399,11 +414,72 @@ struct SpInstance final : AssetLoader
         say(SP_SAYS_ERROR, text);
     }
 
+    // A program's MIDI, out through the engine, as the web's page sends it (main.js midiSend): the record's message
+    // as "/clockwork/midi/out/<kind> <port> <channel> <values…>", for the engine to hold to the moment it should
+    // sound ("/clockwork/schedule <time> <the message>"). The engine gives a send for the host's port back to the
+    // host with its frame (sp_instance_midi_out). The record: uid, time, job, line, t, beat, path, [port, values…].
+    void midiSend(const osc::Message& m)
+    {
+        static const std::map<std::string, const char*> verbs = {
+            { "/note_on", "note_on" }, { "/note_off", "note_off" }, { "/control_change", "control_change" },
+            { "/aftertouch", "poly_pressure" }, { "/program_change", "program_change" },
+            { "/channel_pressure", "channel_pressure" }, { "/pitch_bend", "pitch_bend" },
+            { "/clock", "clock" }, { "/start", "start" }, { "/stop", "stop" }, { "/continue", "continue" }, { "/raw", "raw" },
+        };
+        const osc::Value* list = m.arg(7);
+        if (!list || list->type != osc::Value::Array || list->a.empty()) return;
+        const std::string path = m.strArg(6);
+        const double at = m.numArg(1);
+        const auto& args = list->a;
+        const std::string port = args[0].type == osc::Value::String ? args[0].s : std::to_string(args[0].i);
+        const auto number = [&](size_t k) { return k < args.size() ? (args[k].type == osc::Value::Int32 || args[k].type == osc::Value::Int64 ? double(args[k].i) : args[k].d) : 0.0; };
+        const auto sendAt = [&](double time, const char* verb, const std::vector<int32_t>& values) {
+            osc::Message out(std::string("/clockwork/midi/out/") + verb);
+            out.addStr(port);
+            for (int32_t v : values) out.addInt(v);
+            const double secs = std::floor(time);
+            const uint64_t timetag = (uint64_t(secs) << 32) | uint64_t(std::llround((time - secs) * 4294967296.0) & 0xFFFFFFFF);
+            engine.send(osc::Message("/clockwork/schedule").add(osc::Value::int64(int64_t(timetag))).add(osc::Value::blob(osc::encode(out))));
+        };
+        if (path == "/clock_beat")
+        {
+            // a beat of clock is 24 ticks across the beat
+            const double beat = number(1) / 24.0;
+            for (int i = 0; i < 24; ++i) sendAt(at + beat * i, "clock", {});
+            return;
+        }
+        const auto verb = verbs.find(path);
+        if (verb == verbs.end()) return;
+        const std::string kind = verb->second;
+        std::vector<int32_t> values;
+        if (kind == "raw") for (size_t k = 1; k < args.size(); ++k) values.push_back(int32_t(number(k)));
+        else if (kind != "clock" && kind != "start" && kind != "stop" && kind != "continue")
+            // the channel as it is here, -1 for every channel, then the message's values
+            for (size_t k = 1; k < args.size(); ++k) values.push_back(int32_t(std::lround(number(k))));
+        sendAt(at, kind.c_str(), values);
+    }
+
+    // A message from one of the host's MIDI ports ("/clockwork/midi/in/<kind> <port> <channel> <values…> <when>")
+    // is a cue at the address Sonic Pi knows it by, "/midi:<port>:<channel>/<kind>", its values the message's (the
+    // web's live-worker.js midiIn). The time it arrived is the engine's and is left off.
+    void midiIn(const osc::Message& m)
+    {
+        const std::string kind = m.address.substr(std::strlen(MIDI_IN));
+        if (kind.empty() || kind == "clock_bpm" || m.args.size() < 2 || m.args[0].type != osc::Value::String
+            || (m.args[1].type != osc::Value::Int32 && m.args[1].type != osc::Value::Int64))
+            return;   // a tempo from a clock, or a message with no channel: no Sonic Pi address
+        std::vector<osc::Value> values;
+        for (size_t k = 2; k < m.args.size(); ++k)
+            if (m.args[k].type != osc::Value::TimeTag) values.push_back(m.args[k]);
+        runtime.cue("/midi:" + m.args[0].s + ":" + std::to_string(m.args[1].i) + "/" + kind, std::move(values));
+    }
+
     // A record (gui-stream.js reads it): kept if it is a line of the Log pane, a cue, or a thread's start or end
     void record(const osc::Message& m)
     {
         const auto bytes = osc::encode(m);
         const std::string kind = m.address.rfind("/sonic-pi/", 0) == 0 ? m.address.substr(10) : "";
+        if (kind == "midi") midiSend(m);
         const Keep keep = (kind == "output" || kind == "log" || kind == "cue") ? Keep::Line
                         : kind == "thread_start" ? Keep::Start
                         : kind == "thread_end" ? Keep::End
@@ -453,6 +529,8 @@ struct SpInstance final : AssetLoader
         // The timeline's moves (the host's tempo, its bars, playing or stopped) are said only to a client that
         // asked to hear them (heard: /clockwork/clock/notify/…).
         engine.send(osc::Message("/clockwork/clock/notify/subscribe"));
+        // And what the host's MIDI port sends is said only to a client that asked to hear it (heard: MIDI_IN).
+        engine.send(osc::Message("/clockwork/midi/notify/subscribe"));
 
         // Every built-in synthdef, as the desktop app starts with them: /d_loadDir through the front, which says
         // /done once they are all in. A sound that wants one before then waits for it.
@@ -647,6 +725,7 @@ struct SpInstance final : AssetLoader
             if (m.address == "/done" || m.address == "/fail") doneOrFail(m);
             else if (m.address == "/clockwork/clock/notify/tempo" || m.address == "/clockwork/clock/notify/transport")
                 timelineMoved();
+            else if (m.address.rfind(MIDI_IN, 0) == 0) midiIn(m);
             else if (m.address == "/clockwork/error" || m.address == "/clockwork/debug")
             {
                 std::string text;
@@ -846,6 +925,21 @@ uint32_t sp_instance_render(SpInstance* instance, float* const* out, uint32_t ou
     instance->engine.collectOffline();
     instance->renderedTo.store(end, std::memory_order_relaxed);
     return done;
+}
+
+int sp_instance_midi_in(SpInstance* instance, const uint8_t* bytes, uint32_t length, uint32_t frame)
+{
+    return instance->engine.midiIn(bytes, length, frame) ? 1 : 0;
+}
+
+const char* sp_midi_port(void) { return MIDI_PORT; }
+
+uint32_t sp_instance_midi_out(SpInstance* instance, SpMidi* events, uint32_t capacity)
+{
+    // The two are one layout: the engine's events are copied out as the instance's.
+    static_assert(sizeof(SpMidi) == sizeof(ClockworkEmbedMidi) && offsetof(SpMidi, bytes) == offsetof(ClockworkEmbedMidi, bytes)
+                  && offsetof(SpMidi, length) == offsetof(ClockworkEmbedMidi, length), "SpMidi is ClockworkEmbedMidi");
+    return instance->engine.midiOut(reinterpret_cast<ClockworkEmbedMidi*>(events), capacity);
 }
 
 void sp_instance_transport(SpInstance* instance, const SpTransport* transport)

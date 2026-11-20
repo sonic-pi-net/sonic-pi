@@ -11,6 +11,8 @@
 #include "pluginterfaces/vst/ivstaudioprocessor.h"
 #include "pluginterfaces/vst/ivstcomponent.h"
 #include "pluginterfaces/vst/ivsteditcontroller.h"
+#include "pluginterfaces/vst/ivstevents.h"
+#include "pluginterfaces/vst/ivstmidicontrollers.h"
 #include "pluginterfaces/vst/ivstparameterchanges.h"
 #include "pluginterfaces/vst/ivstprocesscontext.h"
 #include "pluginterfaces/vst/vstspeaker.h"
@@ -35,6 +37,8 @@
 #include <map>
 #include <mutex>
 #include <string>
+#include <cstdio>
+#include <cstdlib>
 #include <cstring>
 #include <string>
 
@@ -75,6 +79,77 @@ std::string resourcesDir ()
 inline bool sameIID (const void* a, const void* b)
 {
     return std::memcmp (a, b, sizeof (TUID)) == 0;
+}
+
+// A host's event as the MIDI message it stands for: a note on, a note off, or a key's pressure. VST3 hands a plugin
+// nothing else as an event (a controller or a bend comes only as a parameter). False for any other event.
+inline bool eventToMidi (const Event& e, uint8_t bytes[3])
+{
+    const auto seven = [] (float v) { return static_cast<uint8_t> (v <= 0.f ? 0 : v >= 1.f ? 127 : static_cast<int> (v * 127.f + 0.5f)); };
+    switch (e.type) {
+        case Event::kNoteOnEvent:
+            bytes[0] = static_cast<uint8_t> (0x90 | (e.noteOn.channel & 0x0F));
+            bytes[1] = static_cast<uint8_t> (e.noteOn.pitch & 0x7F);
+            // a note on is never velocity 0, which in MIDI is a note off
+            bytes[2] = seven (e.noteOn.velocity) ? seven (e.noteOn.velocity) : uint8_t (1);
+            return true;
+        case Event::kNoteOffEvent:
+            bytes[0] = static_cast<uint8_t> (0x80 | (e.noteOff.channel & 0x0F));
+            bytes[1] = static_cast<uint8_t> (e.noteOff.pitch & 0x7F);
+            bytes[2] = seven (e.noteOff.velocity);
+            return true;
+        case Event::kPolyPressureEvent:
+            bytes[0] = static_cast<uint8_t> (0xA0 | (e.polyPressure.channel & 0x0F));
+            bytes[1] = static_cast<uint8_t> (e.polyPressure.pitch & 0x7F);
+            bytes[2] = seven (e.polyPressure.pressure);
+            return true;
+        default:
+            return false;
+    }
+}
+
+// A MIDI message a program sent as the event a host takes for it, at its frame of the buffer. Notes and a key's
+// pressure are events of their own; a controller, a program change, a channel's pressure and a bend go as the
+// legacy MIDI event, which most hosts pass on. False for what VST3 has no event for (MIDI clock, start, stop).
+inline bool midiToEvent (const SpMidi& m, Event& e)
+{
+    if (m.length < 2) return false;
+    std::memset (&e, 0, sizeof e);
+    e.busIndex = 0;
+    e.sampleOffset = static_cast<int32> (m.frame);
+    const int16 channel = static_cast<int16> (m.bytes[0] & 0x0F);
+    const uint8_t a = m.bytes[1] & 0x7F, b = m.length > 2 ? (m.bytes[2] & 0x7F) : 0;
+    const auto legacy = [&] (uint8 control, uint8_t value, uint8_t value2) {
+        e.type = Event::kLegacyMIDICCOutEvent;
+        e.midiCCOut.controlNumber = control;
+        e.midiCCOut.channel = static_cast<int8> (channel);
+        e.midiCCOut.value = static_cast<int8> (value);
+        e.midiCCOut.value2 = static_cast<int8> (value2);
+    };
+    switch (m.bytes[0] & 0xF0) {
+        case 0x90:
+            if (b == 0) {   // a note on of velocity 0 is a note off
+                e.type = Event::kNoteOffEvent;
+                e.noteOff.channel = channel; e.noteOff.pitch = a; e.noteOff.velocity = 0.f; e.noteOff.noteId = -1;
+                return true;
+            }
+            e.type = Event::kNoteOnEvent;
+            e.noteOn.channel = channel; e.noteOn.pitch = a; e.noteOn.velocity = b / 127.f; e.noteOn.noteId = -1;
+            return true;
+        case 0x80:
+            e.type = Event::kNoteOffEvent;
+            e.noteOff.channel = channel; e.noteOff.pitch = a; e.noteOff.velocity = b / 127.f; e.noteOff.noteId = -1;
+            return true;
+        case 0xA0:
+            e.type = Event::kPolyPressureEvent;
+            e.polyPressure.channel = channel; e.polyPressure.pitch = a; e.polyPressure.pressure = b / 127.f; e.polyPressure.noteId = -1;
+            return true;
+        case 0xB0: legacy (a, b, 0); return true;
+        case 0xC0: legacy (kCtrlProgramChange, a, 0); return true;
+        case 0xD0: legacy (kAfterTouch, a, 0); return true;
+        case 0xE0: legacy (kPitchBend, a, b); return true;
+        default: return false;
+    }
 }
 
 inline void toStr128 (const char* s, String128 out)
@@ -321,12 +396,12 @@ public:
     tresult PLUGIN_API getControllerClassId (TUID) override { return kNotImplemented; }
     tresult PLUGIN_API setIoMode (IoMode) override { return kResultOk; }
 
-    int32 PLUGIN_API getBusCount (MediaType type, BusDirection dir) override
+    int32 PLUGIN_API getBusCount (MediaType type, BusDirection) override
     {
-        // A stereo output, and a stereo input for live_audio. A MIDI input too, which nothing reads yet: Ableton Live
-        // refuses an instrument without one ("plugin has instrument category, but no valid event input bus").
-        if (type == kAudio) return 1;
-        return (type == kEvent && dir == kInput) ? 1 : 0;
+        // A stereo output, and a stereo input for live_audio. A MIDI input and a MIDI output: Sonic Pi's port `daw`.
+        // (Ableton Live refuses an instrument without a MIDI input: "plugin has instrument category, but no valid
+        // event input bus".)
+        return (type == kAudio || type == kEvent) ? 1 : 0;
     }
 
     tresult PLUGIN_API getBusInfo (MediaType type, BusDirection dir, int32 index, BusInfo& bus) override
@@ -349,9 +424,9 @@ public:
             toStr128 ("In", bus.name);
             return kResultOk;
         }
-        if (type == kEvent && dir == kInput) {
+        if (type == kEvent) {
             bus.channelCount = 16;
-            toStr128 ("MIDI In", bus.name);
+            toStr128 (dir == kInput ? "MIDI In" : "MIDI Out", bus.name);
             return kResultOk;
         }
         return kInvalidArgument;
@@ -484,6 +559,17 @@ public:
                 sp_host_note ((std::string ("Sonic Pi did not start: ") + why).c_str ());
                 return kResultFalse;
             }
+            // For a test in a real host, where nothing can press Run: the program in the file SONIC_PI_PLUGIN_RUN
+            // names is run as the instance starts.
+            if (const char* file = std::getenv ("SONIC_PI_PLUGIN_RUN")) {
+                if (FILE* f = std::fopen (file, "rb")) {
+                    std::string code;
+                    char chunk[4096];
+                    for (size_t n; (n = std::fread (chunk, 1, sizeof chunk, f)) > 0;) code.append (chunk, n);
+                    std::fclose (f);
+                    sp_instance_run (mInstance, code.c_str (), 0);
+                }
+            }
         } else if (setup.sampleRate != mRate || frames != mMaxFrames) {
             sp_instance_reconfigure (mInstance, setup.sampleRate, frames);
         }
@@ -526,11 +612,31 @@ public:
                 }
             }
             sp_instance_transport (mInstance, &transport);
+            // The host's notes, each for its frame of this buffer: cues at "/midi:daw:<channel>/note_on".
+            if (data.inputEvents) {
+                const int32 count = data.inputEvents->getEventCount ();
+                for (int32 i = 0; i < count; ++i) {
+                    Event e {};
+                    uint8_t bytes[3] = {};
+                    if (data.inputEvents->getEvent (i, e) != kResultOk || !eventToMidi (e, bytes)) continue;
+                    const int32 at = e.sampleOffset < 0 ? 0 : e.sampleOffset >= data.numSamples ? data.numSamples - 1 : e.sampleOffset;
+                    sp_instance_midi_in (mInstance, bytes, 3, static_cast<uint32_t> (at));
+                }
+            }
             // the host's input, when it has connected one: what live_audio plays
             const AudioBusBuffers* in = (data.numInputs > 0 && data.inputs && data.inputs[0].channelBuffers32) ? &data.inputs[0] : nullptr;
             sp_instance_render (mInstance, out.channelBuffers32, (uint32_t) out.numChannels,
                                 in ? in->channelBuffers32 : nullptr, in ? (uint32_t) in->numChannels : 0,
                                 (uint32_t) data.numSamples);
+            // What a program sent to `daw` that came due in this buffer, to the host at its frame. Taken whether or
+            // not the host has anywhere to put it, so that nothing waits to come out late.
+            SpMidi sent[64];
+            for (uint32_t n; (n = sp_instance_midi_out (mInstance, sent, 64)) > 0;) {
+                for (uint32_t i = 0; i < n && data.outputEvents; ++i) {
+                    Event e {};
+                    if (midiToEvent (sent[i], e)) data.outputEvents->addEvent (e);
+                }
+            }
             out.silenceFlags = 0;
             return kResultOk;
         }

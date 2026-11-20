@@ -51,6 +51,15 @@ pub struct Transport {
     pub meter_den: i32,
 }
 
+/// A short MIDI message at a frame of a render (`SpMidi`).
+#[repr(C)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct Midi {
+    pub frame: u32,
+    pub bytes: [u8; 3],
+    pub length: u8,
+}
+
 pub type Listener = unsafe extern "C" fn(ctx: *mut c_void, kind: u32, bytes: *const u8, size: u32);
 
 unsafe extern "C" {
@@ -67,6 +76,9 @@ unsafe extern "C" {
         frames: u32,
     ) -> u32;
     fn sp_instance_transport(instance: *mut RawInstance, transport: *const Transport);
+    fn sp_instance_midi_in(instance: *mut RawInstance, bytes: *const u8, length: u32, frame: u32) -> c_int;
+    fn sp_instance_midi_out(instance: *mut RawInstance, events: *mut Midi, capacity: u32) -> u32;
+    fn sp_midi_port() -> *const c_char;
     fn sp_instance_align_bars(instance: *mut RawInstance, on: c_int);
     fn sp_instance_time_warp(instance: *mut RawInstance, ms: f64);
     fn sp_instance_run(instance: *mut RawInstance, code: *const c_char, group: c_int);
@@ -90,6 +102,12 @@ pub struct Instance(NonNull<RawInstance>);
 // SAFETY: every call but render is any thread's (instance.h); render is the caller's to keep to one thread.
 unsafe impl Send for Instance {}
 unsafe impl Sync for Instance {}
+
+/// The name of the host's port, in and out, as a program names it.
+pub fn midi_port() -> &'static str {
+    // SAFETY: a string literal of the C++ side's, which lasts as long as the library.
+    unsafe { std::ffi::CStr::from_ptr(sp_midi_port()) }.to_str().unwrap_or_default()
+}
 
 impl Instance {
     /// An engine at `sample_rate`, rendered in at most `max_frames` at a time, with Sonic Pi's files under
@@ -159,6 +177,20 @@ impl Instance {
     pub fn transport(&self, transport: &Transport) {
         // SAFETY: a live instance; the struct is read during the call.
         unsafe { sp_instance_transport(self.as_ptr(), transport) };
+    }
+
+    /// One whole channel message from the host for `frame` of the next render: the render's thread, before it.
+    /// False for bytes that are not one, or more than the engine holds between renders.
+    pub fn midi_in(&self, bytes: &[u8], frame: u32) -> bool {
+        // SAFETY: a live instance; the bytes are read during the call.
+        unsafe { sp_instance_midi_in(self.as_ptr(), bytes.as_ptr(), bytes.len() as u32, frame) != 0 }
+    }
+
+    /// What a program sent to the host's port that came due in the render just done, copied to `events`: how
+    /// many. The render's thread; call again for more.
+    pub fn midi_out(&self, events: &mut [Midi]) -> usize {
+        // SAFETY: a live instance; `events` holds that many, written during the call.
+        unsafe { sp_instance_midi_out(self.as_ptr(), events.as_mut_ptr(), events.len() as u32) as usize }
     }
 
     /// Whether the instance's bars follow its host's (as it starts) or only its tempo.

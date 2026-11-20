@@ -34,6 +34,7 @@
 #include "pluginterfaces/vst/ivstaudioprocessor.h"
 #include "pluginterfaces/vst/ivstcomponent.h"
 #include "pluginterfaces/vst/ivsteditcontroller.h"
+#include "pluginterfaces/vst/ivstevents.h"
 
 using namespace Steinberg;
 using namespace Steinberg::Vst;
@@ -174,6 +175,29 @@ static const int kBlock = 512;
 static const int kWidth = 1100, kHeight = 760;
 static int gNextEditor = 1;
 
+// A host's list of events for one buffer: the notes it hands a plugin, or the ones the plugin hands back.
+class EventList : public IEventList
+{
+public:
+    tresult PLUGIN_API queryInterface (const TUID iid, void** obj) override
+    {
+        if (FUnknownPrivate::iidEqual (iid, FUnknown_iid) || FUnknownPrivate::iidEqual (iid, IEventList_iid)) { *obj = this; return kResultOk; }
+        *obj = nullptr;
+        return kNoInterface;
+    }
+    uint32 PLUGIN_API addRef () override { return 1; }
+    uint32 PLUGIN_API release () override { return 1; }
+    int32 PLUGIN_API getEventCount () override { return int32 (events.size ()); }
+    tresult PLUGIN_API getEvent (int32 index, Event& e) override
+    {
+        if (index < 0 || size_t (index) >= events.size ()) return kInvalidArgument;
+        e = events[size_t (index)];
+        return kResultOk;
+    }
+    tresult PLUGIN_API addEvent (Event& e) override { events.push_back (e); return kResultOk; }
+    std::vector<Event> events;
+};
+
 // A host's project, in memory: what a plugin's getState writes and its setState reads back.
 class MemoryStream : public IBStream
 {
@@ -234,6 +258,11 @@ struct Plugin {
     std::atomic<bool> held { false };   // while set the host renders nothing, as a stopped REAPER that does not run FX
     std::mutex heardMutex;
     std::vector<float> heard;   // the left channel, every frame rendered
+    // the host's MIDI: what it hands the plugin with its next buffer, and every event the plugin has handed back,
+    // its sampleOffset counted from the first frame rendered
+    std::mutex midiMutex;
+    std::vector<Event> midiToSend;
+    std::vector<Event> midiReceived;
 };
 
 static bool start (Plugin& p)
@@ -260,6 +289,10 @@ static bool start (Plugin& p)
         data.numSamples = kBlock;
         data.numOutputs = 1;
         data.outputs = &out;
+        EventList eventsIn, eventsOut;
+        eventsOut.events.reserve (256);
+        data.inputEvents = &eventsIn;
+        data.outputEvents = &eventsOut;
         auto begin = std::chrono::steady_clock::now ();
         long long frames = 0;
         while (!p.quit.load ()) {
@@ -268,10 +301,23 @@ static bool start (Plugin& p)
                 while (p.held.load () && !p.quit.load ()) std::this_thread::sleep_for (std::chrono::milliseconds (5));
                 begin += std::chrono::steady_clock::now () - from;
             }
+            {
+                std::lock_guard<std::mutex> lk (p.midiMutex);
+                eventsIn.events.swap (p.midiToSend);
+                p.midiToSend.clear ();
+            }
+            eventsOut.events.clear ();
             p.processor->process (data);
             {
                 std::lock_guard<std::mutex> lk (p.heardMutex);
                 p.heard.insert (p.heard.end (), left.begin (), left.end ());
+            }
+            if (!eventsOut.events.empty ()) {
+                std::lock_guard<std::mutex> lk (p.midiMutex);
+                for (Event e : eventsOut.events) {
+                    e.sampleOffset += int32 (frames);
+                    p.midiReceived.push_back (e);
+                }
             }
             frames += kBlock;
             std::this_thread::sleep_until (begin + std::chrono::microseconds ((long long) (frames * 1e6 / kRate)));
@@ -456,14 +502,14 @@ static void stopAll (Plugin& p)
 // lower-case character, on a US keyboard. Here it is pressed as AppKit would deliver it: the US layout's key code, and
 // the characters that layout types with those modifiers (Option's symbols, Control's control characters).
 
-struct Chord {
+struct KeyChord {   // not "Chord": the VST3 events header has one
     bool shift = false, meta = false, ctrl = false, alt = false;
     NSString* key = @"";
 };
 
-static Chord parseChord (NSString* id)
+static KeyChord parseChord (NSString* id)
 {
-    Chord c;
+    KeyChord c;
     for (bool more = true; more;) {
         more = false;
         for (NSString* prefix in @[ @"Shift-", @"Meta-", @"Ctrl-", @"Alt-" ]) {
@@ -529,7 +575,7 @@ static NSEvent* chordEvent (Plugin& p, NSString* id, bool down)
         @"u": @32, @"[": @33, @"i": @34, @"p": @35, @"l": @37, @"j": @38, @"'": @39, @"k": @40, @";": @41, @"\\": @42,
         @",": @43, @"/": @44, @"n": @45, @"m": @46, @".": @47, @"`": @50,
     };
-    const Chord c = parseChord (id);
+    const KeyChord c = parseChord (id);
     NSEventModifierFlags flags = (c.shift ? NSEventModifierFlagShift : 0) | (c.meta ? NSEventModifierFlagCommand : 0)
                                | (c.ctrl ? NSEventModifierFlagControl : 0) | (c.alt ? NSEventModifierFlagOption : 0);
     unsigned short code = 0;
@@ -860,17 +906,23 @@ int main (int argc, char** argv)
     check ("it tells the host of the audio it has",
            a.component->getBusCount (kAudio, kOutput) == 1 && a.component->getBusCount (kAudio, kInput) == 1);
     // Ableton Live 12 refuses an instrument with no MIDI input ("plugin has instrument category, but no valid event
-    // input bus"), so there is one, though nothing reads it yet.
-    BusInfo midiIn {};
+    // input bus").
+    BusInfo midiIn {}, midiOut {};
     const bool hasMidiIn = a.component->getBusCount (kEvent, kInput) == 1
                         && a.component->getBusInfo (kEvent, kInput, 0, midiIn) == kResultOk;
-    check ("it has a MIDI input, which a host needs of an instrument, and no MIDI output",
+    check ("it has a MIDI input, which a host needs of an instrument",
            hasMidiIn && midiIn.mediaType == kEvent && midiIn.direction == kInput && midiIn.busType == kMain
            && midiIn.channelCount == 16 && (midiIn.flags & BusInfo::kDefaultActive)
-           && a.component->activateBus (kEvent, kInput, 0, true) == kResultOk
-           && a.component->getBusCount (kEvent, kOutput) == 0,
-           [NSString stringWithFormat:@"event in %d (%d channels), out %d", a.component->getBusCount (kEvent, kInput),
-                                      midiIn.channelCount, a.component->getBusCount (kEvent, kOutput)]);
+           && a.component->activateBus (kEvent, kInput, 0, true) == kResultOk,
+           [NSString stringWithFormat:@"event in %d (%d channels)", a.component->getBusCount (kEvent, kInput), midiIn.channelCount]);
+    const bool hasMidiOut = a.component->getBusCount (kEvent, kOutput) == 1
+                         && a.component->getBusInfo (kEvent, kOutput, 0, midiOut) == kResultOk;
+    check ("and a MIDI output",
+           hasMidiOut && midiOut.mediaType == kEvent && midiOut.direction == kOutput && midiOut.busType == kMain
+           && midiOut.channelCount == 16 && (midiOut.flags & BusInfo::kDefaultActive)
+           && a.component->activateBus (kEvent, kOutput, 0, true) == kResultOk
+           && a.component->getBusInfo (kEvent, kOutput, 1, midiOut) != kResultOk,
+           [NSString stringWithFormat:@"event out %d (%d channels)", a.component->getBusCount (kEvent, kOutput), midiOut.channelCount]);
     const bool ready = openEditor (a, 0);
     NSString* readyLine = lines (a.editor, @"\"t\":\"ready\"").lastObject;
     check ("the editor loads the page", ready && [readyLine containsString:@"Sonic Pi"], readyLine);
@@ -934,6 +986,71 @@ int main (int argc, char** argv)
     check ("the file log has the instance's lines from before an editor opened", lines (-1, @"[1] synthdefs: 120 loaded").count == 1);
     NSString* clock = lines (a.editor, @"page clock").lastObject;
     printf ("note  %s\n", clock ? clock.UTF8String : "no clock reading yet");
+
+    // ── MIDI: Sonic Pi's port `daw` is the host's ──
+    // out: what a program sends comes to the host as events, a beat apart on the host's frames
+    const auto received = [&] (uint16 type) {
+        std::lock_guard<std::mutex> lk (a.midiMutex);
+        std::vector<Event> of;
+        for (const Event& e : a.midiReceived) if (e.type == type) of.push_back (e);
+        return of;
+    };
+    const auto receivedWithin = [&] (uint16 type, size_t count, double seconds) {
+        NSDate* until = [NSDate dateWithTimeIntervalSinceNow:seconds];
+        while (received (type).size () < count && [until timeIntervalSinceNow] > 0) pump (0.05);
+        return received (type);
+    };
+    typeAndRun (a, @"2.times do midi_note_on 64, 100, channel: 3; sleep 1; end; midi_note_off 64, channel: 3; midi_cc 7, 90, channel: 3");
+    const std::vector<Event> ons = receivedWithin (Event::kNoteOnEvent, 2, 5);
+    check ("a program's MIDI notes reach the host as note events",
+           ons.size () == 2 && ons[0].noteOn.pitch == 64 && ons[0].noteOn.channel == 2
+           && std::fabs (ons[0].noteOn.velocity - 100.f / 127.f) < 1e-4f && ons[1].noteOn.pitch == 64,
+           [NSString stringWithFormat:@"%zu note ons", ons.size ()]);
+    if (ons.size () == 2)
+        printf ("note  two MIDI notes a beat apart reached the host %d frames apart (a beat is %d)\n",
+                ons[1].sampleOffset - ons[0].sampleOffset, int (kRate));
+    const std::vector<Event> offs = receivedWithin (Event::kNoteOffEvent, 1, 3);
+    check ("and its note off", offs.size () == 1 && offs[0].noteOff.pitch == 64 && offs[0].noteOff.channel == 2,
+           [NSString stringWithFormat:@"%zu note offs", offs.size ()]);
+    const std::vector<Event> ccs = receivedWithin (Event::kLegacyMIDICCOutEvent, 1, 3);
+    check ("and a control change, as the event hosts take one by",
+           ccs.size () == 1 && ccs[0].midiCCOut.controlNumber == 7 && ccs[0].midiCCOut.value == 90 && ccs[0].midiCCOut.channel == 2,
+           [NSString stringWithFormat:@"%zu control changes", ccs.size ()]);
+    // The page has MIDI code of its own, for the web, where the ports are the browser's. In a plugin none of it is
+    // entered: it said "MIDI is not available in the plugin yet" for every note sent, while the notes went out.
+    NSString* said = js (a, @"document.getElementById('status-engine').textContent + '|' + document.getElementById('toast').textContent");
+    check ("the page says nothing of its own about MIDI while a program sends it",
+           [said isKindOfClass:NSString.class] && [said rangeOfString:@"MIDI" options:NSCaseInsensitiveSearch].location == NSNotFound,
+           [NSString stringWithFormat:@"status: %@", said]);
+    js (a, @"document.body.classList.contains('prefs-open') || document.getElementById('btn-prefs').click()");
+    pump (0.3);
+    NSString* prefs = js (a, @"document.getElementById('prefs-pane').textContent");
+    check ("its preferences name the host's port, with no switch and no word of a browser",
+           [prefs isKindOfClass:NSString.class] && [prefs rangeOfString:@"\"daw\""].location != NSNotFound
+           && [prefs rangeOfString:@"Safari"].location == NSNotFound && [prefs rangeOfString:@"Enable MIDI"].location == NSNotFound
+           && [prefs rangeOfString:@"Shortcuts"].location != NSNotFound,   // the preferences were there to read
+           [NSString stringWithFormat:@"%lu characters of preferences", (unsigned long) prefs.length]);
+    js (a, @"document.body.classList.contains('prefs-open') && document.getElementById('btn-prefs').click()");
+    // in: a note the host plays is a cue a program can wait on
+    pump (1.0);
+    typeAndRun (a, @"n, v = sync \"/midi:daw:5/note_on\"; play n");
+    pump (1.0);
+    from = heardSoFar (a);
+    check ("a program waiting on a note from the host is silent until one comes", peakOver (a, 0.5) < 1e-6);
+    {
+        Event note {};
+        note.type = Event::kNoteOnEvent;
+        note.sampleOffset = 100;
+        note.noteOn.channel = 4;
+        note.noteOn.pitch = 72;
+        note.noteOn.velocity = 0.8f;
+        note.noteOn.noteId = -1;
+        std::lock_guard<std::mutex> lk (a.midiMutex);
+        a.midiToSend.push_back (note);
+    }
+    check ("a note from the host wakes it, and it plays", soundsWithin (a, from, 3));
+    check ("and the log shows the note as a cue", waitFor (a.editor, @"/midi:daw:5/note_on", 3));
+    pump (1.5);
 
     // a note held for 8 seconds, then Stop: it fades out within Stop's second
     from = heardSoFar (a);

@@ -16,6 +16,8 @@
   window.__sonicPiPlugin = {
     /** The plugin's version from Cargo.toml (lib.rs sets it). DAWs show the same number. */
     version: window.__sonicPiPluginVersion,
+    /** The name of the host's MIDI port, in and out (lib.rs sets it from instance.cpp's). */
+    midiPort: window.__sonicPiPluginMidiPort,
     /** One verb for the instance: {t: "run", code, group} and the rest (sonic_pi.js PluginSession). */
     post(message) { window.ipc.postMessage(JSON.stringify(message)); },
     /**

@@ -118,6 +118,9 @@ await theme.loadThemes("./");
 let lang = { pages: [] }, synths = { pages: [] }, fx = { pages: [] }, samples = { groups: [] }, examples = { groups: [] }, quickstartData = null, support = null;
 const ref = {};
 const api = new CompletionAPI();
+// A plugin's one MIDI port, in and out, is its host's (app/plugin/core/instance.cpp MIDI_PORT): the page is told its name.
+const HOST_MIDI_PORT = globalThis.__sonicPiPlugin?.midiPort ?? "";
+if (inPlugin && HOST_MIDI_PORT) api.updateMidiOuts([HOST_MIDI_PORT]);
 // each synth's documented defaults, for how long a note it plays lasts
 const synthOpts = new Map();
 // what the docs say exists, for an error's "did you mean" (friendly.js): nothing, until the editor's data is in
@@ -588,7 +591,8 @@ async function ensureSession() {
     if (linkState.warp) session.setTimeWarp(linkState.warp);
     engineRef = engine;
     if (debugOn) showDebug(true);   // the Debug pane, open before the engine was: its metrics now
-    if (store.get("sp-midi", false)) enableMidi();   // the MIDI the player had on last time, now there is a front to hang it on
+    // the MIDI the player had on last time, now there is a front to hang it on; a plugin's MIDI is its host's (HOST_MIDI_PORT)
+    if (!inPlugin && store.get("sp-midi", false)) enableMidi();
     startGamepads();
     scope.attach(engine);
     attachNavScope(engine);
@@ -1376,6 +1380,7 @@ const MIDI_OUT = {
  * from, which the worklet has not got, so they are sent here as 24 bundles at their times.
  */
 function midiSend(r) {
+  if (inPlugin) return;   // the plugin sends a program's MIDI to its host itself (app/plugin/core/instance.cpp midiSend)
   if (!midi) { enableMidi(); return; }
   if (!engineRef || !session) return;
   const verb = MIDI_OUT[r.path];
@@ -2512,7 +2517,7 @@ function disableMidi() {
 }
 async function enableMidi() {
   if (midi) { store.set("sp-midi", true); midiPorts_(true); buildPrefs(); return midi; }
-  if (inPlugin) { toast("MIDI is not available in the plugin yet"); return null; }
+  if (inPlugin) return null;   // none of this is a plugin's: its MIDI goes to and comes from its host, with no page in between
   if (!navigator.requestMIDIAccess) { toast("this browser has no Web MIDI"); return null; }
   if (!engineRef) await ensureSession().catch(() => {});      // MIDI hangs off the engine's front
   if (!engineRef) { toast("MIDI error - audio engine isn't available"); return null; }
@@ -2790,6 +2795,30 @@ window.addEventListener("resize", () => showThemeMenu(false));
 // the Code size slider showing, kept to the code's size however it changes (its keys, Reset), as native's Preferences
 let showCodeSize = () => {};
 editor.onFontSize(() => showCodeSize());
+// The MIDI preferences of a page that has ports of its own (the web; not a plugin, whose port is its host's).
+function midiPrefs(box) {
+  const midiOn = !!store.get("sp-midi", false);
+  const midiSwitch = toggle("Enable MIDI", midiOn && !!navigator.requestMIDIAccess, (on) => (on ? enableMidi() : disableMidi()),
+    "Enable communication with connected MIDI devices. Incoming MIDI events (note on, cc, etc) are received as cues. Outgoing MIDI is via the midi functions (see the reference)", "pref-midi");
+  // no Web MIDI: Safari on a Mac (another browser has it, or the app), or any browser on an iPhone or iPad (none has)
+  const iosDevice = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+  const noMidi = iosDevice ? "Apologies, MIDI is not supported in the browser on your device."
+    : "Apologies, MIDI isn't something that Apple's Safari supports. Either switch to a different browser or download the native app.";
+  if (!navigator.requestMIDIAccess) {
+    const b = midiSwitch.querySelector("button");
+    b.disabled = true;
+    b.title = noMidi;
+  }
+  box.appendChild(midiSwitch);
+  if (!navigator.requestMIDIAccess) box.appendChild(el("div", "device-list", noMidi));
+  else if (midiOn && !midi) box.appendChild(el("div", "device-list", "The ports are listed once the engine has started: press Run"));
+  else if (midiOn) {
+    const { ins, outs } = midiPorts();
+    box.appendChild(el("div", "device-list", `In: ${ins.length ? ins.map(([n]) => n).join(", ") : "none"}`));
+    box.appendChild(el("div", "device-list", `Out: ${outs.length ? outs.map(([n]) => n).join(", ") : "none"}`));
+  }
+}
+
 function buildPrefs() {
   const pane = $("prefs-pane");
   if (!document.body.classList.contains("prefs-open")) return;
@@ -2859,26 +2888,9 @@ function buildPrefs() {
 
   // native's MIDI: on or off (the first time on, the browser asks), then the ports it found
   h("MIDI");
-  const midiOn = !!store.get("sp-midi", false);
-  const midiSwitch = toggle("Enable MIDI", midiOn && !!navigator.requestMIDIAccess, (on) => (on ? enableMidi() : disableMidi()),
-    "Enable communication with connected MIDI devices. Incoming MIDI events (note on, cc, etc) are received as cues. Outgoing MIDI is via the midi functions (see the reference)", "pref-midi");
-  // no Web MIDI: Safari on a Mac (another browser has it, or the app), or any browser on an iPhone or iPad (none has)
-  const iosDevice = /iPhone|iPad|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
-  const noMidi = iosDevice ? "Apologies, MIDI is not supported in the browser on your device."
-    : "Apologies, MIDI isn't something that Apple's Safari supports. Either switch to a different browser or download the native app.";
-  if (!navigator.requestMIDIAccess) {
-    const b = midiSwitch.querySelector("button");
-    b.disabled = true;
-    b.title = noMidi;
-  }
-  box.appendChild(midiSwitch);
-  if (!navigator.requestMIDIAccess) box.appendChild(el("div", "device-list", noMidi));
-  else if (midiOn && !midi) box.appendChild(el("div", "device-list", "The ports are listed once the engine has started: press Run"));
-  else if (midiOn) {
-    const { ins, outs } = midiPorts();
-    box.appendChild(el("div", "device-list", `In: ${ins.length ? ins.map(([n]) => n).join(", ") : "none"}`));
-    box.appendChild(el("div", "device-list", `Out: ${outs.length ? outs.map(([n]) => n).join(", ") : "none"}`));
-  }
+  // A plugin's MIDI is its host's, always on and with nothing to choose: the one port is said, and that is all.
+  if (inPlugin) box.appendChild(el("div", "device-list", `MIDI in and out to the host DAW is enabled under the port name "${HOST_MIDI_PORT}"`));
+  else midiPrefs(box);
 
   // native's Game Controllers: incoming cues on or off, and each pad there now, on or off
   // the switch is there from the start (it is kept, and asked of the engine when it boots); the pads once it has

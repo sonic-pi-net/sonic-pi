@@ -451,6 +451,8 @@ fn attach(parent: *mut c_void, width: u32, height: u32, instance: *mut RawInstan
         .with_initialization_script(&format!("window.__sonicPiPluginSeed = {};", store_json(plugin)))
         // The plugin's version from Cargo.toml, shown in the page's About card (bridge.js: __sonicPiPlugin.version)
         .with_initialization_script(concat!("window.__sonicPiPluginVersion = \"", env!("CARGO_PKG_VERSION"), "\";"))
+        // The host's MIDI port by its name, for the page's preferences and its completion of port: (bridge.js)
+        .with_initialization_script(&format!("window.__sonicPiPluginMidiPort = {};", serde_json::to_string(instance::midi_port()).unwrap_or_default()))
         .with_initialization_script(include_str!("bridge.js"));
     // The test host's view of the page (test/host.mm): what reaches it, in the log. Never in a host's process
     // unless asked for.

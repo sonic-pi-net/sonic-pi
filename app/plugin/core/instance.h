@@ -59,6 +59,28 @@ typedef struct SpTransport {
     int32_t meter_den;
 } SpTransport;
 void sp_instance_transport(SpInstance* instance, const SpTransport* transport);
+/* The host's MIDI. The instance has one port each way, `daw`, as Sonic Pi names it: a note the host hands in is the
+ * cue "/midi:daw:<channel>/note_on" (and note_off, and the other channel messages), and what a program sends to
+ * `daw`, or to every port, comes back to the host.
+ *
+ * In: one whole channel message (2 or 3 bytes, status first) for `frame` of the next render, from the render's
+ * thread and before it. 1 when taken; 0 for bytes that are not one (system exclusive is not carried) or more than
+ * the engine holds between renders.
+ *
+ * Out: after a render, what a program sent that came due in it, in the order of their times, each with its frame
+ * in that render: up to `capacity` copied to `events`, the number copied; call again for more. The render's
+ * thread. Nothing in either call allocates or waits. */
+typedef struct SpMidi
+{
+    uint32_t frame;
+    uint8_t bytes[3];
+    uint8_t length;
+} SpMidi;
+int sp_instance_midi_in(SpInstance* instance, const uint8_t* bytes, uint32_t length, uint32_t frame);
+uint32_t sp_instance_midi_out(SpInstance* instance, SpMidi* events, uint32_t capacity);
+/* The name of the host's port, in and out, as a program names it (port: "daw"). Any thread. */
+const char* sp_midi_port(void);
+
 /* Whether the instance's bars follow the host's (1, as it starts) or only its tempo (0). Any thread. */
 void sp_instance_align_bars(SpInstance* instance, int on);
 /* The global time warp, in milliseconds: every sound from then on is that much later (or, below 0, earlier, by no

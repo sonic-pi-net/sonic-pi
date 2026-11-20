@@ -540,3 +540,140 @@ fn a_new_sample_rate_while_the_synths_load_does_not_lose_them() {
     assert!(logged(&heard, &format!("synthdefs: {} loaded", 120)).is_some(), "/d_loadDir reported all 120 synthdefs loaded");
     assert_eq!(onsets(&zawa).len(), 1, "zawa after the new rate: peak {}", peak(&zawa));
 }
+
+// ── MIDI: the host's port, `daw` ──────────────────────────────────────────────
+
+use sonic_pi_plugin::instance::Midi;
+
+/// Renders `blocks` buffers: the left channel, and what the instance sent to the host's MIDI port, each with its
+/// frame counted from the first buffer.
+fn render_midi(instance: &Instance, blocks: usize) -> (Vec<f32>, Vec<(usize, Vec<u8>)>) {
+    let (mut left, mut right) = (vec![0.0f32; BLOCK], vec![0.0f32; BLOCK]);
+    let mut out = Vec::with_capacity(blocks * BLOCK);
+    let mut sent = Vec::new();
+    let mut events = [Midi::default(); 64];
+    for block in 0..blocks {
+        instance.render(&mut left, &mut right);
+        loop {
+            let n = instance.midi_out(&mut events);
+            for e in &events[..n] {
+                assert!((e.frame as usize) < BLOCK, "a frame of the buffer just rendered: {}", e.frame);
+                sent.push((block * BLOCK + e.frame as usize, e.bytes[..e.length as usize].to_vec()));
+            }
+            if n < events.len() {
+                break;
+            }
+        }
+        out.extend_from_slice(&left);
+    }
+    (out, sent)
+}
+
+#[test]
+fn midi_notes_a_beat_apart_reach_the_host_exactly_48000_frames_apart() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.run("3.times do\n  midi_note_on :e3, 100, channel: 2\n  sleep 1\nend\n");
+    let (_, sent) = render_midi(&instance, seconds(3.5));
+    assert_eq!(sent.len(), 3, "three notes: {sent:?}");
+    for (_, bytes) in &sent {
+        assert_eq!(bytes, &vec![0x91, 52, 100], "note on, channel 2, e3, velocity 100: {sent:?}");
+    }
+    assert_eq!(sent[1].0 - sent[0].0, 48_000, "{sent:?}");
+    assert_eq!(sent[2].0 - sent[1].0, 48_000, "{sent:?}");
+}
+
+#[test]
+fn a_midi_note_and_a_sound_played_together_reach_the_host_within_5_ms_the_note_first() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.run(&format!("sleep 0.25\nmidi_note_on 60, 90, channel: 1\n{BEEP}\nsleep 0.5\nmidi_note_on 62, 90, channel: 1\n{BEEP}\n"));
+    let (audio, sent) = render_midi(&instance, seconds(2.0));
+    let starts = onsets(&audio);
+    assert_eq!(starts.len(), 2, "two beeps: {starts:?}");
+    assert_eq!(sent.len(), 2, "two notes: {sent:?}");
+    for (beep, (note, _)) in starts.iter().zip(&sent) {
+        // The note is on the frame of its time. The sound is heard a little after its own: it leaves through the
+        // mixer, whose limiter looks 1.5 ms ahead, and an onset is the first frame loud enough to count. Measured
+        // 18 November 2026: the first beep's onset 122 frames after its note, the second's 186.
+        assert!(note <= beep && beep - note <= (0.005 * RATE) as usize, "the note at {note}, the beep at {beep}");
+    }
+    assert_eq!(sent[1].0 - sent[0].0, 24_000, "the notes are half a beat apart exactly: {sent:?}");
+}
+
+#[test]
+fn midi_plays_a_note_on_and_its_note_off_after_the_sustain() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.run("midi :c4, sustain: 0.5, velocity: 80, channel: 1\n");
+    let (_, sent) = render_midi(&instance, seconds(1.5));
+    assert_eq!(sent.len(), 2, "a note on and a note off: {sent:?}");
+    assert_eq!(sent[0].1, vec![0x90, 60, 80]);
+    assert_eq!(sent[1].1[..2], [0x80, 60]);
+    let held = sent[1].0 - sent[0].0;
+    assert!(held.abs_diff((0.5 * RATE) as usize) <= (0.011 * RATE) as usize, "held for about the sustain, {held} frames");
+}
+
+#[test]
+fn midi_with_no_channel_is_sent_on_all_16_and_with_another_port_not_at_all() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.run("midi_note_on 60, 100\n");
+    let (_, sent) = render_midi(&instance, seconds(1.0));
+    let channels: Vec<u8> = sent.iter().map(|(_, b)| b[0]).collect();
+    assert_eq!(channels, (0x90..=0x9F).collect::<Vec<u8>>(), "every channel: {sent:?}");
+
+    instance.run("midi_note_on 60, 100, channel: 1, port: \"some_other_port\"\nsleep 0.1\nmidi_note_on 61, 100, channel: 1, port: \"daw\"\n");
+    let (_, sent) = render_midi(&instance, seconds(1.0));
+    assert_eq!(sent.len(), 1, "only the note for the host's port: {sent:?}");
+    assert_eq!(sent[0].1, vec![0x90, 61, 100]);
+}
+
+#[test]
+fn the_same_midi_program_sends_the_same_notes_on_the_same_frames_twice() {
+    let run = || {
+        let instance = offline();
+        render_until_loaded(&instance);
+        instance.run("live_loop :m do\n  midi_note_on (ring 60, 64, 67).tick, 100, channel: 1\n  sleep 0.125\nend\n");
+        render_midi(&instance, seconds(2.0)).1
+    };
+    let (first, second) = (run(), run());
+    assert!(first.len() >= 15, "about 16 notes in two seconds: {}", first.len());
+    assert_eq!(first, second);
+}
+
+#[test]
+fn a_note_from_the_host_is_a_cue_a_program_can_sync_on() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.run("live_loop :keys do\n  n, v = sync \"/midi:daw:3/note_on\"\n  synth :beep, note: n, attack: 0, sustain: 0.2, release: 0.05, amp: v / 127.0\nend\n");
+    let before = render(&instance, seconds(0.5));
+    assert!(peak(&before) < 1e-6, "nothing plays until a note comes, peak {}", peak(&before));
+
+    // a5, on channel 3, half way through a buffer
+    assert!(instance.midi_in(&[0x92, 81, 100], (BLOCK / 2) as u32));
+    let heard = render(&instance, seconds(1.0));
+    let starts = onsets(&heard);
+    assert_eq!(starts.len(), 1, "one beep for one note: {starts:?}");
+    let from = starts[0];
+    let pitch = frequency(&heard[from..from + (0.2 * RATE) as usize]);
+    assert!((pitch - 880.0).abs() < 5.0, "the beep is the note played, a5 at 880 Hz: heard {pitch:.1} Hz");
+
+    // Another channel is another cue.
+    assert!(instance.midi_in(&[0x90, 81, 100], 0));
+    let other = render(&instance, seconds(1.0));
+    assert!(onsets(&other).is_empty(), "a note on channel 1 does not wake a sync on channel 3");
+}
+
+#[test]
+fn a_note_off_from_the_host_is_a_cue_too_and_what_is_not_a_note_is_refused() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.run(&format!("n, v = sync \"/midi:daw:1/note_off\"\n{BEEP}\n"));
+    render(&instance, seconds(0.25));
+    assert!(instance.midi_in(&[0x80, 60, 0], 0));
+    assert_eq!(onsets(&render(&instance, seconds(1.0))).len(), 1, "the note off woke the sync");
+
+    assert!(!instance.midi_in(&[0xF0, 1, 2, 0xF7], 0), "system exclusive is not carried");
+    assert!(!instance.midi_in(&[60, 100], 0), "data with no status is no message");
+}
