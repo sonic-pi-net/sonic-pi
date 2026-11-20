@@ -1052,6 +1052,18 @@ int main (int argc, char** argv)
     check ("and the log shows the note as a cue", waitFor (a.editor, @"/midi:daw:5/note_on", 3));
     pump (1.5);
 
+    // Share makes its links with a module the page fetches when a pointer first reaches the button. The pointer
+    // then moves off it to the editor, as a hand's does: left resting on the button with its tip showing, a live
+    // loop's scope was not drawn (seen 19 November 2026, not looked into).
+    {
+        const NSUInteger missing = lines (a.editor, @" 404 ").count, failed = lines (a.editor, @"\"t\":\"rejection\"").count;
+        js (a, @"const b = document.getElementById('btn-share'); b.dispatchEvent(new PointerEvent('pointerover', { bubbles: true })); setTimeout(() => { b.dispatchEvent(new PointerEvent('pointerout', { bubbles: true })); b.dispatchEvent(new PointerEvent('pointerleave')); document.querySelector('#editor-mount').dispatchEvent(new PointerEvent('pointerover', { bubbles: true })); }, 800); 1");
+        pump (2.0);
+        check ("the Share button finds what it makes a link with",
+               lines (a.editor, @" 404 ").count == missing && lines (a.editor, @"\"t\":\"rejection\"").count == failed,
+               lines (a.editor, @" 404 ").lastObject ?: lines (a.editor, @"\"t\":\"rejection\"").lastObject);
+    }
+
     // a note held for 8 seconds, then Stop: it fades out within Stop's second
     from = heardSoFar (a);
     typeAndRun (a, @"play 67, sustain: 8");

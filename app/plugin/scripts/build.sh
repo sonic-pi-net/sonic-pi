@@ -85,9 +85,10 @@ cp "$LIB" "$BUNDLE/Contents/MacOS/$NAME"
 # The page, less what only the web's own engine and runtime use. In the plugin the sound is the plugin's and so is
 # the runtime (web/runtime.js inPlugin), so the page never asks for the wasm engine, the wasm runtime, their random
 # tables, or the engine's copies of the samples and synthdefs: 44 MB the bundle would otherwise carry twice.
+# The other wasm beside the runtime stays: the Share button makes its links with it (sp_share).
 rsync -a --exclude '*.map' \
     --exclude '/engine/samples' --exclude '/engine/synthdefs' --exclude '/engine/wasm/clockwork-scsynth*' \
-    --exclude '/runtime/*.wasm' --exclude '/buffers' \
+    --exclude '/runtime/sp_runtime.wasm' --exclude '/buffers' \
     "$PAGE/" "$BUNDLE/Contents/Resources/page/"
 rsync -a --include '*.scsyndef' --exclude '*' "$ETC/synthdefs/compiled/" "$BUNDLE/Contents/Resources/synthdefs/"
 rsync -a "$ETC/samples/" "$BUNDLE/Contents/Resources/samples/"
