@@ -190,7 +190,9 @@ const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new 
     }
     return set === 3 ? r.getBoundingClientRect() : null;
   };
-  let together = [], hugs = true;
+  // whether every wash of the editor's began and ended in a line's own text: WebKit paints nothing for a highlight
+  // that ends in the line's element, as a live_loop's header's did, after its scope (2026-11-20)
+  let together = [], hugs = true, inText = true;
   const ever = new Set(), since = new Map(), holds = [];
   const t0 = performance.now();
   const heard = () => {
@@ -219,6 +221,7 @@ const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new 
     if (s) {
       const rows = rowsOf(s);
       for (const w of washesOf(s)) {
+        if (w.startContainer && (w.startContainer.nodeType !== 3 || w.endContainer.nodeType !== 3)) inText = false;
         const r = rectOf(w), mid = (r.top + r.bottom) / 2;
         const n = rows.findIndex((row) => { const b = row.getBoundingClientRect(); return mid >= b.top && mid < b.bottom; });
         if (n < 0 || r.width === 0) continue;
@@ -236,14 +239,14 @@ const flashWatch = (pg, where, ms = 3000) => pg.evaluate(({ where, ms }) => new 
     if (now - t0 < ms) requestAnimationFrame(frame);
     else {
       if (painted) for (const k of ["add", "delete", "clear"]) delete painted[k];
-      resolve({ together, ever: [...ever].sort((a, b) => a - b), hugs, holds: [...new Set(holds)].sort((a, b) => a - b) });
+      resolve({ together, ever: [...ever].sort((a, b) => a - b), hugs, inText, holds: [...new Set(holds)].sort((a, b) => a - b) });
     }
   };
   requestAnimationFrame(frame);
 }), { where, ms });
 // lit as native's code flash: a loop's header, its sound and its end at once, behind just their code, each held 150 ms
 // after its latest flash (flash.js): a card's exactly, the editor's give or take its timer's lateness
-const litAsNative = (w, end) => [1, 2, end].every((n) => w.together.includes(n)) && w.hugs && w.holds.length > 0 && w.holds.every((d) => d >= 140 && d <= 400);
+const litAsNative = (w, end) => [1, 2, end].every((n) => w.together.includes(n)) && w.hugs && w.inText && w.holds.length > 0 && w.holds.every((d) => d >= 140 && d <= 400);
 // what a Run lights over ms, frame by frame (main.js run): the editor's gutter, its code (editor.js flash), the Run
 // button's glyph (flashRunButton)
 const runLit = (pg, ms = 1500) => pg.evaluate((ms) => new Promise((resolve) => {

@@ -300,7 +300,11 @@ function codeHighlights() {
       if (n < 1 || n > doc.lines) continue;
       const line = doc.line(n), span = codeSpan(line.text);
       if (!span || line.to < from || line.from > to) continue;
-      const a = view.domAtPos(line.from + span[0]), b = view.domAtPos(line.from + span[1]);
+      // Each end in the code's own text (the start looking forward, the end back). A live_loop's header has its
+      // scope after its last character, and the end, looked for forward, is then a place in the line's element
+      // after the scope: WebKit paints nothing for a highlight that ends there, and the header never lit in Safari
+      // or in the plugin (2026-11-20).
+      const a = view.domAtPos(line.from + span[0], 1), b = view.domAtPos(line.from + span[1], -1);
       highlight.add(new StaticRange({ startContainer: a.node, startOffset: a.offset, endContainer: b.node, endOffset: b.offset }));
     }
   };
