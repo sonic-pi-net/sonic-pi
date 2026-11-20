@@ -309,10 +309,31 @@ fn the_global_time_warp_moves_every_sound_by_its_milliseconds() {
     // 100 ms is 4,800 frames, to within the engine block (64 frames) a sound starts in
     let plain = first_sound(None);
     let later = first_sound(Some(100.0)) - plain;
-    let earlier = first_sound(Some(-100.0)) - plain;
     assert!((later - 4_800).abs() <= 64, "a warp of 100 ms moved the sound {later} frames");
-    assert!((earlier + 4_800).abs() <= 64, "a warp of -100 ms moved the sound {earlier} frames");
     assert_eq!(first_sound(Some(0.0)), plain);
+    // no warp brings a run's first sound to before it was run: it comes as soon as it does with none
+    assert_eq!(first_sound(Some(-100.0)), plain, "the first sound of a run, with a warp of -100 ms");
+}
+
+/// A warp below 0 moves a playing loop's sounds earlier by the whole of it, however short the schedule-ahead time:
+/// the loop's thread runs that much ahead of the audio. With the schedule-ahead at 25 ms (20 November 2026) a warp
+/// of -100 ms moved them 24 ms and no more, each sound reaching the engine after its time.
+#[test]
+fn a_time_warp_below_zero_moves_a_playing_loop_earlier_by_all_of_it() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    instance.run(&format!("live_loop :t do\n  {BEEP}\n  sleep 0.5\nend\n"));
+    let mut heard = render(&instance, seconds(2.2));
+    let before = onsets(&heard);
+    assert!(before.len() >= 4 && on_the_beat(&before, 24_000), "the loop before the warp: {before:?}");
+    instance.time_warp(-100.0);
+    heard.extend(render(&instance, seconds(3.0)));
+    let all = onsets(&heard);
+    // the sounds from the second after the warp on, against the beats the loop kept before it
+    let moved: Vec<i64> = all[before.len() + 1..].iter().enumerate()
+        .map(|(i, s)| *s as i64 - (before[0] + (before.len() + 1 + i) * 24_000) as i64).collect();
+    assert!(moved.len() >= 3, "the loop plays on after the warp: {all:?}");
+    assert!(moved.iter().all(|m| (m + 4_800).abs() <= 64), "a warp of -100 ms moved the loop's sounds {moved:?} frames");
 }
 
 #[test]

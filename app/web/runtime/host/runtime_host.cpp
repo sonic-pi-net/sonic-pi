@@ -606,7 +606,12 @@ void RuntimeHost::setLinkGrid(double bpm, double beatOrigin)
 
 void RuntimeHost::setTimeWarp(double ms)
 {
-    post([ms] { sp_set_time_warp(ms / 1000.0); });
+    post([this, ms] {
+        sp_set_time_warp(ms / 1000.0);
+        // the threads' wake times moved with it (Scheduler#lead): ask again when the next is due
+        m_expectedWake.reset();
+        if (m_running) tick();
+    });
 }
 
 void RuntimeHost::hold(double seconds)

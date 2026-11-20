@@ -83,8 +83,8 @@ const char* sp_midi_port(void);
 
 /* Whether the instance's bars follow the host's (1, as it starts) or only its tempo (0). Any thread. */
 void sp_instance_align_bars(SpInstance* instance, int on);
-/* The global time warp, in milliseconds: every sound from then on is that much later (or, below 0, earlier, by no
- * more than the schedule-ahead time allows). Any thread. */
+/* The global time warp, in milliseconds: every sound from then on is that much later, or, below 0, earlier: the
+ * runtime's threads then run that much ahead of the audio. Any thread. */
 void sp_instance_time_warp(SpInstance* instance, double ms);
 
 /* A program as a new run, in `group` (0: none in particular). */

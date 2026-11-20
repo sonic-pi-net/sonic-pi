@@ -336,6 +336,12 @@ module SonicPi
     attr_accessor :time_warp
     attr_reader :live
 
+    # How far ahead of the host's clock the threads run: a warp below 0, the whole of it. A sound goes to the engine
+    # a schedule-ahead and the warp after its thread's time, so with a warp of -100 ms and a schedule-ahead of 25 a
+    # thread run at its own time is 75 ms too late for its sound. Run this much sooner, its sound is in good time. A
+    # run then starts, and a cue from outside arrives, this far on as well: the threads have run to there.
+    def lead = @time_warp && @time_warp < 0 ? -@time_warp : 0.0
+
     # RT: every record leaves as it is made, as OSC for the page (sp_host.c's
     # GUI stream), and every sound as the OSC the engine plays (its audio
     # stream), each saying which line of the program it came from.
@@ -374,7 +380,7 @@ module SonicPi
       @next_job ||= 0
       id = @next_job
       @next_job += 1
-      start_job_process(id, now, file, group, &program)
+      start_job_process(id, now + lead, file, group, &program)
       id
     end
 
@@ -408,6 +414,7 @@ module SonicPi
     # again (on that clock), or nil when nothing is waiting.
     def step(now)
       @now = now
+      ahead = lead
       loop do
         break if @queue.empty?
         # by when each is due on the session's clock: a wake time is its own
@@ -418,14 +425,14 @@ module SonicPi
           ta == tb ? a[1] <=> b[1] : ta <=> tb
         end
         wake, _, p = @queue[0]
-        break if p.start + wake > now
+        break if p.start + wake > now + ahead
         @queue.shift
         resume(@lang, p, nil)
       end
       send_fx_frees(now)
       free_jobs(now) if @live
       prune_history!
-      nexts = @queue.map { |(wake, _, p)| p.start + wake } + @fx_frees.map { |(at, _)| at - FREE_LEAD } + @node_frees.map { |(at, _)| at - FREE_LEAD }
+      nexts = @queue.map { |(wake, _, p)| p.start + wake - ahead } + @fx_frees.map { |(at, _)| at - FREE_LEAD } + @node_frees.map { |(at, _)| at - FREE_LEAD }
       nexts.min
     end
 
@@ -1003,8 +1010,9 @@ module SonicPi
     # cues at the same instant, as native's incoming events do.
     def external_cue(address, val, now)
       @external_seq = (@external_seq || 0) + 1
-      ev = CueEvent.new(now, -100, [], @external_seq, 0, 60.0, address, val)
-      ev.wall = now
+      at = now + lead   # where the threads have run to: one waiting on it began its wait there or before
+      ev = CueEvent.new(at, -100, [], @external_seq, 0, 60.0, address, val)
+      ev.wall = at
       @history.add(ev)
       # A cue from outside — a MIDI controller, the host — is recorded like any other, so the GUI hears about it
       # the same way and has one inbound path for cues rather than drawing the ones it happens to have sent
