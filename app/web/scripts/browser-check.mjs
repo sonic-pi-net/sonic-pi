@@ -1492,6 +1492,61 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       && await page.evaluate(() => window.sonicPi.editor.view.hasFocus), `open before: ${wasOpen}`);
     await page.evaluate((i) => window.sonicPi.workspace.showBuffer(i), from);
 
+    // ── the page does not grow, Run after Run ──
+    // A page of its own with its panel closed, and one program run 110 times. By the 70th Run every list that holds
+    // its last so many is full (the log keeps 150 lines in the document), so 40 more Runs must leave the page with
+    // the elements it had: every element counted by what it is and where, through the shadow roots. What a screen
+    // reader is told is left out: a line a Run, taken out by its age (announce.js), so its count follows the pace.
+    // Found by a ten hour soak: the Logs pane drew a line a Run while closed, up to its 5000 lines a source.
+    {
+      const gp = await browser.newPage({ ...HTTPS, viewport: { width: 1400, height: 900 } });
+      await gp.addInitScript(() => { try { localStorage.clear(); localStorage.setItem("sp-help-seen", "true"); } catch {} });
+      await gp.goto(BASE + "#app");
+      await gp.waitForFunction(() => /ready|Error/.test(document.getElementById("status-engine").textContent), null, { timeout: 60000 });
+      const drawer = () => gp.evaluate(() => document.body.dataset.drawer);
+      const showing = await drawer();
+      if (showing) await gp.click(`#drawer-rail button[data-drawer='${showing}']`);   // a pane's rail button closes it
+      const census = () => gp.evaluate(() => {
+        const one = (e) => e.tagName.toLowerCase() + (e.id ? "#" + e.id : "") + (typeof e.className === "string" && e.className ? "." + e.className.trim().split(/\s+/).join(".") : "");
+        const where = (el) => { const up = []; for (let e = el, i = 0; e?.nodeType === 1 && i < 4; e = e.parentElement ?? e.getRootNode().host, i++) up.unshift(one(e)); return up.join(" > "); };
+        const counts = {};
+        const walk = (root) => { for (const el of root.querySelectorAll("*")) { if (el.closest(".sr-news")) continue; const w = where(el); counts[w] = (counts[w] ?? 0) + 1; if (el.shadowRoot) walk(el.shadowRoot); } };
+        walk(document);
+        return counts;
+      });
+      // a Run is done with when its sound has gone to the engine: a count, not a wait
+      const runs = async (n) => {
+        for (let i = 0; i < n; i++) {
+          const sent = await gp.evaluate(() => window.sonicPi.session?.bridge?.sent ?? 0);
+          await gp.click("#btn-run");
+          await gp.waitForFunction((before) => (window.sonicPi.session?.bridge?.sent ?? 0) > before, sent, { timeout: 30000 }).catch(timedOut);
+        }
+      };
+      const logLines = () => gp.evaluate(() => document.getElementById("logs-pane").shadowRoot.querySelectorAll(".logs-line").length);
+      await gp.evaluate(() => window.sonicPi.editor.setCode("play 60, release: 0.05, amp: 0"));
+      await runs(70);
+      const full = await census(), drawnClosed = await logLines();
+      await runs(40);
+      const after = await census();
+      const grew = [...new Set([...Object.keys(full), ...Object.keys(after)])].filter((w) => (after[w] ?? 0) !== (full[w] ?? 0)).map((w) => `${(after[w] ?? 0) - (full[w] ?? 0) > 0 ? "+" : ""}${(after[w] ?? 0) - (full[w] ?? 0)} ${w}`);
+      const total = (c) => Object.values(c).reduce((a, b) => a + b, 0);
+      check("40 more Runs of a program leave the page with the elements it had", (await drawer()) === "" && grew.length === 0,
+        `${total(full)} elements, then ${total(after)}${grew.length ? `: ${grew.slice(0, 6).join("; ")}` : ""}`);
+      // the Logs pane: nothing drawn while it is closed, and all of it there when it is opened
+      check("the Logs pane draws nothing while it is closed", drawnClosed === 0 && (await logLines()) === 0, `${drawnClosed} lines drawn after 70 Runs, ${await logLines()} after 110`);
+      await gp.click("#btn-help");   // the pane last shown, its rail with it
+      if ((await drawer()) !== "logs") await gp.click("#drawer-rail button[data-drawer='logs']");
+      await gp.waitForFunction(() => document.getElementById("logs-pane").shadowRoot.querySelectorAll(".logs-line").length >= 110, null, { timeout: 10000 }).catch(timedOut);
+      const drawnOpen = await logLines();
+      check("opened, the Logs pane shows what was said while it was closed", drawnOpen >= 110, `${drawnOpen} lines for 110 Runs`);
+      await gp.click("#drawer-rail button[data-drawer='logs']");
+      await runs(10);
+      const kept = await gp.evaluate(() => ["GUI", "Runtime", "Host", "SuperSonic"].reduce((n, source) => n + window.sonicPi.logs.recent(source, 5000).length, 0));
+      check("closed again, it draws no more and still keeps what is said", (await drawer()) === "" && (await logLines()) === drawnOpen && kept >= drawnOpen + 10,
+        `${await logLines()} lines drawn where ${drawnOpen} were, ${kept} kept for 10 more Runs`);
+      await gp.close();
+    }
+
     // ── files: loaded and dropped, as native's (set-bundle.js isSet, workspace.js, editor.js) ──
     // A fresh page of its own: what arrives makes sets, which the checks above don't want. Its storage is cleared once,
     // not on the reload below, which is the point of that check.

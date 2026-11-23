@@ -74,7 +74,10 @@ const el = (tag, cls, text) => {
 
 // ── Logs (native's Logs tab): each source says what it did from the moment the page loads ──
 
-const logs = createLogs(shadowPane($("logs-pane")), ["GUI", "Runtime", "Host", "SuperSonic"]);   // in its shadow root (shadow.js)
+// In its shadow root (shadow.js). Hidden until its pane is opened, and again once it is closed (setPanel): what is
+// said meanwhile waits in memory and is drawn when the pane shows, so a closed pane adds nothing to the document
+// however long a session runs.
+const logs = createLogs(shadowPane($("logs-pane")), ["GUI", "Runtime", "Host", "SuperSonic"], { shown: false });
 // What happened to the audio (audio-trail.js), kept on every page; and what the page before this one kept, when its
 // audio would not come back and Restart Sonic Pi reloaded it: its trail and its logs' last lines, shown here
 const audioTrail = createAudioTrail();
@@ -1539,7 +1542,9 @@ function setPanel(next) {
   if (next === "prefs") buildPrefs();
   if (next === "docs") withDocs();
   if (next === "quickstart") needReference().then(() => { quickstart ??= createQuickstart($("quickstart-pane"), quickstartData, paneHooks); requestAnimationFrame(() => quickstart.render()); });
-  if (next === "logs") requestAnimationFrame(() => logs.shown());
+  // the Logs pane draws only while it shows (createLogs, above); the frame may come after it was closed again
+  if (next === "logs") requestAnimationFrame(() => { if (panelNow() === "logs") logs.shown(); });
+  else if (now === "logs") logs.hidden();
   showDebug(next === "debug");
 }
 // Debug, as native's: the engine's live metrics, SuperSonic's own <clockwork-metrics> reading its shared memory, a
