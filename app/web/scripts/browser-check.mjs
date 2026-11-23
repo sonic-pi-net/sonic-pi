@@ -1532,6 +1532,10 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const total = (c) => Object.values(c).reduce((a, b) => a + b, 0);
       check("40 more Runs of a program leave the page with the elements it had", (await drawer()) === "" && grew.length === 0,
         `${total(full)} elements, then ${total(after)}${grew.length ? `: ${grew.slice(0, 6).join("; ")}` : ""}`);
+      // the Threads pane: its table lists the threads of the last few seconds, so drawn while closed it holds a row
+      // or two more or fewer by the moment it is counted; closed, it draws none of them
+      const threadRows = (c) => Object.entries(c).filter(([w]) => /insight-table[^>]* > table > tbody > tr\.jump$/.test(w)).reduce((n, [, k]) => n + k, 0);   // a thread's row; the empty table's one line is not
+      check("the Threads pane draws no rows while it is closed", threadRows(full) === 0 && threadRows(after) === 0, `${threadRows(full)} rows after 70 Runs, ${threadRows(after)} after 110`);
       // the Logs pane: nothing drawn while it is closed, and all of it there when it is opened
       check("the Logs pane draws nothing while it is closed", drawnClosed === 0 && (await logLines()) === 0, `${drawnClosed} lines drawn after 70 Runs, ${await logLines()} after 110`);
       await gp.click("#btn-help");   // the pane last shown, its rail with it

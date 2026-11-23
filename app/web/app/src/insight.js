@@ -228,7 +228,12 @@ export function createInsight(root, hooks) {
   clear.type = "button";
   clear.innerHTML = `${icon("trash")}<span class="ask-label">Clear</span>`;
   clear.title = "Clear what every view has drawn so far: it cannot be brought back";
-  const clearAll = () => { threads.clear(); lanes.clear(); cues = []; beatAnchor = null; roll.clear(); renderTable(); };
+  // The table is drawn only while it can be seen (ui/shown.js): what changes meanwhile is drawn when it next shows,
+  // so a closed pane adds nothing to the document, and its rows (the threads of the last few seconds) are not
+  // remade for nobody at every status.
+  let shown = null, tableStale = false;
+  const refreshTable = () => { if (shown?.shown) renderTable(); else tableStale = true; };
+  const clearAll = () => { threads.clear(); lanes.clear(); cues = []; beatAnchor = null; roll.clear(); refreshTable(); };
   askTwice(clear, { label: "Clear", armedLabel: "Clear for good", act: clearAll, settle: 3000 });
   clearSeg.appendChild(clear);
   const legend = el("span", "insight-legend");
@@ -367,7 +372,7 @@ export function createInsight(root, hooks) {
   /** The session's status: where each thread is now. */
   function status(s) {
     lastStatus = s;
-    renderTable();
+    refreshTable();
   }
 
   const colourOf = (t) => css(PALETTE[t.index % PALETTE.length]);
@@ -631,7 +636,7 @@ export function createInsight(root, hooks) {
     ctx.fillStyle = css("HighlightedBackground");
     ctx.fillText("now", x(now) + 4, Math.min(h - 4, lanesBottom + 14));
   }
-  const shown = animateWhileShown(root, draw);
+  shown = animateWhileShown(root, (t) => { if (tableStale) { tableStale = false; renderTable(); } draw(t); });
   setInterval(() => { if (shown.shown && !paused) renderTable(); }, 500);   // the table as it stands, twice a second, while it can be seen
   renderTable();
 
@@ -642,7 +647,7 @@ export function createInsight(root, hooks) {
     tree,
     roll,
     /** Everything stopped at this time: sounds scheduled after it never play. */
-    stopped: (time) => { if (time != null) { roll.stop(time); endLanesAt(lanes.values(), time); renderTable(); } },
+    stopped: (time) => { if (time != null) { roll.stop(time); endLanesAt(lanes.values(), time); refreshTable(); } },
     clear: clearAll,
   };
 }
