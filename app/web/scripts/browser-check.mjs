@@ -16,15 +16,16 @@
 import { quiet } from "./lib/quiet.mjs";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { releaseVersion, versionLine, targetVersion } from "../app/src/versions.js";
 // Sonic Pi's own synthdefs, which every synthdef the page fetches must be byte for byte
-const COMPILED = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../etc/synthdefs/compiled");
+const COMPILED = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../etc/synthdefs/compiled");
 // the studio's random stream's first values, as native's scsynth reads them: 16-bit samples over 32768
-const RAND_STREAM = fs.readFileSync(path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../etc/buffers/rand-stream.wav"));
+const RAND_STREAM = fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../etc/buffers/rand-stream.wav"));
 const RAND_FIRST = Array.from({ length: 8 }, (_, i) => Math.fround(RAND_STREAM.readInt16LE(44 + 2 * i) / 32768));
 // The versions the page should show, read straight from VERSION and package.json (not from the build's output)
-const RELEASE = releaseVersion(fs.readFileSync(path.resolve(path.dirname(new URL(import.meta.url).pathname), "../../../VERSION"), "utf8"));
-const OWN = { web: JSON.parse(fs.readFileSync(path.resolve(path.dirname(new URL(import.meta.url).pathname), "../package.json"), "utf8")).version };
+const RELEASE = releaseVersion(fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../VERSION"), "utf8"));
+const OWN = { web: JSON.parse(fs.readFileSync(path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../package.json"), "utf8")).version };
 const BASE = process.argv[2] ?? "http://127.0.0.1:8460/web/";
 const { chromium, webkit, devices } = await import(process.env.PLAYWRIGHT ?? "playwright");
 // a QR code read off the page as a phone's camera would, and the link in it read as the app reads one

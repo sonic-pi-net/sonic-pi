@@ -60,14 +60,18 @@ if [ "$MODE" = "--share" ]; then build_share; exit 0; fi
 # mruby built before the edit, here and in every CI cache (sonic-pi-core's float printing, 2026-11-17).
 FROM="$(git -C "$MR" rev-parse HEAD) $( { cat "$PATCHES"/*.patch "$ROOT/runtime/build_config.rb"; find "$ROOT/runtime/mrbgems" -type f | LC_ALL=C sort | while read -r f; do cat "$f"; done; } | { sha256sum 2>/dev/null || shasum -a 256; } | cut -d' ' -f1)"
 HOST_MRBC="$MRUBY_BUILD_DIR/host/bin/mrbc"
-EM_CONFIG="$MRUBY_BUILD_DIR/emscripten/host-bin/mruby-config"
+# mruby's flags for a target (host or emscripten), read from the file its mruby-config is made from: a shell script
+# elsewhere, but a .bat on Windows, which bash cannot run, so the file itself (its $(MRUBY_PACKAGE_DIR) that target's
+# build, its quotes dropped: the words go to the compiler as they are)
+mruby_flags_file() { echo "$MRUBY_BUILD_DIR/$1/lib/libmruby.flags.mak"; }
+mruby_flag() { sed -n "s/^MRUBY_$2 = *//p" "$(mruby_flags_file "$1")" | sed -e "s|\$(MRUBY_PACKAGE_DIR)|$MRUBY_BUILD_DIR/$1|g" -e 's/"//g'; }
 built() { [ "$(cat "$MRUBY_BUILD_DIR/$1/built-from" 2>/dev/null)" = "$FROM" ]; }   # a target, built from FROM
 NEED_MRUBY=""
 if [ -z "$MODE" ]; then
   NEED_MRUBY="host + emscripten"
 elif { [ "$MODE" = "--native" ] || [ "$MODE" = "--bytecode" ]; } && { ! built host || [ ! -x "$HOST_MRBC" ]; }; then
   NEED_MRUBY="host"
-elif [ "$MODE" = "--wasm" ] && { ! built host || ! built emscripten || [ ! -x "$HOST_MRBC" ] || [ ! -x "$EM_CONFIG" ]; }; then
+elif [ "$MODE" = "--wasm" ] && { ! built host || ! built emscripten || [ ! -x "$HOST_MRBC" ] || [ ! -f "$(mruby_flags_file emscripten)" ]; }; then
   NEED_MRUBY="host + emscripten"
 fi
 if [ -n "$NEED_MRUBY" ]; then
@@ -108,9 +112,8 @@ cat "$OUT/runtime.rb" "$LIB/native.rb" > "$OUT/runtime_native.rb"
 "$MRUBY_BUILD_DIR/host/bin/mrbc" -B sp_runtime_irep -o "$OUT/runtime_native_irep.c" "$OUT/runtime_native.rb"
 
 if [ -z "$MODE" ] || [ "$MODE" = "--wasm" ]; then
-  CONFIG="$MRUBY_BUILD_DIR/emscripten/host-bin/mruby-config"
-  emcc $("$CONFIG" --cflags) $("$CONFIG" --ldflags) \
-    "$ROOT/runtime/host/sp_host.c" "$OUT/runtime_irep.c" $("$CONFIG" --libs) \
+  emcc $(mruby_flag emscripten CFLAGS) $(mruby_flag emscripten LDFLAGS) \
+    "$ROOT/runtime/host/sp_host.c" "$OUT/runtime_irep.c" $(mruby_flag emscripten LIBS) \
     -O2 -g0 -o "$OUT/sp_runtime.mjs" \
     -sMODULARIZE=1 -sEXPORT_ES6=1 -sENVIRONMENT=node,web,worker -sALLOW_MEMORY_GROWTH=1 \
     -sEXPORTED_FUNCTIONS=_sp_init,_sp_install_table,_sp_install_synth,_sp_set_samples_dir,_sp_install_sample,_sp_trace,_sp_version,_sp_live_boot,_sp_run,_sp_tick,_sp_stop_all,_sp_silence,_sp_engine_lost,_sp_stop_job,_sp_run_group,_sp_stop_group,_sp_group_under,_sp_stop_subtree,_sp_stop_run,_sp_process_table,_sp_process_table_len,_sp_live_stop_after,_sp_set_link_bpm,_sp_set_link_grid,_sp_set_time_warp,_sp_hold,_sp_sched_ahead,_sp_cue,_sp_out_ptr,_sp_out_len,_sp_buffer_for,_sp_synthdef_for,_malloc,_free \
@@ -125,15 +128,10 @@ fi
 # tables and the built-in sounds when it is not told; this checkout, since
 # that is what the specs are run from.
 if [ -z "$MODE" ] || [ "$MODE" = "--native" ]; then
-  # mruby's flags, read from the file its mruby-config is made from: a shell script elsewhere, but a .bat on Windows,
-  # which bash cannot run, so the file itself (its $(MRUBY_PACKAGE_DIR) the host build, its quotes dropped: the
-  # words go to the compiler as they are)
-  FLAGS="$MRUBY_BUILD_DIR/host/lib/libmruby.flags.mak"
-  mruby_flag() { sed -n "s/^MRUBY_$1 = *//p" "$FLAGS" | sed -e "s|\$(MRUBY_PACKAGE_DIR)|$MRUBY_BUILD_DIR/host|g" -e 's/"//g'; }
   EXE=""
   case "$(uname -s 2>/dev/null || echo)" in MINGW*|MSYS*|CYGWIN*) EXE=".exe";; esac
-  "${CC:-cc}" $(mruby_flag CFLAGS) -DSP_ASSET_ROOT="\"$ROOT\"" -O2 \
+  "${CC:-cc}" $(mruby_flag host CFLAGS) -DSP_ASSET_ROOT="\"$ROOT\"" -O2 \
     "$ROOT/runtime/host/sp_host.c" "$ROOT/runtime/host/sp_trace_main.c" "$OUT/runtime_irep.c" \
-    $(mruby_flag LDFLAGS) $(mruby_flag LIBS) -o "$OUT/sp-trace$EXE"
+    $(mruby_flag host LDFLAGS) $(mruby_flag host LIBS) -o "$OUT/sp-trace$EXE"
   ls -la "$OUT/sp-trace$EXE"
 fi

@@ -9,8 +9,9 @@
 //   node scripts/fetch-share-corpus.mjs [--only in-thread|mehackit]
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DIR = path.join(ROOT, "build/share-corpus");
 const only = (() => { const i = process.argv.indexOf("--only"); return i >= 0 ? process.argv[i + 1] : null; })();
 fs.mkdirSync(DIR, { recursive: true });

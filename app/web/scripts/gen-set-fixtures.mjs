@@ -9,9 +9,10 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const GUI = path.resolve(ROOT, "../gui/utils");
 const OUT = path.join(ROOT, "app/test/fixtures/set-bundle.json");
 

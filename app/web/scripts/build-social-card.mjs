@@ -13,10 +13,11 @@
 //   node scripts/build-social-card.mjs --options <dir>              # every design, <dir>/<design>.png, to choose from
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { cardHTML } from "../app/src/ui/card-html.js";
 import { logo } from "./lib/site/logo.mjs";
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback; };
 const BASE = arg("--base", "http://127.0.0.1:8460/web/");
 const OPTIONS = arg("--options", null);

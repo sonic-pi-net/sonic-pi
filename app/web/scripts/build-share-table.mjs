@@ -16,10 +16,11 @@
 //   node scripts/build-share-table.mjs --version 3 [--compression zstd|deflate] [--dict-size 524288] [--out ../sharelink/sharelink_table3.cpp]
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { makeCodec, loadShareCodec } from "../app/src/share.js";
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const arg = (name, fallback) => { const i = process.argv.indexOf(name); return i >= 0 && process.argv[i + 1] ? process.argv[i + 1] : fallback; };
 const VERSION = arg("--version", "1");
 const COMPRESSION = arg("--compression", VERSION === "1" ? "deflate" : "zstd");
@@ -194,7 +195,7 @@ ${dict.join("\n")}
 `;
 }
 
-if (process.argv[1] && path.resolve(process.argv[1]) === new URL(import.meta.url).pathname) {
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   if (VERSION === "1" && fs.existsSync(OUT)) throw new Error("format 1 shipped: its table is fixed for good. A new table is a new format (--version 2)");
   await loadShareCodec();
   const { programs, players } = await trainingCorpus();

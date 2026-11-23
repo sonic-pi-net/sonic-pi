@@ -28,12 +28,13 @@ import http from "node:http";
 import https from "node:https";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import os from "node:os";
 import { execFile } from "node:child_process";
 import { specsJSON } from "./specs-json.mjs";
 import { samplesJSON, TABLES, resolveSupersonic, describeSupersonic, supersonicVersionJSON, supersonicShims, flagValue, trimTable } from "./lib/runtime-assets.mjs";
 
-const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), "..");
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const args = process.argv.slice(2);
 const opt = (name, fallback) => { const i = args.indexOf(name); return i >= 0 ? args[i + 1] : fallback; };
 const PORT = Number(opt("--port", 8460));
