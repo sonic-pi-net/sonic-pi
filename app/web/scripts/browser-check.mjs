@@ -1528,9 +1528,22 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       const logLines = () => gp.evaluate(() => document.getElementById("logs-pane").shadowRoot.querySelectorAll(".logs-line").length);
       await gp.evaluate(() => window.sonicPi.editor.setCode("play 60, release: 0.05, amp: 0"));
       await runs(70);
-      const full = await census(), drawnClosed = await logLines();
+      // A Run leaves marks that pass: the editor's flash, the gutter's, the button's, and a tip that comes up under
+      // a resting pointer. A count taken among them holds whichever were showing, so the page is counted at rest:
+      // when two counts, further apart than the longest of those lasts, are the same.
+      const atRest = async () => {
+        let was = await census();
+        for (let i = 0; i < 20; i++) {
+          await gp.waitForTimeout(700);
+          const now = await census();
+          if (JSON.stringify(now) === JSON.stringify(was)) return now;
+          was = now;
+        }
+        return was;
+      };
+      const full = await atRest(), drawnClosed = await logLines();
       await runs(40);
-      const after = await census();
+      const after = await atRest();
       const grew = [...new Set([...Object.keys(full), ...Object.keys(after)])].filter((w) => (after[w] ?? 0) !== (full[w] ?? 0)).map((w) => `${(after[w] ?? 0) - (full[w] ?? 0) > 0 ? "+" : ""}${(after[w] ?? 0) - (full[w] ?? 0)} ${w}`);
       const total = (c) => Object.values(c).reduce((a, b) => a + b, 0);
       check("40 more Runs of a program leave the page with the elements it had", (await drawer()) === "" && grew.length === 0,
