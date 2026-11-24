@@ -1497,6 +1497,9 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     // its last so many is full (the log keeps 150 lines in the document), so 40 more Runs must leave the page with
     // the elements it had: every element counted by what it is and where, through the shadow roots. What a screen
     // reader is told is left out: a line a Run, taken out by its age (announce.js), so its count follows the pace.
+    // The log's lines are counted as lines, whatever each says: a Run's "=>" line holds one more element than a
+    // sound's line, and which of the two the oldest line kept happens to be follows the pace too (seen in WebKit:
+    // the same 150 lines, one "=>" line fewer and one sound's line more).
     // Found by a ten hour soak: the Logs pane drew a line a Run while closed, up to its 5000 lines a source.
     {
       const gp = await browser.newPage({ ...HTTPS, viewport: { width: 1400, height: 900 } });
@@ -1510,7 +1513,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         const one = (e) => e.tagName.toLowerCase() + (e.id ? "#" + e.id : "") + (typeof e.className === "string" && e.className ? "." + e.className.trim().split(/\s+/).join(".") : "");
         const where = (el) => { const up = []; for (let e = el, i = 0; e?.nodeType === 1 && i < 4; e = e.parentElement ?? e.getRootNode().host, i++) up.unshift(one(e)); return up.join(" > "); };
         const counts = {};
-        const walk = (root) => { for (const el of root.querySelectorAll("*")) { if (el.closest(".sr-news")) continue; const w = where(el); counts[w] = (counts[w] ?? 0) + 1; if (el.shadowRoot) walk(el.shadowRoot); } };
+        const walk = (root) => { for (const el of root.querySelectorAll("*")) { if (el.closest(".sr-news")) continue; const said = el.closest("#log .shadow-pane > *"); if (said && said !== el) continue; const w = said ? "a line of the log" : where(el); counts[w] = (counts[w] ?? 0) + 1; if (el.shadowRoot) walk(el.shadowRoot); } };
         walk(document);
         return counts;
       });
