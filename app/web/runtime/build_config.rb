@@ -27,10 +27,12 @@ MRuby::Build.new("host") do |conf|
     conf.cc.flags << "-arch" << arch
     conf.linker.flags << "-arch" << arch
   end
+  # The gems a program gets are the web's and no more. This is the mruby a plugin and an app link, and whatever is
+  # in it every program can use: with mruby's io gems (File, Dir, IO.popen, sockets, ENV) a stranger's code had the
+  # run of the machine. The host hands the runtime its tables and sound files (sp_install_table, runtime_host.h);
+  # runtime/host/runtime_host_check.cpp holds a program to finding none of them.
   COMMON_GEMS.call(conf)
-  conf.gembox "stdlib-io"         # File, for reading the random tables natively
   conf.gem core: "mruby-bin-mrbc"
-  conf.gem core: "mruby-bin-mruby"
   conf.gem core: "mruby-bin-config"
 end
 

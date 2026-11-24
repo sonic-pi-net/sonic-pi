@@ -302,6 +302,25 @@ int main(int argc, char** argv)
         check("none of these runs raised an error", all.empty(), all);
     }
 
+    // A program has the language and nothing of the machine: no files, directories, processes, sockets or
+    // environment, as in the browser. mruby has gems for each, and a native build that takes them in hands them to
+    // every program a stranger wrote (a DAW project's armed buffers run when the host plays).
+    {
+        const auto reach = stepped(etc,
+            "found = []\n"
+            "[:File, :FileTest, :IO, :Dir, :ENV, :Socket, :BasicSocket, :TCPSocket, :UDPSocket, :Process, :Signal].each { |c| found << c if Object.const_defined?(c) }\n"
+            "[:open, :system, :exec, :spawn, :fork, :gets, :getc].each { |m| found << m if Object.new.respond_to?(m, true) }\n"
+            "begin; `true`; found << :backticks; rescue NotImplementedError; end\n"   // mruby's own Kernel#` refuses
+            "play 60\n"
+            "raise found.inspect unless found.empty?\n", 1.0);
+        std::string found;
+        for (const auto& e : reach->errors) found += e;
+        check("a program that looks for the machine still runs", reach->sent_one([](const osc::Message& m) {
+            return m.address == "/s_new" && opt(m, "note") == 60;
+        }));
+        check("a program finds no file, directory, process, socket or environment to reach", found.empty(), found);
+    }
+
     // Several at once, each started, run and stepped on a thread of its own: each plays its own note, and none
     // sends another's.
     {

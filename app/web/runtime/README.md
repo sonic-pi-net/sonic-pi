@@ -78,7 +78,7 @@ What exists:
 ```
 scripts/build-runtime.sh                                                   # needs rake + emcc; ~1 min
 ADAPTER="node runtime/bin/trace-wasm.mjs"                ruby scripts/check.rb specs/random   # the wasm
-ADAPTER="build/mruby/host/bin/mruby runtime/bin/trace.rb" ruby scripts/check.rb specs/random   # our mruby
+ADAPTER="$PWD/build/runtime/sp-trace"                     ruby scripts/check.rb specs/random   # our mruby, native
 ADAPTER="ruby runtime/bin/trace.rb"                      ruby scripts/check.rb specs/random   # CRuby
 ```
 

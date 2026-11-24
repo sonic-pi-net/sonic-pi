@@ -223,10 +223,6 @@ fn runtime(clockwork: &[String]) {
     println!("cargo:rustc-link-search=native={}", mruby.join("lib").display());
     if msvc() {
         println!("cargo:rustc-link-lib=static=libmruby");
-        // mruby's sockets (its MRUBY_LIBS)
-        for lib in ["ws2_32", "iphlpapi"] {
-            println!("cargo:rustc-link-lib=dylib={lib}");
-        }
     } else {
         println!("cargo:rustc-link-lib=static=mruby");
     }
