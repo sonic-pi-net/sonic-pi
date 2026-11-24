@@ -36,6 +36,27 @@ MRuby::Build.new("host") do |conf|
   conf.gem core: "mruby-bin-config"
 end
 
+# The mruby the fuzzer runs programs on (scripts/build-fuzz.sh, runtime/fuzz): the gems a program gets in a plugin,
+# under ASan and UBSan with libFuzzer's coverage, and with the VM's per-instruction hook so the harness can end a
+# program that never would. Only built when asked for.
+fuzz_build = lambda do |name, compile, link|
+  MRuby::Build.new(name) do |conf|
+    conf.toolchain :clang
+    COMMON_GEMS.call(conf)
+    conf.gem core: "mruby-bin-config"
+    conf.cc.defines << "MRB_USE_DEBUG_HOOK"
+    conf.cc.flags.concat(compile + %w[-fno-omit-frame-pointer -g -O1])
+    conf.linker.flags.concat(link)
+  end
+end
+if ENV["SP_FUZZ"]
+  fuzz_build.call("fuzz", %w[-fsanitize=fuzzer-no-link,address,undefined -fno-sanitize-recover=undefined], %w[-fsanitize=address,undefined])
+end
+# The same without the sanitizers and with clang's line counters, to see what a corpus reaches (scripts/fuzz-coverage.sh).
+if ENV["SP_FUZZ_COVERAGE"]
+  fuzz_build.call("fuzz-coverage", %w[-fprofile-instr-generate -fcoverage-mapping], %w[-fprofile-instr-generate])
+end
+
 # The wasm target needs Emscripten. A build that only wants the native runtime (scripts/build-runtime.sh --native,
 # and the CI job that runs the specs through mruby on each operating system) says so, and asks for nothing it has
 # no compiler for.

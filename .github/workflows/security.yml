@@ -1,0 +1,108 @@
+# Security checks for the runtime a plugin links (app/web/runtime).
+#
+# A program has the language and nothing of the machine: no files, processes, sockets or environment
+# (runtime/build_config.rb, held by runtime/host/runtime_host_check.cpp in web.yml). What is left between a
+# stranger's program and the process it runs in is the memory safety of mruby, our patches to it and the C beneath
+# the runtime. runtime/fuzz/fuzz_program.c runs programs on them under ASan and UBSan:
+#
+#   replay   on every push: every spec and every input that once found something, through the target once
+#   fuzz     nightly, and by hand: two hours under libFuzzer. A crasher is sealed to Clockwork's
+#            .github/fuzz-crasher.pub (clockwork/scripts/encrypt-crasher.sh, whose header says how to open one) and
+#            the fuzzer's output is kept out of this public log (clockwork/scripts/run-fuzzer.sh).
+#
+# Clockwork's and SuperSonic's own targets (OSC, samples, Link, rings; synthdefs and engine commands) run in their
+# repositories.
+name: security
+
+on:
+  push:
+    branches: [dev]
+    paths: ["app/web/runtime/**", "app/web/specs/**", "app/web/scripts/build-runtime.sh", "app/web/scripts/build-fuzz.sh", ".github/workflows/security.yml"]
+  pull_request:
+    paths: ["app/web/runtime/**", "app/web/specs/**", "app/web/scripts/build-runtime.sh", "app/web/scripts/build-fuzz.sh", ".github/workflows/security.yml"]
+  # Between Clockwork's run (00:17) and SuperSonic's (03:17), so the three do not wait on the same runners. Off the
+  # hour: GitHub delays what is scheduled at the top of one.
+  schedule:
+    - cron: "47 1 * * *"
+      timezone: "Europe/London"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A push supersedes the push before it. A scheduled or hand-started run is two hours of fuzzing, and a push must
+# not cancel it: those runs get a group of their own.
+concurrency:
+  group: security-${{ (github.event_name == 'push' || github.event_name == 'pull_request') && github.ref || github.run_id }}
+  cancel-in-progress: true
+
+env:
+  ASAN_OPTIONS: "detect_leaks=0:allocator_may_return_null=1"
+  UBSAN_OPTIONS: "print_stacktrace=1"
+
+jobs:
+  replay:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: app/web
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+      - name: Build the runtime and its fuzz target
+        run: |
+          scripts/build-runtime.sh --native
+          CC=clang scripts/build-fuzz.sh
+      - name: Replay the specs and the regressions
+        # -runs=0 with directories reads every file in them and writes nothing. The count is checked: a replay
+        # that found no inputs would otherwise pass.
+        run: |
+          build/fuzz/fuzz_program -runs=0 build/fuzz/seeds runtime/fuzz/corpus 2>&1 | tee replay.log | tail -3
+          ran=$(sed -n 's/^Done \([0-9]*\) runs.*/\1/p' replay.log)
+          specs=$(find specs -name '*.rb' | wc -l)
+          echo "replayed $ran inputs; $specs specs"
+          [ "${ran:-0}" -ge "$specs" ]
+
+  fuzz:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    defaults:
+      run:
+        working-directory: app/web
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+      - name: Build the runtime and its fuzz target
+        run: |
+          scripts/build-runtime.sh --native
+          CC=clang scripts/build-fuzz.sh
+      - name: Fuzz programs for two hours
+        # the scratch corpus first: libFuzzer writes what it finds into the first directory it is given
+        run: |
+          mkdir -p corpus artifacts
+          ../external/supersonic/clockwork/scripts/run-fuzzer.sh artifacts \
+            build/fuzz/fuzz_program corpus build/fuzz/seeds runtime/fuzz/corpus -dict=runtime/fuzz/sonic-pi.dict \
+            -max_total_time=7200 -timeout=120 -max_len=4096 -rss_limit_mb=4096 -artifact_prefix=artifacts/
+      - name: Seal the crasher
+        if: failure()
+        run: |
+          ls -la artifacts/ ; sha256sum artifacts/* || true
+          ../external/supersonic/clockwork/scripts/encrypt-crasher.sh artifacts fuzz_program-crasher
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: fuzz_program-crasher
+          path: |
+            app/web/fuzz_program-crasher.tar.enc
+            app/web/fuzz_program-crasher.key.enc

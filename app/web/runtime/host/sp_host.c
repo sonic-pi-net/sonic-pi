@@ -64,6 +64,7 @@ static mrb_value rand_module(mrb_state *mrb) {
 
 // Boots an interpreter, loads the runtime into it, and makes it the calling thread's: the calls below act on it
 // from that thread until sp_use names another. NULL when it did not boot.
+SP_EXPORT void sp_abandon(sp_host *h);
 SP_EXPORT sp_host *sp_open(void) {
   sp_host *h = calloc(1, sizeof *h);
   if (!h) return NULL;
@@ -87,8 +88,15 @@ SP_EXPORT void sp_use(sp_host *h) { current = h; }
 // A runtime ends: its interpreter and everything it held. Not the calling thread's any more if it was.
 SP_EXPORT void sp_close(sp_host *h) {
   if (!h) return;
-  if (current == h) current = NULL;
   mrb_close(h->mrb);
+  sp_abandon(h);
+}
+
+// The same without closing the interpreter: for a host that left it mid-run and frees mruby's memory itself (the
+// fuzzer, runtime/fuzz/fuzz_program.c, when a program has spent its budget of instructions).
+SP_EXPORT void sp_abandon(sp_host *h) {
+  if (!h) return;
+  if (current == h) current = NULL;
   sp_bytes *all[] = { &h->outbox, &h->tags, &h->data, &h->message, &h->bundle, &h->packet };
   for (size_t i = 0; i < sizeof all / sizeof *all; i++) free(all[i]->p);
   free(h->table_buf);
