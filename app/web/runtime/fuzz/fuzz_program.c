@@ -13,6 +13,10 @@
 // error: it tests the parser and little else. So most mutations here work on whole lines and whole words
 // (LLVMFuzzerCustomMutator below), which keeps most of what runs a program that runs.
 //
+// An input can hold several runs, each after a line that says "#>>": the program run again, changed, while it
+// plays, which is how Sonic Pi is used. Between them the harness does what a host does: reads the messages the
+// runtime leaves for the engine and its table of threads, holds the clock, changes the tempo, sends a cue.
+//
 //   scripts/build-fuzz.sh && build/fuzz/fuzz_program <a scratch corpus> build/fuzz/seeds runtime/fuzz/corpus
 #include <mruby.h>
 #include <ctype.h>
@@ -33,6 +37,16 @@ int sp_run(const char *code, double now);
 double sp_tick(double now);
 void sp_stop_all(void);
 void sp_cue(const char *address, const char *nums, double now);
+int sp_set_samples_dir(const char *dir);
+int sp_install_sample(const char *path, int num_frames, int num_chans, int sample_rate, const double *onsets, int num_onsets);
+void sp_hold(double seconds);
+void sp_set_link_bpm(double bpm, double at);
+const double *sp_process_table(double now);
+int sp_process_table_len(void);
+void sp_silence(double fade, double since, double now);
+void sp_engine_lost(void);
+const uint8_t *sp_out_ptr(void);
+int sp_out_len(void);
 
 // ── memory: every block mruby holds is on a list, so an interpreter left mid-run can be freed whole ──────────────
 typedef struct block { struct block *prev, *next; size_t size; size_t pad; } block;
@@ -92,13 +106,38 @@ static void make_table(void) {
   for (size_t i = 44; i < sizeof table; i++) { x ^= x << 13; x ^= x >> 17; x ^= x << 5; table[i] = (uint8_t)x; }
 }
 
+// What a host reads after each call: every byte of the messages for the engine and every number of the table of
+// threads, so that ASan sees a length that runs past what is there.
+static volatile uint64_t read_back;
+static void read_what_a_host_reads(double now) {
+  const uint8_t *out = sp_out_ptr();
+  uint64_t sum = 0;
+  for (int i = 0, n = sp_out_len(); i < n; i++) sum += out[i];
+  const double *rows = sp_process_table(now);
+  for (int i = 0, n = sp_process_table_len(); i < n; i++) sum += (uint64_t)(rows[i] != 0);
+  read_back = sum;
+}
+
+#define RUN_AGAIN "#>>"
+#define MOST_RUNS 4
+#define TICKS_PER_RUN 24
+
 int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
   static const char *TABLES[] = { "white", "pink", "light_pink", "dark_pink", "perlin" };
+  static const char *SAMPLES[] = { "/samples/bd_haus.flac", "/samples/loop_amen.flac", "/samples/ambi_choir.flac" };
+  static const double ONSETS[] = { 0.0, 0.21, 0.43, 0.65, 0.87, 1.08, 1.3, 1.52 };
   if (!table[0]) make_table();
   if (size > 1 << 16) return 0;
   char *code = malloc(size + 1);
   memcpy(code, data, size);
   code[size] = 0;                                       // a program is text: it ends at its first NUL
+  char *runs[MOST_RUNS] = { code };
+  int run_count = 1;
+  for (char *at = code; run_count < MOST_RUNS && (at = strstr(at, "\n" RUN_AGAIN)) != NULL; ) {
+    *at = 0;
+    at += 1 + strlen(RUN_AGAIN);
+    runs[run_count++] = at;
+  }
 
   instructions = 0;
   began = time(NULL);
@@ -108,16 +147,29 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     if (h) {
       ((mrb_state *)sp_mrb_state())->code_fetch_hook = count;
       for (size_t i = 0; i < sizeof TABLES / sizeof *TABLES; i++) sp_install_table(TABLES[i], table, (int)sizeof table);
+      sp_set_samples_dir("/samples");
+      for (size_t i = 0; i < sizeof SAMPLES / sizeof *SAMPLES; i++) sp_install_sample(SAMPLES[i], 77175, 2, 44100, ONSETS, 8);
       if (sp_live_boot() == 0) {
         double now = 1000.0;
-        sp_run(code, now);
-        for (int i = 0; i < 64; i++) {
-          if (i == 8) sp_cue("/cue/fuzz", "[1.0]", now);     // something for a sync to hear
-          const double next = sp_tick(now);
-          if (next < 0) break;
-          now = next > now ? next : now + 0.05;
+        for (int r = 0; r < run_count; r++) {
+          sp_run(runs[r], now);
+          read_what_a_host_reads(now);
+          for (int i = 0; i < TICKS_PER_RUN; i++) {
+            if (i == 4) sp_hold(0.1);                        // the host lost a tenth of a second
+            if (i == 6) sp_set_link_bpm(120.0 + 20.0 * r, now);
+            if (i == 8) sp_cue("/cue/fuzz", "[1.0]", now);   // something for a sync to hear
+            const double next = sp_tick(now);
+            read_what_a_host_reads(now);
+            if (next < 0) break;
+            now = next > now && next - now < 3600.0 ? next : now + 0.05;
+          }
         }
         sp_stop_all();
+        sp_silence(0.5, now, now);
+        read_what_a_host_reads(now);
+        sp_engine_lost();
+        sp_tick(now + 1.0);
+        read_what_a_host_reads(now + 1.0);
       }
       sp_close(h);
     }
@@ -174,16 +226,22 @@ static void put_lines(out *o, const uint8_t *d, const size_t *at, size_t from, s
   if (at[to] > at[from] && d[at[to] - 1] != '\n') put(o, "\n", 1);
 }
 
-static int word_char(int c) { return isalnum(c) || c == '_' || c == '.'; }
+// A word is a name (play, each_slice, empty?) or a number (60, 0.25, 1_000); the dot of a method call is neither.
+static int word_char(int c) { return isalnum(c) || c == '_'; }
+static size_t word_end(const uint8_t *line, size_t len, size_t i) {
+  const int number = isdigit(line[i]);
+  while (i < len && (word_char(line[i]) || (number && line[i] == '.' && i + 1 < len && isdigit(line[i + 1])))) i++;
+  if (!number && i < len && (line[i] == '?' || line[i] == '!')) i++;
+  return i;
+}
 // one word or number of the line swapped for another the runtime knows
 static void put_line_with_a_word_changed(out *o, const uint8_t *line, size_t len) {
   size_t words = 0;
-  for (size_t i = 0; i < len; i++) if (word_char(line[i]) && (i == 0 || !word_char(line[i - 1]))) words++;
+  for (size_t i = 0; i < len; i = word_char(line[i]) ? word_end(line, len, i) : i + 1) if (word_char(line[i])) words++;
   if (!words) { put(o, line, len); return; }
-  size_t want = pick((uint32_t)words), seen = 0, i = 0;
-  for (; i < len; i++) if (word_char(line[i]) && (i == 0 || !word_char(line[i - 1])) && seen++ == want) break;
-  size_t end = i;
-  while (end < len && word_char(line[end])) end++;
+  size_t want = pick((uint32_t)words), i = 0;
+  for (;; i = word_char(line[i]) ? word_end(line, len, i) : i + 1) if (word_char(line[i]) && want-- == 0) break;
+  const size_t end = word_end(line, len, i);
   put(o, line, i);
   put_text(o, isdigit(line[i]) ? NUMBERS[pick(COUNT(NUMBERS))] : WORDS[pick(COUNT(WORDS))]);
   put(o, line + end, len - end);
@@ -199,7 +257,7 @@ size_t LLVMFuzzerCustomMutator(uint8_t *data, size_t size, size_t max_size, unsi
   const size_t n = lines_of(copy, size, at);
   const size_t a = pick((uint32_t)n), b = a + 1 + pick((uint32_t)(n - a) < 6 ? (uint32_t)(n - a) : 6);   // [a, b)
   out o = { data, 0, max_size };
-  switch (pick(7)) {
+  switch (pick(8)) {
   case 0:                                               // said twice
     put_lines(&o, copy, at, 0, b); put_lines(&o, copy, at, a, b); put_lines(&o, copy, at, b, n);
     break;
@@ -225,6 +283,11 @@ size_t LLVMFuzzerCustomMutator(uint8_t *data, size_t size, size_t max_size, unsi
     if (pick(2)) { put_text(&o, ", "); put_text(&o, WORDS[pick(COUNT(WORDS))]); put_text(&o, ": "); put_text(&o, NUMBERS[pick(COUNT(NUMBERS))]); }
     put_text(&o, "\n");
     put_lines(&o, copy, at, a, n);
+    break;
+  case 5:                                               // run again while it plays, some of it said twice
+    put_lines(&o, copy, at, 0, n);
+    put_text(&o, RUN_AGAIN "\n");
+    put_lines(&o, copy, at, 0, b); put_lines(&o, copy, at, a, n);
     break;
   default:                                              // one word of one line changed
     put_lines(&o, copy, at, 0, a);
