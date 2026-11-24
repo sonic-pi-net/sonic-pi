@@ -420,6 +420,52 @@ TEST_CASE("loop scope: draws only inside its rounded panel", "[loopscope]")
     CHECK(changed > W);   // the wave and bars did land inside
 }
 
+// A scope kept the last wave it drew when its audio stopped arriving: greyed,
+// but still a wave, on a loop that was making no sound.
+TEST_CASE("loop scope: a scope whose audio has stopped arriving goes flat", "[loopscope]")
+{
+    HandDriven hand;
+    Editor e(kCode);
+    Slot s;
+    s.live();
+    e.ed->setLiveLoopScope("t", 0, 10, s.reader());
+    hand.tick();
+    QWidget* w = e.scope("t");
+    REQUIRE(w);
+    const QImage quiet = rendered(w);
+
+    // Flat: nothing drawn but the line along the middle.
+    const auto flat = [&] {
+        const QImage now = rendered(w);
+        const int mid = now.height() / 2;
+        for (int y = 0; y < now.height(); ++y)
+            for (int x = 0; x < now.width(); ++x)
+                if (qAbs(y - mid) > 1 && now.pixel(x, y) != quiet.pixel(x, y))
+                    return false;
+        return true;
+    };
+    REQUIRE(flat());
+    writeLoudWave(s);
+    hand.tick();
+    REQUIRE_FALSE(flat());   // the wave is drawn
+
+    SECTION("the slot stays live and nothing more is written")
+    {
+        for (int i = 0; i < 200; ++i)
+            hand.tick();
+        CHECK(flat());
+    }
+    SECTION("the loop is run again and waits on its sync, its slot not live yet")
+    {
+        Slot next;
+        e.ed->setLiveLoopScope("t", 0, 10, next.reader());
+        for (int i = 0; i < 200; ++i)
+            hand.tick();
+        REQUIRE(e.scope("t") == w);
+        CHECK(flat());
+    }
+}
+
 // The ring between a scope's edge and its rounded panel shows the editor's
 // own background, the one Scintilla draws the code on — not the widget-level
 // paper, which is white whatever the theme and once drew a white border round

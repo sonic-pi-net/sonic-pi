@@ -418,6 +418,9 @@ private:
         {
             m_level = 0.0f;
             std::fill(m_bars.begin(), m_bars.end(), 0.0f);
+            // No audio is arriving, so the last wave drawn is not what the
+            // loop is doing now: the trace settles flat with the colour.
+            std::fill(m_samples.begin(), m_samples.end(), 0.0f);
             m_settled = true;
         }
         update();
