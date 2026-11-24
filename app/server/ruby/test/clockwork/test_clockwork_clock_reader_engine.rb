@@ -60,7 +60,16 @@ module SonicPi
           raise "engine never answered a clock query (see #{@log})" if Time.now > deadline
           sleep 0.1
         end
+        # From here the engine is up, and a question it does not answer is a failure. Left as it is, the connection
+        # gives up after a second and LinkAPI reads that as 0, which a test would then compare as if it were an answer.
+        @api.instance_variable_get(:@link_comms).extend(AnswersOrFails)
         self
+      end
+
+      module AnswersOrFails
+        def rpc(req_pattern, *args, expect:, timeout: 1.0)
+          super(req_pattern, *args, expect: expect, timeout: 30) || raise("the engine did not answer #{req_pattern} in 30 seconds")
+        end
       end
 
       def stop
@@ -99,22 +108,33 @@ module SonicPi
                    "the engine's table must mark the clock state public (got #{clock[:audience]})"
     end
 
+    # The engine asked a question between two reads of the grid, again until the grid stood still around it: the
+    # grid that was read, and what the block gave back. The engine answers from whichever grid is published when it
+    # is asked, and it publishes a tempo change twice: at once, as it was asked for, and again when Link has taken
+    # it (LinkSession::applyTempoChange, on Link's thread), with an origin that can be microseconds from the first.
+    # A test before this one may have left such a change still landing.
+    def asked_of_a_still_grid
+      40.times do
+        before = @reader.snapshot
+        answer = yield before
+        after = @reader.snapshot
+        return [before, answer] if [before.bpm, before.beat_origin_ntp] == [after.bpm, after.beat_origin_ntp]
+      end
+      flunk "the grid moved under every one of 40 questions"
+    end
+
     def test_time_at_beat_agrees_with_the_engine_to_the_microsecond
-      s = @reader.snapshot
       BEATS.each do |b|
-        engine = @rpc.link_get_time_at_beat(b)
-        local  = (s.time_at_beat(b) * 1e6).round
-        assert_in_delta engine, local, 1, "beat #{b}"
+        s, engine = asked_of_a_still_grid { @rpc.link_get_time_at_beat(b) }
+        assert_in_delta engine, (s.time_at_beat(b) * 1e6).round, 1, "beat #{b}"
       end
     end
 
     def test_beat_at_time_agrees_with_the_engine
-      s = @reader.snapshot
       now = @rpc.link_current_time
       [now, now + 1_000_000, now - 60_000_000].each do |t|
-        engine = @rpc.link_get_beat_at_time(t)
-        local  = s.beat_at_time(t / 1e6)
-        assert_in_delta engine, local, 1e-6, "time #{t}"
+        s, engine = asked_of_a_still_grid { @rpc.link_get_beat_at_time(t) }
+        assert_in_delta engine, s.beat_at_time(t / 1e6), 1e-6, "time #{t}"
       end
     end
 
@@ -125,9 +145,10 @@ module SonicPi
       new_bpm = s0.bpm == 100.0 ? 110.0 : 100.0
       @rpc.link_set_bpm!(new_bpm)
       s1 = nil
-      20.times do
+      deadline = Time.now + 30
+      loop do
         s1 = @reader.snapshot
-        break if s1 && s1.bpm == new_bpm
+        break if (s1 && s1.bpm == new_bpm) || Time.now > deadline
         sleep 0.05
       end
       assert_equal new_bpm, s1.bpm, "shared memory never showed the new tempo"
@@ -135,20 +156,8 @@ module SonicPi
       # The beat playing at the moment of the change is where it was (retempo).
       assert_in_delta beat_before, s1.beat_at_time(now_ntp), 0.5
       # And the engine agrees with the new grid.
-      # The engine publishes a tempo change twice: at once, as it was asked for, and again when Link has taken it
-      # (LinkSession::applyTempoChange, on Link's thread), from Link's own beat and a second look at the clock, so
-      # the origin can move by microseconds between the two. The engine answers from whichever grid is published
-      # when it is asked, so it is asked between two reads of the grid and held to a grid that stood still.
-      engine = local = nil
-      stood_still = 40.times.any? do
-        before = @reader.snapshot
-        engine = @rpc.link_get_time_at_beat(1000)
-        after = @reader.snapshot
-        local = (after.time_at_beat(1000) * 1e6).round
-        [before.bpm, before.beat_origin_ntp] == [after.bpm, after.beat_origin_ntp]
-      end
-      assert stood_still, "the grid moved under every one of 40 questions"
-      assert_in_delta engine, local, 1
+      s2, engine = asked_of_a_still_grid { @rpc.link_get_time_at_beat(1000) }
+      assert_in_delta engine, (s2.time_at_beat(1000) * 1e6).round, 1
     ensure
       @rpc.link_set_bpm!(s0.bpm) if s0
     end
@@ -156,13 +165,17 @@ module SonicPi
     def test_the_local_link_api_matches_the_rpc_link_api
       local = LinkAPI.new("127.0.0.1", @engine.port, {}, clock_reader: @reader)
       BEATS.each do |b|
-        assert_in_delta @rpc.link_get_time_at_beat(b), local.link_get_time_at_beat(b), 1, "beat #{b}"
+        _, (engine, mine) = asked_of_a_still_grid { [@rpc.link_get_time_at_beat(b), local.link_get_time_at_beat(b)] }
+        assert_in_delta engine, mine, 1, "beat #{b}"
       end
-      t_rpc, b_rpc, p_rpc = @rpc.link_get_now_beat_and_phase(4)
-      t_loc, b_loc, p_loc = local.link_get_now_beat_and_phase(4)
-      assert_in_delta t_rpc, t_loc, 50_000            # two clocks read 50 ms apart at most
-      assert_in_delta b_rpc, b_loc, 0.2
-      assert_in_delta p_rpc, p_loc, 0.2
+      # The two are asked for now one after the other, however long apart that turns out to be: the beat and the
+      # phase the second gives are the first's, moved on by the time between them.
+      s, ((t_rpc, b_rpc, p_rpc), (t_loc, b_loc, p_loc)) =
+        asked_of_a_still_grid { [@rpc.link_get_now_beat_and_phase(4), local.link_get_now_beat_and_phase(4)] }
+      passed = (t_loc - t_rpc) / 1e6 * s.bpm / 60.0
+      assert_in_delta b_rpc + passed, b_loc, 1e-3
+      off = (p_loc - p_rpc - passed) % 4
+      assert [off, 4 - off].min < 1e-3, "phase #{p_rpc} then #{p_loc}, #{passed} beats later"
     end
   end
 end
