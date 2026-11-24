@@ -135,7 +135,20 @@ module SonicPi
       # The beat playing at the moment of the change is where it was (retempo).
       assert_in_delta beat_before, s1.beat_at_time(now_ntp), 0.5
       # And the engine agrees with the new grid.
-      assert_in_delta @rpc.link_get_time_at_beat(1000), (s1.time_at_beat(1000) * 1e6).round, 1
+      # The engine publishes a tempo change twice: at once, as it was asked for, and again when Link has taken it
+      # (LinkSession::applyTempoChange, on Link's thread), from Link's own beat and a second look at the clock, so
+      # the origin can move by microseconds between the two. The engine answers from whichever grid is published
+      # when it is asked, so it is asked between two reads of the grid and held to a grid that stood still.
+      engine = local = nil
+      stood_still = 40.times.any? do
+        before = @reader.snapshot
+        engine = @rpc.link_get_time_at_beat(1000)
+        after = @reader.snapshot
+        local = (after.time_at_beat(1000) * 1e6).round
+        [before.bpm, before.beat_origin_ntp] == [after.bpm, after.beat_origin_ntp]
+      end
+      assert stood_still, "the grid moved under every one of 40 questions"
+      assert_in_delta engine, local, 1
     ensure
       @rpc.link_set_bpm!(s0.bpm) if s0
     end
