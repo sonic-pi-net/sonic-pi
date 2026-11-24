@@ -350,9 +350,12 @@ static void send_sound(sp_host *h, double time, const char *address, mrb_int syn
   put(message, h->data.p, h->data.len);
   bundle->len = 0;
   put(bundle, "#bundle", 8);                  // with its NUL
-  if (time <= 0) {                            // OSC's "immediately" (Scheduler::IMMEDIATE)
+  if (!(time > 0)) {                          // OSC's "immediately" (Scheduler::IMMEDIATE); so is a time that is no number
     put_u32(bundle, 0);
     put_u32(bundle, 1);
+  } else if (time >= 4294967296.0) {          // past the last second a time tag holds: the last moment it can name
+    put_u32(bundle, UINT32_MAX);
+    put_u32(bundle, UINT32_MAX);
   } else {
     double secs = floor(time);
     put_u32(bundle, (uint32_t)secs);          // NTP: seconds, and a fraction of 2^32

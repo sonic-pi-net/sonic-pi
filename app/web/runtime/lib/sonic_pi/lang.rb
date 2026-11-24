@@ -107,6 +107,8 @@ module SonicPi
     # ── Time ──────────────────────────────────────────────────────────────
 
     def sleep(beats)
+      # no thread wakes from a sleep without end, or from one of no length at all: an error, as it is in Sonic Pi
+      raise FloatDomainError, beats.to_s if beats.is_a?(Float) && !beats.finite?
       p = __p
       p.last_sync = nil
       p.slept = true if beats != 0
