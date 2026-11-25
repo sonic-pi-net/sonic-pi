@@ -505,24 +505,30 @@ void OscHandler::oscMessage(std::vector<char> buffer)
             //   requestedOutput(str), requestedInput(str),
             //   actualOutput(str),    actualInput(str),
             //   error(str),
-            //   inputUnavailable(int32), inputUnavailableReason(str)
+            //   inputUnavailable(int32), inputUnavailableReason(str),
+            //   sampleRate(int32), bufferSize(int32)   <- where the engine is now;
+            //                                             absent from an older engine
             AudioSwitchOutcome outcome;
             int success = 0, inputUnavailable = 0;
-            msg->arg().popInt32(success)
-                      .popStr(outcome.requestedOutput)
-                      .popStr(outcome.requestedInput)
-                      .popStr(outcome.actualOutput)
-                      .popStr(outcome.actualInput)
-                      .popStr(outcome.error)
-                      .popInt32(inputUnavailable)
-                      .popStr(outcome.inputUnavailableReason);
+            auto args = msg->arg();
+            args.popInt32(success)
+                .popStr(outcome.requestedOutput)
+                .popStr(outcome.requestedInput)
+                .popStr(outcome.actualOutput)
+                .popStr(outcome.actualInput)
+                .popStr(outcome.error)
+                .popInt32(inputUnavailable)
+                .popStr(outcome.inputUnavailableReason);
+            if (args.isOk() && args.nbArgRemaining() >= 2)
+                args.popInt32(outcome.actualSampleRate).popInt32(outcome.actualBufferSize);
             outcome.success          = (success != 0);
             outcome.inputUnavailable = (inputUnavailable != 0);
             LOG(INFO, "/clockwork/devices/switch.done: success=" << success
                       << " out req='" << outcome.requestedOutput << "' actual='" << outcome.actualOutput << "'"
                       << " in req='"  << outcome.requestedInput  << "' actual='" << outcome.actualInput  << "'"
                       << (outcome.error.empty() ? "" : (" error='" + outcome.error + "'"))
-                      << (outcome.inputUnavailable ? (" inputUnavailable reason='" + outcome.inputUnavailableReason + "'") : ""));
+                      << (outcome.inputUnavailable ? (" inputUnavailable reason='" + outcome.inputUnavailableReason + "'") : "")
+                      << " sr=" << outcome.actualSampleRate << " bs=" << outcome.actualBufferSize);
             m_pClient->AudioSwitchDone(outcome);
         }
         else if (msg->match("/spider/ready"))

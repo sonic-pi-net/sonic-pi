@@ -193,6 +193,66 @@ TEST_CASE("persist: the saved pair is what the engine reports, not what was aske
     CHECK(d.outputValue == "System Default");
 }
 
+// A device another program holds at its own rate refuses the one asked for,
+// and the engine settles on the device's. Saving the rate asked for meant
+// asking for it again at every launch, which changes the device's rate under
+// whoever holds it (all of a Mac's system audio stops for a moment) only for
+// it to be refused again.
+TEST_CASE("persist: the saved rate and buffer are what the engine ended up at, not what was asked",
+          "[audio][persist]")
+{
+    AudioSwitchRequest request;
+    request.sampleRate = 44100;
+    request.bufferSize = 64;
+
+    AudioSwitchOutcome outcome;
+    outcome.success = true;
+    outcome.actualOutput = "Interface";
+    outcome.actualSampleRate = 48000;      // held there by someone else
+    outcome.actualBufferSize = 128;
+
+    const auto d = audioPrefsDecision(request, outcome);
+    REQUIRE(d.sampleRate == PrefAction::Save);
+    CHECK(d.sampleRateValue == 48000);
+    REQUIRE(d.bufferSize == PrefAction::Save);
+    CHECK(d.bufferSizeValue == 128);
+}
+
+TEST_CASE("persist: an engine that does not say where it ended up has the rate asked for saved",
+          "[audio][persist]")
+{
+    AudioSwitchRequest request;
+    request.sampleRate = 44100;
+    request.bufferSize = 64;
+
+    AudioSwitchOutcome outcome;
+    outcome.success = true;
+    outcome.actualOutput = "Interface";
+
+    const auto d = audioPrefsDecision(request, outcome);
+    REQUIRE(d.sampleRate == PrefAction::Save);
+    CHECK(d.sampleRateValue == 44100);
+    REQUIRE(d.bufferSize == PrefAction::Save);
+    CHECK(d.bufferSizeValue == 64);
+}
+
+TEST_CASE("persist: a rate nobody asked for is not saved, wherever the engine ended up",
+          "[audio][persist]")
+{
+    AudioSwitchRequest request;
+    request.output = "Interface";          // a device picked, no rate chosen
+
+    AudioSwitchOutcome outcome;
+    outcome.success = true;
+    outcome.actualOutput = "Interface";
+    outcome.actualSampleRate = 48000;
+    outcome.actualBufferSize = 128;
+
+    const auto d = audioPrefsDecision(request, outcome);
+    CHECK(d.sampleRate == PrefAction::Leave);
+    CHECK(d.bufferSize == PrefAction::Leave);
+}
+
 TEST_CASE("persist: following the system default is kept as the sentinel",
           "[audio][persist]")
 {

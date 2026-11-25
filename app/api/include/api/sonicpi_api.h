@@ -361,6 +361,11 @@ struct AudioSwitchOutcome {
     std::string error;                  // top-level swap error
     bool        inputUnavailable   = false;
     std::string inputUnavailableReason; // JUCE's verbatim input-open error
+    // The rate and buffer the engine is at now, which need not be those asked
+    // for (a device another program holds at its own rate refuses ours). 0: an
+    // engine that does not say.
+    int         actualSampleRate   = 0;
+    int         actualBufferSize   = 0;
 };
 
 enum class MidiType

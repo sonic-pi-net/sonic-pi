@@ -196,16 +196,22 @@ inline AudioPrefsDecision audioPrefsDecision(const AudioSwitchRequest& request,
         d.inputValue = outcome.actualInput;
     }
 
-    // Rate and buffer carry no "actual" in the outcome; the engine reports them
-    // separately through its device-config broadcast. Persist what was asked
-    // for, which the engine has accepted by reporting success.
+    // Rate and buffer follow the same rule as the devices: what is saved is
+    // where the engine ended up. A device another program holds at its own
+    // rate refuses the one asked for; saving the request meant asking again
+    // at every launch, changing the device's rate under whoever holds it only
+    // for it to be refused again. Saved only when the user asked for one: a
+    // rate nobody chose is the device's own business. An engine that does not
+    // say where it ended up (0) has the request saved, as before.
     if (request.sampleRate > 0) {
         d.sampleRate = PrefAction::Save;
-        d.sampleRateValue = request.sampleRate;
+        d.sampleRateValue = outcome.actualSampleRate > 0 ? outcome.actualSampleRate
+                                                         : request.sampleRate;
     }
     if (request.bufferSize > 0) {
         d.bufferSize = PrefAction::Save;
-        d.bufferSizeValue = request.bufferSize;
+        d.bufferSizeValue = outcome.actualBufferSize > 0 ? outcome.actualBufferSize
+                                                         : request.bufferSize;
     }
 
     return d;
