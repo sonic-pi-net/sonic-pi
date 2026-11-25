@@ -1,0 +1,56 @@
+name: A feature request
+description: Describe a new feature or enhancement that you would like to see in Sonic Pi.
+labels: ["Feature Request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Hello! Thank you for your interest in improving Sonic Pi.
+
+        The core Sonic Pi development team is fairly small and made up of volunteers (with the exception of Sam Aaron, who relies much on crowd-funding) so the more help we can receive to manage your ideas the better - help us to help you! Please follow the checklist below - that way you might not even need to raise a feature request after all :smile:
+  - type: checkboxes
+    id: prerequisites
+    attributes:
+      label: Prerequisites
+      options:
+        - label: I've searched the [Sonic Pi features project](https://github.com/orgs/sonic-pi-net/projects/1) for similar existing feature requests
+          required: true
+        - label: To the best of my knowledge, this feature would fit within the [project guidelines](https://github.com/sonic-pi-net/sonic-pi/blob/dev/CONTRIBUTING.md#project-and-development-process-guidelines) 
+          required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: |
+        Add as much detail as you can about your idea. Here's a few things to get you started:
+        - What problem would this feature solve, or benefit would it provide?
+        - What drawbacks or undesirable aspects might it have?
+        - If the feature has visible parts to it, (such as a new GUI widget or a new function for the language), what might they look like and how might they be used? Images and code examples encouraged! (Please use code formatting for code examples - if you're not sure how, please see GitHub's guide: [Quoting code](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#quoting-code)).
+      placeholder: |
+        Example:
+        ## Motivations
+        I think a foo feature is useful for Sonic Pi because...
+
+        ## How it might look
+        We could have a function `bar` that could be used like this:
+        ```
+        play (bar 1, 2, 3)
+        ```
+        Where `1`, `2`, and `3` are the baz parameters and...
+
+        ## Drawbacks
+        There's a chance that ...
+    validations:
+      required: true
+  - type: textarea
+    id: other-details
+    attributes:
+      label: Other Details
+      description: |
+        Feel free to provide any other relevant information about the feature if you have it, or can get it, such as:
+        - Places where you have seen similar features being used
+        - Ideas about possible ways to build the feature
+        - Etc...
+      placeholder: "Example: We could build the foo feature by adding a bar to the baz panel..."
+    validations:
+      required: false
