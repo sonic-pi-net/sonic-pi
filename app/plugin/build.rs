@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (c) 2026 Sam Aaron
-//! The C and C++ beside the Rust: the VST3 shell, the AppKit (or Win32) glue, and
+//! The C and C++ beside the Rust: the VST3 shell, the Audio Unit's, the AppKit (or Win32) glue, and
 //! SuperSonic's front, compiled with exactly the flags Clockwork was (its
 //! layout constants are compile-time, and a front built with others reads
 //! the engine's memory wrong).
@@ -30,7 +30,7 @@ fn c_std<'a>(b: &'a mut cc::Build, std: &str) -> &'a mut cc::Build {
 }
 
 fn main() {
-    for file in ["vst3/shell.cpp", "core/mac.mm", "core/win.cpp"] {
+    for file in ["vst3/shell.cpp", "au/shell.mm", "core/plugin.cpp", "core/plugin.h", "core/mac.mm", "core/win.cpp"] {
         println!("cargo:rerun-if-changed={file}");
     }
     println!("cargo:rerun-if-env-changed=VST3_PLUGINTERFACES_INCLUDE_DIR");
@@ -54,6 +54,7 @@ fn main() {
         // the version a host is told is this crate's (Cargo.toml), as the bundle's Info.plist is (scripts/build.sh)
         .define("SONIC_PI_PLUGIN_VERSION", Some(format!("\"{}\"", std::env::var("CARGO_PKG_VERSION").unwrap()).as_str()))
         .file("vst3/shell.cpp")
+        .file("core/plugin.cpp")
         .compile("sp_shell");
 
     if macos() {
@@ -64,7 +65,16 @@ fn main() {
             .flag("-fvisibility=hidden")
             .file("core/mac.mm")
             .compile("sp_mac");
+        // the Audio Unit, for the hosts that take no VST3: compiled without ARC (it makes its classes by hand)
+        cc::Build::new()
+            .cpp(true)
+            .std("c++17")
+            .flag("-fvisibility=hidden")
+            .include("core")
+            .file("au/shell.mm")
+            .compile("sp_au");
         println!("cargo:rustc-link-lib=framework=AppKit");
+        println!("cargo:rustc-link-lib=framework=AudioToolbox");
     } else {
         cc::Build::new().cpp(true).std("c++17").file("core/win.cpp").compile("sp_win");
         println!("cargo:rustc-link-lib=dylib=user32");

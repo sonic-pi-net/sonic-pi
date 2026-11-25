@@ -4,14 +4,19 @@
 #
 # Builds "Sonic Pi.vst3": the plugin, the web GUI it shows, and Sonic Pi's
 # synthdefs, samples and random tables, which each instance loads its own.
+# And "Sonic Pi.component", the same plugin as an Audio Unit, for the hosts
+# that take no VST3 (Logic, GarageBand): the same binary and files in a
+# bundle of its own.
 #
 #   scripts/build.sh [--test] [--install] [--universal]
 #
 # --universal  the plugin for both of a Mac's architectures (arm64 and x86_64) in one bundle, as a release is.
 #              Without it the bundle is for this machine's architecture only, which is quicker to build.
 # --test     cargo's tests (offline renders), then test/host.mm against the
-#            bundle: off-screen windows, rendered audio kept and measured
-# --install  copies the bundle to ~/Library/Audio/Plug-Ins/VST3
+#            VST3 and test/host_au.mm against the Audio Unit: off-screen
+#            windows, rendered audio kept and measured
+# --install  copies the bundles to ~/Library/Audio/Plug-Ins/VST3 and
+#            ~/Library/Audio/Plug-Ins/Components
 #
 # Needs the web's native runtime (app/web: scripts/build-runtime.sh --native)
 # and Sonic Pi's SuperSonic checked out (app/external/supersonic).
@@ -111,13 +116,57 @@ cat > "$BUNDLE/Contents/Info.plist" <<PLIST
 PLIST
 printf 'BNDL????' > "$BUNDLE/Contents/PkgInfo"
 codesign --force --deep --sign - "$BUNDLE"
+
+# The Audio Unit: the VST3's bundle again (its files cloned, which takes no room on disk), with an Info.plist that
+# names the component and its factory (au/shell.mm). The codes are what a host's project names the instrument by,
+# so they never change; the version is a number, as an Audio Unit's is (0x00MMmmpp).
+AU="$HERE/dist/$NAME.component"
+rm -rf "$AU"
+cp -Rc "$BUNDLE" "$AU"
+rm -rf "$AU/Contents/_CodeSignature"
+IFS=. read -r MAJOR MINOR PATCH <<< "${VERSION%%-*}"
+AU_VERSION=$(( (MAJOR << 16) | (MINOR << 8) | PATCH ))
+cat > "$AU/Contents/Info.plist" <<PLIST
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>CFBundleExecutable</key><string>$NAME</string>
+  <key>CFBundleIdentifier</key><string>net.sonic-pi.plugin.au</string>
+  <key>CFBundleName</key><string>$NAME</string>
+  <key>CFBundlePackageType</key><string>BNDL</string>
+  <key>CFBundleSignature</key><string>????</string>
+  <key>CFBundleShortVersionString</key><string>$VERSION</string>
+  <key>CFBundleVersion</key><string>$VERSION</string>
+  <key>CFBundleSupportedPlatforms</key><array><string>MacOSX</string></array>
+  <key>AudioComponents</key>
+  <array>
+    <dict>
+      <key>type</key><string>aumu</string>
+      <key>subtype</key><string>SPpl</string>
+      <key>manufacturer</key><string>SnPi</string>
+      <key>name</key><string>Sonic Pi: $NAME</string>
+      <key>description</key><string>$NAME</string>
+      <key>version</key><integer>$AU_VERSION</integer>
+      <key>factoryFunction</key><string>SonicPiAUFactory</string>
+      <key>sandboxSafe</key><false/>
+      <key>tags</key><array><string>Synthesizer</string></array>
+    </dict>
+  </array>
+</dict>
+</plist>
+PLIST
+codesign --force --deep --sign - "$AU"
 R="$BUNDLE/Contents/Resources"
+echo "built $AU"
 echo "built $BUNDLE ($(lipo -archs "$BUNDLE/Contents/MacOS/$NAME")): binary $(du -sh "$BUNDLE/Contents/MacOS" | cut -f1), page $(du -sh "$R/page" | cut -f1), synthdefs $(du -sh "$R/synthdefs" | cut -f1), samples $(du -sh "$R/samples" | cut -f1)"
 
 if [ "$TEST" = 1 ]; then
     ( cd "$HERE" && cargo test --release -- --test-threads=1 )
-    c++ -std=c++17 -fobjc-arc -O1 -I"$VST3" "$HERE/test/host.mm" -framework AppKit -framework WebKit -framework Carbon -o "$HERE/target/host"
-    SONIC_PI_PLUGIN_LOG="$HERE/target/host.log" SONIC_PI_PLUGIN_PROBE=1 "$HERE/target/host" "$BUNDLE"
+    c++ -std=c++17 -fobjc-arc -O1 -I"$VST3" "$HERE/test/host.mm" -framework AppKit -framework WebKit -framework Carbon -framework AudioToolbox -o "$HERE/target/host"
+    SONIC_PI_PLUGIN_LOG="$HERE/target/host.log" SONIC_PI_PLUGIN_PROBE=1 "$HERE/target/host" "$BUNDLE" "$AU"
+    c++ -std=c++17 -fobjc-arc -O1 "$HERE/test/host_au.mm" -framework AppKit -framework WebKit -framework AudioToolbox -framework CoreMIDI -o "$HERE/target/host_au"
+    SONIC_PI_PLUGIN_LOG="$HERE/target/host_au.log" SONIC_PI_PLUGIN_PROBE=1 "$HERE/target/host_au" "$AU"
 fi
 
 if [ "$INSTALL" = 1 ]; then
@@ -126,4 +175,9 @@ if [ "$INSTALL" = 1 ]; then
     rm -rf "$DEST/$NAME.vst3"
     cp -R "$BUNDLE" "$DEST/"
     echo "installed $DEST/$NAME.vst3"
+    DEST="$HOME/Library/Audio/Plug-Ins/Components"
+    mkdir -p "$DEST"
+    rm -rf "$DEST/$NAME.component"
+    cp -R "$AU" "$DEST/"
+    echo "installed $DEST/$NAME.component"
 fi

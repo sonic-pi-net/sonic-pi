@@ -13,8 +13,11 @@
 //
 // keys: only the first editor and the checks of its keys.
 #import <AppKit/AppKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import <AudioUnit/AUCocoaUIView.h>
 #import <Carbon/Carbon.h>
 #import <WebKit/WebKit.h>
+#import <objc/runtime.h>
 #include <dlfcn.h>
 #include <stdio.h>
 
@@ -26,6 +29,8 @@
 #include <string>
 #include <thread>
 #include <vector>
+
+#include "host_mac.h"
 
 #include "pluginterfaces/base/funknown.h"
 #include "pluginterfaces/base/ibstream.h"
@@ -39,19 +44,7 @@
 using namespace Steinberg;
 using namespace Steinberg::Vst;
 
-// WebKit treats a page as focused only in the key window, and this process
-// must not take focus from whatever the person is doing.
-@interface OffscreenWindow : NSWindow
-@end
-@implementation OffscreenWindow
-- (BOOL)canBecomeKeyWindow { return YES; }
-- (BOOL)isKeyWindow { return YES; }
-- (BOOL)isMainWindow { return YES; }
-@end
-
-static NSString* gLog;
 static IPluginFactory* gFactory;
-static int gFailures, gChecks;
 
 // While set, keys are offered to this view as Reaper offers them (from its
 // sendEvent:), and a key the plugin declines is the host's, as in a host that
@@ -117,56 +110,6 @@ static void closeEditorOnEscape ()
 - (void)run:(NSMenuItem*)item { hostActs (); }
 - (BOOL)validateMenuItem:(NSMenuItem*)item { return YES; }
 @end
-
-static void pump (double seconds)
-{
-    NSDate* until = [NSDate dateWithTimeIntervalSinceNow:seconds];
-    while ([until timeIntervalSinceNow] > 0) {
-        // A real run loop drains per event; without this a closed web view stays retained.
-        @autoreleasepool {
-            NSEvent* event = [NSApp nextEventMatchingMask:NSEventMaskAny
-                                                untilDate:[NSDate dateWithTimeIntervalSinceNow:0.01]
-                                                   inMode:NSDefaultRunLoopMode
-                                                  dequeue:YES];
-            if (event) [NSApp sendEvent:event];
-        }
-    }
-}
-
-static void check (const char* name, bool ok, NSString* detail = nil)
-{
-    ++gChecks;
-    if (!ok) ++gFailures;
-    printf ("%s  %s%s%s\n", ok ? "PASS" : "FAIL", name, detail ? "  - " : "", detail ? detail.UTF8String : "");
-    fflush (stdout);
-}
-
-static NSArray<NSString*>* lines (int id, NSString* needle)
-{
-    NSString* text = [NSString stringWithContentsOfFile:gLog encoding:NSUTF8StringEncoding error:nil] ?: @"";
-    NSString* tag = [NSString stringWithFormat:@"/%d] ", id];   // an editor's lines: [instance/editor] (filelog.rs)
-    NSMutableArray* found = [NSMutableArray array];
-    for (NSString* line in [text componentsSeparatedByString:@"\n"])
-        if ((id < 0 || [line containsString:tag]) && [line containsString:needle]) [found addObject:line];
-    return found;
-}
-
-static bool waitFor (int id, NSString* needle, double seconds)
-{
-    NSDate* until = [NSDate dateWithTimeIntervalSinceNow:seconds];
-    while ([until timeIntervalSinceNow] > 0) {
-        if (lines (id, needle).count) return true;
-        pump (0.05);
-    }
-    return lines (id, needle).count > 0;
-}
-
-static int field (NSString* line, NSString* name)
-{
-    NSString* key = [NSString stringWithFormat:@"\"%@\":", name];
-    NSRange at = [line rangeOfString:key];
-    return at.location == NSNotFound ? -1 : [[line substringFromIndex:NSMaxRange (at)] intValue];
-}
 
 // ── A plugin instance, as a host holds one ─────────────────────────────────
 
@@ -389,18 +332,6 @@ static OffscreenWindow* makeWindow (int slot)
     window.contentView = [[HostContentView alloc] initWithFrame:NSMakeRect (0, 0, kWidth, kHeight)];
     [window orderFront:nil];
     return window;
-}
-
-// An off-screen window is an occluded one, and WebKit holds an occluded page's animation frames, where the log
-// and scopes paint: a window in a host is on screen, so the harness has WebKit not ask (its testing switch).
-static void paintsOffscreen (NSView* view)
-{
-    const SEL off = NSSelectorFromString (@"_setWindowOcclusionDetectionEnabled:");
-    if ([view respondsToSelector:off]) {
-        ((void (*) (id, SEL, BOOL)) [view methodForSelector:off]) (view, off, NO);
-        printf ("note  occlusion detection off for %s\n", NSStringFromClass (view.class).UTF8String);
-    }
-    for (NSView* child in view.subviews) paintsOffscreen (child);
 }
 
 static bool openEditor (Plugin& p, int slot)
@@ -882,10 +813,26 @@ static void keyChecks (Plugin& p, bool offered)
     gShown = nullptr;
 }
 
+// The classes the plugin's Rust makes for its web view (wry's, each named for its module), by name.
+static NSArray<NSString*>* webViewClasses ()
+{
+    NSMutableArray* names = [NSMutableArray array];
+    unsigned count = 0;
+    Class* all = objc_copyClassList (&count);
+    for (unsigned i = 0; i < count; ++i) {
+        NSString* name = @(class_getName (all[i]));
+        if ([name hasPrefix:@"wry::"]) [names addObject:name];
+    }
+    free (all);
+    return names;
+}
+
 int main (int argc, char** argv)
 {
     const bool onlyKeys = argc == 3 && std::strcmp (argv[2], "keys") == 0;
-    if ((argc != 2 && !onlyKeys) || !getenv ("SONIC_PI_PLUGIN_LOG") || !getenv ("SONIC_PI_PLUGIN_PROBE")) {
+    // the same plugin as an Audio Unit, for the check that both formats open their editors in one host
+    const char* audioUnit = argc == 3 && !onlyKeys ? argv[2] : nullptr;
+    if ((argc != 2 && argc != 3) || !getenv ("SONIC_PI_PLUGIN_LOG") || !getenv ("SONIC_PI_PLUGIN_PROBE")) {
         fprintf (stderr, "usage: SONIC_PI_PLUGIN_LOG=<file> SONIC_PI_PLUGIN_PROBE=1 host <Sonic Pi.vst3> [keys]\n");
         return 2;
     }
@@ -940,6 +887,59 @@ int main (int argc, char** argv)
     check ("the page raised no error", lines (a.editor, @"page error").count == 0
            && lines (a.editor, @"\"t\":\"error\"").count == 0 && lines (a.editor, @"\"t\":\"rejection\"").count == 0,
            lines (a.editor, @"\"t\":\"error\"").firstObject ?: lines (a.editor, @"page error").firstObject);
+    // A host with both formats of the plugin in it (REAPER, Live): two copies of the binary in one process, each
+    // with the same classes. With the VST3's editor open, the Audio Unit's opens too, as its host finds it: the
+    // class the Audio Unit names, by name in the bundle it names.
+    if (audioUnit) {
+        const NSUInteger oneCopys = webViewClasses ().count;
+        NSBundle* bundle = [NSBundle bundleWithPath:@(audioUnit)];
+        void* module = dlopen (bundle.executablePath.fileSystemRepresentation, RTLD_NOW | RTLD_LOCAL);
+        auto factory = module ? (AudioComponentFactoryFunction) dlsym (module, "SonicPiAUFactory") : nullptr;
+        const AudioComponentDescription description = { 'aumu', 'SPpl', 'SnPi', 0, 0 };
+        AudioComponent component = factory ? AudioComponentRegister (&description, CFSTR ("Sonic Pi: Sonic Pi"), 0, factory) : nullptr;
+        AudioUnit unit = nullptr;
+        const bool started = component && AudioComponentInstanceNew (component, &unit) == noErr && AudioUnitInitialize (unit) == noErr;
+        NSView* view = nil;
+        NSString* found = @"no Audio Unit";
+        if (started) {
+            AudioUnitCocoaViewInfo info {};
+            UInt32 size = sizeof info;
+            if (AudioUnitGetProperty (unit, kAudioUnitProperty_CocoaUI, kAudioUnitScope_Global, 0, &info, &size) == noErr) {
+                NSURL* where = CFBridgingRelease (info.mCocoaAUViewBundleLocation);
+                NSString* name = CFBridgingRelease (info.mCocoaAUViewClass[0]);
+                Class made = [[NSBundle bundleWithURL:where] classNamed:name];
+                found = [NSString stringWithFormat:@"class %@ in %@: %@", name, where.lastPathComponent, made ? @"found" : @"not found"];
+                view = [[made new] uiViewForAudioUnit:unit withSize:NSZeroSize];
+            }
+        }
+        check ("with the VST3's editor open, a host finds the Audio Unit's view", view != nil, found);
+        if (view) {
+            const NSUInteger before = lines (-1, @"\"t\":\"ready\"").count;
+            OffscreenWindow* window = nil;
+            @autoreleasepool {
+                window = [[OffscreenWindow alloc] initWithContentRect:NSMakeRect (-8000, -6000, view.frame.size.width, view.frame.size.height)
+                                                            styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
+                window.releasedWhenClosed = NO;
+                [window orderFront:nil];
+                [window.contentView addSubview:view];
+            }
+            for (int i = 0; i < 300 && lines (-1, @"\"t\":\"ready\"").count == before; ++i) pump (0.1);
+            check ("and its page loads beside the VST3's", lines (-1, @"\"t\":\"ready\"").count > before);
+            // Each copy with classes of its own: a copy that took the other's would run that copy's code on its own
+            // data, and two builds of the plugin lay their data out differently (a crash, with a VST3 and an Audio
+            // Unit of two releases in one host).
+            check ("each copy of the binary has its own web view classes", oneCopys > 0 && webViewClasses ().count == 2 * oneCopys
+                   // and none under the plain name, which a copy built before this (0.2.1 and earlier) would take
+                   && [webViewClasses () indexOfObjectPassingTest:^BOOL (NSString* name, NSUInteger, BOOL*) { return ![name containsString:@"@"]; }] == NSNotFound,
+                   [NSString stringWithFormat:@"%lu with one copy, %lu with two: %@", (unsigned long) oneCopys,
+                                              (unsigned long) webViewClasses ().count, [webViewClasses () componentsJoinedByString:@", "]]);
+            @autoreleasepool { [view removeFromSuperview]; }
+            pump (0.3);
+            [window close];
+        }
+        if (unit) { AudioUnitUninitialize (unit); AudioComponentInstanceDispose (unit); }
+    }
+
     // The status line shows the Sonic Pi version (from VERSION) and "VST". About shows the plugin's version, which
     // must match the bundle's Info.plist
     {
@@ -1077,7 +1077,7 @@ int main (int argc, char** argv)
     {
         auto fullWindow = [] () -> NSWindow* {
             for (NSWindow* w in NSApp.windows)
-                if ([NSStringFromClass (w.class) isEqualToString:@"SPFullScreenWindow"] && w.visible) return w;
+                if ([NSStringFromClass (w.class) hasPrefix:@"SonicPiFullScreenWindow_"] && w.visible) return w;
             return nil;
         };
         auto pageIn = [] (NSView* view, NSString* script) -> id {
@@ -1238,7 +1238,7 @@ int main (int argc, char** argv)
         auto fullWindows = [] () -> NSArray<NSWindow*>* {
             NSMutableArray<NSWindow*>* found = [NSMutableArray array];
             for (NSWindow* w in NSApp.windows)
-                if ([NSStringFromClass (w.class) isEqualToString:@"SPFullScreenWindow"] && w.visible) [found addObject:w];
+                if ([NSStringFromClass (w.class) hasPrefix:@"SonicPiFullScreenWindow_"] && w.visible) [found addObject:w];
             return found;
         };
         auto pressFullScreen = [] (NSView* view) {
@@ -1274,7 +1274,7 @@ int main (int argc, char** argv)
         NSApp.presentationOptions = hostFull;
         auto fullWindow = [] () -> NSWindow* {
             for (NSWindow* w in NSApp.windows)
-                if ([NSStringFromClass (w.class) isEqualToString:@"SPFullScreenWindow"] && w.visible) return w;
+                if ([NSStringFromClass (w.class) hasPrefix:@"SonicPiFullScreenWindow_"] && w.visible) return w;
             return nil;
         };
         auto pressFullScreen = [] (NSView* view) {

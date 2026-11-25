@@ -16,6 +16,8 @@
   window.__sonicPiPlugin = {
     /** The plugin's version from Cargo.toml (lib.rs sets it). DAWs show the same number. */
     version: window.__sonicPiPluginVersion,
+    /** The plugin's format as the page names it, "VST" or "AU" (lib.rs sets it from the shell's). */
+    format: window.__sonicPiPluginFormat,
     /** The name of the host's MIDI port, in and out (lib.rs sets it from instance.cpp's). */
     midiPort: window.__sonicPiPluginMidiPort,
     /** Whether the plugin takes the page full screen itself, asked by post({t: "fullScreen"}) (lib.rs; mac.mm, win.cpp). */
@@ -41,7 +43,7 @@
       }
     },
   };
-  // The page's storage is the instance's, kept in the host's project with the plugin's state (shell.cpp), not the
+  // The page's storage is the instance's, kept in the host's project with the plugin's state (plugin.cpp), not the
   // host's WebKit storage, which every Sonic Pi in the host would share: its buffers, its sets, its preferences. Seeded
   // as the editor opens (lib.rs, __sonicPiPluginSeed), each write sent to the plugin. A reload keeps what was written
   // since (this window's sessionStorage, its own); a state the host gives the plugin with the editor open comes in by

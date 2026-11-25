@@ -15,21 +15,25 @@
 // plugin claims only keys it uses, as VST3 asks.
 #import <AppKit/AppKit.h>
 #import <WebKit/WebKit.h>
+#import <objc/runtime.h>
 #include <dispatch/dispatch.h>
 #include <dlfcn.h>
+#include <cstdio>
 #include <algorithm>
 
 extern "C" void sp_host_note(const char* text);
 extern "C" void sp_editor_zoom(void* editor, int step);
 extern "C" void sp_editor_full_screen(void* editor, int on);
 
-// The page, full screen: a window of the plugin's own over the whole display, above the host's floating windows
-// and the menu bar. Borderless, so it says for itself that it takes the keys. `monitor` is the editor's (below).
-@interface SPFullScreenWindow : NSWindow
-@property (nonatomic) void* monitor;
-@end
-
 namespace {
+
+struct Monitor;
+// The page, full screen: a window of the plugin's own over the whole display, above the host's floating windows
+// and the menu bar. Borderless, so it says for itself that it takes the keys. Its class is made as the program
+// runs, under a name of this copy of the binary's: a host may hold two (the VST3 and the Audio Unit), and a class
+// the compiler makes would be in both by one name.
+Class fullScreenWindowClass();
+void setMonitorOf(NSWindow* window, Monitor* monitor);
 
 struct Monitor {
     id token = nil;
@@ -39,7 +43,7 @@ struct Monitor {
     bool takenByOffer = false;         // given it through the host's offer, not the monitor
     NSTimeInterval passedAt = 0;       // the last key the page left, gone on to the host
     NSSet<NSString*>* hostKeys = [NSSet set];
-    SPFullScreenWindow* full = nil;    // the page's window while it is full screen
+    NSWindow* full = nil;               // the page's window while it is full screen
     id activeToken = nil, inactiveToken = nil;            // the application coming forward and going back
     WKWebView* web = nil;              // ... and the page, away from the host's view
     bool saidOffered = false, saidMonitored = false;
@@ -206,11 +210,11 @@ void setFullScreen(Monitor* monitor, bool on, bool tell)
         WKWebView* web = webIn(host);
         NSScreen* screen = host.window.screen ?: NSScreen.mainScreen;
         if (!web || !screen) return;
-        SPFullScreenWindow* window = [[SPFullScreenWindow alloc] initWithContentRect:screen.frame
-                                                                           styleMask:NSWindowStyleMaskBorderless
-                                                                             backing:NSBackingStoreBuffered defer:NO];
+        NSWindow* window = [[fullScreenWindowClass() alloc] initWithContentRect:screen.frame
+                                                                      styleMask:NSWindowStyleMaskBorderless
+                                                                        backing:NSBackingStoreBuffered defer:NO];
         window.releasedWhenClosed = NO;
-        window.monitor = monitor;
+        setMonitorOf(window, monitor);
         window.backgroundColor = NSColor.blackColor;
         // Just above the host's floating plugin windows, and no higher: a dialog of the host's (its Save, opened by
         // Cmd-S from here) is above that, and has to show. So the menu bar and the Dock, which are higher still,
@@ -220,7 +224,7 @@ void setFullScreen(Monitor* monitor, bool on, bool tell)
         window.level = NSApp.active ? level : NSNormalWindowLevel;
         if (gFullScreens++ == 0) hideHostBars();
         NSNotificationCenter* centre = NSNotificationCenter.defaultCenter;
-        __weak SPFullScreenWindow* weak = window;
+        __weak NSWindow* weak = window;
         monitor->activeToken = [centre addObserverForName:NSApplicationDidBecomeActiveNotification object:NSApp queue:nil
                                                usingBlock:^(NSNotification*) { weak.level = level; }];
         monitor->inactiveToken = [centre addObserverForName:NSApplicationDidResignActiveNotification object:NSApp queue:nil
@@ -239,7 +243,7 @@ void setFullScreen(Monitor* monitor, bool on, bool tell)
         [window makeFirstResponder:web];
     } else {
         WKWebView* web = monitor->web;
-        SPFullScreenWindow* window = monitor->full;
+        NSWindow* window = monitor->full;
         monitor->full = nil;
         monitor->web = nil;
         [NSNotificationCenter.defaultCenter removeObserver:monitor->activeToken];
@@ -259,22 +263,44 @@ void setFullScreen(Monitor* monitor, bool on, bool tell)
     if (tell) sp_editor_full_screen(monitor->editor, on);
 }
 
-} // namespace
+// The window's monitor, kept with it by this key's address.
+const char kMonitorKey = 0;
 
-@implementation SPFullScreenWindow
-- (BOOL)canBecomeKeyWindow { return YES; }
-- (BOOL)canBecomeMainWindow { return NO; }
+void setMonitorOf(NSWindow* window, Monitor* monitor)
+{
+    objc_setAssociatedObject(window, &kMonitorKey, [NSValue valueWithPointer:monitor], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+BOOL fullScreenCanBecomeKey(id, SEL) { return YES; }
+BOOL fullScreenCanBecomeMain(id, SEL) { return NO; }
+
 // A key the page left (WebKit sends it back through the application, and the rule above lets it by): Escape
 // leaves full screen; any other is the host's, as it is from the host's own window.
-- (void)keyDown:(NSEvent*)event
+void fullScreenKeyDown(id self, SEL, NSEvent* event)
 {
-    auto* monitor = static_cast<Monitor*>(self.monitor);
+    auto* monitor = static_cast<Monitor*>([objc_getAssociatedObject(self, &kMonitorKey) pointerValue]);
     if (!monitor) return;
     if (event.keyCode == 53) { setFullScreen(monitor, false, true); return; }
     NSView* host = monitor->host;
     [host.window keyDown:event];
 }
-@end
+
+Class fullScreenWindowClass()
+{
+    static Class made = [] {
+        char name[64];
+        std::snprintf(name, sizeof name, "SonicPiFullScreenWindow_%p", static_cast<const void*>(&kMonitorKey));
+        Class c = objc_allocateClassPair([NSWindow class], name, 0);
+        class_addMethod(c, @selector(canBecomeKeyWindow), reinterpret_cast<IMP>(fullScreenCanBecomeKey), "c@:");
+        class_addMethod(c, @selector(canBecomeMainWindow), reinterpret_cast<IMP>(fullScreenCanBecomeMain), "c@:");
+        class_addMethod(c, @selector(keyDown:), reinterpret_cast<IMP>(fullScreenKeyDown), "v@:@");
+        objc_registerClassPair(c);
+        return c;
+    }();
+    return made;
+}
+
+} // namespace
 
 // Full screen on or off, as the page asks. Non-zero: it is on.
 extern "C" int sp_monitor_full_screen(void* opaque, int on)

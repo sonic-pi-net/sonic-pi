@@ -146,7 +146,7 @@ pub fn armed_from_json(json: &str) -> Vec<Armed> {
         .collect()
 }
 
-/// The key of the page's storage the armed buffers are under (main.js ARMED_KEY; shell.cpp kArmedKey).
+/// The key of the page's storage the armed buffers are under (main.js ARMED_KEY; plugin.cpp kArmedKey).
 pub const ARMED_KEY: &str = "sp-daw-armed";
 
 /// The armed buffers, to an instance (sp_instance_armed).

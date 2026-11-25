@@ -43,6 +43,8 @@ serde_json = "1"
 [patch.crates-io]
 # Clockwork's decoder rides a patched FLAC bundle (clockwork/rust/Cargo.toml).
 symphonia-bundle-flac = { path = "../external/supersonic/clockwork/external/symphonia-bundle-flac" }
+# objc2 with each copy of the plugin in a process making its own Objective-C classes (external/README.md).
+objc2 = { path = "external/objc2" }
 
 [profile.release]
 lto = "fat"

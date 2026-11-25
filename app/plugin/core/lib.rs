@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (c) 2026 Sam Aaron
-//! Sonic Pi as a VST3: the editor, which is Sonic Pi's web GUI in a web view
-//! inside the host's window, talking to its own instance (instance.rs).
+//! Sonic Pi as a plugin (a VST3, and on macOS an Audio Unit): the editor, which is Sonic Pi's web GUI in a web
+//! view inside the host's window, talking to its own instance (instance.rs).
 #![cfg(any(target_os = "macos", windows))]
 
 use std::borrow::Cow;
@@ -52,6 +52,8 @@ use instance::RawInstance;
 
 unsafe extern "C" {
     fn sp_get_plugin_factory() -> *mut c_void;
+    #[cfg(target_os = "macos")]
+    fn sp_au_factory(description: *const c_void) -> *mut c_void;
     fn sp_monitor_install(host_view: *mut c_void, editor: *mut c_void) -> *mut c_void;
     fn sp_monitor_host_keys(monitor: *mut c_void, chords: *const c_char);
     fn sp_monitor_take_key(monitor: *mut c_void, down: c_int) -> c_int;
@@ -77,12 +79,13 @@ unsafe extern "C" {
         out: *mut c_void,
         bytes: u32,
     ) -> u32;
-    // The page's storage, kept by the plugin with its state (shell.cpp): `host` is the plugin the editor belongs to.
+    // The page's storage, kept by the plugin with its state (plugin.cpp): `host` is the plugin the editor belongs to.
     fn sp_host_store_put(host: *mut c_void, key: *const u8, key_len: usize, value: *const u8, value_len: usize, remove: c_int);
     fn sp_host_store_clear(host: *mut c_void);
     fn sp_host_store_each(host: *mut c_void, each: unsafe extern "C" fn(*mut c_void, *const u8, usize, *const u8, usize), ctx: *mut c_void);
     // The page's zoom in percent, kept with the state as the editor's size is.
     fn sp_host_zoom(host: *mut c_void) -> c_int;
+    fn sp_host_format(host: *mut c_void) -> *const c_char;
     fn sp_host_keep_zoom(host: *mut c_void, percent: c_int);
 }
 
@@ -96,6 +99,15 @@ fn zoom_after(now: c_int, step: c_int) -> c_int {
         s if s > 0 => ZOOMS.iter().copied().find(|&z| z > now).unwrap_or(ZOOMS[ZOOMS.len() - 1]),
         _ => ZOOMS.iter().rev().copied().find(|&z| z < now).unwrap_or(ZOOMS[0]),
     }
+}
+
+/// The plugin's format as the page names it ("VST", "AU"), from the shell that made the plugin (plugin.h).
+fn format_name(plugin: *mut c_void) -> String {
+    if plugin.is_null() {
+        return "VST".into();
+    }
+    // SAFETY: a plugin's format is a literal's text, for as long as the binary is loaded.
+    unsafe { CStr::from_ptr(sp_host_format(plugin)) }.to_string_lossy().into_owned()
 }
 
 /// The page's storage as the plugin keeps it, as a JSON object of strings: the editor's seed (bridge.js).
@@ -479,6 +491,8 @@ fn attach(parent: *mut c_void, width: u32, height: u32, instance: *mut RawInstan
         .with_initialization_script(&format!("window.__sonicPiPluginSeed = {};", store_json(plugin)))
         // The plugin's version from Cargo.toml, shown in the page's About card (bridge.js: __sonicPiPlugin.version)
         .with_initialization_script(concat!("window.__sonicPiPluginVersion = \"", env!("CARGO_PKG_VERSION"), "\";"))
+        // The plugin's format, shown beside the versions (bridge.js: __sonicPiPlugin.format)
+        .with_initialization_script(&format!("window.__sonicPiPluginFormat = {};", serde_json::to_string(&format_name(plugin)).unwrap_or_default()))
         // The host's MIDI port by its name, for the page's preferences and its completion of port: (bridge.js)
         .with_initialization_script(&format!("window.__sonicPiPluginMidiPort = {};", serde_json::to_string(instance::midi_port()).unwrap_or_default()))
         // Full screen is the plugin's own to do (mac.mm, win.cpp), not the web view's
@@ -694,6 +708,19 @@ pub extern "C" fn sp_host_note(text: *const c_char) {
 #[allow(non_snake_case)]
 pub extern "C" fn GetPluginFactory() -> *mut c_void {
     unsafe { sp_get_plugin_factory() }
+}
+
+/// The Audio Unit's factory, which its bundle's Info.plist names (au/shell.mm): the same binary is the VST3 and the
+/// Audio Unit, each in a bundle of its own.
+///
+/// # Safety
+/// Called by the system's Audio Unit host code, with the component's description or null.
+#[cfg(target_os = "macos")]
+#[unsafe(no_mangle)]
+#[allow(non_snake_case)]
+pub unsafe extern "C" fn SonicPiAUFactory(description: *const c_void) -> *mut c_void {
+    // SAFETY: the factory reads nothing of the description.
+    unsafe { sp_au_factory(description) }
 }
 
 #[unsafe(no_mangle)]
