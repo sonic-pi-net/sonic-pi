@@ -116,6 +116,16 @@ jobs:
           unzip -q "$RUNNER_TEMP/pluginval.zip" -d "$RUNNER_TEMP/pluginval"
           "$RUNNER_TEMP/pluginval/pluginval.app/Contents/MacOS/pluginval" \
             --strictness-level 10 --random-seed 1 --verbose --validate "dist/Sonic Pi.vst3"
+      # auval (Apple's Audio Unit checker) does for the Audio Unit what pluginval does for the VST3. It only checks
+      # a component the system has registered, so the bundle goes where a user's would and the registrar is
+      # restarted to find it.
+      - name: auval
+        working-directory: app/plugin
+        run: |
+          mkdir -p "$HOME/Library/Audio/Plug-Ins/Components"
+          cp -R "dist/Sonic Pi.component" "$HOME/Library/Audio/Plug-Ins/Components/"
+          killall -9 AudioComponentRegistrar 2>/dev/null || true
+          auval -v aumu SPpl SnPi
       - name: The plugin's own logs, on a failure
         if: failure()
         uses: actions/upload-artifact@v4
