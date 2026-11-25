@@ -2,19 +2,23 @@
 # SPDX-License-Identifier: AGPL-3.0-or-later
 # Copyright (c) 2026 Sam Aaron
 #
-# Makes the Mac release of "Sonic Pi.vst3": a universal build, signed with a
-# Developer ID, notarised by Apple and stapled, then shipped two ways:
+# Makes the Mac release of the plugin, "Sonic Pi.vst3" and "Sonic Pi.component"
+# (the Audio Unit): a universal build, each bundle signed with a Developer ID,
+# notarised by Apple and stapled, then shipped two ways:
 #
-#   - an installer package (.pkg) that puts it in /Library/Audio/Plug-Ins/VST3,
-#     signed with a Developer ID Installer identity, notarised and stapled
-#   - a zip of the bundle, for installing by hand
+#   - an installer package (.pkg) that puts the VST3 in
+#     /Library/Audio/Plug-Ins/VST3 and the Audio Unit in
+#     /Library/Audio/Plug-Ins/Components (either can be unticked under
+#     Customise), signed with a Developer ID Installer identity, notarised and
+#     stapled
+#   - a zip of the two bundles, for installing by hand
 #
 #   scripts/release-mac.sh [--adhoc] [--skip-build]
 #
 # --adhoc       sign with no identity, leave the package unsigned and skip
 #               notarising: for trying the script out. The results will not
 #               open on another Mac.
-# --skip-build  use the bundle already in dist/ (it must be universal)
+# --skip-build  use the bundles already in dist/ (they must be universal)
 #
 # Signing and notarising use what the app's release does (app/mac-release-common.sh):
 # the Developer ID Application and Developer ID Installer identities in the
@@ -46,18 +50,20 @@ require_cmd pkgbuild
 require_cmd productbuild
 
 NAME="Sonic Pi"
-BUNDLE="$HERE/dist/$NAME.vst3"
-BINARY="$BUNDLE/Contents/MacOS/$NAME"
+# The two formats: each bundle's extension, the folder a host looks for it in, its package's identifier and its
+# name in the installer's list of what to install.
+FORMATS="vst3 component"
+install_dir() { case "$1" in vst3) echo "/Library/Audio/Plug-Ins/VST3" ;; component) echo "/Library/Audio/Plug-Ins/Components" ;; esac; }
+package_id()  { case "$1" in vst3) echo "net.sonic-pi.plugin.vst3" ;; component) echo "net.sonic-pi.plugin.au" ;; esac; }
+format_name() { case "$1" in vst3) echo "VST3" ;; component) echo "Audio Unit" ;; esac; }
 VERSION="$(sed -n 's/^version = "\(.*\)"$/\1/p' "$HERE/Cargo.toml" | head -n 1)"
 [ -n "$VERSION" ] || die "no version in $HERE/Cargo.toml"
 # the oldest macOS the plugin is built for, which the package will not install below
 MIN_OS="$(sed -n 's/^MACOSX_DEPLOYMENT_TARGET = "\(.*\)"$/\1/p' "$HERE/.cargo/config.toml")"
 [ -n "$MIN_OS" ] || die "no MACOSX_DEPLOYMENT_TARGET in $HERE/.cargo/config.toml"
-ZIP="$HERE/dist/Sonic-Pi-VST3-$VERSION-mac.zip"
-PKG="$HERE/dist/Sonic-Pi-VST3-$VERSION-mac.pkg"
-PKG_ID="net.sonic-pi.plugin.vst3"
-PKG_TITLE="Sonic Pi VST3"
-INSTALL_DIR="/Library/Audio/Plug-Ins/VST3"
+ZIP="$HERE/dist/Sonic-Pi-Plugin-$VERSION-mac.zip"
+PKG="$HERE/dist/Sonic-Pi-Plugin-$VERSION-mac.pkg"
+PKG_TITLE="Sonic Pi Plugin"
 
 # Both identities are looked up before the build, so a missing one stops the script before minutes of compiling.
 IDENTITY="$(release_identity)"
@@ -67,17 +73,20 @@ if [ "$BUILD" = 1 ]; then
     log_step "build, for arm64 and x86_64"
     "$HERE/scripts/build.sh" --universal
 fi
-[ -f "$BINARY" ] || die "no bundle at $BUNDLE: run without --skip-build"
-ARCHS="$(lipo -archs "$BINARY")"
-case "$ARCHS" in
-    *arm64*x86_64*|*x86_64*arm64*) ;;
-    *) die "the bundle is for $ARCHS only: a release is universal (scripts/build.sh --universal)" ;;
-esac
-
-# The bundle holds one Mach-O, its binary: anything else that is one would
-# have to be signed first, so say if that ever changes.
-OTHERS="$(list_macho_files "$BUNDLE" | grep -v -F "$BINARY" || true)"
-[ -z "$OTHERS" ] || die "the bundle holds other binaries, which this script does not sign: $OTHERS"
+for format in $FORMATS; do
+    BUNDLE="$HERE/dist/$NAME.$format"
+    BINARY="$BUNDLE/Contents/MacOS/$NAME"
+    [ -f "$BINARY" ] || die "no bundle at $BUNDLE: run without --skip-build"
+    ARCHS="$(lipo -archs "$BINARY")"
+    case "$ARCHS" in
+        *arm64*x86_64*|*x86_64*arm64*) ;;
+        *) die "$BUNDLE is for $ARCHS only: a release is universal (scripts/build.sh --universal)" ;;
+    esac
+    # A bundle holds one Mach-O, its binary: anything else that is one would
+    # have to be signed first, so say if that ever changes.
+    OTHERS="$(list_macho_files "$BUNDLE" | grep -v -F "$BINARY" || true)"
+    [ -z "$OTHERS" ] || die "$BUNDLE holds other binaries, which this script does not sign: $OTHERS"
+done
 
 WORK="$(mktemp -d)"
 trap 'rm -rf "$WORK"' EXIT
@@ -89,68 +98,92 @@ notarise() {
 }
 
 log_step "sign as: $IDENTITY"
-if [ "$IDENTITY" = "-" ]; then
-    log_warn "ad-hoc: this bundle cannot be notarised and will not open on another Mac"
-    codesign --force --sign - "$BUNDLE"
-else
-    # the hardened runtime and Apple's timestamp, both of which notarising asks for
-    codesign --force --options runtime --timestamp --sign "$IDENTITY" "$BUNDLE"
-fi
-codesign --verify --deep --strict "$BUNDLE" || die "the signature does not verify"
+[ "$IDENTITY" != "-" ] || log_warn "ad-hoc: these bundles cannot be notarised and will not open on another Mac"
+for format in $FORMATS; do
+    BUNDLE="$HERE/dist/$NAME.$format"
+    if [ "$IDENTITY" = "-" ]; then
+        codesign --force --sign - "$BUNDLE"
+    else
+        # the hardened runtime and Apple's timestamp, both of which notarising asks for
+        codesign --force --options runtime --timestamp --sign "$IDENTITY" "$BUNDLE"
+    fi
+    codesign --verify --deep --strict "$BUNDLE" || die "the signature of $BUNDLE does not verify"
+done
 log_ok "signed"
 
+# Both bundles side by side in one folder: what Apple is sent, and what the zip holds.
 rm -f "$ZIP" "$PKG"
+mkdir -p "$WORK/bundles"
 if [ "$IDENTITY" != "-" ]; then
-    log_step "notarise the bundle (keychain profile: $RELEASE_NOTARY_PROFILE)"
-    ditto -c -k --keepParent "$BUNDLE" "$WORK/Sonic-Pi-VST3.zip"
-    notarise "$WORK/Sonic-Pi-VST3.zip"
-    # the ticket goes on the bundle itself, so it opens on a Mac that is offline, however it was installed
-    xcrun stapler staple "$BUNDLE" || die "the ticket could not be stapled"
-    xcrun stapler validate "$BUNDLE" || die "the stapled ticket does not validate"
-    log_ok "bundle notarised and stapled"
+    log_step "notarise the bundles (keychain profile: $RELEASE_NOTARY_PROFILE)"
+    for format in $FORMATS; do ditto "$HERE/dist/$NAME.$format" "$WORK/bundles/$NAME.$format"; done
+    ditto -c -k "$WORK/bundles" "$WORK/Sonic-Pi-Plugin.zip"
+    notarise "$WORK/Sonic-Pi-Plugin.zip"
+    # the ticket goes on each bundle itself, so it opens on a Mac that is offline, however it was installed
+    for format in $FORMATS; do
+        xcrun stapler staple "$HERE/dist/$NAME.$format" || die "the ticket could not be stapled to $NAME.$format"
+        xcrun stapler validate "$HERE/dist/$NAME.$format" || die "the stapled ticket of $NAME.$format does not validate"
+    done
+    log_ok "bundles notarised and stapled"
+    rm -rf "$WORK/bundles"
+    mkdir -p "$WORK/bundles"
 fi
 
 log_step "zip"
-ditto -c -k --keepParent "$BUNDLE" "$ZIP"
+for format in $FORMATS; do ditto "$HERE/dist/$NAME.$format" "$WORK/bundles/$NAME.$format"; done
+ditto -c -k "$WORK/bundles" "$ZIP"
 log_ok "$ZIP ($(du -h "$ZIP" | cut -f1))"
 
 log_step "installer package"
-mkdir -p "$WORK/root" "$WORK/packages"
-ditto "$BUNDLE" "$WORK/root/$NAME.vst3"
-# Installer puts a relocatable bundle wherever it finds another copy with the same identifier (a build left in
-# someone's dist/, say) instead of in the install location. Whether pkgbuild marks a bundle relocatable by default
-# has changed between macOS versions, so it is set to no here.
-pkgbuild --analyze --root "$WORK/root" "$WORK/components.plist" > /dev/null
-plutil -replace 0.BundleIsRelocatable -bool NO "$WORK/components.plist"
-pkgbuild --root "$WORK/root" --component-plist "$WORK/components.plist" --identifier "$PKG_ID" \
-    --version "$VERSION" --install-location "$INSTALL_DIR" "$WORK/packages/vst3.pkg" > /dev/null
+mkdir -p "$WORK/packages"
+CHOICES=""; OUTLINE=""
+for format in $FORMATS; do
+    BUNDLE="$HERE/dist/$NAME.$format"
+    ID="$(package_id "$format")"
+    DIR="$(install_dir "$format")"
+    ROOT="$WORK/root-$format"
+    mkdir -p "$ROOT"
+    ditto "$BUNDLE" "$ROOT/$NAME.$format"
+    # Installer puts a relocatable bundle wherever it finds another copy with the same identifier (a build left in
+    # someone's dist/, say) instead of in the install location. Whether pkgbuild marks a bundle relocatable by
+    # default has changed between macOS versions, so it is set to no here.
+    pkgbuild --analyze --root "$ROOT" "$WORK/components-$format.plist" > /dev/null
+    plutil -replace 0.BundleIsRelocatable -bool NO "$WORK/components-$format.plist"
+    pkgbuild --root "$ROOT" --component-plist "$WORK/components-$format.plist" --identifier "$ID" \
+        --version "$VERSION" --install-location "$DIR" "$WORK/packages/$format.pkg" > /dev/null
 
-# What the package will do, checked before it is signed: the plugin's binary in its payload, the install location,
-# and no relocation (a relocatable bundle is listed in PackageInfo as <relocate><bundle id=.../></relocate>; with
-# none the element is empty, <relocate/>). The payload's list goes to a file first: grep -q on a pipe stops reading at its match, pkgutil
-# is then killed by the closed pipe, and pipefail counts the check as failed.
-pkgutil --payload-files "$WORK/packages/vst3.pkg" > "$WORK/payload.txt"
-grep -qxF "./$NAME.vst3/Contents/MacOS/$NAME" "$WORK/payload.txt" \
-    || die "the package's payload has no ./$NAME.vst3/Contents/MacOS/$NAME"
-pkgutil --expand "$WORK/packages/vst3.pkg" "$WORK/expanded"
-grep -qF "install-location=\"$INSTALL_DIR\"" "$WORK/expanded/PackageInfo" \
-    || die "the package does not install to $INSTALL_DIR"
-! grep -q "<relocate>" "$WORK/expanded/PackageInfo" \
-    || die "the package would move the plugin to another copy of it instead of $INSTALL_DIR"
+    # What the package will do, checked before it is signed: the plugin's binary in its payload, the install
+    # location, and no relocation (a relocatable bundle is listed in PackageInfo as
+    # <relocate><bundle id=.../></relocate>; with none the element is empty, <relocate/>). The payload's list goes to
+    # a file first: grep -q on a pipe stops reading at its match, pkgutil is then killed by the closed pipe, and
+    # pipefail counts the check as failed.
+    pkgutil --payload-files "$WORK/packages/$format.pkg" > "$WORK/payload-$format.txt"
+    grep -qxF "./$NAME.$format/Contents/MacOS/$NAME" "$WORK/payload-$format.txt" \
+        || die "the $format package's payload has no ./$NAME.$format/Contents/MacOS/$NAME"
+    pkgutil --expand "$WORK/packages/$format.pkg" "$WORK/expanded-$format"
+    grep -qF "install-location=\"$DIR\"" "$WORK/expanded-$format/PackageInfo" \
+        || die "the $format package does not install to $DIR"
+    ! grep -q "<relocate>" "$WORK/expanded-$format/PackageInfo" \
+        || die "the $format package would move the plugin to another copy of it instead of $DIR"
 
-# hostArchitectures names both, so an Apple silicon Mac does not ask for Rosetta to run the installer.
+    OUTLINE="$OUTLINE<line choice=\"$ID\"/>"
+    CHOICES="$CHOICES
+    <choice id=\"$ID\" title=\"$(format_name "$format")\" description=\"$NAME.$format, in $DIR\" start_selected=\"true\"><pkg-ref id=\"$ID\"/></choice>
+    <pkg-ref id=\"$ID\" version=\"$VERSION\" onConclusion=\"none\">$format.pkg</pkg-ref>"
+done
+
+# Both formats are installed unless one is unticked under Customise. hostArchitectures names both, so an Apple
+# silicon Mac does not ask for Rosetta to run the installer.
 cat > "$WORK/distribution.xml" <<EOF
 <?xml version="1.0" encoding="utf-8"?>
 <installer-gui-script minSpecVersion="2">
     <title>$PKG_TITLE</title>
-    <options customize="never" require-scripts="false" hostArchitectures="arm64,x86_64"/>
+    <options customize="allow" require-scripts="false" hostArchitectures="arm64,x86_64"/>
     <domains enable_localSystem="true" enable_currentUserHome="false" enable_anywhere="false"/>
     <volume-check>
         <allowed-os-versions><os-version min="$MIN_OS"/></allowed-os-versions>
     </volume-check>
-    <choices-outline><line choice="$PKG_ID"/></choices-outline>
-    <choice id="$PKG_ID" visible="false"><pkg-ref id="$PKG_ID"/></choice>
-    <pkg-ref id="$PKG_ID" version="$VERSION" onConclusion="none">vst3.pkg</pkg-ref>
+    <choices-outline>$OUTLINE</choices-outline>$CHOICES
 </installer-gui-script>
 EOF
 if [ -z "$INSTALLER_IDENTITY" ]; then
@@ -170,4 +203,4 @@ else
 fi
 log_ok "$PKG ($(du -h "$PKG" | cut -f1), $ARCHS, version $VERSION, macOS $MIN_OS or later)"
 
-echo "To install: open the .pkg, or unzip the .zip and move \"$NAME.vst3\" into $INSTALL_DIR"
+echo "To install: open the .pkg, or unzip the .zip and move \"$NAME.vst3\" into $(install_dir vst3) and \"$NAME.component\" into $(install_dir component)"
