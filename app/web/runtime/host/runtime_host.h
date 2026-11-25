@@ -30,6 +30,7 @@
 // whose load is not in by its time goes late, and says so.
 #pragma once
 
+#include <unordered_map>
 #include <atomic>
 #include <chrono>
 #include <cstdint>
@@ -260,7 +261,9 @@ private:
     std::optional<double> m_nextWake;                 // stepped mode: when the runtime next wants a tick; none: now
     int m_stops = 0;
     std::deque<Sound> m_queue;
-    std::vector<std::string> m_synthdefs;             // the runtime's numbering
+    // The runtime's numbering of synthdefs. Kept by number, not as a table as long as the largest: a program can
+    // tell the host a number of its own (SonicPi::Native.host), and a table would be that many entries.
+    std::unordered_map<int32_t, std::string> m_synthdefs;
     sp_host* m_host = nullptr;                        // this runtime, the thread's own while it runs
     bool m_booted = false;
     double m_heldTotal = 0.0;

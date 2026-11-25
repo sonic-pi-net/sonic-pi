@@ -5,6 +5,9 @@
 // their own threads, and the timing of what a stepped runtime sends.
 //
 //   runtime-host-check <app/web>     (scripts/check-runtime-host.sh builds and runs it)
+#ifndef _WIN32
+#include <sys/resource.h>
+#endif
 #include "osc_codec.h"
 #include "runtime_host.h"
 
@@ -319,6 +322,36 @@ int main(int argc, char** argv)
             return m.address == "/s_new" && opt(m, "note") == 60;
         }));
         check("a program finds no file, directory, process, socket or environment to reach", found.empty(), found);
+    }
+
+    // A program can call what the runtime itself tells its host with (SonicPi::Native.host), with numbers of its
+    // own. The host keeps the runtime's numbering of synthdefs, and kept it as a table as long as the largest
+    // number said: one message naming synthdef two thousand million asked for tens of gigabytes and took the
+    // process, a DAW, with it. Twenty million here is enough to see (half a gigabyte) without hurting the machine
+    // that runs the check.
+    {
+#ifndef _WIN32
+        auto peak = [] {
+            struct rusage u {};
+            getrusage(RUSAGE_SELF, &u);
+#ifdef __APPLE__
+            return double(u.ru_maxrss) / (1024.0 * 1024.0);    // bytes
+#else
+            return double(u.ru_maxrss) / 1024.0;               // kilobytes
+#endif
+        };
+        const double before = peak();
+        const auto numbered = stepped(etc,
+            "SonicPi::Native.host('/sonic-pi/synthdef', 20_000_000, 'sonic-pi-beep')\n"
+            "play 60\n", 1.0);
+        const double grew = peak() - before;
+        std::string errors;
+        for (const auto& e : numbered->errors) errors += e;
+        check("a program that numbers a synthdef twenty million reaches the host and raises nothing", errors.empty(), errors);
+        check("the host does not grow by the size of a number a program gave it", grew < 100.0, std::to_string(int(grew)) + " MB more at its peak");
+#else
+        check("the host does not grow by the size of a number a program gave it (not measured on Windows)", true);
+#endif
     }
 
     // Several at once, each started, run and stepped on a thread of its own: each plays its own note, and none

@@ -725,7 +725,8 @@ void RuntimeHost::drain()
                 q.buf = r->buf;
                 q.bundle = std::move(r->bundle);
                 q.starts = r->def >= 0;
-                if (q.starts && r->def < int32_t(m_synthdefs.size())) q.name = m_synthdefs[size_t(r->def)];
+                if (q.starts)
+                    if (const auto named = m_synthdefs.find(r->def); named != m_synthdefs.end()) q.name = named->second;
                 sounds.push_back(std::move(q));
             }
         }
@@ -763,11 +764,7 @@ void RuntimeHost::handleHost(const osc::Message& m)
     if (!loader) return;
     if (m.address == "/sonic-pi/synthdef")
     {
-        if (number >= 0)
-        {
-            if (size_t(number) >= m_synthdefs.size()) m_synthdefs.resize(size_t(number) + 1);
-            m_synthdefs[size_t(number)] = name;
-        }
+        if (number >= 0) m_synthdefs[number] = name;
         loader->loadSynthDef(name);
     }
     else if (m.address == "/sonic-pi/synthdef-url") loader->loadSynthDefUrl(name);
