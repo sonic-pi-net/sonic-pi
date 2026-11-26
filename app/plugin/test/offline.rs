@@ -686,6 +686,27 @@ fn a_note_from_the_host_is_a_cue_a_program_can_sync_on() {
     assert!(onsets(&other).is_empty(), "a note on channel 1 does not wake a sync on channel 3");
 }
 
+/// A program that answers a note over time. The note is a cue with no beat of its own, and the thread that syncs on
+/// it took that for its own beat: its first sleep went back to the session's start, the note was found again, and
+/// the program never got past its first sound (26 November 2026, fixed in the runtime's sync).
+#[test]
+fn a_program_woken_by_a_note_from_the_host_sleeps_and_plays_on() {
+    let instance = offline();
+    render_until_loaded(&instance);
+    // a beat apart: 48,000 frames is a whole number of the engine's blocks, so the gaps are exact
+    instance.run(&format!("live_loop :keys do\n  n, v = sync \"/midi:daw:1/note_on\"\n  3.times do\n    {BEEP}\n    sleep 1\n  end\nend\n"));
+    render(&instance, seconds(2.0));
+    assert!(instance.midi_in(&[0x90, 60, 100], 0));
+    let starts = onsets(&render(&instance, seconds(3.5)));
+    assert_eq!(starts.len(), 3, "three beeps for one note: {starts:?}");
+    assert_eq!(gaps(&starts), vec![48_000, 48_000], "a beat apart, to the frame");
+
+    // and it is waiting again: a second note is answered the same way
+    assert!(instance.midi_in(&[0x90, 62, 100], 0));
+    let again = onsets(&render(&instance, seconds(3.5)));
+    assert_eq!(gaps(&again), vec![48_000, 48_000], "the second note's three: {again:?}");
+}
+
 #[test]
 fn a_note_off_from_the_host_is_a_cue_too_and_what_is_not_a_note_is_refused() {
     let instance = offline();

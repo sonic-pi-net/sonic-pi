@@ -290,3 +290,33 @@ test("blocks inside each other light their own ends; a block on one line has no 
   const oneLine = await played("live_loop :b do play 60; sleep 1 end", 1.5);
   assert.ok(flashLines(oneLine).length && flashLines(oneLine).every((n) => n === 1), String(flashLines(oneLine)));
 });
+
+// A key on the page's keyboard (site.js mountMidiKeys), or a MIDI controller's: the program hears it as a cue from
+// outside, and what it does next takes time.
+// Before the fix (lang.rb __sync_event) core.cue never returned here, and in a browser only the first note sounded.
+test("a thread woken by a cue from outside sleeps and plays on", { skip, timeout: 10000 }, async () => {
+  const { core, sent, advance, now } = await session(slowLoader({ has: () => true, add() {} }));
+  await core.run('live_loop :keys do\n  sync "/midi:daw:1/note_on"\n  3.times do\n    play 72\n    sleep 0.25\n  end\nend');
+  for (let s = 0; s < 1; s += 0.05) { advance(0.05); core.tick(); }
+  const t = now();
+  core.cue("/midi:daw:1/note_on", [60, 100]);
+  for (let s = 0; s < 1.5; s += 0.05) { advance(0.05); core.tick(); }
+  const beeps = synths(sent).filter((x) => x.def === "sonic-pi-beep" && x.time > t).map((x) => +(x.time - t).toFixed(3));
+  core.stop();
+  assert.equal(beeps.length, 3, `three notes after the cue, at ${beeps.join(", ")} s`);
+  assert.ok(Math.abs(beeps[1] - beeps[0] - 0.25) < 1e-3 && Math.abs(beeps[2] - beeps[1] - 0.25) < 1e-3, `a quarter of a second apart: ${beeps.join(", ")}`);
+});
+
+// The same fault without a cue from outside: the thread that cues counts its own beats (use_bpm), the thread that
+// syncs is on the session's timeline. Native puts a synced thread on the timeline at the cue's time (core.rb sync,
+// runtime.rb __change_spider_bpm_time_and_beat!); taking the cue's beat for its own, its next sleep lands where that
+// beat is on the timeline — here two seconds late.
+test("a thread on the session's timeline that syncs on another tempo's cue sleeps on from the cue's time", { skip, timeout: 10000 }, async () => {
+  const { core, sent, advance, now } = await session(slowLoader({ has: () => true, add() {} }));
+  const t = now();
+  await core.run('in_thread do\n  use_bpm 120\n  sleep 4\n  cue :go\n  sleep 400\nend\nin_thread do\n  sync :go\n  2.times do\n    play 72\n    sleep 0.25\n  end\n  sleep 400\nend');
+  for (let s = 0; s < 6; s += 0.05) { advance(0.05); core.tick(); }
+  const beeps = synths(sent).filter((x) => x.def === "sonic-pi-beep").map((x) => +(x.time - t - core.schedAhead).toFixed(3));
+  core.stop();
+  assert.deepEqual(beeps, [2, 2.25], "a note at the cue (two seconds in: four beats at 120) and one a quarter of a second after it");
+});

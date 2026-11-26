@@ -136,14 +136,18 @@ module SonicPi
       bpm
     end
 
+    # A thread put on the session's timeline at its own moment: its beat is the beat Link has there (at 60 bpm,
+    # before any tempo change, the time itself).
+    def __anchor_beat!(p)
+      p.beat = !p.link_plain? || SonicPi.link_bpm != 60.0 ? p.link_beat_at_time(p.time) : p.time.to_f
+    end
+
     def __change_bpm!(bpm)
       p = __p
       if bpm == :link
         unless p.bpm == :link
           p.bpm = :link
-          # re-anchored on the timeline: the beat Link has at the thread's moment
-          # (at 60 bpm, before any tempo change, the time itself)
-          p.beat = !p.link_plain? || SonicPi.link_bpm != 60.0 ? p.link_beat_at_time(p.time) : p.time.to_f
+          __anchor_beat!(p)
         end
       else
         p.bpm = bpm
@@ -433,8 +437,14 @@ module SonicPi
       p.synced = true
       p.time = ev.time - p.start       # the cue's moment, on this job's own clock
       p.beat = ev.beat
+      __change_bpm!(ev.bpm) if bpm_sync
+      # On the session's timeline the thread is at the timeline's beat for the cue's moment, whatever beat the cue
+      # carried, as native has it (core.rb sync: __change_spider_bpm_time_and_beat! re-anchors a thread entering a
+      # clock timeline). The cue's own beat is another count: a thread's on a tempo of its own (use_bpm), or none at
+      # all, a cue from outside (a MIDI note) having beat 0. Kept, the next sleep went to where that beat is on the
+      # timeline: back to the session's start after a MIDI note, where the same cue was found again, for ever.
+      __anchor_beat!(p) if p.bpm == :link
       if bpm_sync
-        __change_bpm!(ev.bpm)
         __log("synced #{cue_id.inspect}. Inheriting bpm of #{SonicPi.log_inspect(current_bpm)} ") unless __local(:suppress_cue_logging)
       else
         __log("synced #{cue_id.inspect} ") unless __local(:suppress_cue_logging)
