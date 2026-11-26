@@ -1,0 +1,309 @@
+The symbol tables mrbc -S writes are constants
+
+mrbc -S writes compiled Ruby as static C structs, which every interpreter in
+a process runs. A symbol with no MRB_SYM-style name ($!, :"a b") was left 0
+in its table and interned by each interpreter as it started, into that one
+table. Interpreters starting on different threads wrote it at the same time,
+and one starting wrote it while another read it: a DAW holds several
+instances of a plugin, each with its own interpreter on a thread of its own.
+ThreadSanitizer reported it on every run of sp_instances_check.c (six
+writes, all of $!, 26 November 2026). The value written was the same each
+time, since $! is numbered at build time, so nothing went wrong; it was a
+data race all the same, and the tables could not be const.
+
+Every symbol is named by a macro now. MRB_XSYM names one by its bytes in
+hex, MRB_XSYM(2421) for $!, and the build numbers it as it does the rest;
+a global variable with a word for a name ($stdout) takes MRB_GVSYM, which
+the dump did not use. Nothing is written when an interpreter starts and
+every table is const. The build writes its symbol headers again when
+lib/mruby/presym.rb is newer than they are: the names it gives can change
+while the list of symbols does not, as here, and a build over an existing
+one kept the old header. With a test in mrbc's bintest.
+
+Left as it was: with debug information, a dump still fills in each file's
+name as an interpreter starts (cdump_debug). The runtime's mruby is built
+without it.
+
+Written as it would be for upstream; applied to a copy of the submodule by
+scripts/build-runtime.sh, never to the submodule.
+
+diff --git a/include/mruby/presym.h b/include/mruby/presym.h
+index 937a90ea3..ddd835675 100644
+--- a/include/mruby/presym.h
++++ b/include/mruby/presym.h
+@@ -29,11 +29,15 @@
+  *   MRB_SYM_Q(xor)  //=> xor?   (Method with Question mark)
+  *   MRB_SYM_E(xor)  //=> xor=   (Method with Equal)
+  *   MRB_SYM(xor)    //=> xor    (Word characters)
++ *   MRB_XSYM(2421)  //=> $!     (Any other symbol, by its bytes in hex)
+  *
+  * For `MRB_OPSYM`, specify the names corresponding to operators (see
+  * `MRuby::Presym::OPERATORS` in `lib/mruby/presym.rb` for the names that
+- * can be specified for it). Other than that, describe only word characters
+- * excluding leading and ending punctuation.
++ * can be specified for it). For `MRB_XSYM`, specify the bytes of the symbol
++ * as lowercase hexadecimal digits: it is for a symbol none of the others can
++ * name (`$!`, `:"a b"`), and is what `mrbc -S` writes for one, so that the
++ * symbol tables it writes are constants like the rest. Other than that,
++ * describe only word characters excluding leading and ending punctuation.
+  *
+  * These macros are expanded to compile-time integer constants.
+  */
+@@ -46,6 +50,7 @@
+ #define MRB_SYM_Q(name) MRB_SYM_Q__##name
+ #define MRB_SYM_E(name) MRB_SYM_E__##name
+ #define MRB_SYM(name) MRB_SYM__##name
++#define MRB_XSYM(name) MRB_XSYM__##name
+ 
+ /* backward compatibility: _2 variants accept but ignore mrb_state* */
+ #define MRB_OPSYM_2(mrb, name) MRB_OPSYM(name)
+@@ -56,6 +61,7 @@
+ #define MRB_SYM_Q_2(mrb, name) MRB_SYM_Q(name)
+ #define MRB_SYM_E_2(mrb, name) MRB_SYM_E(name)
+ #define MRB_SYM_2(mrb, name) MRB_SYM(name)
++#define MRB_XSYM_2(mrb, name) MRB_XSYM(name)
+ 
+ #define MRB_PRESYM_DEFINE_VAR_AND_INITER(name, size, ...)                     \
+   static const mrb_sym name[] = {__VA_ARGS__};
+diff --git a/include/mruby/presym/scanning.h b/include/mruby/presym/scanning.h
+index 0359ebf81..d875ac943 100644
+--- a/include/mruby/presym/scanning.h
++++ b/include/mruby/presym/scanning.h
+@@ -8,6 +8,8 @@
+ #define MRUBY_PRESYM_SCANNING_H
+ 
+ #define MRB_PRESYM_SCANNING_TAGGED(arg) <@! arg !@>
++/* a symbol given by its bytes in hex (MRB_XSYM): the scanner decodes it */
++#define MRB_PRESYM_SCANNING_TAGGED_HEX(arg) <@!x arg !@>
+ 
+ #undef mrb_intern_lit
+ #define mrb_intern_lit(mrb, name) MRB_PRESYM_SCANNING_TAGGED(name)
+@@ -37,6 +39,7 @@
+ #define MRB_SYM_Q(name) MRB_PRESYM_SCANNING_TAGGED(#name "?")
+ #define MRB_SYM_E(name) MRB_PRESYM_SCANNING_TAGGED(#name "=")
+ #define MRB_SYM(name) MRB_PRESYM_SCANNING_TAGGED(#name)
++#define MRB_XSYM(name) MRB_PRESYM_SCANNING_TAGGED_HEX(name)
+ 
+ /* backward compatibility: _2 variants accept but ignore mrb_state* */
+ #define MRB_OPSYM_2(mrb, name) MRB_OPSYM(name)
+@@ -47,6 +50,7 @@
+ #define MRB_SYM_Q_2(mrb, name) MRB_SYM_Q(name)
+ #define MRB_SYM_E_2(mrb, name) MRB_SYM_E(name)
+ #define MRB_SYM_2(mrb, name) MRB_SYM(name)
++#define MRB_XSYM_2(mrb, name) MRB_XSYM(name)
+ 
+ #define MRB_OPSYM__not(mrb) MRB_PRESYM_SCANNING_TAGGED("!")
+ #define MRB_OPSYM__mod(mrb) MRB_PRESYM_SCANNING_TAGGED("%")
+diff --git a/lib/mruby/presym.rb b/lib/mruby/presym.rb
+index 4562d47b3..65c92b9ca 100644
+--- a/lib/mruby/presym.rb
++++ b/lib/mruby/presym.rb
+@@ -140,6 +140,9 @@ module MRuby
+           ["MRB_#{affixes * 'SYM'}__#{$2}", num]
+         elsif name = OPERATORS[sym]
+           ["MRB_OPSYM__#{name}", num]
++        elsif !sym.empty?
++          # a symbol none of the above can name ("$!", "a b"): by its bytes
++          ["MRB_XSYM__#{sym.unpack1('H*')}", num]
+         end
+       end.compact
+       _pp "GEN", id_header_path.relative_path
+@@ -219,6 +222,13 @@ module MRuby
+       File.exist?(id_header_path) && File.exist?(table_header_path)
+     end
+ 
++    # Whether the headers were written by an earlier version of this file.
++    # What it names can change while the symbols stay as they are (a macro
++    # for a symbol that had none), and the list alone would not say so.
++    def headers_outdated?
++      headers_exist? && File.mtime(id_header_path) < File.mtime(__FILE__)
++    end
++
+     private
+ 
+     def layers_record(layers)
+@@ -243,6 +253,10 @@ module MRuby
+           presym_hash[literals.join] = true
+         end
+       end
++      # MRB_XSYM(2421): the symbol's bytes in hex
++      File.binread(path).scan(/<@!x\s*([0-9a-f]+)\s*!@>/) do |hex,|
++        presym_hash[[hex].pack("H*")] = true
++      end
+     end
+ 
+     def c_literal_size(literal_without_quote)
+diff --git a/mrbgems/mruby-bin-mrbc/bintest/mrbc.rb b/mrbgems/mruby-bin-mrbc/bintest/mrbc.rb
+index 7d99023ea..f6f5f371a 100644
+--- a/mrbgems/mruby-bin-mrbc/bintest/mrbc.rb
++++ b/mrbgems/mruby-bin-mrbc/bintest/mrbc.rb
+@@ -322,3 +322,33 @@ assert('a body returns on the line of the end that closes it') do
+     assert_equal [4, 7, 10, 13, 14], returns.drop(1)
+   end
+ end
++
++assert('a C struct dump leaves no symbol to be filled in when an interpreter starts') do
++  # The structs `-S` writes are static, and every interpreter of a process
++  # runs them. A symbol with no `MRB_SYM`-style name (`$!`, `:"a b"`) used to be
++  # left 0 in its table and interned by each interpreter as it started, into
++  # that one table: interpreters starting on different threads wrote it at
++  # once, and the table could not be const. Every symbol is named by a macro
++  # now, so the tables are build-time constants and nothing is written.
++  Dir.mktmpdir do |dir|
++    src = File.join(dir, 'syms.rb')
++    out = File.join(dir, 'syms.c')
++    File.write(src, <<~RUBY)
++      def m
++        yield
++      rescue
++        $stdout = $!
++        :"a b"
++      end
++    RUBY
++    result, status = Open3.capture2e(*(cmd_list('mrbc') + ['-S', '-Bsyms', '-o', out, src]))
++    assert_equal 0, status.exitstatus, result
++    c = File.read(out)
++    assert_include c, 'MRB_GVSYM(stdout)'
++    assert_include c, 'MRB_XSYM(2421)'     # $!
++    assert_include c, 'MRB_XSYM(612062)'   # :"a b"
++    assert_not_include c, 'mrb_intern_lit'
++    # each table says const: none is waiting for a write
++    assert_not_include c, '), );'
++  end
++end
+diff --git a/mrbgems/mruby-compiler/src/cdump.c b/mrbgems/mruby-compiler/src/cdump.c
+index 61b0cd8e9..f176b06a5 100644
+--- a/mrbgems/mruby-compiler/src/cdump.c
++++ b/mrbgems/mruby-compiler/src/cdump.c
+@@ -212,6 +212,12 @@ sym_name_cvar_p(const char *name, mrc_int len)
+   return len >= 3 && name[0] == '@' && sym_name_ivar_p(name+1, len-1);
+ }
+ 
++static mrc_bool
++sym_name_gvar_p(const char *name, mrc_int len)
++{
++  return len >= 2 && name[0] == '$' && sym_name_word_p(name+1, len-1);
++}
++
+ #define OPERATOR_SYMBOL(sym_name, name) {name, sym_name, sizeof(sym_name)-1}
+ struct operator_symbol {
+   const char *name;
+@@ -287,7 +293,7 @@ sym_var_name_str(mrc_ccontext *c, const char *initname, const char *key, int n)
+ }
+ 
+ static int
+-cdump_sym(mrc_ccontext *c, mrc_sym sym, const char *var_name, int idx, mrc_string *init_syms_code, FILE *fp)
++cdump_sym(mrc_ccontext *c, mrc_sym sym, FILE *fp)
+ {
+   if (sym == 0) {
+     fputs("0,", fp);
+@@ -322,23 +328,23 @@ cdump_sym(mrc_ccontext *c, mrc_sym sym, const char *var_name, int idx, mrc_strin
+   else if (sym_name_cvar_p(name, len)) {
+     fprintf(fp, "MRB_CVSYM(%s)", name+2);
+   }
++  else if (sym_name_gvar_p(name, len)) {
++    fprintf(fp, "MRB_GVSYM(%s)", name+1);
++  }
+   else if ((op_name = sym_operator_name(name, len))) {
+     fprintf(fp, "MRB_OPSYM(%s)", op_name);
+   }
+   else {
+-    char buf[32];
+-    mrc_string *name_obj = mrc_str_new(c, name, len);
+-    mrc_str_cat_lit(c, init_syms_code, "  ");
+-    mrc_str_cat_cstr(c, init_syms_code, var_name);
+-    snprintf(buf, sizeof(buf), "[%d] = ", idx);
+-    mrc_str_cat_cstr(c, init_syms_code, buf);
+-    mrc_str_cat_lit(c, init_syms_code, "mrb_intern_lit(mrb, ");
+-    mrc_string *escaped = mrc_str_escape(c, name_obj);
+-    mrc_str_free(c, name_obj);
+-    mrc_str_cat_str(c, init_syms_code, escaped);
+-    mrc_str_free(c, escaped);
+-    mrc_str_cat_lit(c, init_syms_code, ");\n");
+-    fputs("0", fp);
++    /* A symbol no macro above can name ($!, :"a b"): MRB_XSYM names it by its
++       bytes, so it is a build-time constant like the rest.  It used to be left
++       0 here and interned by each interpreter as it started, into this one
++       static table: the table could not be const, and interpreters starting
++       on different threads wrote it at the same time. */
++    fputs("MRB_XSYM(", fp);
++    for (mrc_int i = 0; i < len; i++) {
++      fprintf(fp, "%02x", (unsigned char)name[i]);
++    }
++    fputs(")", fp);
+   }
+   fputs(", ", fp);
+   mrc_str_free(c, name_obj);
+@@ -346,27 +352,25 @@ cdump_sym(mrc_ccontext *c, mrc_sym sym, const char *var_name, int idx, mrc_strin
+ }
+ 
+ static int
+-cdump_syms(mrc_ccontext *c, const char *name, const char *key, int n, int syms_len, const mrc_sym *syms, mrc_string *init_syms_code, FILE *fp)
++cdump_syms(mrc_ccontext *c, const char *name, const char *key, int n, int syms_len, const mrc_sym *syms, FILE *fp)
+ {
+   int ai = mrc_gc_arena_save(c);
+-  size_t code_len = MRC_STRING_LEN(init_syms_code);
+   mrc_string *var_name = sym_var_name_str(c, name, key, n);
+ 
+   fprintf(fp, "mrb_DEFINE_SYMS_VAR(%s, %d, (", MRC_STRING_PTR(var_name), syms_len);
+   int emitted = 0;
+   for (int i=0; i<syms_len; i++) {
+-    if (cdump_sym(c, syms[i], MRC_STRING_PTR(var_name), i, init_syms_code, fp) == MRC_DUMP_OK) {
++    if (cdump_sym(c, syms[i], fp) == MRC_DUMP_OK) {
+       emitted++;
+     }
+   }
+   /* An empty inline list expands to `{}`, which ISO C rejects before C23 (older
+      MSVC fails with C2059). Emit a single 0 so the array is validly
+-     zero-initialized; runtime-interned symbols are still filled by init code. */
++     zero-initialized. */
+   if (emitted == 0) fputs("0", fp);
+   mrc_str_free(c, var_name);
+-  fputs("), ", fp);
+-  if (code_len == MRC_STRING_LEN(init_syms_code)) fputs("const", fp);
+-  fputs(");\n", fp);
++  /* every symbol is a build-time constant (cdump_sym), so the table is too */
++  fputs("), const);\n", fp);
+   mrc_gc_arena_restore(c, ai);
+   return MRC_DUMP_OK;
+ }
+@@ -487,7 +491,7 @@ cdump_irep_struct(mrc_ccontext *c, const mrc_irep *irep, uint8_t flags, FILE *fp
+   }
+   /* dump syms */
+   if (0 < irep->slen) {
+-    cdump_syms(c, name, "syms", n, irep->slen, irep->syms, init_syms_code, fp);
++    cdump_syms(c, name, "syms", n, irep->slen, irep->syms, fp);
+   }
+   /* dump iseq */
+   len=irep->ilen+sizeof(struct mrc_irep_catch_handler)*irep->clen;
+@@ -499,7 +503,7 @@ cdump_irep_struct(mrc_ccontext *c, const mrc_irep *irep, uint8_t flags, FILE *fp
+   fputs("};\n", fp);
+   /* dump lv */
+   if (irep->lv) {
+-    cdump_syms(c, name, "lv", n, irep->nlocals-1, irep->lv, init_syms_code, fp);
++    cdump_syms(c, name, "lv", n, irep->nlocals-1, irep->lv, fp);
+   }
+   /* dump debug */
+   if (flags & MRC_DUMP_DEBUG_INFO) {
+diff --git a/tasks/presym.rake b/tasks/presym.rake
+index 8c17c8c4b..06f7e84f7 100644
+--- a/tasks/presym.rake
++++ b/tasks/presym.rake
+@@ -49,7 +49,7 @@ MRuby.each_target do |build|
+   presym_task = file presym.list_path => ppps do
+     presyms = presym.scan_layers(layers)
+     current_presyms = presym.read_list if File.exist?(presym.list_path)
+-    if presyms != current_presyms
++    if presyms != current_presyms || presym.headers_outdated?
+       mkdir_p presym.header_dir
+       %w[id table].each do |type|
+         presym.send("write_#{type}_header", presyms)
+@@ -76,7 +76,7 @@ MRuby.each_target do |build|
+   # is; and so do layers other than the ones the list was made from, since
+   # a file that left the build or a layer that moved is newer than nothing.
+   presym_task.define_singleton_method :needed? do
+-    super() || !presym.headers_exist? || presym.layers_changed?(layers)
++    super() || !presym.headers_exist? || presym.headers_outdated? || presym.layers_changed?(layers)
+   end
+ 
+   # Don't directly write dependency tasks in the "task" arguments.
