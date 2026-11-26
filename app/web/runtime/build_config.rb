@@ -17,6 +17,10 @@ COMMON_GEMS = lambda do |conf|
   conf.gem core: "mruby-rational"
   conf.gem core: "mruby-bigint"
   conf.gem File.expand_path("mrbgems/sonic-pi-core", File.dirname(__FILE__))   # exact float printing
+  # Interpreters on different threads compile at the same time: a DAW holds several instances of a plugin, each
+  # with its own interpreter on a thread of its own, and every run compiles. mruby keeps the compiler's state for
+  # the process unless asked to keep it per thread (runtime/host/sp_instances_check.c holds it to this).
+  conf.cc.defines << "MRC_USE_THREAD_LOCAL"
 end
 
 MRuby::Build.new("host") do |conf|
