@@ -240,6 +240,8 @@ jobs:
 
       - name: Ruby Tests (Mac/Linux)
         working-directory: ${{github.workspace}}/app/server/ruby
+        env:
+          TMPDIR: ${{ runner.temp }}   # where the test engines' logs go, to be archived below (Windows' is there already)
         run: rake test
         if: matrix.os == 'ubuntu-latest' || matrix.os == 'macos-latest'
 
@@ -328,8 +330,11 @@ jobs:
         if: ${{ always() }}
         with:
           name: Logs_${{matrix.title}}_${{matrix.cc}}_${{matrix.arch}}_${{matrix.build_type}}
+          # ... and the logs of the engines the Ruby tests start (test/lib/headless_engine.rb,
+          # test/mix/lib/mix_engine.rb), which a failing test names: what the engine was doing when it went quiet
           path: |
             ~/.sonic-pi/log/*.log
+            ${{ runner.temp }}/sonic-pi-*.log
 
   # Build distributable AppImages for Linux x86_64 and aarch64.
   # (32-bit x86 can't share this job's shape — see package-linux-i386 below.)
