@@ -141,6 +141,28 @@ public:
     std::vector<Event> events;
 };
 
+// A host's side of an editor's size: asked for one (the page's resize grip), it gives it, as a host that resizes
+// its window to the plugin does. What was asked for is kept, to be looked at.
+class PlugFrame : public IPlugFrame
+{
+public:
+    tresult PLUGIN_API queryInterface (const TUID iid, void** obj) override
+    {
+        if (FUnknownPrivate::iidEqual (iid, FUnknown_iid) || FUnknownPrivate::iidEqual (iid, IPlugFrame_iid)) { *obj = this; return kResultOk; }
+        *obj = nullptr;
+        return kNoInterface;
+    }
+    uint32 PLUGIN_API addRef () override { return 1; }
+    uint32 PLUGIN_API release () override { return 1; }
+    tresult PLUGIN_API resizeView (IPlugView* view, ViewRect* size) override
+    {
+        if (!view || !size) return kInvalidArgument;
+        asked.push_back (*size);
+        return view->onSize (size);
+    }
+    std::vector<ViewRect> asked;
+};
+
 // A host's project, in memory: what a plugin's getState writes and its setState reads back.
 class MemoryStream : public IBStream
 {
@@ -1197,6 +1219,23 @@ int main (int argc, char** argv)
     stopAll (a);
     pump (1.6);
     check ("the new editor's Stop stops it", peakOver (a, 0.3) < 1e-4);
+
+    // the page's resize grip, for a host that gives the window no handles: a drag begins, the pointer goes 150
+    // right and 60 down, and the plugin asks its host for the size
+    {
+        PlugFrame frame;
+        a.view->setFrame (&frame);
+        ViewRect before {};
+        a.view->getSize (&before);
+        js (a, @"window.__sonicPiPlugin.post({t: 'resizeStart'}); window.__sonicPiPlugin.post({t: 'resizeBy', dx: 150, dy: 60});");
+        pump (0.5);
+        ViewRect after {};
+        a.view->getSize (&after);
+        check ("a drag of the page's grip asks the host for the size, and the editor takes it",
+               frame.asked.size () == 1 && after.right - after.left == before.right - before.left + 150 && after.bottom - after.top == before.bottom - before.top + 60,
+               [NSString stringWithFormat:@"asked %zu times; %dx%d, then %dx%d", frame.asked.size (), before.right - before.left, before.bottom - before.top, after.right - after.left, after.bottom - after.top]);
+        a.view->setFrame (nullptr);
+    }
 
     // the editor opens at the size it was left at: in this instance, and in a project the host saved and opened again
     ViewRect smaller { 0, 0, 900, 640 };

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-or-later
 // Copyright (c) 2026 Sam Aaron
+#include <algorithm>
 #include "plugin.h"
 
 #include <cstdio>
@@ -194,6 +195,13 @@ void SpPlugin::setEditorSize (int32_t width, int32_t height)
     mEditorHeight = height;
 }
 
+void SpPlugin::resizeBy (int32_t dx, int32_t dy)
+{
+    if (!mResizer || mDragWidth <= 0) return;
+    const auto within = [] (int64_t v, int32_t least) { return int32_t (std::min<int64_t> (16384, std::max<int64_t> (least, v))); };
+    mResizer (within (int64_t (mDragWidth) + dx, kSmallestWidth), within (int64_t (mDragHeight) + dy, kSmallestHeight));
+}
+
 void SpPlugin::setZoom (int32_t percent)
 {
     if (percent >= 50 && percent <= 300) mZoom = percent;
@@ -207,6 +215,8 @@ extern "C" void sp_host_store_put (void* host, const char* key, size_t keyLength
     else plugin->storePut (std::string (key, keyLength), std::string (value, valueLength));
 }
 extern "C" void sp_host_store_clear (void* host) { static_cast<SpPlugin*> (host)->storeClear (); }
+extern "C" void sp_host_resize_start (void* host) { static_cast<SpPlugin*> (host)->resizeStart (); }
+extern "C" void sp_host_resize_by (void* host, int dx, int dy) { static_cast<SpPlugin*> (host)->resizeBy (dx, dy); }
 extern "C" const char* sp_host_format (void* host) { return static_cast<SpPlugin*> (host)->format (); }
 extern "C" int sp_host_zoom (void* host) { return static_cast<SpPlugin*> (host)->zoom (); }
 extern "C" void sp_host_keep_zoom (void* host, int percent) { static_cast<SpPlugin*> (host)->setZoom (percent); }

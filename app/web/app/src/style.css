@@ -2463,3 +2463,10 @@ html.pg-fullscreen .sn-stop { visibility: hidden; }   /* the nav's stop shows it
 @media (prefers-reduced-motion: reduce) { .licence-gate.licensed .licence-card { animation: none; } }
 @keyframes licence-beat { 0% { transform: scale(1); } 25% { transform: scale(1.28); } 45% { transform: scale(0.96); } 65% { transform: scale(1.12); } 100% { transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { .licence-gate.licensed .licence-heart { animation: none; } }
+
+/* ── The plugin's resize grip (plugin-grip.js): the bottom right corner, three strokes across it as a window's has.
+   The status bar's last words make room for it ── */
+#plugin-grip { position: fixed; right: 0; bottom: 0; z-index: 900; width: 18px; height: 18px; cursor: nwse-resize; touch-action: none; opacity: 0.55;
+  background: linear-gradient(135deg, transparent 0 46%, currentColor 46% 54%, transparent 54% 64%, currentColor 64% 72%, transparent 72% 82%, currentColor 82% 90%, transparent 90%); color: var(--Foreground, #fff); }
+#plugin-grip:hover, #plugin-grip.dragging { opacity: 1; }
+body.in-plugin #statusbar { padding-right: 22px; }

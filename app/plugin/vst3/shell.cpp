@@ -208,6 +208,7 @@ public:
     tresult PLUGIN_API removed () override
     {
         stopRetry ();
+        pluginOf (mProcessor)->setResizer (nullptr);
         if (mView) { pluginOf (mProcessor)->setEditor (nullptr); sp_view_detach (mView); mView = nullptr; }
         mParent = nullptr;
         return kResultOk;
@@ -285,6 +286,12 @@ private:
         SpPlugin* plugin = pluginOf (mProcessor);
         mView = sp_view_attach (mParent, (unsigned) px (mWidth), (unsigned) px (mHeight), plugin->instance (), plugin);
         plugin->setEditor (mView);
+        // a size asked for from inside (the page's grip): the host is asked for it, and sizes the view (onSize)
+        plugin->setResizer ([this] (int32_t width, int32_t height) {
+            if (!mFrame) return;
+            ViewRect rect (0, 0, px (width), px (height));
+            mFrame->resizeView (this, &rect);
+        });
         return true;
     }
 

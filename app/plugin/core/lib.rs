@@ -85,6 +85,8 @@ unsafe extern "C" {
     // The page's storage, kept by the plugin with its state (plugin.cpp): `host` is the plugin the editor belongs to.
     fn sp_host_store_put(host: *mut c_void, key: *const u8, key_len: usize, value: *const u8, value_len: usize, remove: c_int);
     fn sp_host_store_clear(host: *mut c_void);
+    fn sp_host_resize_start(host: *mut c_void);
+    fn sp_host_resize_by(host: *mut c_void, dx: c_int, dy: c_int);
     fn sp_host_store_each(host: *mut c_void, each: unsafe extern "C" fn(*mut c_void, *const u8, usize, *const u8, usize), ctx: *mut c_void);
     // The page's zoom in percent, kept with the state as the editor's size is.
     fn sp_host_zoom(host: *mut c_void) -> c_int;
@@ -440,6 +442,10 @@ fn page_message(id: u32, instance: *mut RawInstance, host: *mut c_void, mailbox:
                 unsafe { sp_monitor_full_screen((*editor).monitor, c_int::from(m["on"].as_bool() == Some(true))) };
             }
         }
+        // the page's resize grip (plugin-grip.js): a drag begins, and how far the pointer has gone since
+        // SAFETY (each): a live plugin, on the main thread
+        "resizeStart" if !host.is_null() => unsafe { sp_host_resize_start(host) },
+        "resizeBy" if !host.is_null() => unsafe { sp_host_resize_by(host, num("dx").round() as c_int, num("dy").round() as c_int) },
         // a write to the page's storage, kept by the plugin (bridge.js)
         "store" if !host.is_null() => {
             if m["clear"].as_bool() == Some(true) {

@@ -348,6 +348,7 @@ void toSuper (id self, SEL selector)
 void closeEditor (ViewState* state)
 {
     if (!state || !state->editor) return;
+    state->plugin->setResizer (nullptr);
     state->plugin->setEditor (nullptr);
     sp_view_detach (state->editor);
     state->editor = nullptr;
@@ -364,6 +365,9 @@ void viewDidMoveToWindow (id self, SEL selector)
     const NSSize size = view.bounds.size;
     state->editor = sp_view_attach (self, unsigned (size.width), unsigned (size.height), state->plugin->instance (), state->plugin.get ());
     state->plugin->setEditor (state->editor);
+    // a size asked for from inside (the page's grip): the view sizes itself, and a host that watches its frame
+    // (Ableton Live, which gives an Audio Unit's window no handles) sizes its window to it
+    state->plugin->setResizer ([view] (int32_t width, int32_t height) { [view setFrameSize:NSMakeSize (width, height)]; });
 }
 
 // The host closed the editor (an Audio Unit's view is told no other way): the page goes while its view is still

@@ -67,6 +67,15 @@ public:
     static constexpr int32_t kSmallestWidth = 640, kSmallestHeight = 420;
     void editorSize (int32_t& width, int32_t& height) const { width = mEditorWidth; height = mEditorHeight; }
     void setEditorSize (int32_t width, int32_t height);
+    // A size asked for from inside: the page's resize grip, for a host that gives the window no handles
+    // (plugin-grip.js). The shell showing the editor says how it is done in its format (an Audio Unit sizes its own
+    // view, a VST3 asks its host); with no editor shown there is no way, and nothing happens. A drag begins from the
+    // size the editor has then, and each move is that plus how far the pointer has gone, no smaller than the
+    // smallest. Main thread.
+    using Resizer = std::function<void (int32_t width, int32_t height)>;
+    void setResizer (Resizer resizer) { mResizer = std::move (resizer); }
+    void resizeStart () { mDragWidth = mEditorWidth; mDragHeight = mEditorHeight; }
+    void resizeBy (int32_t dx, int32_t dy);
     // The page's zoom in percent, one a browser has (lib.rs ZOOMS' range).
     int32_t zoom () const { return mZoom; }
     void setZoom (int32_t percent);
@@ -84,4 +93,6 @@ private:
     std::mutex mStoreMutex;
     std::map<std::string, std::string> mStore;
     void* mEditor = nullptr;
+    Resizer mResizer;
+    int32_t mDragWidth = 0, mDragHeight = 0;
 };

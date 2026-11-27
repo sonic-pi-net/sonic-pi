@@ -489,6 +489,16 @@ int main (int argc, char** argv)
     check ("a host that resizes the view resizes the page, and the project keeps the size",
            web && web.frame.size.width == 1300 && web.frame.size.height == 850 && wordAt (stateOf (a), 2) == 1300 && wordAt (stateOf (a), 3) == 850,
            [NSString stringWithFormat:@"page %@, state %dx%d", web ? NSStringFromSize (web.frame.size) : @"none", wordAt (stateOf (a), 2), wordAt (stateOf (a), 3)]);
+    // the page's resize grip, for a host that gives the window no handles: a drag begins, the pointer goes 200 left
+    // and 100 up, and the view sizes itself
+    [web evaluateJavaScript:@"window.__sonicPiPlugin.post({t: 'resizeStart'}); window.__sonicPiPlugin.post({t: 'resizeBy', dx: -200, dy: -100});" completionHandler:nil];
+    pump (0.5);
+    check ("a drag of the page's grip resizes the view itself, the page with it, and the project keeps the size",
+           view.frame.size.width == 1100 && view.frame.size.height == 750 && web.frame.size.width == 1100 && web.frame.size.height == 750 && wordAt (stateOf (a), 2) == 1100 && wordAt (stateOf (a), 3) == 750,
+           [NSString stringWithFormat:@"view %@, page %@, state %dx%d", NSStringFromSize (view.frame.size), web ? NSStringFromSize (web.frame.size) : @"none", wordAt (stateOf (a), 2), wordAt (stateOf (a), 3)]);
+    [web evaluateJavaScript:@"window.__sonicPiPlugin.post({t: 'resizeBy', dx: -5000, dy: -5000});" completionHandler:nil];
+    pump (0.5);
+    check ("and no smaller than the editor lets itself be made", view.frame.size.width == 640 && view.frame.size.height == 420, NSStringFromSize (view.frame.size));
     @autoreleasepool { [view removeFromSuperview]; }
     pump (0.3);
     check ("a view the host takes out of its window closes the page", lines (1, @"detached").count == 1);
