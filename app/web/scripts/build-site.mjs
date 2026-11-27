@@ -344,7 +344,7 @@ function pageBar(entries) {
 
 // ── each page: the app's own document, the page in its Info card and the site bar's tabs as links ──
 const shell = read(ROOT, "app/src/index.html");
-const VERSION_LINE = versionLine(releaseVersion(pageVersions(ROOT).release), "");
+const VERSION_LINE = versionLine(releaseVersion(pageVersions(ROOT).release), "", pageVersions(ROOT).web);
 const pages = [...PAGES, ...TUTORIAL];
 const bodies = new Map(pages.map((p) => [p.key, pageBody(p)]));
 const idsOf = (html) => [...new Set([...html.replace(/<svg[\s\S]*?<\/svg>/g, "").matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]))];   // an id inside a drawing (a mask, a glyph) is the drawing's own

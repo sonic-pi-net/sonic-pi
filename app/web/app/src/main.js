@@ -174,8 +174,9 @@ const versions = { runtime: null };
 // __SONIC_PI_VERSIONS__ (scripts/lib/versions.mjs). In the VST, the plugin's version comes from bridge.js.
 const RELEASE = releaseVersion(__SONIC_PI_VERSIONS__.release);
 const PLUGIN_FORMAT = inPlugin ? (globalThis.__sonicPiPlugin?.format ?? "VST") : "";
-const VERSION_LINE = versionLine(RELEASE, PLUGIN_FORMAT);
-const TARGET_VERSION = targetVersion(PLUGIN_FORMAT, { web: __SONIC_PI_VERSIONS__.web, plugin: globalThis.__sonicPiPlugin?.version ?? "?" });
+const OWN_VERSIONS = { web: __SONIC_PI_VERSIONS__.web, plugin: globalThis.__sonicPiPlugin?.version ?? "?" };
+const VERSION_LINE = versionLine(RELEASE, PLUGIN_FORMAT, PLUGIN_FORMAT ? OWN_VERSIONS.plugin : OWN_VERSIONS.web);
+const TARGET_VERSION = targetVersion(PLUGIN_FORMAT, OWN_VERSIONS);
 $("status-version").textContent = VERSION_LINE;   // build-site.mjs already wrote the web line into the HTML; this also covers the VST
 // In a plugin: a corner to drag for its size, for a host that gives its window no handles (plugin-grip.js)
 if (inPlugin && window.__sonicPiPlugin) { document.body.classList.add("in-plugin"); createResizeGrip({ plugin: window.__sonicPiPlugin, document }); }
@@ -190,7 +191,7 @@ if (inPlugin && window.__sonicPiPlugin) createLicenceGate({
     $("about-v-licensee").textContent = standing.licensed ? standing.name : "";
   },
 });
-$("about-v-language").textContent = `Sonic Pi ${RELEASE.full}`;
+$("about-v-language").textContent = `Sonic Pi ${RELEASE.stable}`;
 $("about-v-target").textContent = TARGET_VERSION;
 const paintVersions = () => { $("info-versions").textContent = VERSION_LINE; };
 paintVersions();
@@ -1329,7 +1330,7 @@ function showJobs(s) {
 const flight = createFlightRecorder({
   session: () => session,
   programs: () => [...programs.values()],
-  versions: () => ({ language: `Sonic Pi ${RELEASE.full}`, target: TARGET_VERSION, runtime: versions.runtime, supersonic: SUPERSONIC_VERSION }),
+  versions: () => ({ language: `Sonic Pi ${RELEASE.stable}`, target: TARGET_VERSION, runtime: versions.runtime, supersonic: SUPERSONIC_VERSION }),
   // what happened to the audio (audio-trail.js); what a run is still waiting to load, and the Host log's last lines (the
   // loads asked and answered): a Run that made no sound on a phone (2026-09-28) was one held by its gate
   extra: () => ({ audioTrail: audioTrail.lines, pendingLoads: session?.bridge?.pending?.() ?? null, hostLog: logs.recent("Host", 80), ...(beforeRestart ? { beforeRestart } : {}) }),
