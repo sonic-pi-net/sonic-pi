@@ -1,0 +1,2 @@
+# The marks of the licences that have been revoked, a line each (sonic-pi-licence marks). Every build of the plugin
+# carries this list and refuses a licence whose mark is in it. A mark is a hash of a licence's number: it names nobody.

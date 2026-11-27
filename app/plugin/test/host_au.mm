@@ -476,12 +476,12 @@ int main (int argc, char** argv)
     {
         __block NSString* shown = nil;
         __block bool done = false;
-        [web evaluateJavaScript:@"document.getElementById('status-version')?.textContent + ' | ' + document.getElementById('about-v-target')?.textContent"
+        [web evaluateJavaScript:@"document.getElementById('status-version')?.textContent + ' | ' + document.getElementById('about-v-target')?.textContent + ' | ' + document.getElementById('about-v-licensee')?.textContent"
               completionHandler:^(id value, NSError*) { shown = [value isKindOfClass:NSString.class] ? value : nil; done = true; }];
         for (int i = 0; i < 300 && !done; ++i) pump (0.01);
         NSString* own = [NSBundle bundleWithPath:@(argv[1])].infoDictionary[@"CFBundleShortVersionString"];
-        NSString* want = [NSString stringWithFormat:@"^Sonic Pi v[0-9]+\\.[0-9]+ AU( [A-Za-z0-9]+)? \\| AU %@$", [NSRegularExpression escapedPatternForString:own ?: @"?"]];
-        check ("the page says it is the Audio Unit: 'Sonic Pi vX.Y AU', and 'AU' with the bundle's version in About",
+        NSString* want = [NSString stringWithFormat:@"^Sonic Pi v[0-9]+\\.[0-9]+ AU( [A-Za-z0-9]+)? \\| AU %@ \\| Test Host$", [NSRegularExpression escapedPatternForString:own ?: @"?"]];
+        check ("the page says it is the Audio Unit, 'Sonic Pi vX.Y AU', and in About 'AU' with the bundle's version and whose the plugin is (the licence scripts/build.sh --test gives it)",
                shown && [shown rangeOfString:want options:NSRegularExpressionSearch].location != NSNotFound, shown);
     }
     [view setFrameSize:NSMakeSize (1300, 850)];

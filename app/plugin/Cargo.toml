@@ -25,8 +25,15 @@ path = "test/offline.rs"
 name = "ahead"
 path = "test/ahead.rs"
 
+[features]
+# A build that also takes licences signed with the test key (core/licence.rs): for tests, never for a release.
+test-licence-key = []
+
 [dependencies]
 raw-window-handle = "0.6"
+# what a licence is and how the plugin keeps one (licence/README... its own crate, so the tool that issues licences
+# and the plugin that checks them share one account of a licence)
+sonic-pi-licence = { path = "licence" }
 wry = "0.57"
 serde_json = "1"
 # The engine in this process. clockwork-sys builds SuperSonic's CMake tree

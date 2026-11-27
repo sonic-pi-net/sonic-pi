@@ -30,6 +30,7 @@ use clockwork_sys as _;
 
 mod filelog;
 pub mod instance;
+pub mod licence;
 
 /// The page's storage has the armed buffers under instance::ARMED_KEY, as `len` bytes of JSON at `json` (none: null
 /// or 0): the instance takes them, in place of any it had. The plugin's shell calls this when it has an instance,
@@ -45,7 +46,9 @@ pub unsafe extern "C" fn sp_armed_from_store(instance: *mut instance::RawInstanc
     }
     // SAFETY: `len` bytes, as the caller says.
     let text = if json.is_null() || len == 0 { "" } else { std::str::from_utf8(unsafe { std::slice::from_raw_parts(json, len) }).unwrap_or("") };
-    instance::set_armed(instance, &instance::armed_from_json(text));
+    // unlicensed, nothing is armed: the host's transport starts no code
+    let armed = if licence::licensed() { instance::armed_from_json(text) } else { Vec::new() };
+    instance::set_armed(instance, &armed);
 }
 
 use instance::RawInstance;
@@ -402,6 +405,21 @@ fn page_message(id: u32, instance: *mut RawInstance, host: *mut c_void, mailbox:
             post(mailbox, SAYS_HELLO, hello.as_bytes().to_vec());
         }
         "page-error" => log(id, &format!("page error: {}", m["text"].as_str().unwrap_or(""))),
+        // the licence: how the plugin stands, asked for as the page opens; and a licence a person entered, with how
+        // the plugin stands after it. The page's storage has the armed buffers, which a newly licensed plugin takes.
+        "licence" => {
+            let standing = licence::standing();
+            if !standing.licensed() {
+                let (found, behaviour) = licence::copied();
+                log(id, &format!("unlicensed; the clipboard: {} (the system's word on reading it: {behaviour})", if found.is_some() { "holds a licence" } else { "no licence read" }));
+            }
+            post(mailbox, instance::SAYS_LICENCE, licence::said(&standing).into_bytes());
+        }
+        "licenceEnter" | "licenceUseCopied" => {
+            let standing = if m["t"] == "licenceUseCopied" { licence::enter_copied() } else { licence::enter(m["text"].as_str().unwrap_or("")) };
+            log(id, &format!("a licence was entered: {}", if standing.licensed() { "taken" } else { "refused" }));
+            post(mailbox, instance::SAYS_LICENCE, licence::said(&standing).into_bytes());
+        }
         // an editor that has just opened: what its instance said before it, its log's lines and the threads running
         "earlier" if !instance.is_null() => unsafe { sp_instance_earlier(instance) },
         // the keys the host keeps (shortcuts.js), which the page is never to see
@@ -439,6 +457,10 @@ fn page_message(id: u32, instance: *mut RawInstance, host: *mut c_void, mailbox:
         }
         _ if instance.is_null() => log(id, &format!("page asked with no instance: {body}")),
         // SAFETY (each below): a live instance, which the processor owns and which outlives this editor.
+        "run" if !licence::licensed() => {
+            log(id, "page asked to run code: refused, the plugin is not licensed");
+            post(mailbox, instance::SAYS_LICENCE, licence::said(&licence::standing()).into_bytes());
+        }
         "run" => {
             log(id, &format!("page runs code in group {}", int("group")));
             let code = std::ffi::CString::new(m["code"].as_str().unwrap_or("").replace('\0', "")).unwrap_or_default();

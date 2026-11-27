@@ -1,0 +1,16 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# A Sonic Pi plugin licence: what one is, how one is signed and how one is checked. The plugin checks with this,
+# and the tool that issues licences signs with it, so there is one account of what a valid licence is.
+[package]
+name = "sonic-pi-licence"
+version = "0.1.0"
+edition = "2024"
+license = "AGPL-3.0-or-later"
+publish = false
+
+[dependencies]
+base64 = "0.23"
+ed25519-dalek = "2"
+getrandom = "0.3"
+serde_json = "1"
+sha2 = "0.10"

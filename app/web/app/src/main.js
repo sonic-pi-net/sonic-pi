@@ -46,6 +46,7 @@ import { origin, deepActive, shadowPane, eachShadowRoot } from "./shadow.js";
 import { createLoadingStop } from "./loading-stop.js";
 import { icon } from "./icons.js";
 import { explainError, makeKnown } from "./friendly.js";
+import { createLicenceGate } from "./licence.js";
 
 const $ = (id) => document.getElementById(id);
 const store = {
@@ -175,6 +176,17 @@ const PLUGIN_FORMAT = inPlugin ? (globalThis.__sonicPiPlugin?.format ?? "VST") :
 const VERSION_LINE = versionLine(RELEASE, PLUGIN_FORMAT);
 const TARGET_VERSION = targetVersion(PLUGIN_FORMAT, { web: __SONIC_PI_VERSIONS__.web, plugin: globalThis.__sonicPiPlugin?.version ?? "?" });
 $("status-version").textContent = VERSION_LINE;   // build-site.mjs already wrote the web line into the HTML; this also covers the VST
+// In a plugin: its licence. Unlicensed, a screen over the page asks for one (licence.js; the plugin itself runs no code
+// until it has one); licensed, the About card says whose it is, with the versions. Not on the page itself: the page
+// is on show when its player performs or records, and their name is not everyone's to read.
+if (inPlugin && window.__sonicPiPlugin) createLicenceGate({
+  plugin: window.__sonicPiPlugin, document, logo: typeof __SONIC_PI_LOGO__ === "string" ? __SONIC_PI_LOGO__ : "",
+  onStanding: (standing) => {
+    document.body.classList.toggle("unlicensed", !standing.licensed);
+    $("about-licence").hidden = !standing.licensed;
+    $("about-v-licensee").textContent = standing.licensed ? standing.name : "";
+  },
+});
 $("about-v-language").textContent = `Sonic Pi ${RELEASE.full}`;
 $("about-v-target").textContent = TARGET_VERSION;
 const paintVersions = () => { $("info-versions").textContent = VERSION_LINE; };

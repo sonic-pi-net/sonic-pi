@@ -77,6 +77,8 @@ for format in $FORMATS; do
     BUNDLE="$HERE/dist/$NAME.$format"
     BINARY="$BUNDLE/Contents/MacOS/$NAME"
     [ -f "$BINARY" ] || die "no bundle at $BUNDLE: run without --skip-build"
+    # a build for testing takes licences signed with a key anyone can read (core/licence.rs): never released
+    if grep -q -a "this build accepts the test licence key" "$BINARY"; then die "$BUNDLE was built for testing (scripts/build.sh --test): it accepts the test licence key. Build it again without --test"; fi
     ARCHS="$(lipo -archs "$BINARY")"
     case "$ARCHS" in
         *arm64*x86_64*|*x86_64*arm64*) ;;

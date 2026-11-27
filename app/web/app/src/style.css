@@ -2428,3 +2428,38 @@ html.pg-fullscreen .sn-stop { visibility: hidden; }   /* the nav's stop shows it
 @media (max-width: 760px) { .pg-region-in { padding: 16px 6px 5px; } .pg-region-in .pg-inputs button { padding: 1px 6px; } .pg-region-in .pg-fx-on { right: 6px; gap: 3px; } }
 /* the small controls 24px to the touch (WCAG 2.5.8): the room above and below given back, so nothing moves */
 .icon-btn { min-height: 24px; margin-block: -3px; }
+
+/* ── The plugin's licence screen (licence.js): over the whole page while the plugin is unlicensed. In the manner of
+   the support card: black, Sonic Pi's mark glowing in the accent (the heart, once a licence is taken), a large light
+   headline, one word of the line under it in blue ── */
+.licence-gate { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 24px; background: rgba(0, 0, 0, 0.93); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: #fff; transition: opacity 0.5s; }
+.licence-card { width: min(560px, 100%); text-align: center; }
+.licence-mark { width: 104px; margin: 0 auto 24px; color: #ff2d92; filter: drop-shadow(0 0 26px rgba(255, 45, 146, 0.6)); }   /* the logo's tile, or the heart, in the accent */
+.licence-mark svg { display: block; width: 100%; height: auto; }
+.licence-mark:empty { display: none; }
+.licence-title { margin: 0 0 8px; font: 300 40px/1.1 var(--ui-font, system-ui); letter-spacing: -0.03em; }
+.licence-lead { margin: 0 0 24px; font: 300 22px/1.3 var(--ui-font, system-ui); letter-spacing: -0.02em; }
+.licence-lead b { font-weight: 600; color: #4d8dff; }
+.licence-box { display: block; box-sizing: border-box; width: 100%; padding: 14px; border: 1.5px solid rgba(255, 255, 255, 0.3); border-radius: 12px; background: #000; color: inherit; font: 13px/1.4 var(--code-font, ui-monospace, monospace); resize: none; }
+.licence-box:focus { outline: none; border-color: #ff2d92; box-shadow: 0 0 22px rgba(255, 45, 146, 0.35); }
+.licence-gate.refused .licence-box { border-color: #e5484d; box-shadow: none; }
+.licence-say { min-height: 1.5em; margin: 14px 0; font: 16px/1.4 var(--ui-font, system-ui); }
+.licence-unlock { padding: 11px 36px; border: 0; border-radius: 10px; background: #ff2d92; color: #fff; font: 700 16px var(--ui-font, system-ui); cursor: pointer; }
+.licence-choose { display: block; margin: 14px auto 0; padding: 4px 8px; border: 0; background: none; color: rgba(255, 255, 255, 0.75); font: 14px var(--ui-font, system-ui); text-decoration: underline; cursor: pointer; }
+.licence-copied { display: block; width: 100%; margin: 0 0 14px; padding: 14px; border: 1.5px solid #ff2d92; border-radius: 12px; background: rgba(255, 45, 146, 0.14); color: #fff; font: 600 16px var(--ui-font, system-ui); cursor: pointer; box-shadow: 0 0 22px rgba(255, 45, 146, 0.3); }
+.licence-copied[hidden] { display: none; }
+.licence-buy { margin: 22px 0 0; font: 14px var(--ui-font, system-ui); color: rgba(255, 255, 255, 0.6); user-select: text; -webkit-user-select: text; }
+/* taken: the box, the button and the rest go; the heart beats once and the thanks are the headline, for a moment;
+   then the whole screen fades */
+.licence-gate.licensed .licence-copied, .licence-gate.licensed .licence-choose, .licence-gate.licensed .licence-box, .licence-gate.licensed .licence-unlock, .licence-gate.licensed .licence-lead, .licence-gate.licensed .licence-buy, .licence-gate.licensed .licence-title { display: none; }
+.licence-gate.licensed .licence-say { margin: 0; font: 300 40px/1.1 var(--ui-font, system-ui); letter-spacing: -0.03em; }
+.licence-gate.licensed .licence-heart { animation: licence-beat 0.9s ease-out; }
+.licence-begin { margin: 28px 0 0; padding: 11px 44px; border: 0; border-radius: 10px; background: #ff2d92; color: #fff; font: 700 16px var(--ui-font, system-ui); cursor: pointer; }
+.licence-begin:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+.licence-gate { transition: opacity 0.9s; }
+.licence-gate.going { opacity: 0; }
+.licence-gate.licensed .licence-card { animation: licence-in 0.9s ease-out; }
+@keyframes licence-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .licence-gate.licensed .licence-card { animation: none; } }
+@keyframes licence-beat { 0% { transform: scale(1); } 25% { transform: scale(1.28); } 45% { transform: scale(0.96); } 65% { transform: scale(1.12); } 100% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .licence-gate.licensed .licence-heart { animation: none; } }

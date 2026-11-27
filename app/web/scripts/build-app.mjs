@@ -15,6 +15,7 @@ import { fileURLToPath } from "node:url";
 import { execFileSync } from "node:child_process";
 import { themeDefaultsCSS } from "./lib/theme-defaults.mjs";
 import { pageVersions } from "./lib/versions.mjs";
+import { logo } from "./lib/site/logo.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const SRC = path.join(ROOT, "app/src");
@@ -58,7 +59,9 @@ const options = {
   sourcemap: true,
   minify: !process.argv.includes("--watch") && !process.argv.includes("--raw"),   // --raw: names kept, for profiling
   // The Sonic Pi version (VERSION) and the web version (package.json), for main.js to show
-  define: { __SONIC_PI_VERSIONS__: JSON.stringify(pageVersions(ROOT)) },
+  // ... and Sonic Pi's mark, from native's square logo as the site's pages have it (lib/site/logo.mjs), for the
+  // plugin's licence screen (licence.js)
+  define: { __SONIC_PI_VERSIONS__: JSON.stringify(pageVersions(ROOT)), __SONIC_PI_LOGO__: JSON.stringify(logo(path.resolve(process.env.NATIVE_DIR || path.join(ROOT, "../.."), "app/gui/images/logo-square.svg"))?.punched ?? "") },
   plugins: [externals, { name: "static", setup(b) { b.onEnd(async (r) => { if (!r.errors.length) { await copyStatic(); console.log("built web/app.js, web/app.css"); } }); } }],
 };
 

@@ -392,3 +392,26 @@ extern "C" const char* sp_own_path()
     Dl_info info = {};
     return dladdr((const void*) sp_own_path, &info) && info.dli_fname ? info.dli_fname : "";
 }
+
+// The text a person has copied, as UTF-8 for the caller to free (sp_clipboard_free), or null: nothing copied, or the
+// system would ask the person before letting a program read it. macOS can ask each time a program reads the
+// pasteboard without the person having pasted (NSPasteboard accessBehavior, macOS 15.4): the question would come
+// from the host, in the host's name, for something the plugin did unasked. So it is read only where the person has
+// said this program always may; elsewhere they paste, which asks nothing. `behaviour`, if given, is told what the
+// system said: 0 default, 1 ask, 2 always allow, 3 always deny, -1 a system from before it said.
+extern "C" char* sp_clipboard_text(int* behaviour)
+{
+    @autoreleasepool {
+        NSPasteboard* board = NSPasteboard.generalPasteboard;
+        int said = -1;
+        if (@available(macOS 15.4, *)) said = (int) board.accessBehavior;
+        if (behaviour) *behaviour = said;
+        if (said != -1 && said != (int) NSPasteboardAccessBehaviorAlwaysAllow) return nullptr;
+        NSString* text = [board stringForType:NSPasteboardTypeString];
+        const char* utf8 = text.UTF8String;
+        return utf8 ? strdup(utf8) : nullptr;
+    }
+}
+
+extern "C" void sp_clipboard_free(char* text) { free(text); }
+

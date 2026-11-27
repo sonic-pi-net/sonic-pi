@@ -945,7 +945,8 @@ int main (int argc, char** argv)
     {
         NSString* own = [NSBundle bundleWithPath:@(argv[1])].infoDictionary[@"CFBundleShortVersionString"];
         NSDictionary* shown = jsJSON (a, @"({status: document.getElementById('status-version')?.textContent, "
-                                           "target: document.getElementById('about-v-target')?.textContent})");
+                                           "target: document.getElementById('about-v-target')?.textContent, "
+                                           "licensee: document.getElementById('about-licence')?.hidden ? null : document.getElementById('about-v-licensee')?.textContent})");
         NSString* status = shown[@"status"];
         const bool releaseShown = [status isKindOfClass:NSString.class]
             && [status rangeOfString:@"^Sonic Pi v[0-9]+\\.[0-9]+ VST( [A-Za-z0-9]+)?$" options:NSRegularExpressionSearch].location != NSNotFound;
@@ -954,6 +955,11 @@ int main (int argc, char** argv)
         check ("About shows 'VST' and the bundle's version",
                own && [shown[@"target"] isEqual:[@"VST " stringByAppendingString:own]],
                [NSString stringWithFormat:@"About shows %@, bundle version is %@", shown[@"target"], own]);
+        // whose the plugin is: the test host's licence (scripts/build.sh --test), read by the plugin and said to its
+        // page. In About, and not on the page a player has on show
+        check ("About says who the plugin is licensed to, and the status line does not",
+               [shown[@"licensee"] isEqual:@"Test Host"] && [status isKindOfClass:NSString.class] && [status rangeOfString:@"Test Host"].location == NSNotFound,
+               [NSString stringWithFormat:@"About: %@", shown[@"licensee"]]);
     }
 
     // ── Keys, in each kind of host ──

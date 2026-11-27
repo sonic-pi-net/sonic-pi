@@ -1,0 +1,4 @@
+# Built on its own (cargo test here), the library has build output and a lock file of its own. In the plugin it is a
+# dependency, built and locked with the plugin.
+/target
+/Cargo.lock

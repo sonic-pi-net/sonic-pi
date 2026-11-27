@@ -8,7 +8,7 @@
 # that take no VST3 (Logic, GarageBand): the same binary and files in a
 # bundle of its own.
 #
-#   scripts/build.sh [--test] [--install] [--universal]
+#   scripts/build.sh [--test] [--test-key] [--install] [--universal]
 #
 # --universal  the plugin for both of a Mac's architectures (arm64 and x86_64) in one bundle, as a release is.
 #              Without it the bundle is for this machine's architecture only, which is quicker to build.
@@ -17,6 +17,11 @@
 #            windows, rendered audio kept and measured
 # --install  copies the bundles to ~/Library/Audio/Plug-Ins/VST3 and
 #            ~/Library/Audio/Plug-Ins/Components
+#
+# The plugin runs code only with a licence (core/licence.rs). A --test build also takes licences signed with the test
+# key, so that the test hosts can be given one; it says so in its binary, and scripts/release-mac.sh refuses to
+# release a bundle that does. A build without --test takes real licences only. --test-key is the same build without
+# the tests being run: to try in a DAW with a licence signed by the test key.
 #
 # Needs the web's native runtime (app/web: scripts/build-runtime.sh --native)
 # and Sonic Pi's SuperSonic checked out (app/external/supersonic).
@@ -28,16 +33,23 @@ PAGE="$WEB/build/plugin-web"   # the page as the plugin carries it: SuperSonic's
 # VST3's interface headers, at the tag Clockwork pins (plugins/vst3/CMakeLists.txt): the first under the MIT licence.
 VST3_TAG="v3.8.1_build_84"
 VST3="${VST3_PLUGINTERFACES_INCLUDE_DIR:-$HERE/target/vst3_pluginterfaces}"
-TEST=0; INSTALL=0; UNIVERSAL=0
+TEST=0; TEST_KEY=0; INSTALL=0; UNIVERSAL=0
 for arg in "$@"; do
     case "$arg" in
         --test) TEST=1 ;;
+        --test-key) TEST_KEY=1 ;;
         --install) INSTALL=1 ;;
         --universal) UNIVERSAL=1 ;;
         *) echo "unknown argument: $arg" >&2; exit 2 ;;
     esac
 done
-( cd "$WEB" && node scripts/build-web.mjs --out build/plugin-web --supersonic local > /dev/null )
+FEATURES=""; if [ "$TEST" = 1 ] || [ "$TEST_KEY" = 1 ]; then FEATURES="--features test-licence-key"; fi
+# the page as the plugin carries it: the app, the examples and the tutorial. The website's own pages (the plugin's
+# sales page, its terms, Learn, Support) are the site's and are left out (build-site.mjs --target plugin).
+( cd "$WEB" && node scripts/build-web.mjs --out build/plugin-web --supersonic local --target plugin > /dev/null )
+for theirs in plugin.html plugin-terms.html; do
+    [ ! -e "$PAGE/$theirs" ] || { echo "the plugin's page has $theirs, which is the website's" >&2; exit 1; }
+done
 [ -f "$PAGE/code.html" ] || { echo "no built page at $PAGE" >&2; exit 1; }
 [ -d "$ETC/synthdefs/compiled" ] || { echo "no Sonic Pi etc/ at $ETC (set SONIC_PI_ETC)" >&2; exit 1; }
 
@@ -70,14 +82,14 @@ if [ "$UNIVERSAL" = 1 ]; then
     CARGO="$(rustup which cargo --toolchain stable)"
     RUSTC="$(rustup which rustc --toolchain stable)"
     for target in aarch64-apple-darwin x86_64-apple-darwin; do
-        ( cd "$HERE" && RUSTC="$RUSTC" "$CARGO" build --release --target "$target" )
+        ( cd "$HERE" && RUSTC="$RUSTC" "$CARGO" build --release --target "$target" $FEATURES )
     done
     LIB="$HERE/target/universal/libsonic_pi_plugin.dylib"
     mkdir -p "$HERE/target/universal"
     lipo -create "$HERE/target/aarch64-apple-darwin/release/libsonic_pi_plugin.dylib" \
                  "$HERE/target/x86_64-apple-darwin/release/libsonic_pi_plugin.dylib" -output "$LIB"
 else
-    ( cd "$HERE" && cargo build --release )
+    ( cd "$HERE" && cargo build --release $FEATURES )
 fi
 
 NAME="Sonic Pi"
@@ -162,7 +174,15 @@ echo "built $AU"
 echo "built $BUNDLE ($(lipo -archs "$BUNDLE/Contents/MacOS/$NAME")): binary $(du -sh "$BUNDLE/Contents/MacOS" | cut -f1), page $(du -sh "$R/page" | cut -f1), synthdefs $(du -sh "$R/synthdefs" | cut -f1), samples $(du -sh "$R/samples" | cut -f1)"
 
 if [ "$TEST" = 1 ]; then
-    ( cd "$HERE" && cargo test --release -- --test-threads=1 )
+    ( cd "$HERE" && cargo test --release $FEATURES -- --test-threads=1 )
+    ( cd "$HERE/licence" && cargo test --quiet )
+    # a licence for the test hosts, signed with the test key (32 bytes of 42, as core/licence.rs has it): the plugin
+    # under test is licensed, as a buyer's is
+    LICENCE_DIR="$HERE/target/test-licence"
+    rm -rf "$LICENCE_DIR" && mkdir -p "$LICENCE_DIR"
+    printf '%s\n' "$(printf '2a%.0s' $(seq 32))" > "$LICENCE_DIR/key-255.private"
+    ( cd "$HERE/licence" && cargo run --quiet -- --dir "$LICENCE_DIR" issue --name "Test Host" --email host@example.com --key 255 > "$LICENCE_DIR/licence.txt" )
+    export SONIC_PI_LICENCE_FILE="$LICENCE_DIR/licence.txt"
     c++ -std=c++17 -fobjc-arc -O1 -I"$VST3" "$HERE/test/host.mm" -framework AppKit -framework WebKit -framework Carbon -framework AudioToolbox -o "$HERE/target/host"
     SONIC_PI_PLUGIN_LOG="$HERE/target/host.log" SONIC_PI_PLUGIN_PROBE=1 "$HERE/target/host" "$BUNDLE" "$AU"
     c++ -std=c++17 -fobjc-arc -O1 "$HERE/test/host_au.mm" -framework AppKit -framework WebKit -framework AudioToolbox -framework CoreMIDI -o "$HERE/target/host_au"

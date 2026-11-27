@@ -303,3 +303,27 @@ extern "C" const char* sp_own_path()
     }();
     return path.c_str();
 }
+
+// The text a person has copied, as UTF-8 for the caller to free (sp_clipboard_free), or null. Windows asks nobody
+// before a program reads the clipboard. `behaviour`, if given, is told -1: the system says nothing of it.
+extern "C" char* sp_clipboard_text(int* behaviour)
+{
+    if (behaviour) *behaviour = -1;
+    if (!IsClipboardFormatAvailable(CF_UNICODETEXT) || !OpenClipboard(nullptr)) return nullptr;
+    char* out = nullptr;
+    if (HANDLE data = GetClipboardData(CF_UNICODETEXT))
+    {
+        if (const wchar_t* wide = static_cast<const wchar_t*>(GlobalLock(data)))
+        {
+            const int bytes = WideCharToMultiByte(CP_UTF8, 0, wide, -1, nullptr, 0, nullptr, nullptr);
+            if (bytes > 0 && (out = static_cast<char*>(malloc(static_cast<size_t>(bytes)))))
+                WideCharToMultiByte(CP_UTF8, 0, wide, -1, out, bytes, nullptr, nullptr);
+            GlobalUnlock(data);
+        }
+    }
+    CloseClipboard();
+    return out;
+}
+
+extern "C" void sp_clipboard_free(char* text) { free(text); }
+

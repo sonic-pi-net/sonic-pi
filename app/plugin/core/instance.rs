@@ -34,6 +34,8 @@ pub const SAYS_TEMPO: u32 = 11;
 pub const SAYS_WARP: u32 = 12;
 pub const SAYS_CLOCK: u32 = 13;
 pub const SAYS_ARMED: u32 = 14;
+/// How the plugin stands by its licence, as JSON (licence.rs, sonic-pi-licence Standing::to_json): said by the editor, not the instance.
+pub const SAYS_LICENCE: u32 = 15;
 /// The kinds whose messages start with their number, a little-endian u64 (instance.h).
 pub const NUMBERED: [u32; 5] = [SAYS_RECORD, SAYS_LOG, SAYS_ENGINE, SAYS_RUNTIME, SAYS_LOADS];
 
