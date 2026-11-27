@@ -318,7 +318,7 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
   .dl-go .dl-mark { width: 18px; height: 18px; }
 }
 
-/* Free and open source (site/pages/home.html): what it has made, as four figures, then the ways into it */
+/* Open Source (site/pages/home.html): what it has made, as four figures, then the ways into it */
 .os-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr));   /* as many columns as there are figures, the row filled */ gap: 12px; margin: 1.6em 0 1.4em; padding: 0; }
 .os-stats > div { padding: 14px 10px; border: 1px solid var(--WindowBorder); border-radius: var(--r-m); text-align: center; }
 .os-stats dt { font: 700 var(--t-heading)/1.1 var(--prose-font); color: var(--second); }

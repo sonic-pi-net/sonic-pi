@@ -1082,6 +1082,11 @@ iframe {
 .plugin-sale .sale-ends {
   font-weight: 600;
 }
+/* the sale on the home page, above the plugin's rows (home.html #get-plugin) */
+#get-plugin .plugin-top-offer {
+  margin-bottom: 1.5em;
+}
+
 #plugin .plugin-sale + .hero-launch {
   margin-top: 1.2em;
 }
