@@ -8,21 +8,8 @@
           <div class="plugin-top-offer">
             <p class="plugin-sale"><span class="sale-tag">Cyber Week sale</span><span class="sale-price"><s aria-label="normally $99">$99</s> <strong>$59</strong></span><span class="sale-ends">40% off until the end of Sunday, 6 December</span></p>
             <div class="hero-launch">
-              <!-- the same button as the page's last: it buys here; until the store is set up it offers to say when it is (notify.js) -->
-              <details class="plugin-buy">
-                <summary class="button medium">Join the waitlist</summary>
-                <form class="plugin-notify" action="notify" method="get">
-                  <p>Available soon. Leave your email and we'll tell you when it's on sale.</p>
-                  <div class="notify-row">
-                    <label class="sr-only" for="notify-email-1">Your email address</label>
-                    <input type="email" name="email" id="notify-email-1" required autocomplete="email" inputmode="email" placeholder="you@example.com">
-                    <!-- a field no person sees or reaches: a program that fills forms in fills it, and nothing of its form is kept -->
-                    <input type="text" name="website" class="notify-trap" tabindex="-1" autocomplete="off" aria-hidden="true">
-                    <button type="submit" class="button">Tell me</button>
-                  </div>
-                  <p class="notify-said" role="status"></p>
-                </form>
-              </details>
+              <!-- the checkout is Polar's (the seller of record): the button goes to it, and a buyer comes back to plugin-thanks.html -->
+              <a class="button medium plugin-buy" href="https://buy.polar.sh/polar_cl_EiREKfH1DNWN1bTqGRxTfv7E2FbXm6G77uQan49SnEI">Buy - $59</a>
             </div>
           </div>
         </header>
@@ -340,21 +327,8 @@ end</code></pre></div></div>
           <p>Buy now to download the plugin as a VST3 for macOS and Windows and an Audio Unit for macOS. Receive free updates for the lifetime of v5. No expiry and no internet connection needed.</p>
         </header>
         <div class="hero-launch">
-          <!-- the checkout is Polar's, opened from here once the store is set up; until then the button offers to say when it is (notify.js) -->
-          <details class="plugin-buy">
-            <summary class="button medium">Join the waitlist</summary>
-            <form class="plugin-notify" action="notify" method="get">
-              <p>Available soon. Leave your email and we'll tell you when it's on sale.</p>
-              <div class="notify-row">
-                <label class="sr-only" for="notify-email-2">Your email address</label>
-                <input type="email" name="email" id="notify-email-2" required autocomplete="email" inputmode="email" placeholder="you@example.com">
-                <!-- a field no person sees or reaches: a program that fills forms in fills it, and nothing of its form is kept -->
-                <input type="text" name="website" class="notify-trap" tabindex="-1" autocomplete="off" aria-hidden="true">
-                <button type="submit" class="button">Tell me</button>
-              </div>
-              <p class="notify-said" role="status"></p>
-            </form>
-          </details>
+          <!-- the checkout is Polar's (the seller of record): the button goes to it, and a buyer comes back to plugin-thanks.html -->
+          <a class="button medium plugin-buy" href="https://buy.polar.sh/polar_cl_EiREKfH1DNWN1bTqGRxTfv7E2FbXm6G77uQan49SnEI">Buy the Sonic Pi plugin</a>
         </div>
         <p class="plugin-small">The price includes tax. There is a 14 day refund.<br><a href="plugin-terms.html">Terms</a> &middot; <a href="plugin-terms.html#privacy">Privacy</a> &middot; <a href="plugin-terms.html#refunds">Refunds</a></p>
       </article>

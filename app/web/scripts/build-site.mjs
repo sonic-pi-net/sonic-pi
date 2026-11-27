@@ -48,6 +48,7 @@ const RELEASE = "5.0.0";
 
 // What is being built: the website (every page), or the plugin's own pages (--target plugin): only the pages marked
 // plugin, so a page added to the site is not in a plugin until it says so.
+const unescapeHtml = (t) => t.replace(/&(amp|lt|gt|quot|#39);/g, (_, e) => ({ amp: "&", lt: "<", gt: ">", quot: '"', "#39": "'" })[e]);
 const TARGET = arg("--target", "site");
 if (TARGET !== "site" && TARGET !== "plugin") throw new Error(`--target ${TARGET}: site or plugin`);
 
@@ -278,7 +279,8 @@ function sections(html, where) {
     if (!level) throw new Error(`${where}: #${id} has no title, an <h1 class="sec-title"> or <h2 class="sec-title">`);
     const want = k === 0 ? "h1" : "h2";
     if (level !== want) throw new Error(`${where}: #${id}'s title is an <${level}>: a page's first section's title is its one <h1>, every other section's an <h2>`);
-    const title = attr(tag, "data-title") ?? words.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim();
+    // the heading's words as text: its markup gone and its entities read (&amp; is &), since the list escapes its titles
+    const title = attr(tag, "data-title") ?? unescapeHtml(words.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim();
     if (!title) throw new Error(`${where}: #${id}'s title has no words (or data-title) to name it`);
     const icon = attr(tag, "data-icon");
     if (!icon) throw new Error(`${where}: #${id} has no data-icon`);

@@ -13,7 +13,6 @@
 // pages as they would between documents. Every other link is the card's: an anchor scrolls, #docs/… opens the docs
 // pane, code.html is the editor, and anything off-site opens in a new tab so the music carries on.
 import { mountExamples, mountSnippets, mountMidiKeys, mountWays, mountShowcase } from "./site.js";
-import { mountNotify } from "./notify.js";
 import { createSubmenu } from "./ui/submenu.js";
 import { createFlip } from "./ui/flip.js";
 
@@ -198,8 +197,6 @@ export function createInfo(card, hooks) {
     for (const m of page.querySelectorAll(".midi-keys")) p.mounts.push(mountMidiKeys(m, hooks, host, document));
     // the app itself in a frame, playing a piece to be looked at (the plugin page's opening)
     for (const m of page.querySelectorAll(".showcase")) mountShowcase(m, document);
-    // a form for being told when the plugin is on sale (the plugin page's, under its Buy buttons)
-    for (const f of page.querySelectorAll("form.plugin-notify")) mountNotify(f);
     // several programs in one card, one chosen at a time (the plugin page's)
     for (const m of page.querySelectorAll(".sp-ways:not(.midi-keys)")) p.mounts.push(mountWays(m, hooks, host, document).deck);
 
