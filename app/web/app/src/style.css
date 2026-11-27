@@ -1162,6 +1162,8 @@ body:is(.no-scope, .scope-line) #scope-divider, body:is(.no-log, .no-cues) #log-
 .lk-btn:hover { border-color: var(--HoverButton); color: var(--HoverButton); }
 .lk-btn.lk-flash { background: var(--HighlightedBackground); border-color: var(--HighlightedBackground); color: var(--accentContrastText); }
 .lk-scrub { cursor: ns-resize; touch-action: none; }
+/* the host's tempo (a plugin): shown, not set */
+body.host-tempo #lk-bpm { cursor: default; pointer-events: none; border-color: color-mix(in srgb, var(--HighlightedBackground) 45%, transparent); }
 .lk-scrub:focus { cursor: text; outline: none; background: var(--subtleFill); }
 .lk-field.lk-cue { background: var(--accentTintStrong); }
 .lk-btn { background: none; border: 2px solid var(--WindowForeground); border-radius: var(--r-s); color: var(--WindowForeground); padding: 4px 18px; font: var(--t-ui) var(--prose-font); }

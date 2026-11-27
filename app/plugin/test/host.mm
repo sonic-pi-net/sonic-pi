@@ -984,6 +984,16 @@ int main (int argc, char** argv)
                [NSString stringWithFormat:@"About: %@", shown[@"licensee"]]);
     }
 
+    // the tempo is this host's (it says 60 on every buffer): the strip shows it, and offers no way to set what the
+    // host would set back on its next buffer. The time warp is the plugin's own, and stays.
+    {
+        NSDictionary* strip = jsJSON (a, @"({tap: document.getElementById('lk-tap').hidden, readOnly: document.getElementById('lk-bpm').readOnly, bpm: document.getElementById('lk-bpm').value, "
+                                         @"warp: !!document.getElementById('lk-warp').offsetParent})");
+        check ("with a host that says its tempo the strip shows it, with no Tap and nothing to edit, and the time warp is still there",
+               [strip[@"tap"] boolValue] && [strip[@"readOnly"] boolValue] && [strip[@"bpm"] hasPrefix:@"60"] && [strip[@"warp"] boolValue],
+               [NSString stringWithFormat:@"%@", strip]);
+    }
+
     // ── Keys, in each kind of host ──
     keyChecks (a, true);
     keyChecks (a, false);

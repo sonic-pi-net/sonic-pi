@@ -594,7 +594,7 @@ async function ensureSession() {
       fail: (msg) => logs.add("SuperSonic", `/fail ${msg.slice(1).map(describe).join(" ")}`),     // a message the engine refused, as it said it
       note: (text, tab = "Host") => logs.add(tab, text),   // a line from the plugin, under its tab (PluginSession)
       // the plugin's host's tempo, which its runtime keeps, and whether the host plays
-      tempo: (bpm, playing) => { setLinkBpm(bpm, true); hostTransport(playing); },
+      tempo: (bpm, playing) => { hostLeadsTempo(); setLinkBpm(bpm, true); hostTransport(playing); },
       armed: hostRan,   // a run the plugin started as its host began to play: an armed buffer's
       warp: (ms) => { linkState.warp = Math.round(ms); paintWarp(); },   // the time warp the plugin kept while its editor was closed
       // a record from before the page (a plugin's editor opened after it ran): its line in the log, its cue
@@ -1878,6 +1878,24 @@ const paintWarp = () => {
   paint(warpField, `${linkState.warp > 0 ? "+" : ""}${linkState.warp} ms`);
   warpSlider.value = String(Math.max(-250, Math.min(999, linkState.warp)));   // native's slider's range (sonicpimetro.cpp); the field takes any
 };
+// In a plugin whose host has said its tempo, the tempo is the host's: said on every block, so one set here would last
+// until the next. The strip shows it and offers no way to set it: no Tap, and a field that is read, not written. A
+// host with no transport says none, and the strip stays Sonic Pi's own. The time warp is the plugin's either way.
+let tempoIsHosts = false;
+function hostLeadsTempo() {
+  if (tempoIsHosts) return;
+  tempoIsHosts = true;
+  document.body.classList.add("host-tempo");
+  $("lk-tap").hidden = true;
+  bpmField.readOnly = true;
+  bpmField.tabIndex = -1;
+  bpmField.setAttribute("aria-label", "The host's tempo");
+  bpmField.title = "The tempo of the host this plugin is in. Change it in the host.";
+  delete bpmField.dataset.tipTitle;
+  const head = document.querySelector("#link-section .pane-head span");
+  if (head) head.textContent = "Tempo & global time warp";
+  $("link-section").setAttribute("aria-label", "The host's tempo, and the global time warp");
+}
 // fromProgram: the tempo a program set (set_link_bpm!), which the runtime already has
 function setLinkBpm(bpm, fromProgram = false) {
   if (!Number.isFinite(bpm)) return paintBpm();
@@ -1931,7 +1949,7 @@ function scrubField(field, { get, set, reset, parse, repaint }) {
   field.addEventListener("dblclick", (e) => { e.preventDefault(); set(reset); field.blur(); });
 }
 const number = (text) => parseFloat(String(text).replace(/[^0-9.+-]/g, ""));
-scrubField(bpmField, { get: () => Math.round(linkState.bpm), set: (v) => setLinkBpm(v), reset: 60, parse: number, repaint: paintBpm });
+scrubField(bpmField, { get: () => Math.round(linkState.bpm), set: (v) => { if (tempoIsHosts) paintBpm(); else setLinkBpm(v); }, reset: 60, parse: number, repaint: paintBpm });
 scrubField(warpField, { get: () => linkState.warp, set: (v) => setTimeWarp(v), reset: 0, parse: number, repaint: paintWarp });
 warpSlider.addEventListener("input", () => setTimeWarp(Number(warpSlider.value)));
 
@@ -1940,6 +1958,7 @@ warpSlider.addEventListener("input", () => setTimeWarp(Number(warpSlider.value))
 // step starts again. On the press, not the release, so the timing is the tap's.
 let taps = 0, firstTap = 0, lastTap = 0;
 function tapTempo() {
+  if (tempoIsHosts) return;
   const now = performance.now();
   const tap = $("lk-tap");
   tap.classList.add("lk-flash");
