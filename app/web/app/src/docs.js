@@ -12,7 +12,7 @@ import { createCard, createTransport } from "./ui/card.js";
 import { createDeck } from "./ui/deck.js";
 import { announce, Announcement } from "./announce.js";
 import { gridFor } from "./completion/cm.js";
-import { piano } from "./ui/piano.js";
+import { piano, fitKeys, QWERTY_KEYS } from "./ui/piano.js";
 import { CORE } from "./instrument-knobs.js";
 
 // native's, but the examples and the tutorial: they are pages of the site (its Examples tab, its tutorial's book)
@@ -652,7 +652,7 @@ export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = tr
   deck.add(demo);
   const toggleDemo = () => demo.onRun?.();
   // The QWERTY keyboard
-  const KEYS = "awsedftgyhujkolp";
+  const KEYS = QWERTY_KEYS;
   let base = 48;
   const keysWrap = el("div", "pg-keys");
   const pianoBox = el("div", "pg-piano");
@@ -666,8 +666,7 @@ export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = tr
     if (fit) {
       const room = pianoBox.clientWidth || 600;
       drawnFor = room;
-      octaves = Math.max(2, Math.min(4, Math.floor(room / (7 * 26))));
-      W = Math.max(16, Math.min(44, room / (octaves * 7 + 1)));   // down to 16px; not rounded, so the keys end where the room does
+      ({ octaves, keyWidth: W } = fitKeys(room));
     }
     pianoBox.textContent = "";
     pianoBox.appendChild(piano({ from: base, to: base + octaves * 12, labels, onKey: playKey, keyWidth: W }));

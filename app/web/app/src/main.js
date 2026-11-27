@@ -5,6 +5,7 @@
 //
 // The web build has no OSC in or out. MIDI comes in through Web MIDI and
 // shows as cues. Time is one global timeline every thread shares.
+import { showcase, VIEWS as SHOWCASE_VIEWS, dressAsPlugin } from "./showcase.js";   // first: a showcase's storage and audio context are in place before any other module looks (showcase.js)
 import { SUPERSONIC_BASE, SUPERSONIC_VERSION, supersonicVersion, PROCESS_FIELDS, engineWasm, workerSettled, inPlugin } from "./runtime.js";
 // the engine's side (sonic_pi.js, and with it SuperSonic): loaded with the runtime (startRuntime), so a page only read
 // never fetches it; `sp` is the module once it has arrived, for what runs only with an engine (oscSchedule)
@@ -767,7 +768,7 @@ const hooks = {
 // the browser's storage. New sets have eight buffers; sets from native, or from before sets had sizes, their ten.
 const workspace = createWorkspace({
   storage: { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => localStorage.setItem(k, v), remove: (k) => { try { localStorage.removeItem(k); } catch {} } },
-  starter: STARTER, formerStarters: FORMER_STARTERS, defaultSize: 8,
+  starter: showcase?.code ?? STARTER, formerStarters: FORMER_STARTERS, defaultSize: 8,   // a showcase opens holding its piece
   warn: (text) => toast(text, true, 6000),
 });
 addEventListener("pagehide", () => workspace.flush());   // what was typed in the last moment, kept as the page goes
@@ -886,6 +887,7 @@ async function run() {
 }
 
 function stop() {
+  document.dispatchEvent(new CustomEvent("sp-stop"));   // and whatever else on the page sounds (a showcase out loud)
   stops++;   // a run still waiting for the engine to start does not start (play)
   loadingStop?.cancel();
   insight.stopped(session?.clockNow() ?? null);
@@ -2232,6 +2234,8 @@ function ensureInfo() {
     log: (text) => logs.add("Host", text),   // a page's first visit, timed (info.js)
     play: (code, opts) => play(code, opts),
     stopRun: (job, fade) => session?.stopRun(job, fade),
+    cue: (address, args) => session?.cue(address, args),   // a page's own keyboard, heard by the program as MIDI in is (site.js mountMidiKeys)
+    waiting: (job) => !!readProcesses()?.some((r) => r.job === job && r.state === 2),   // a thread of this run waits on a sync: a cue sent now is heard
     scopeFrame,
     loopScopes: () => loopScopePrefs,   // the site's cards' loop scopes, as the preferences say
     now: () => session?.clockNow() ?? null,
@@ -2365,15 +2369,24 @@ const navScope = { canvas: siteNav.querySelector(".sn-scope"), state: new LoopSc
 const stopRings = (() => {
   const box = document.querySelector("#site-nav .sn-stop"), canvas = box.querySelector(".sn-stop-rings");
   const rings = cardRings([{ box, canvas, channels: [0, 1] }], { gain: 3, swing: 0.1 });   // small, so it bends further: alive at a glance
-  let engine = null, live = false;
-  const read = () => engine?.getDeviceScope(0, 1024) ?? null;
+  // `other`: sound on the page that is not this engine's (a showcase played out loud, site.js): its scope, read the
+  // same way, moves the rings while this engine is quiet
+  let engine = null, live = false, other = null, going = false;
+  const read = () => (live ? engine?.getDeviceScope(0, 1024) : other?.()) ?? null;
+  const apply = () => { const want = live || !!other; if (want && !going) rings.play(read); else if (!want && going) rings.stop(); going = want; };
   return {
     get live() { return live; },
     attach(e) { engine = e; },
-    set(on) { live = on; if (on) rings.play(read); else rings.stop(); },
+    set(on) { live = on; apply(); },
+    outside(fn) { other = fn; apply(); },
     repaint: () => rings.repaint(),
   };
 })();
+// A showcase out loud (site.js mountShowcase says so): the bar's stop shows and moves with it, and Stop stops it (stop).
+document.addEventListener("sp-showcase-sound", (e) => {
+  document.body.classList.toggle("showcase-sounding", !!e.detail?.on);
+  stopRings.outside(e.detail?.on ? e.detail.read : null);
+});
 loadingStop = createLoadingStop({
   box: document.querySelector("#site-nav .sn-stop"), canvas: document.querySelector("#site-nav .sn-stop-rings"),
   playing: () => stopRings.live,
@@ -3217,7 +3230,8 @@ function takesKey(kind, chord, inSearch = false) {
 // Leaving or reloading with sound playing, or a recording running, asks first. Chrome and Firefox let the page keep
 // Cmd/Ctrl+R for Run (below); Safari reserves it for reload and lets no page stop it, so there this prompt is what stands
 // between a reflex and a lost performance. Cmd+Return runs everywhere.
-window.addEventListener("beforeunload", (e) => { if (liveJobs || recording) { e.preventDefault(); e.returnValue = ""; } });
+// A showcase never asks: it is a picture on another page, with nothing of a person's in it to lose.
+window.addEventListener("beforeunload", (e) => { if (!showcase && (liveJobs || recording)) { e.preventDefault(); e.returnValue = ""; } });
 // Cmd/Ctrl+R is Run here, never the browser's reload, wherever the focus is and whatever is showing: an app that
 // loses its buffers to a reflex is worse than one that asks for the menu to reload
 document.addEventListener("keydown", (e) => { if ((e.metaKey || e.ctrlKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === "r") e.preventDefault(); }, true);
@@ -3297,3 +3311,16 @@ window.sonicPi = { editor, workspace, keyboard: codeKeyboard, api, theme, get se
   // whether a message is showing in the status bar in place of the engine's state (toast): it goes after a set time,
   // which changes the page, so a check that watches the page for changes waits for it to go first
   get statusMessageShowing() { return messageTimer != null; } };
+
+// ── A showcase (showcase.js): the piece runs at once, and the page framing it says what the panel shows ──
+if (showcase) {
+  const show = (name) => { const [pane, view] = SHOWCASE_VIEWS[name] ?? SHOWCASE_VIEWS.processes; setPanel(pane); if (view) insight.show(view); };
+  window.spShowcase = { show, keep: showcase.keep };
+  showcase.kept((key, text) => { if (key === theme.KEPT_KEYS[0]) theme.take(text); });   // the framing page's colours, when they change
+  document.body.classList.add("showcase");   // a picture: no status bar (style.css)
+  if (showcase.plugin) dressAsPlugin(document);   // a picture of the plugin: its bar
+  show(showcase.view);
+  run();
+  // shown from the line asked for, once the editor has its size (it is laid out a frame or two after the page)
+  if (showcase.line > 1) { const from = () => editor.showFrom(showcase.line); requestAnimationFrame(() => requestAnimationFrame(from)); setTimeout(from, 600); }
+}

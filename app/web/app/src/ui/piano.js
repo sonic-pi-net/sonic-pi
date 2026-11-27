@@ -43,6 +43,16 @@ export function piano({ from, to, lit = new Set(), root = null, onKey, labels = 
   return keys;
 }
 
+/** A keyboard fitted to `room` px (a page's: the instrument's, the MIDI keys'): as many whole octaves as it holds,
+ * from two to four, the keys widened to fill it: nothing cut off, nothing to scroll. Not rounded, so the keys end
+ * where the room does. */
+export function fitKeys(room) {
+  const octaves = Math.max(2, Math.min(4, Math.floor(room / (7 * 26))));
+  return { octaves, keyWidth: Math.max(16, Math.min(44, room / (octaves * 7 + 1))) };
+}
+/** The computer's keys that play: semitones up from the keyboard's first note. */
+export const QWERTY_KEYS = "awsedftgyhujkolp";
+
 // Pressed, and swept held down: each key the pointer comes onto plays once, until it is let go. The key is found
 // under the pointer (not by the key's own events), so a touch — which the browser keeps on the key it began on — sweeps
 // as a mouse does.

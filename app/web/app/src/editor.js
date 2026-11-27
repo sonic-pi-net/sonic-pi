@@ -1075,6 +1075,10 @@ export function createEditor(mount, { api, hooks, workspace }) {
       view.dispatch({ effects: setErrorLine.of(from != null ? { line, from, to } : line) });
       if (line) view.dispatch({ effects: EditorView.scrollIntoView(view.state.doc.line(Math.min(Math.max(1, line), view.state.doc.lines)).from, { y: "center" }) });
     },
+    /** The code scrolled so `line` (1-based) is its first line on show; the caret stays where it is. */
+    showFrom(line) {
+      view.dispatch({ effects: EditorView.scrollIntoView(view.state.doc.line(Math.min(Math.max(1, line), view.state.doc.lines)).from, { y: "start" }) });
+    },
     /** The caret to line, column (1-based line, 0-based column), the editor focused. */
     goTo(line, col = 0) {
       const l = view.state.doc.line(Math.min(Math.max(1, line), view.state.doc.lines));

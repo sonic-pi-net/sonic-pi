@@ -182,6 +182,15 @@ export function typeSize(role) {
   return px || "13px";
 }
 
+/** The keys the colour scheme is kept under: what a page framing another hands on, so the framed one opens in the same colours (site.js mountShowcase). */
+export const KEPT_KEYS = [PREFS_KEY, VARS_KEY];
+/** A scheme chosen elsewhere (the page that frames this one), as it was kept there: taken up here. */
+export function take(kept) {
+  let changes = null;
+  try { changes = JSON.parse(kept); } catch {}
+  if (changes && typeof changes === "object") set(changes);
+}
+
 export function set(changes) {
   chosen = true;   // a choice made in the preferences: kept from here on, the OS's mode no longer followed
   Object.assign(state, changes);

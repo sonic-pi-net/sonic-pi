@@ -407,3 +407,32 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .highlights a:hover strong { text-decoration: underline; text-decoration-color: var(--HighlightedBackground); text-underline-offset: 3px; }
 .highlights a:focus-visible { outline: 2px solid var(--HighlightedBackground); outline-offset: 6px; }
 .highlights-more { margin-top: 28px; font: var(--t-ui) var(--prose-font); color: var(--softForeground); }
+
+/* several programs in one card (site.js mountWays): the choices in a row, the chosen one's words under it, then the
+   card. With a keyboard that plays the card's code as MIDI in (mountMidiKeys), the keys are in the card over its code,
+   and the card is as wide as the page's synth, so the keys are the same keys */
+.sp-ways { margin: 1.6em auto 2.4em; text-align: left; outline: none; }
+.sp-ways-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5em; margin: 0 0 0.9em; }
+.sp-way { padding: 0.3em 0.9em; border: 1.5px solid currentColor; border-radius: 8px; background: none; color: inherit; font: inherit; font-size: 0.9em; font-weight: 600; cursor: pointer; }
+.sp-way[aria-pressed="true"] { background: var(--HighlightedBackground, #ff1493); border-color: var(--HighlightedBackground, #ff1493); color: var(--accentContrastText, #fff); }
+.sp-ways.live > .sp-ways-about { margin: 0 auto 1.2em; max-width: 760px; text-align: center; }
+.sp-ways:not(.live) > .sp-ways-about { display: none; }
+.sp-ways:not(.midi-keys) { max-width: 760px; }
+.sp-ways .qs-card { margin: 0; }
+.midi-keys-room { padding: 12px 16px 0; }   /* the room the synth's keys have in its card */
+.midi-keys-piano { overflow: hidden; }
+
+/* a showcase (site.js mountShowcase): the app in a frame, looked at. The frame is a 1280 by 800 window drawn at
+   whatever scale fits its box's width: the scale is the box's width over 1280px, as a plain number (tan of atan2 of
+   two lengths is their ratio). The whole of it is one button, for its sound; what it does is said when pointed at */
+.showcase-fig { margin: 1.5em 0; }
+.showcase { position: relative; container-type: inline-size; width: 100%; aspect-ratio: 1280 / 800; border: 2px solid currentColor; border-radius: 10px; overflow: hidden; background: #000; }
+.showcase iframe { display: block; width: 1280px; max-width: none; height: 800px; border: 0; pointer-events: none; transform-origin: 0 0; transform: scale(tan(atan2(100cqw, 1280px))); }
+.showcase-sound { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding: 0 0 1.2em; border: 0; background: none; font: inherit; cursor: pointer; }
+.showcase-sound span { padding: 0.5em 1.1em; border-radius: 999px; background: var(--HighlightedBackground, #ff1493); color: var(--accentContrastText, #fff); font-weight: 600; opacity: 0; transition: opacity 0.15s; }
+.showcase-sound:hover span, .showcase-sound:focus-visible span, .showcase.sounding .showcase-sound span { opacity: 1; }
+@media (hover: none) { .showcase-sound span { opacity: 1; } }   /* nothing to point with: the label is there */
+.showcase-views { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5em; margin: 0.9em 0 0.6em; }
+.showcase-views button { padding: 0.3em 0.9em; border: 1.5px solid currentColor; border-radius: 8px; background: none; color: inherit; font: inherit; font-size: 0.9em; font-weight: 600; cursor: pointer; }
+.showcase-views button[aria-pressed="true"] { background: var(--HighlightedBackground, #ff1493); border-color: var(--HighlightedBackground, #ff1493); color: var(--accentContrastText, #fff); }
+.showcase-fig figcaption { font-size: 0.9em; opacity: 0.8; }

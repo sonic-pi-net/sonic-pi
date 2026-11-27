@@ -12,7 +12,7 @@
 // address becomes the page's own. The app, its engine and whatever plays carry on; Back and Forward go between
 // pages as they would between documents. Every other link is the card's: an anchor scrolls, #docs/… opens the docs
 // pane, code.html is the editor, and anything off-site opens in a new tab so the music carries on.
-import { mountExamples, mountSnippets } from "./site.js";
+import { mountExamples, mountSnippets, mountMidiKeys, mountWays, mountShowcase } from "./site.js";
 import { createSubmenu } from "./ui/submenu.js";
 import { createFlip } from "./ui/flip.js";
 
@@ -191,8 +191,14 @@ export function createInfo(card, hooks) {
     for (const a of page.querySelectorAll(".yt-lite")) facade(a);
 
     // a page's own playable blocks (Learn's tutorial teaser): cards
-    const teaser = [...page.querySelectorAll(".tut-teaser .sp-card, .tut-page .sp-card")];   // and the tutorial's, every code block a card
+    const teaser = [...page.querySelectorAll(".tut-teaser .sp-card, .tut-page .sp-card, .sp-snips .sp-card")].filter((c) => !c.closest(".sp-ways"));   // and the tutorial's, every code block a card; and a page's own few (the plugin page's)
     if (teaser.length) p.mounts.push(mountSnippets(teaser, hooks, host, document));
+    // a keyboard that plays a card's code as a MIDI keyboard would (the plugin page's)
+    for (const m of page.querySelectorAll(".midi-keys")) p.mounts.push(mountMidiKeys(m, hooks, host, document));
+    // the app itself in a frame, playing a piece to be looked at (the plugin page's opening)
+    for (const m of page.querySelectorAll(".showcase")) mountShowcase(m, document);
+    // several programs in one card, one chosen at a time (the plugin page's)
+    for (const m of page.querySelectorAll(".sp-ways:not(.midi-keys)")) p.mounts.push(mountWays(m, hooks, host, document).deck);
 
     // the hero's words: they take turns while the hero is on show; a word pressed takes its turn now and the turns go
     // on from it. They hold still while the keyboard's focus is on them (only a visible focus: a click leaves one
@@ -224,7 +230,7 @@ export function createInfo(card, hooks) {
     // the examples: the hero's one, and the Examples page's, by level
     // a live synth (the home page's, under Code. Music. Live.): the docs pane's instrument, in place of its static words
     for (const s of page.querySelectorAll(".home-synth[data-synth]")) { const m = hooks.instrument?.(s, s.dataset.synth, host); if (m) p.mounts.push(m); }
-    const heroPre = page.querySelector("#sp-hero-card .sp-card");
+    const heroPre = page.querySelector("#sp-hero-card .sp-card, .live-card .sp-card");   // the home page's, or another page's one card (the VST page's)
     if (heroPre) p.mounts.push(mountExamples([heroPre], hooks, host, document));
     const grid = page.querySelector("#sp-live-cards");
     if (grid) {

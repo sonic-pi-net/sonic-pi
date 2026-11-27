@@ -183,12 +183,14 @@ export function createInsight(root, hooks) {
     b.type = "button";
     b.dataset.view = id;
     b.setAttribute("aria-pressed", String(id === view));   // which view is showing, said as well as lit
-    b.addEventListener("click", () => {
-      view = id;
-      [...views.children].forEach((c) => { c.classList.toggle("active", c === b); c.setAttribute("aria-pressed", String(c === b)); });
-      root.dataset.view = id;
-    });
+    b.addEventListener("click", () => showView(id));
     views.appendChild(b);
+  }
+  function showView(id) {
+    if (![...views.children].some((c) => c.dataset.view === id)) return;
+    view = id;
+    [...views.children].forEach((c) => { const on = c.dataset.view === id; c.classList.toggle("active", on); c.setAttribute("aria-pressed", String(on)); });
+    root.dataset.view = id;
   }
   root.dataset.view = view;
   head.appendChild(views);
@@ -649,5 +651,7 @@ export function createInsight(root, hooks) {
     /** Everything stopped at this time: sounds scheduled after it never play. */
     stopped: (time) => { if (time != null) { roll.stop(time); endLanesAt(lanes.values(), time); refreshTable(); } },
     clear: clearAll,
+    /** One of the three views shown: "processes", "timeline" or "roll". */
+    show: showView,
   };
 }

@@ -231,6 +231,10 @@ const helpers = {
   },
   // the hero's example: Pentatonic Bleeps, the site's own first card
   "hero-example": () => example({ ...exampleLevels.flatMap((g) => g.examples).find((e) => e.key === "pentatonicbleeps"), wide: true }, { id: false }),
+  // one of the examples by its key, as the piece a showcase plays (site.js mountShowcase): its code, as JSON
+  showcase: (key) => { const e = exampleLevels.flatMap((g) => g.examples).find((x) => x.key === key); if (!e) throw new Error(`showcase: no example ${key}`); return `<script type="application/json" class="showcase-code">${JSON.stringify({ code: e.code }).replace(/</g, "\\u003c")}</script>`; },
+  // one of the examples by its key, as a card that plays in the page (the plugin page's)
+  example: (key) => { const e = exampleLevels.flatMap((g) => g.examples).find((x) => x.key === key); if (!e) throw new Error(`example: no example ${key}`); return example({ ...e, wide: true }, { id: false }); },
   examples: () => exampleLevels.filter((g) => g.examples.length).map((g) => `<h2 class="qs-level" id="${levelId(g.title)}">${g.title}</h2>\n<div class="qs-grid">\n${g.examples.map((e) => example(e)).join("\n")}\n</div>`).join("\n"),
   // the App and Browser columns of the feature table
   yes: `<span class="conn-yes">${tick}<span class="sr-only">yes</span></span>`,
