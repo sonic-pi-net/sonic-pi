@@ -39,7 +39,7 @@ export function cardHTML({ title, code, attrs = {}, id = null, blurb = "", wide 
     lines.map((l) => `<div class="cm-line">${l || "<br>"}</div>`).join("") +
     `</div></div></div></div>` +
     `<footer class="qs-card-foot"><div class="qs-foot-main"><p class="qs-blurb">${blurb ? `${esc(blurb)} ` : ""}<span class="qs-state"></span></p><div class="qs-out" role="log" aria-live="polite"></div></div>` +
-    `<div class="qs-transport"${playable ? "" : " hidden"}><div class="qs-scope qs-scope-play"><button class="qs-run" type="button" title="Play">${TRANSPORT}<span class="sr-only">Play</span></button></div>` +
+    `<div class="qs-transport"${playable ? "" : " hidden"}><div class="qs-scope qs-scope-play"><button class="qs-run" type="button" title="Play this card">${TRANSPORT}<span class="sr-only">Play</span></button></div>` +
     `<div class="qs-scope qs-scope-stop"><button class="qs-run qs-stop" type="button" title="Stop" disabled>${TRANSPORT_STOP}<span class="sr-only">Stop</span></button></div></div></footer>` +
     `</section>`;
 }

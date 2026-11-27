@@ -183,7 +183,7 @@ export function createTransport({ onRun = null, onStop = null, onPress = false }
   const left = scope("qs-scope-play"), right = scope("qs-scope-stop");
   const run = el("button", "qs-run");
   run.type = "button";
-  run.title = "Play this card. Play again while it plays and your change takes over.";   // native's CodeCard
+  run.title = "Play this card";   // native's CodeCard
   run.innerHTML = `${TRANSPORT}<span class="sr-only">Play</span>`;
   // onPress (an instrument's, beside its keys): Play and Stop act as the pointer goes down, as a key does, not when it
   // comes up; a click from the keyboard (Enter, Space) still acts, and the press's own click is not taken twice

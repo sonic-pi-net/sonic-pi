@@ -557,7 +557,7 @@ QWidget* CodeCard::makeScopeBox(QWidget* parent, int side, bool stop)
         m_playScope = scope;
         m_play = b;
         b->setAccessibleName(tr("Play %1").arg(m_spec.title));
-        b->setToolTip(tr("Play this card. Play again while it plays and your change takes over."));
+        b->setToolTip(tr("Play this card"));
     }
     return box;
 }
