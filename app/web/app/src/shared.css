@@ -17,7 +17,7 @@ button, a, [role="button"], .hg-button, label, summary { touch-action: manipulat
 .seg button, .ic-tab, .sp-mini-btn, .site-body .button {
   border: 2px solid var(--Button); border-radius: var(--r-m); background: none; color: var(--WindowForeground);
   font-weight: 600; text-decoration: none; cursor: pointer; box-shadow: none; text-shadow: none;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 /* hovered (only where there is a pointer that hovers: a finger leaves a tapped chip "hovered" on iOS, and the tab
    just chosen would stay in the hover colour instead of the selected one) and focused from the keyboard */
@@ -30,14 +30,21 @@ button, a, [role="button"], .hg-button, label, summary { touch-action: manipulat
 .seg button.active, .ic-tab.active, .sp-mini-btn.primary, .site-body .button {
   background: var(--HighlightedBackground); border-color: var(--HighlightedBackground); color: var(--accentContrastText) !important;
 }
+/* a filled one hovered: the hover colour, a step toward the text's colour (lighter on a dark theme, darker on a light
+   one). The step is what shows where a theme's hover colour is its accent itself (Mild Dark, Signal): there the plain
+   hover colour is the fill it already has, and nothing changed under the pointer. */
 @media (hover: hover) {
   .seg button.active:hover, .ic-tab.active:hover, .sp-mini-btn.primary:hover, .site-body .button:hover {
-    background: var(--HoverButton); border-color: var(--HoverButton); color: var(--accentContrastText) !important; filter: none; transform: none;
+    background: var(--filledHover); border-color: var(--filledHover); color: var(--accentContrastText) !important; filter: none; transform: none;
   }
 }
 .seg button.active:focus-visible, .ic-tab.active:focus-visible, .sp-mini-btn.primary:focus-visible, .site-body .button:focus-visible {
-  background: var(--HoverButton); border-color: var(--HoverButton); color: var(--accentContrastText) !important; filter: none; transform: none;
+  background: var(--filledHover); border-color: var(--filledHover); color: var(--accentContrastText) !important; filter: none; transform: none;
 }
+:root, :host { --filledHover: color-mix(in srgb, var(--HoverButton) 62%, var(--WindowForeground)); }
+/* and a page's button, the thing a page asks its reader to press, has a ring round it too */
+@media (hover: hover) { .site-body .button:hover { box-shadow: 0 0 0 3px color-mix(in srgb, var(--HoverButton) 45%, transparent); } }
+.site-body .button:focus-visible { box-shadow: 0 0 0 3px color-mix(in srgb, var(--HoverButton) 45%, transparent); }
 .seg button.active:active, .ic-tab.active:active, .sp-mini-btn.primary:active, .site-body .button:active {
   background: var(--PressedButton); border-color: var(--PressedButton); box-shadow: none; transform: none;
 }
