@@ -1,2 +1,10 @@
 # The marks of the licences that have been revoked, a line each (sonic-pi-licence marks). Every build of the plugin
 # carries this list and refuses a licence whose mark is in it. A mark is a hash of a licence's number: it names nobody.
+287357f585a2d433b7307ece2d1779f95a6ff8e64db807518e73c30292a8b882
+43202bb430c4ce15ef6daa464ddab24023fe9735516d5d679ba400c0653d9662
+67d1d8391895374e28b17da2f9e6edd4210043fc7a8bb4a6eb8e0d1ce2583f59
+6ef5d5941324ee6bbec8376dfa7e3f386b8379661497be96899364dbb4efd8e1
+d4e73d806087dc22367d83e04eecf70670cdcf5c672a65b2d0ce09db07da6336
+d6aade8c3b7d3af9423139841691bb3b1d4fc531f16387fe34e60bd1880c3bcb
+f0d3d0feee62c664de8ddb3906344b3c80df939a52dd9dd7f662dc6e090a2c1e
+f773259dfdd59a6adaf985bbf0817f98278df5d115c413b5ee6215cb43257e01
