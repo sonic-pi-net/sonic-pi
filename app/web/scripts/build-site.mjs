@@ -116,6 +116,9 @@ function staticCards(html) {
   const counts = new Map();
   const heads = [...html.matchAll(/<h([1-6])\b/g)].map((m) => [m.index, Number(m[1])]);
   const under = (at) => heads.findLast(([i]) => i < at)?.[1] ?? 1;
+  // an article its reader is to stay on (data-stay: a sales page) has cards with no Open in Sonic Pi
+  const articles = [...html.matchAll(/<article\b[^>]*>/g)].map((m) => [m.index, /\sdata-stay\b/.test(m[0])]);
+  const stays = (at) => articles.findLast(([i]) => i < at)?.[1] ?? false;
   return html.replace(/<pre class="sp-card"([^>]*)><code>([\s\S]*?)<\/code><\/pre>/g, (_, attrText, body, at) => {
     const a = {};
     for (const m of attrText.matchAll(/\s([\w-]+)(?:="([^"]*)")?/g)) a[m[1]] = m[2] != null ? unescape(m[2]) : true;
@@ -126,9 +129,6 @@ function staticCards(html) {
     const wide = "data-wide" in a, still = "data-still" in a;
     return cardHTML({ title, code, id: a.id ?? null, blurb: a["data-blurb"] ?? "", wide, playable: !still, level: Math.min(under(at) + 1, 6), open: !stays(at), sizes: a["data-kind"] !== "example",   // an example's page gives it its height (the flip), and its code scrolls there
       attrs: { key: a["data-key"], title: section, blurb: a["data-blurb"], wide, still, kind: a["data-kind"] } });
-  // an article its reader is to stay on (data-stay: a sales page) has cards with no Open in Sonic Pi
-  const articles = [...html.matchAll(/<article\b[^>]*>/g)].map((m) => [m.index, /\sdata-stay\b/.test(m[0])]);
-  const stays = (at) => articles.findLast(([i]) => i < at)?.[1] ?? false;
   });
 }
 

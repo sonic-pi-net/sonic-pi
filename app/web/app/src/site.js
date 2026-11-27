@@ -23,9 +23,6 @@ const codeOf = (block) => (block.matches("pre") ? (block.querySelector("code") ?
 // a block's heading level: the build's card's (a level under the heading it sits under), a <pre>'s the card's own
 const levelOf = (block) => Number(block.querySelector(".qs-card-title")?.tagName.slice(1)) || 2;
 
-export function mountExamples(pres, hooks, host, root = document) {
-  const deck = createDeck(hooks, host);
-  for (const pre of pres) {
 // How tall a card may be: the part of the page on show (its scroller's height, less a little air), which card.css
 // reads as --card-most. Kept as the window changes size.
 const fitted = new WeakSet();
@@ -42,8 +39,11 @@ function fitCardsTo(scroller) {
 // stay on (data-stay: the plugin's sales page, where leaving is a sale lost).
 const opens = (at, hooks) => (at.closest?.("[data-stay]") ? undefined : hooks.open);
 
-    const d = pre.dataset;
+export function mountExamples(pres, hooks, host, root = document) {
   fitCardsTo(host);
+  const deck = createDeck(hooks, host);
+  for (const pre of pres) {
+    const d = pre.dataset;
     const card = deck.add(createCard({ title: d.title, code: codeOf(pre), blurb: d.blurb ?? "", key: d.key, actions: ["edit", "reset", "copy"], open: opens(pre, hooks), hooks, remember: STORE, root, wide: "wide" in d, level: levelOf(pre) }));
     if (pre.id) card.el.id = pre.id;
     pre.replaceWith(card.el);
@@ -58,19 +58,19 @@ const opens = (at, hooks) => (at.closest?.("[data-stay]") ? undefined : hooks.op
  * @param pres   the <pre> elements, in page order
  */
 export function mountSnippets(pres, hooks, host, root) {
+  fitCardsTo(host);
   const deck = createDeck(hooks, host);
   const counts = new Map();
   pres.forEach((pre, i) => {
-  fitCardsTo(host);
     let h = pre.previousElementSibling;
     while (h && !/^H[1-6]$/.test(h.tagName)) h = h.previousElementSibling;
     const section = pre.dataset.title ?? h?.textContent.trim().replace(/\s+/g, " ") ?? "Example";   // a block may name itself (a page's teaser)
     const n = (counts.get(section) ?? 0) + 1; counts.set(section, n);
     pre.querySelectorAll(".copy-button").forEach((b) => b.remove());   // the page's own copy button: the card has one
+    const open = opens(pre, hooks);   // asked while the block is still in its article
     const slot = el("div");   // the card takes the block into its body, so the block's place is held first
     pre.replaceWith(slot);
     const card = deck.add(createCard({ title: n > 1 ? `${section} · ${n}` : section, code: codeOf(pre).replace(/^\n/, "").replace(/\n$/, ""), key: pre.dataset.key ?? `snippet-${i}`, hooks, sizes: true, actions: ["edit", "reset", "copy"], open, root, playable: !("still" in pre.dataset), level: levelOf(pre) }));   // a fragment (data-still) to read, not a program to play   // a <pre><code> keeps a leading newline the page never shows
-    const open = opens(pre, hooks);   // asked while the block is still in its article
     slot.replaceWith(card.el);
     playIfPressed(card);
   });
