@@ -2444,7 +2444,6 @@ html.pg-fullscreen .sn-stop { visibility: hidden; }   /* the nav's stop shows it
 .licence-lead b { font-weight: 600; color: #4d8dff; }
 .licence-box { display: block; box-sizing: border-box; width: 100%; padding: 14px; border: 1.5px solid rgba(255, 255, 255, 0.3); border-radius: 12px; background: #000; color: inherit; font: 13px/1.4 var(--code-font, ui-monospace, monospace); resize: none; }
 .licence-box:focus { outline: none; border-color: #ff2d92; box-shadow: 0 0 22px rgba(255, 45, 146, 0.35); }
-.licence-gate.refused .licence-box { border-color: #e5484d; box-shadow: none; }
 .licence-say { min-height: 1.5em; margin: 14px 0; font: 16px/1.4 var(--ui-font, system-ui); }
 .licence-unlock { padding: 11px 36px; border: 0; border-radius: 10px; background: #ff2d92; color: #fff; font: 700 16px var(--ui-font, system-ui); cursor: pointer; }
 .licence-choose { display: block; margin: 14px auto 0; padding: 4px 8px; border: 0; background: none; color: rgba(255, 255, 255, 0.75); font: 14px var(--ui-font, system-ui); text-decoration: underline; cursor: pointer; }

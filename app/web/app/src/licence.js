@@ -4,7 +4,8 @@
 // that asks for a licence when there is none, and the words for why one was refused.
 //
 // Entering one is a paste: the email the licence came in, whole, or the licence alone. A paste is sent at once, with
-// no button to find; a refusal says what to do about it and leaves the text there to be put right; a licence taken
+// no button to find; a refusal says what to do about it, in words alone (no red: the screen is Sonic Pi's pink),
+// and leaves the text there to be put right; a licence taken
 // is thanked by name: the thanks fade in, stay a few seconds and fade out, or go when Begin is pressed.
 //
 //   page → plugin   { t: "licence" }                  how do I stand?
@@ -31,12 +32,27 @@ const REFUSED = {
 // Sonic Pi's heart, as the support card has it: filled, in the accent, with a glow (style.css). For the thanks.
 const HEART = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.979 3.074a6 6 0 0 1 4.988 1.425l.037 .033l.034 -.03a6 6 0 0 1 4.733 -1.44l.246 .036a6 6 0 0 1 3.364 10.008l-.18 .185l-.048 .041l-7.45 7.379a1 1 0 0 1 -1.313 .082l-.094 -.082l-7.493 -7.422a6 6 0 0 1 3.176 -10.215z"/></svg>';
 
-/** What a person is told about how the plugin stands: whose it is, or why what they entered was not taken ("" with nothing entered). */
-export function licenceWords(standing) {
+// The same, of a licence nobody has just entered: the one the plugin had kept, which stood once and no longer does
+// (revoked since, or kept by an older plugin). The screen opens on these, so they say which licence they mean.
+const KEPT = {
+  "not-a-licence": "The licence on this computer could not be read. Paste your licence again.",
+  damaged: "The licence on this computer is damaged. Paste your licence again.",
+  unsupported: "The licence on this computer is newer than this plugin. Update the plugin.",
+  "not-genuine": "The licence on this computer could not be verified. Paste your licence again, exactly as it was sent to you.",
+  "wrong-product": "The licence on this computer is for something else, not the Sonic Pi plugin.",
+  revoked: "The licence on this computer has been revoked. Paste a new one, or write to us if you think that is a mistake.",
+};
+
+/**
+ * What a person is told about how the plugin stands: whose it is, or why a licence was not taken ("" with none).
+ * kept: the licence is the one the plugin had kept, not one a person has just entered.
+ */
+export function licenceWords(standing, { kept = false } = {}) {
   if (standing.licensed) return `Licensed to ${standing.name}`;
   if (standing.why === "none") return "";
-  if (standing.why === "version") return `That licence is for Sonic Pi ${standing.from} up to ${standing.until}, which this plugin is not.`;
-  return REFUSED[standing.why] ?? "That licence was not taken. Paste it exactly as it was sent to you.";
+  const which = kept ? "The licence on this computer" : "That licence";
+  if (standing.why === "version") return `${which} is for Sonic Pi ${standing.from} up to ${standing.until}, which this plugin is not.`;
+  return (kept ? KEPT : REFUSED)[standing.why] ?? `${which} was not taken. Paste it exactly as it was sent to you.`;
 }
 
 /**
@@ -77,7 +93,7 @@ export function createLicenceGate({ plugin, document, onStanding = () => {}, log
     const enter = () => { const text = box.value; if (!text.trim()) return; entered = true; plugin.post({ t: "licenceEnter", text }); };
     // a paste is the whole of it: sent once the box has it (the event comes before the text is in)
     box.addEventListener("paste", () => later(enter, 0));
-    box.addEventListener("input", () => { say.textContent = ""; gate.classList.remove("refused"); });
+    box.addEventListener("input", () => { say.textContent = ""; });
     unlock.addEventListener("click", enter);
     // a licence saved as a file: dropped on the screen, or chosen
     const take = (file) => { if (file?.text) file.text().then((text) => { box.value = text; enter(); }).catch(() => {}); };
@@ -110,8 +126,9 @@ export function createLicenceGate({ plugin, document, onStanding = () => {}, log
       show();
       copied.hidden = !standing.copied;
       copied.textContent = standing.copied ? `Use the licence you copied, for ${standing.copied}` : "";
-      say.textContent = licenceWords(standing);
-      gate.classList.toggle("refused", standing.why !== "none");
+      // what was refused: the licence a person has just entered, or (nothing entered) the one the plugin had kept
+      say.textContent = licenceWords(standing, { kept: !entered });
+      entered = false;
       return;
     }
     if (!gate) return;
@@ -122,7 +139,6 @@ export function createLicenceGate({ plugin, document, onStanding = () => {}, log
     mark.innerHTML = HEART;   // the logo asked; the heart thanks
     mark.classList.add("licence-heart");
     say.textContent = `Thank you, ${standing.name}.`;
-    going.classList.remove("refused");
     going.classList.add("licensed");
     // the thanks fade in, stay a good while and fade out; Begin, which has the keyboard, ends them sooner
     let leaving = false;

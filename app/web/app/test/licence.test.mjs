@@ -167,3 +167,26 @@ test("with nothing copied there is no offer", () => {
   plugin.says({ licensed: false, why: "none" });
   assert.ok(find(document.body.children[0], "licence-copied").hidden);
 });
+
+test("a licence kept from before that no longer stands is said to be the one on this computer", () => {
+  // nothing was entered: the screen opens on a refusal of what the plugin had kept (a licence since revoked)
+  assert.equal(licenceWords({ licensed: false, why: "revoked" }, { kept: true }), "The licence on this computer has been revoked. Paste a new one, or write to us if you think that is a mistake.");
+  assert.match(licenceWords({ licensed: false, why: "damaged" }, { kept: true }), /^The licence on this computer /);
+  assert.match(licenceWords({ licensed: false, why: "version", from: "6.0", until: "7.0" }, { kept: true }), /^The licence on this computer is for Sonic Pi 6\.0/);
+  assert.equal(licenceWords({ licensed: false, why: "none" }, { kept: true }), "");
+  assert.equal(licenceWords({ licensed: false, why: "revoked" }), "That licence has been revoked. Write to us if you think that is a mistake.", "one a person entered is still 'that licence'");
+});
+
+test("the screen opens saying which licence was refused, and one entered afterwards is 'that licence'", () => {
+  const document = fakeDocument(), plugin = fakePlugin();
+  createLicenceGate({ plugin, document, later: (fn) => fn() });
+  plugin.says({ licensed: false, why: "revoked" });   // the licence the plugin had kept
+  const gate = document.body.children.find((c) => !c.removed);
+  assert.match(find(gate, "licence-say").textContent, /^The licence on this computer has been revoked/);
+  assert.ok(!gate.classList.contains("refused"), "a refusal is told in words: nothing is marked in red");
+  const box = find(gate, "licence-box");
+  box.value = "not a licence";
+  find(gate, "licence-unlock").fire("click");
+  plugin.says({ licensed: false, why: "not-a-licence" });
+  assert.match(find(gate, "licence-say").textContent, /^That has no licence in it/);
+});
