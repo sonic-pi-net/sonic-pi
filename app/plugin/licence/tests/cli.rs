@@ -108,6 +108,69 @@ fn a_licence_issued_is_genuine_and_is_written_in_the_record() {
     }
 }
 
+/// A shop is told of a sale more than once (a notice sent again, a delivery tried again), and the buyer is owed one
+/// licence, not one for each telling.
+#[test]
+fn an_order_is_issued_one_licence_however_often_it_is_asked_for() {
+    let dir = Folder::new("order-once");
+    assert!(tool(&dir.0, &["keygen", "1"]).status.success());
+    let ask = |order: &str, name: &str| tool(&dir.0, &["issue", "--name", name, "--email", "ada@example.com", "--order", order]);
+
+    let first = ask("txn_01abc", "Ada Lovelace");
+    assert!(first.status.success(), "{}", err(&first));
+    let again = ask("txn_01abc", "Ada Lovelace");
+    assert!(again.status.success(), "{}", err(&again));
+    assert_eq!(out(&first), out(&again), "the same licence, to the letter");
+    // asked for again with other details (the buyer's name corrected at the shop since): still the licence issued
+    assert_eq!(out(&first), out(&ask("txn_01abc", "A. Lovelace")));
+
+    let other = ask("txn_02xyz", "Ada Lovelace");
+    assert_ne!(out(&first), out(&other), "another order is another licence");
+
+    let record = std::fs::read_to_string(dir.file("record.jsonl")).unwrap();
+    assert_eq!(record.lines().count(), 2, "one line for each order: {record}");
+
+    // with no order named there is nothing to know it by: each asking is a licence, as before
+    let loose = |()| tool(&dir.0, &["issue", "--name", "Ada Lovelace", "--email", "ada@example.com"]);
+    assert_ne!(out(&loose(())), out(&loose(())));
+}
+
+/// A shop knows a refund by its order, not by the licence's number.
+#[test]
+fn a_licence_can_be_revoked_by_the_order_it_was_issued_for() {
+    let dir = Folder::new("revoke-by-order");
+    assert!(tool(&dir.0, &["keygen", "1"]).status.success());
+    let issued = tool(&dir.0, &["issue", "--name", "Ada Lovelace", "--email", "ada@example.com", "--order", "txn_01abc"]);
+    let licence = read(&out(&issued), &[public_key(&dir, 1)]).unwrap();
+
+    let revoked = tool(&dir.0, &["revoke", "--order", "txn_01abc", "--why", "refunded"]);
+    assert!(revoked.status.success(), "{}", err(&revoked));
+    assert!(out(&tool(&dir.0, &["marks"])).contains(&revocation_mark(&licence.id)));
+
+    let again = tool(&dir.0, &["revoke", "--order", "txn_01abc"]);
+    assert!(!again.status.success());
+    assert!(err(&again).contains("was revoked on"), "{}", err(&again));
+
+    let nobody = tool(&dir.0, &["revoke", "--order", "txn_nobody"]);
+    assert!(!nobody.status.success());
+    assert!(err(&nobody).contains("no licence was issued here for order txn_nobody"), "{}", err(&nobody));
+}
+
+/// A refunded order's licence is revoked: asking for that order again does not hand the revoked licence out as good.
+#[test]
+fn an_order_whose_licence_was_revoked_is_issued_nothing_more() {
+    let dir = Folder::new("order-revoked");
+    assert!(tool(&dir.0, &["keygen", "1"]).status.success());
+    let issued = tool(&dir.0, &["issue", "--name", "Ada Lovelace", "--email", "ada@example.com", "--order", "txn_01abc"]);
+    let licence = read(&out(&issued), &[public_key(&dir, 1)]).unwrap();
+    assert!(tool(&dir.0, &["revoke", &licence.id, "--why", "refunded"]).status.success());
+
+    let again = tool(&dir.0, &["issue", "--name", "Ada Lovelace", "--email", "ada@example.com", "--order", "txn_01abc"]);
+    assert!(!again.status.success());
+    assert!(out(&again).is_empty(), "nothing is handed over");
+    assert!(err(&again).contains("txn_01abc") && err(&again).contains("revoked"), "{}", err(&again));
+}
+
 #[test]
 fn a_licence_can_be_for_other_versions_and_by_another_key() {
     let dir = Folder::new("range");

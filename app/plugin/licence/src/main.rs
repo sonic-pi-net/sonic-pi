@@ -12,7 +12,8 @@
 //!
 //!   sonic-pi-licence --dir D keygen 1
 //!   sonic-pi-licence --dir D issue --name "Ada Lovelace" --email ada@example.com [--order txn_…] [--from 5.0] [--until 6.0] [--key 1]
-//!   sonic-pi-licence --dir D revoke SP-XXXXX-XXXXX [--why refunded]
+//!                                             with --order, an order already in the record is handed the licence it was issued
+//!   sonic-pi-licence --dir D revoke SP-XXXXX-XXXXX [--why refunded]      or: revoke --order txn_… [--why refunded]
 //!   sonic-pi-licence --dir D list
 //!   sonic-pi-licence --dir D marks                  the revoked licences' marks, a line each: what a release carries
 //!   sonic-pi-licence --dir D check --version 5.1 < an-email.txt
@@ -251,8 +252,19 @@ fn issue(dir: &Path, mut args: Vec<String>, date: Option<String>) -> Result<(), 
     if let Some(stray) = args.first() {
         return Err(format!("issue does not know {stray}\n{USAGE}"));
     }
-    let private = private_key(dir, key)?;
     let issued = record(dir)?;
+    // An order has one licence. A shop is told of a sale more than once (a notice sent again), and asking again for an
+    // order already in the record hands over the licence it was issued, as it was issued: signed again from the
+    // record, which comes out the same to the letter. Nothing is added to the record.
+    if let Some(entry) = issued.iter().find(|e| !order.is_empty() && e.order == order) {
+        if let Some((when, _)) = &entry.revoked {
+            return Err(format!("order {order} was issued {}, which was revoked on {when}: nothing more is issued for it", entry.licence.id));
+        }
+        let text = sign(&entry.licence, &private_key(dir, entry.licence.key)?).map_err(|why| format!("not issued: {why:?}"))?;
+        print!("{text}");
+        return Ok(());
+    }
+    let private = private_key(dir, key)?;
     let id = loop {
         let id = new_id();
         if !issued.iter().any(|e| e.licence.id == id) {
@@ -273,9 +285,17 @@ fn issue(dir: &Path, mut args: Vec<String>, date: Option<String>) -> Result<(), 
 
 fn revoke(dir: &Path, mut args: Vec<String>, date: Option<String>) -> Result<(), String> {
     let why = option(&mut args, "--why")?.unwrap_or_default();
-    let id = args.first().ok_or("revoke needs the licence's number: revoke SP-XXXXX-XXXXX")?.trim().to_ascii_uppercase();
+    let order = option(&mut args, "--order")?;
     let issued = record(dir)?;
-    let entry = issued.iter().find(|e| e.licence.id == id).ok_or_else(|| format!("no licence {id} was issued here"))?;
+    // by the order it was issued for (what a shop knows a refund by), or by its number
+    let entry = match &order {
+        Some(order) => issued.iter().find(|e| !order.is_empty() && e.order == *order).ok_or_else(|| format!("no licence was issued here for order {order}"))?,
+        None => {
+            let id = args.first().ok_or("revoke needs the licence's number, or its order: revoke SP-XXXXX-XXXXX, or revoke --order txn_…")?.trim().to_ascii_uppercase();
+            issued.iter().find(|e| e.licence.id == id).ok_or_else(|| format!("no licence {id} was issued here"))?
+        }
+    };
+    let id = entry.licence.id.clone();
     if let Some((when, _)) = &entry.revoked {
         return Err(format!("{id} was revoked on {when}"));
     }
