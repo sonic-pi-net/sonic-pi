@@ -124,8 +124,11 @@ function staticCards(html) {
     let title = section;
     if (a["data-kind"] !== "example") { const n = (counts.get(section) ?? 0) + 1; counts.set(section, n); if (n > 1) title = `${section} · ${n}`; }
     const wide = "data-wide" in a, still = "data-still" in a;
-    return cardHTML({ title, code, id: a.id ?? null, blurb: a["data-blurb"] ?? "", wide, playable: !still, level: Math.min(under(at) + 1, 6),
+    return cardHTML({ title, code, id: a.id ?? null, blurb: a["data-blurb"] ?? "", wide, playable: !still, level: Math.min(under(at) + 1, 6), open: !stays(at), sizes: a["data-kind"] !== "example",   // an example's page gives it its height (the flip), and its code scrolls there
       attrs: { key: a["data-key"], title: section, blurb: a["data-blurb"], wide, still, kind: a["data-kind"] } });
+  // an article its reader is to stay on (data-stay: a sales page) has cards with no Open in Sonic Pi
+  const articles = [...html.matchAll(/<article\b[^>]*>/g)].map((m) => [m.index, /\sdata-stay\b/.test(m[0])]);
+  const stays = (at) => articles.findLast(([i]) => i < at)?.[1] ?? false;
   });
 }
 

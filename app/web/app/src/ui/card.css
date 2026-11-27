@@ -129,3 +129,13 @@ body.reduce-motion .qs-transport.busy .qs-scope-play::after { opacity: 1 !import
 .qs-card-body::-webkit-scrollbar-thumb { background: transparent; border: none; }
 .qs-card-body:hover::-webkit-scrollbar-thumb { background: var(--ScrollBar); }
 .qs-card-body::-webkit-scrollbar-track, .qs-card-body::-webkit-scrollbar-corner { background: transparent; }
+
+
+/* ── A card on a page (.qs-sizes, card-html.js): never taller than the screen it is on (--card-most, which the page's
+   script keeps: site.js), its bar and its Play always in reach and its code scrolling inside it; a long one shrunk to
+   a few lines until its bar's button grows it. At either end of its code the wheel goes on to the page, and over a
+   card whose code does not scroll it never stops there ── */
+.qs-card.qs-sizes { max-height: var(--card-most, calc(100dvh - 9rem)); }
+.qs-card.qs-sizes > .qs-card-head, .qs-card.qs-sizes > .qs-card-foot { flex: none; }
+.qs-card.qs-sizes .qs-card-body { overscroll-behavior-y: auto; }
+.qs-card.qs-sizes.qs-shrunk .qs-card-body { max-height: calc(12 * 1.5em + 12px); }   /* SHRUNK_LINES lines of code, and the body's padding */

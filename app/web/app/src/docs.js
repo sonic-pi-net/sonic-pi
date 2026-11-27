@@ -391,7 +391,7 @@ function basicOf(p, isFx, shown) {
   return { names: new Set([...core, ...spare]), spare: new Set(spare) };
 }
 
-export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = true, place = "docs", heading = 1, open = null } = {}) {
+export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = true, place = "docs", heading = 1, open = null, insert = !open } = {}) {
   // The synth is a code card (ui/card.js): its name and Basic switch in the card's bar with the card's actions, the
   // synth itself — its knobs and keys — the card's panel, the code they make the card's code, and the card's foot
   // (the words, Play and Stop with their rings, the strip of its sounds). `face` is the panel.
@@ -595,7 +595,7 @@ export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = tr
   // The card: the code the dials make its code (reset puts the dials back; copy and insert take the code), Play and
   // Stop its transport, on press as the keys are
   const card = createCard({
-    title: name, key: `instrument/${p.key}`, code: programFor(null), actions: open ? ["reset", "copy"] : ["reset", "copy", "insert"], still: true, onPress: true, level: heading,
+    title: name, key: `instrument/${p.key}`, code: programFor(null), actions: insert ? ["reset", "copy", "insert"] : ["reset", "copy"], still: true, onPress: true, level: heading,
     tips: { reset: "Reset all controls to their defaults" },   // native's instrument page: the dials go back, not code that was written
     // the synth's one-sentence summary (its metadata's), else its description's first sentence — but not on its own
     // docs page, where its full description is the next thing under the card and the summary only says it again
@@ -606,6 +606,7 @@ export function createInstrument(p, isFx, hooks, deck, { fit = false, basic = tr
     hooks: { copy: hooks.copy, insert: hooks.insert, now: hooks.now, synthDefaults: hooks.synthDefaults, scopeFrame: hooks.scopeFrame, loopScopes: hooks.loopScopes },
     panel: face, extra: pendingBar,
     // away from the editor (the home page), Open in Sonic Pi in place of Insert: the code into the editor, its sound going on
+    // (neither on a page its reader is to stay on, the plugin's sales page: no editor to insert into, and no leaving)
     open: open && ((code) => open(code, demo.job)),
   });
   card.el.classList.add("pg-card");

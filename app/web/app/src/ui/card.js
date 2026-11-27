@@ -28,7 +28,7 @@ import { css, colour, blend, cssColour } from "../theme.js";
 import { createEventStrip } from "./strip.js";
 import { loopName } from "../loop-name.js";
 import { FLASH_HOLD_MS, codeSpan } from "../flash.js";
-import { TRANSPORT, TRANSPORT_STOP } from "./card-html.js";
+import { TRANSPORT, TRANSPORT_STOP, SIZE_LABELS, sizeOf } from "./card-html.js";
 
 // The classes CodeMirror puts on an editor in a root (its base theme's, the highlighter's): a still block wears
 // them too, so CodeMirror's own rules lay both out alike. Asked once per root, of a throwaway editor, which
@@ -248,6 +248,8 @@ function action(name, label, tip, onClick) {
  * @param o.root      the document or shadow root the card lives in (CodeMirror's styles go there)
  * @param o.wide      spans the grid
  * @param o.playable  false for a fragment that cannot run on its own: no play control
+ * @param o.sizes     true for a card on a page: never taller than the screen, its code scrolling inside it, and a long
+ *                    one shrunk to a few lines until its bar's button grows it (card-html.js; kept by the card's key)
  */
 let titles = 0;   // each card's title an id of its own, for the card's name
 
@@ -302,7 +304,7 @@ function cardLoopScopes(body, hooks) {
 }
 
 export function createCard(o) {
-  const { title, blurb = "", key = title, actions = [], open = null, hooks = {}, remember = null, root = document, wide = false, playable = true, tips = {} } = o;   // tips: a button's words on hover in place of the card's own (an instrument's Reset)
+  const { title, blurb = "", key = title, actions = [], open = null, hooks = {}, remember = null, root = document, wide = false, playable = true, tips = {}, sizes = false } = o;   // tips: a button's words on hover in place of the card's own (an instrument's Reset)
   // a card with more to it (the synth, docs.js createInstrument): `panel` between the bar and the code, `extra` in the
   // bar after the title, the code `still` (made, not typed: no editor), `level` its heading's, Play `onPress`
   const { panel = null, extra = null, still = false, level = 2, onPress = false } = o;
@@ -348,6 +350,34 @@ export function createCard(o) {
   if (open) buttons.open = action("open", "Open in Sonic Pi", "Open this card's code in the editor.", (ev) => { ev.stopPropagation(); open(code(), api.job); });
   if (extra) head.append(...[extra].flat());
   head.append(...["edit", "reset", "copy", "insert", "drag", "open"].map((k) => buttons[k]).filter(Boolean));
+  // on a page: kept to the screen, and a long one shrunk to a few lines until asked to grow (card-html.js)
+  if (sizes) {
+    art.classList.add("qs-sizes");
+    const sizeKey = `sp-card-size/${key}`;
+    const size = sizeOf(original, store.get(sizeKey));
+    if (size.long) {
+      art.classList.add("qs-long");
+      const b = (buttons.size = action("chevron-down", SIZE_LABELS.grow, SIZE_LABELS.grow));
+      b.classList.remove("qs-card-chevron-down");
+      b.classList.add("qs-card-size");
+      const stand = (shrunk) => {
+        art.classList.toggle("qs-shrunk", shrunk);
+        b.setAttribute("aria-expanded", String(!shrunk));
+        b.title = shrunk ? SIZE_LABELS.grow : SIZE_LABELS.shrink;
+        b.setAttribute("aria-label", b.title);
+        b.innerHTML = icon(shrunk ? "chevron-down" : "chevron-up", "");
+      };
+      stand(size.shrunk);
+      b.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        const shrunk = !art.classList.contains("qs-shrunk");
+        stand(shrunk);
+        store.set(sizeKey, shrunk ? null : "grown");
+        if (shrunk) body.scrollTop = 0;   // shrunk again: from its first line
+      });
+      head.append(b);
+    }
+  }
 
   // ── the body: a highlighted block, until it is clicked into; then the editor, with the caret there ──
   const body = el("div", "qs-card-body");
