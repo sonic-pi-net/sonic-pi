@@ -707,6 +707,42 @@ fn a_program_woken_by_a_note_from_the_host_sleeps_and_plays_on() {
     assert_eq!(gaps(&again), vec![48_000, 48_000], "the second note's three: {again:?}");
 }
 
+/// The process table the instance last said (SAYS_TABLE, 6): a row of 15 doubles for each thread, fx and sound,
+/// as the page's PROCESS_FIELDS has them.
+fn last_table(heard: &Heard) -> Vec<[f64; 15]> {
+    let said = heard.0.lock().unwrap();
+    let bytes = said.iter().rev().find(|(k, _)| *k == 6).map(|(_, b)| b.clone()).unwrap_or_default();
+    bytes.chunks_exact(8 * 15).map(|row| std::array::from_fn(|i| f64::from_le_bytes(row[i * 8..i * 8 + 8].try_into().unwrap()))).collect()
+}
+
+/// The page draws its tree of threads and sounds from the table the instance says. A loop that has answered a note
+/// and waits on its sync again asks for no more ticks, and the sounds it started end, and leave the table, with the
+/// runtime idle: the page is told all the same, or its tree keeps sounds that are long over.
+#[test]
+fn the_page_is_told_a_sound_has_ended_and_gone_while_the_program_only_waits() {
+    const KIND: usize = 3;
+    const STATE: usize = 4;
+    let sounds = |table: &[[f64; 15]]| table.iter().filter(|r| r[KIND] == 7.0 || r[KIND] == 8.0).map(|r| r[STATE]).collect::<Vec<f64>>();
+    let instance = offline();
+    render_until_loaded(&instance);
+    let heard = listening(&instance);
+    instance.run(&format!("live_loop :keys do\n  n, v = sync \"/midi:daw:1/note_on\"\n  {BEEP}\nend\n"));
+    render(&instance, seconds(1.0));
+    assert!(instance.midi_in(&[0x90, 60, 100], 0));
+    render(&instance, seconds(0.02));
+    assert_eq!(sounds(&last_table(&heard)), vec![0.0], "the note's beep is in the table, sounding");
+
+    // the beep lasts 0.05 s: well over, and not yet a second over (how long an ended sound stays shown)
+    render(&instance, seconds(0.5));
+    assert_eq!(sounds(&last_table(&heard)), vec![3.0], "half a second on the page has been told it ended");
+
+    render(&instance, seconds(1.5));
+    let table = last_table(&heard);
+    deaf(&instance);
+    assert_eq!(sounds(&table), Vec::<f64>::new(), "and a second after it ended, that it has gone");
+    assert!(table.iter().any(|r| r[KIND] == 2.0 && r[STATE] == 2.0), "with the loop still there, waiting on its sync: {table:?}");
+}
+
 #[test]
 fn a_note_off_from_the_host_is_a_cue_too_and_what_is_not_a_note_is_refused() {
     let instance = offline();

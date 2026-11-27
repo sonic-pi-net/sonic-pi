@@ -812,6 +812,33 @@ module SonicPi
       rows
     end
 
+    # RT: when the table next changes with nothing run: a sound ending, an
+    # fx freed, or what has ended leaving it (LINGER, SOUND_LINGER). A host
+    # that sends the table on (a plugin's page) asks after it has read the
+    # table at `now`, and reads it again then: a program that only waits
+    # asks for no tick, and its last sounds end all the same. -1.0: nothing
+    # more until something runs.
+    def table_changes_at(now)
+      at = nil
+      due = ->(t) { at = t if t > now && (at.nil? || t < at) }
+      left = ->(t, linger) { due.call(t + linger + TABLE_LEFT) }   # gone once it is over `linger` past
+      @sounds.each do |s|
+        finish = s[3].ends_at
+        next if finish >= Language::LIVE_AUDIO_FOREVER   # live audio: no end to wait for
+        due.call(finish)
+        left.call(finish, SOUND_LINGER)
+      end
+      @procs.each_value { |p| left.call(p.ended_at, LINGER) if p.ended_at }
+      (@fx_open + @fx_gone).each do |f|
+        next unless f.free_at
+        freed = f.free_at + f.owner.sched_ahead
+        due.call(freed)
+        left.call(freed, LINGER)
+      end
+      at || -1.0
+    end
+    TABLE_LEFT = 0.001
+
     KIND_FX = 6
     KIND_SYNTH = 7
     KIND_SAMPLE = 8

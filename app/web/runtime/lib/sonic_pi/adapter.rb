@@ -115,6 +115,7 @@ module SonicPi
       def stop_subtree(uid, fade, now) = @sched.stop_subtree(uid, fade, now)
       def stop_run(id, fade, now) = @sched.stop_run(id, fade, now)
       def process_table(now) = @sched.process_table(now)
+      def table_changes_at(now) = @sched.table_changes_at(now)
 
       def stop_after=(seconds)
         @sched.stop_after = seconds

@@ -58,6 +58,7 @@ double sp_sched_ahead(void);
 void sp_hold(double seconds);
 const double* sp_process_table(double now);
 int sp_process_table_len(void);
+double sp_table_changes_at(double now);
 void sp_stop_job(int job);
 void sp_stop_all(void);
 void sp_silence(double fade, double since, double now);
@@ -368,13 +369,29 @@ void RuntimeHost::post(std::function<void()> fn)
 // The next tick is for the engine time `at`: the thread sleeps until timeMoved says the clock is there.
 void RuntimeHost::arm(double at)
 {
-    m_wakeAt.store(at);
-    m_wakeSaid.store(false);
+    m_tickAt = at;
+    wakeFor();
 }
 
 void RuntimeHost::disarm()
 {
-    m_wakeAt.store(NEVER);
+    m_tickAt = NEVER;
+    wakeFor();
+}
+
+// The thread is woken for whichever comes first: the next tick, or the table's next change.
+void RuntimeHost::wakeFor()
+{
+    m_wakeAt.store(std::min(m_tickAt, m_tableAt.value_or(NEVER)));
+    m_wakeSaid.store(false);
+}
+
+void RuntimeHost::tableMoved()
+{
+    if (m_deps.ticked) m_deps.ticked();
+    const double at = sp_table_changes_at(m_deps.now ? now() : 0.0);
+    m_tableAt = at >= 0 ? std::optional<double>(at) : std::nullopt;
+    if (!m_deps.stepped) wakeFor();
 }
 
 void RuntimeHost::timeMoved(double now)
@@ -416,7 +433,10 @@ void RuntimeHost::threadMain(Paths paths, std::promise<std::string>* booted)
         // passed a wake time in the moment before it was armed.
         if (!m_deps.stepped && m_deps.now && m_deps.now() >= m_wakeAt.load())
         {
-            tick();
+            // the table's own change first: a tick, if one is due too, says the table again after it
+            if (m_tableAt && m_deps.now() >= *m_tableAt && m_deps.now() < m_tickAt) tableMoved();
+            else if (m_running) tick();
+            else disarm();   // nothing to tick: no wake left over to spin on
             continue;
         }
         // Nothing to do until a command is posted or the clock reaches the wake time: the time the collector gets
@@ -476,15 +496,25 @@ void RuntimeHost::advanceTo(double time)
 // the caller happened to advance to.
 void RuntimeHost::runDue(double until)
 {
-    while (m_running)
+    for (;;)
     {
-        const double at = std::max(m_nextWake.value_or(m_steppedNow), m_steppedNow);
+        // the table's own change (a sound ending with nothing run), where it comes before the next tick
+        const double tickAt = m_running ? std::max(m_nextWake.value_or(m_steppedNow), m_steppedNow) : NEVER;
+        if (m_tableAt && *m_tableAt < tickAt)
+        {
+            if (*m_tableAt > until) return;
+            m_steppedNow = std::max(m_steppedNow, *m_tableAt);
+            tableMoved();
+            continue;
+        }
+        if (!m_running) return;
+        const double at = tickAt;
         if (at > until) return;
         m_steppedNow = at;
         const double next = sp_tick(at);
         for (int i = 0; i < STEPPED_GC_STEPS && sp_gc_step(); i++) {}
         drain();
-        if (m_deps.ticked) m_deps.ticked();
+        tableMoved();
         if (next < 0)
         {
             m_running = false;
@@ -509,7 +539,7 @@ void RuntimeHost::stopAll(std::function<void()> done)
         m_stops++;
         pump();
         m_running = false;
-        if (m_deps.ticked) m_deps.ticked();
+        tableMoved();
         if (m_deps.state) m_deps.state(false);
         if (done) done();
     });
@@ -528,7 +558,7 @@ void RuntimeHost::stopJob(int job)
     post([this, job] {
         sp_stop_run(job, 0.0, now());
         drain();
-        if (m_deps.ticked) m_deps.ticked();
+        tableMoved();
         if (!m_running)
         {
             m_running = true;   // the frees at the fade's end are the runtime's to send
@@ -543,7 +573,7 @@ void RuntimeHost::stopRun(int job, double fade)
     post([this, job, fade] {
         sp_stop_run(job, fade, now());
         drain();
-        if (m_deps.ticked) m_deps.ticked();
+        tableMoved();
         if (!m_running)
         {
             m_running = true;   // the frees at the fade's end are the runtime's to send
@@ -558,7 +588,7 @@ void RuntimeHost::stopGroup(int group, double fade)
     post([this, group, fade] {
         sp_stop_group(group, fade, now());
         drain();
-        if (m_deps.ticked) m_deps.ticked();
+        tableMoved();
         if (!m_running)
         {
             m_running = true;   // the frees at the fade's end are the runtime's to send
@@ -673,7 +703,7 @@ void RuntimeHost::tick()
     const double next = sp_tick(now);
     drain();
     sayLongPass(std::chrono::duration<double>(std::chrono::steady_clock::now() - began).count(), sp_gc_interrupted() - interrupted);
-    if (m_deps.ticked) m_deps.ticked();
+    tableMoved();
     // Nothing scheduled, so nothing that could lose time: the last tick is forgotten.
     if (next < 0)
     {

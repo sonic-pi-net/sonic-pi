@@ -226,6 +226,11 @@ private:
     void installNativeHooks();
     void arm(double at);
     void disarm();
+    // The process table may have moved: the host is told (Deps::ticked, which reads it), and the runtime asked when
+    // it next changes with nothing run (a sound ending, what has ended leaving it). It is read again then, so a
+    // program that only waits, and asks for no tick, does not leave its host showing sounds that are over.
+    void tableMoved();
+    void wakeFor();
 
 public:
     // for the interpreter's native hooks (file-local C functions)
@@ -258,6 +263,8 @@ private:
     std::optional<double> m_t0;
     std::optional<double> m_expectedWake;             // live: the engine time the next tick is for
     double m_steppedNow = 0.0;                        // stepped mode: the time advanced to
+    std::optional<double> m_tableAt;                  // when the process table is to be read again; none: not until something runs
+    double m_tickAt = NEVER;                          // live: when the next tick is due (NEVER: none)
     std::optional<double> m_nextWake;                 // stepped mode: when the runtime next wants a tick; none: now
     int m_stops = 0;
     std::deque<Sound> m_queue;

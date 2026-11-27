@@ -837,6 +837,21 @@ SP_EXPORT int sp_process_table_len(void) {
   return (int)current->table_len;
 }
 
+// When the process table next changes with nothing run (a sound ending, what has ended leaving it), asked after
+// sp_process_table(now): the time to read it again, or -1 for not until something runs.
+SP_EXPORT double sp_table_changes_at(double now) {
+  if (!current) return -1.0;
+  mrb_state *mrb = current->mrb;
+  int ai = mrb_gc_arena_save(mrb);
+  mrb_value at = mrb_funcall(mrb, live_module(mrb), "table_changes_at", 1, mrb_float_value(mrb, now));
+  double t = -1.0;
+  if (mrb->exc) report_exception(mrb, "table changes at");
+  else if (mrb_float_p(at)) t = mrb_float(at);
+  else if (mrb_integer_p(at)) t = (double)mrb_integer(at);
+  mrb_gc_arena_restore(mrb, ai);
+  return t;
+}
+
 // One job stops where it stands; the others carry on.
 SP_EXPORT void sp_stop_job(int job) {
   if (!current) return;
