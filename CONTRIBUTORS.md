@@ -99,6 +99,7 @@ especially the following individuals who have been remarkably generous:
 * [André-Patrick Bubel](https://andre-bubel.de)
 * Andrew Litman
 * [Andrew Robillard](https://www.twitter.com/hoborobo123)
+* Barnabas Jovanovics
 * [Bartosz Majsak](https://twitter.com/majson)
 * [Ben Davis](https://soundcloud.com/ben_davis_noise)
 * [Benjamin Reitzammer](https://cto.coffee)
@@ -186,6 +187,7 @@ especially the following individuals who have been remarkably generous:
 * [Oladapo Fadeyi](https://twitter.com/erfadda)
 * [Ole Friis Østergaard](https://github.com/olefriis)
 * [Paul Williams](https://pcwilliams.design)
+* Peter Ullrich
 * Phoomparin Mano
 * [Pit Noack](http://www.maschinennah.de/)
 * Rainer Enzo Schilder
