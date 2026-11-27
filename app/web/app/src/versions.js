@@ -21,7 +21,7 @@ export function releaseVersion(text) {
 /** The status line for a release (releaseVersion): "Sonic Pi v5.1 VST", and for a pre-release "Sonic Pi v5.1 VST beta1".
  * `plugin` is the plugin's format ("VST", "AU"), or "" on the web. Native's is "Sonic Pi v5.1.0-beta1 on Mac". */
 export const versionLine = (release, plugin) =>
-  `Sonic Pi ${release.short} ${plugin || "on Web"}${release.pre ? ` ${release.pre}` : ""}`;
+  `Sonic Pi ${release.short} ${plugin || "Web"}${release.pre ? ` ${release.pre}` : ""}`;
 
 /** The text for About's App row: "Web 1.0.0", "VST 0.1.0" or "AU 0.1.0". */
 export const targetVersion = (plugin, own) => (plugin ? `${plugin} ${own.plugin}` : `Web ${own.web}`);

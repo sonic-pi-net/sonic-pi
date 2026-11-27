@@ -17,12 +17,12 @@ test("throws on a VERSION that native would reject", () => {
   assert.throws(() => releaseVersion(""), /Malformed version/);
 });
 
-test("status line: Sonic Pi version plus 'on Web' or the plugin's format, and a pre-release's word after it", () => {
-  assert.equal(versionLine(releaseVersion("5.1.0"), ""), "Sonic Pi v5.1 on Web");
+test("status line: Sonic Pi version plus 'Web' or the plugin's format, and a pre-release's word after it", () => {
+  assert.equal(versionLine(releaseVersion("5.1.0"), ""), "Sonic Pi v5.1 Web");
   assert.equal(versionLine(releaseVersion("5.1.0"), "VST"), "Sonic Pi v5.1 VST");
   assert.equal(versionLine(releaseVersion("5.1.0"), "AU"), "Sonic Pi v5.1 AU");
   assert.equal(versionLine(releaseVersion("5.1.0-beta1"), "VST"), "Sonic Pi v5.1 VST beta1");
-  assert.equal(versionLine(releaseVersion("5.1.0-beta1"), ""), "Sonic Pi v5.1 on Web beta1");
+  assert.equal(versionLine(releaseVersion("5.1.0-beta1"), ""), "Sonic Pi v5.1 Web beta1");
 });
 
 test("About's App row: 'Web' or the plugin's format, plus that target's own version", () => {
