@@ -2,7 +2,7 @@
  "source": {
   "repo": "../..",
   "branch": "dev",
-  "commit": "edd53b9a8",
+  "commit": "6c992b887",
   "file": "app/gui/model/sonicpitheme.cpp"
  },
  "schemes": {
@@ -428,7 +428,7 @@
     "Tab": "#2e2e2e",
     "TabText": "#d4d4d4",
     "TabSelected": "#ce9178",
-    "StatusBar": "#000000",
+    "StatusBar": "#1e1e1e",
     "StatusBarText": "#9cdcfe",
     "Menu": "#1e1e1e",
     "MenuText": "#d4d4d4",
@@ -562,7 +562,7 @@
     "Tab": "#12210f",
     "TabText": "#65995c",
     "TabSelected": "#3b7d2f",
-    "StatusBar": "#000000",
+    "StatusBar": "#0a0e0a",
     "StatusBarText": "#f5c451",
     "Menu": "#1e1e1e",
     "MenuText": "#64d450",

@@ -878,7 +878,8 @@ static void paintDarkGroundBackgrounds(QMap<QString, QString>& t, const QString&
     "SingleQuotedStringBackground","HereDocumentBackground","PercentStringqBackground",
     "RegexBackground","HereDocumentDelimiterBackground","PercentStringrBackground",
     "PercentStringwBackground","MarginBackground","CaretLineBackground","ErrorBackground",
-    "LogBackground","StdinBackground","StdoutBackground","StderrBackground"
+    "LogBackground","StdinBackground","StdoutBackground","StderrBackground",
+    "StatusBar"   // the bar under the window: the ground's colour, not the black the base theme has
   };
   for (const char* k : keys) t[QString::fromLatin1(k)] = bg;
 }
