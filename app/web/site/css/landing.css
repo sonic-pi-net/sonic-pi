@@ -1122,6 +1122,12 @@ iframe {
 
 /* The plugin page's cards: a thin grey line round each, so a card reads as one thing on the page's ground */
 [data-stay] .qs-card { border: 2px solid var(--Button); }
+/* a phone, where a card is most of the screen: its edge in the accent with a glow of it, and its words a size
+   smaller so its code has the room */
+@media (max-width: 760px) {
+  [data-stay] .qs-card { border-color: var(--HighlightedBackground); box-shadow: 0 6px 28px color-mix(in srgb, var(--HighlightedBackground) 28%, transparent); }
+  [data-stay] .qs-card .qs-blurb { font-size: var(--t-small); }
+}
 
 /* the plugin's formats and systems, under its opening lines: a chip for each format, its name and then, past a
    line, the marks of the systems it comes for */

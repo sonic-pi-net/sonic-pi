@@ -434,3 +434,22 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 @media (hover: none) { .showcase-sound span { opacity: 1; } }   /* nothing to point with: the label is there */
 .showcase-views { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5em; margin: 0.9em 0 0.6em; }
 .showcase-fig figcaption { font-size: var(--t-small); opacity: 0.8; }
+/* a phone: a row of chips stays one row. The preview's five fit it, at the small chip's size and sharing its width;
+   a card's choices that do not fit are reached by swiping the row along. The preview's label is a speaker in its
+   corner (crossed while silent), outlined in the accent over a veil of the page's ground so the picture shows
+   through: its words are still its name */
+@media (max-width: 760px) {
+  .sp-ways-row, .showcase-views { flex-wrap: nowrap; }
+  .sp-ways-row { justify-content: safe center; overflow-x: auto; scrollbar-width: none; }
+  .sp-ways-row::-webkit-scrollbar { display: none; }
+  .sp-ways-row button { flex: none; padding: 3px 10px; font-size: var(--t-small); }
+  .showcase-views { gap: 4px; }
+  .showcase-views button { flex: 1 1 auto; min-width: 0; padding: 3px 4px; font-size: var(--t-small); }
+  .showcase-sound { justify-content: flex-end; padding: 0 4px 4px; }
+  .showcase-sound span { position: relative; box-sizing: border-box; width: 28px; height: 28px; padding: 0; font-size: 0; line-height: 0;
+    border: 1.5px solid currentColor; background: color-mix(in srgb, var(--WindowBackground, #000) 55%, transparent); color: var(--HighlightedBackground, #ff1493);
+    -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .showcase-sound span::before { content: ""; position: absolute; inset: 4.5px; background: currentColor;   /* placed, not laid out: the same middle in every browser */
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5'/%3E%3Cpath d='M16 10l4 4m0 -4l-4 4'/%3E%3C/svg%3E") center / contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5'/%3E%3Cpath d='M16 10l4 4m0 -4l-4 4'/%3E%3C/svg%3E") center / contain no-repeat; }
+  .showcase.sounding .showcase-sound span::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5'/%3E%3Cpath d='M15 8a5 5 0 0 1 0 8M17.7 5a9 9 0 0 1 0 14'/%3E%3C/svg%3E"); mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 15h-2a1 1 0 0 1 -1 -1v-4a1 1 0 0 1 1 -1h2l3.5 -4.5a.8 .8 0 0 1 1.5 .5v14a.8 .8 0 0 1 -1.5 .5l-3.5 -4.5'/%3E%3Cpath d='M15 8a5 5 0 0 1 0 8M17.7 5a9 9 0 0 1 0 14'/%3E%3C/svg%3E"); }
+}
