@@ -2472,3 +2472,6 @@ html.pg-fullscreen .sn-stop { visibility: hidden; }   /* the nav's stop shows it
   background: linear-gradient(135deg, transparent 0 46%, currentColor 46% 54%, transparent 54% 64%, currentColor 64% 72%, transparent 72% 82%, currentColor 82% 90%, transparent 90%); color: var(--Foreground, #fff); }
 #plugin-grip:hover, #plugin-grip.dragging { opacity: 1; }
 body.in-plugin #statusbar { padding-right: 22px; }
+/* About, in the plugin: no "Get the app" and no "Keep it free". Its reader is running Sonic Pi and has paid for it:
+   they are not offered a download, nor asked for support */
+body.in-plugin #info-about .info-panels { display: none; }

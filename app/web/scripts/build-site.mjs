@@ -229,7 +229,9 @@ const helpers = {
   icon: (name, opts) => icon(name, opts),
   logo: mark.punched,
   svg: (file) => read(SITE, file).trimEnd(),
-  include: (name) => render(read(SITE, "partials", `${name}.html`), helpers, `site/partials/${name}.html`),
+  // only="site": left out of the plugin's own pages. Its reader has bought the plugin and is running Sonic Pi: they
+  // are not asked for support, nor offered a copy
+  include: (name, opts = {}) => (opts.only && opts.only !== TARGET ? "" : render(read(SITE, "partials", `${name}.html`), helpers, `site/partials/${name}.html`)),
   stats,
   chapters: () => TUTORIAL.filter((t) => /^\d+$/.test(t.code)).map((t) => `<a class="tut-chapter" href="${t.file}"><span class="tut-num">${esc(t.code.replace(/^0/, ""))}</span>${esc(t.name)}</a>`).join(""),
   "supporters-intro": () => esc(supporters?.intro ?? "").replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" rel="noopener" target="_blank">$1</a>'),
