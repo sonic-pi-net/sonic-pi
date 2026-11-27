@@ -325,16 +325,24 @@ jobs:
         if: startsWith(matrix.os, 'windows')
 
 
+      # The logs of the engines the Ruby tests start (test/lib/headless_engine.rb, test/mix/lib/mix_engine.rb), which
+      # a failing test names: what the engine was doing when it went quiet. Put beside Sonic Pi's own logs, because
+      # an artifact's files must share a root: on Windows the runner's temporary folder is on another drive from
+      # the home folder, and the upload refuses the two together.
+      - name: Gather the test engines' logs
+        if: ${{ always() }}
+        shell: bash
+        run: |
+          mkdir -p ~/.sonic-pi/log
+          shopt -s nullglob
+          for log in "${RUNNER_TEMP//\\//}"/sonic-pi-*.log; do cp "$log" ~/.sonic-pi/log/; done
+
       - name: Archive Logs
         uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: Logs_${{matrix.title}}_${{matrix.cc}}_${{matrix.arch}}_${{matrix.build_type}}
-          # ... and the logs of the engines the Ruby tests start (test/lib/headless_engine.rb,
-          # test/mix/lib/mix_engine.rb), which a failing test names: what the engine was doing when it went quiet
-          path: |
-            ~/.sonic-pi/log/*.log
-            ${{ runner.temp }}/sonic-pi-*.log
+          path: ~/.sonic-pi/log/*.log
 
   # Build distributable AppImages for Linux x86_64 and aarch64.
   # (32-bit x86 can't share this job's shape — see package-linux-i386 below.)

@@ -71,7 +71,9 @@ module SonicPi
       lose_the_next_load
 
       e = assert_raises(RuntimeError) { realise(path) }
-      assert_includes e.message, path
+      # named as the server names a path to a person: one under the home folder starts ~ (so wherever the
+      # temporary folder is: CI's is under the runner's home)
+      assert_includes e.message, Object.new.extend(SonicPi::Util).unify_tilde_dir(path)
       refute @studio.sample_loaded?(path)
 
       buf, cached = @studio.load_sample(path)
