@@ -1104,6 +1104,63 @@ iframe {
   font-size: var(--t-lead);
   font-weight: 600;
 }
+/* under it, the form for being told when the store opens (notify.js): what it is for, a field and its button on a
+   row, and what came of sending it. An address kept, the thanks are all that is left */
+.plugin-notify {
+  max-width: 26em;
+  margin: 0 auto;
+}
+.plugin-notify .notify-row {
+  display: flex;
+  gap: 8px;
+  margin: 0.8em 0 0;
+}
+.plugin-notify input[type="email"] {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.5em 0.8em;
+  border: 2px solid var(--Button);
+  border-radius: var(--r-m);
+  background: var(--WindowBackground);
+  color: var(--WindowForeground);
+  font: inherit;
+  font-size: var(--t-ui);
+}
+.plugin-notify input[type="email"]:focus-visible {
+  border-color: var(--HighlightedBackground);
+  outline: none;
+}
+.plugin-notify .notify-row .button {
+  flex: none;
+  margin: 0;
+  padding: 0.5em 1.1em;
+  white-space: nowrap;
+  font-size: var(--t-ui);
+}
+.plugin-notify .notify-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+.plugin-notify .notify-said {
+  min-height: 1.4em;
+  margin: 0.6em 0 0;
+  font-size: var(--t-ui);
+  font-weight: 400;
+}
+.plugin-notify.refused .notify-said {
+  color: var(--err);
+}
+.plugin-notify.told > p:first-child,
+.plugin-notify.told .notify-row {
+  display: none;
+}
+.plugin-notify.told .notify-said {
+  font-size: var(--t-lead);
+  font-weight: 600;
+}
 #buy .plugin-small {
   margin: 0;
   line-height: 1.8;

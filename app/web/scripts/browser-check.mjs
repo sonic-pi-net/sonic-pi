@@ -1880,6 +1880,30 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         await out.close();
       }
 
+      {
+        // The plugin page's form for being told when the plugin is on sale (notify.js), with the server played here:
+        // an address is sent to it without leaving the page, with the trap field empty, and thanked; what is no
+        // address is said to be none and not sent, and the form is still there to put right.
+        const told = await browser.newPage({ ...HTTPS, viewport: { width: 390, height: 844 } });
+        const sent = [];
+        await told.route("**/notify?*", (r) => { sent.push(new URL(r.request().url()).search); r.fulfill({ status: 200, contentType: "image/gif", body: "" }); });
+        await told.goto(BASE + "plugin.html");
+        const buy = told.locator("#plugin details.plugin-buy"), form = buy.locator("form.plugin-notify"), said = form.locator(".notify-said");
+        await buy.locator("summary").click();
+        await form.locator("input[type=email]").fill("ada@example");
+        await form.locator("button").click();
+        await told.waitForFunction(() => /email address/.test(document.querySelector("#plugin .notify-said")?.textContent ?? ""), null, { timeout: 5000 }).catch(() => {});
+        const refused = { said: await said.textContent(), field: await form.locator("input[type=email]").isVisible(), sent: sent.length };
+        await form.locator("input[type=email]").fill("ada@example.com");
+        await form.locator("button").click();
+        await told.waitForFunction(() => /Thanks/.test(document.querySelector("#plugin .notify-said")?.textContent ?? ""), null, { timeout: 5000 }).catch(() => {});
+        const kept = { said: await said.textContent(), field: await form.locator("input[type=email]").isVisible(), page: new URL(told.url()).pathname.split("/").pop() };
+        check("the plugin page's form sends an address to be told of the sale, thanks for one taken, and sends nothing that is no address",
+          /email address/.test(refused.said) && refused.field && refused.sent === 0 && /^Thanks/.test(kept.said) && !kept.field && kept.page === "plugin.html" && sent.length === 1 && sent[0] === "?email=ada%40example.com&website=",
+          JSON.stringify({ refused, kept, sent }));
+        await told.close();
+      }
+
       const site = await browser.newPage({ ...HTTPS, viewport: { width: 1280, height: 900 } });
       const siteErrors = [];
       site.on("pageerror", (e) => siteErrors.push(e.message));
