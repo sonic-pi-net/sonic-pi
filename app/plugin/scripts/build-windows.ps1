@@ -240,13 +240,18 @@ try {
     }
     try {
         Step 'the page (build-web.mjs builds the app first)'
-        Run 'build-web.mjs' { & $Node scripts/build-web.mjs --out build/plugin-web --supersonic local | Out-Null }
+        # the page as the plugin carries it, as scripts/build.sh builds it: the app, the examples and the tutorial. The
+        # website's own pages (the plugin's sales page, its terms, Learn, Support) are the site's and are left out
+        Run 'build-web.mjs' { & $Node scripts/build-web.mjs --out build/plugin-web --supersonic local --target plugin | Out-Null }
     } finally {
         if ($standIn) { Remove-Item $standIn }
         if ($ownDist) { Remove-Item env:SUPERSONIC_DIST, env:NODE_PATH -ErrorAction SilentlyContinue }
     }
 } finally { Pop-Location }
 if (-not (Test-Path (Join-Path $Page 'code.html'))) { Die "no built page at $Page" }
+foreach ($theirs in 'plugin.html', 'plugin-terms.html') {
+    if (Test-Path (Join-Path $Page $theirs)) { Die "the plugin's page has $theirs, which is the website's" }
+}
 if (-not (Test-Path (Join-Path $Etc 'synthdefs\compiled'))) { Die "no Sonic Pi etc\ at $Etc (set SONIC_PI_ETC)" }
 
 if (-not (Test-Path (Join-Path $Vst3 'pluginterfaces\base\funknown.h'))) {
