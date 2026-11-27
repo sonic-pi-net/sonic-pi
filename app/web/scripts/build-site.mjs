@@ -46,15 +46,25 @@ const read = (...p) => fs.readFileSync(path.join(...p), "utf8");
 // The desktop release the download rows offer
 const RELEASE = "5.0.0";
 
+// What is being built: the website (every page), or the plugin's own pages (--target plugin): only the pages marked
+// plugin, so a page added to the site is not in a plugin until it says so.
+const TARGET = arg("--target", "site");
+if (TARGET !== "site" && TARGET !== "plugin") throw new Error(`--target ${TARGET}: site or plugin`);
+
 // ── the pages, in the order of the bar's tabs ──
-const PAGES = [
+const ALL_PAGES = [
   // Home's own title and words: what a search result shows for sonic-pi.net
   { key: "about", title: "Home", tip: "Discover Sonic Pi", file: "index.html", lead: "Discover", docTitle: "Sonic Pi - Code. Music. Live.",
     description: "Sonic Pi - Code. Music. Live." },
-  { key: "examples", title: "Examples", tip: "Pieces of music to play, change and learn from", file: "examples.html", list: "All examples", description: "Explore some of the different ways to work with Sonic Pi" },
+  { key: "examples", plugin: true, title: "Examples", tip: "Pieces of music to play, change and learn from", file: "examples.html", list: "All examples", description: "Explore some of the different ways to work with Sonic Pi" },
   { key: "learn", title: "Learn", tip: "The tutorial, lessons, books and talks", file: "learn.html", lead: "Start here", description: "Learn Sonic Pi: the tutorial, the video course, the book, and Sonic Pi in the classroom." },
   { key: "support", title: "Support", tip: "Help keep Sonic Pi free for everyone", file: "support.html", lead: "Support", description: "Sonic Pi is free because it is supported by the community." },
+  { key: "plugin", title: "Plugin", tip: "Sonic Pi as a plugin in your DAW", file: "plugin.html", lead: "Sonic Pi Plugin", description: "Sonic Pi as a plugin for your DAW, a VST3 and an Audio Unit: live code music in time with your session." },
+  // the terms the plugin is sold on: a page with no tab of its own, reached from the plugin's page, whose tab it lights
+  { key: "plugin-terms", untabbed: true, tab: "plugin", title: "Plugin terms", file: "plugin-terms.html", lead: "Plugin terms", description: "The terms of sale, privacy notice and refund policy for the Sonic Pi plugin." },
 ];
+
+const PAGES = ALL_PAGES.filter((p) => TARGET === "site" || p.plugin);
 
 // the editor's own document: the app with Home in its card, put away (the Code tab's, and the tutorial's, in its docs)
 // where the site lives, for what must be absolute (a shared link's tags, below)
@@ -330,7 +340,7 @@ function pageBar(entries) {
 
 // ── each page: the app's own document, the page in its Info card and the site bar's tabs as links ──
 const shell = read(ROOT, "app/src/index.html");
-const VERSION_LINE = versionLine(releaseVersion(pageVersions(ROOT).release), false);
+const VERSION_LINE = versionLine(releaseVersion(pageVersions(ROOT).release), "");
 const pages = [...PAGES, ...TUTORIAL];
 const bodies = new Map(pages.map((p) => [p.key, pageBody(p)]));
 const idsOf = (html) => [...new Set([...html.replace(/<svg[\s\S]*?<\/svg>/g, "").matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]))];   // an id inside a drawing (a mask, a glyph) is the drawing's own
@@ -351,7 +361,10 @@ function tabs(current) {
   // Home, Examples, Learn, the Tutorial (its first chapter; every chapter lights it), Support, and Code: the editor, a
   // word too on a wide screen while the row has room for it (style.css, main.js fitCode). The code icon beside the
   // palette (index.html) is the editor's way in at every width, and a phone's only one
-  const row = [...PAGES.slice(0, 3), { key: "tutorial", file: TUTORIAL[0].file, title: "Tutorial", tip: "From your first beep to live coding a set" }, ...PAGES.slice(3)];
+  const tutorial = { key: "tutorial", file: TUTORIAL[0].file, title: "Tutorial", tip: "From your first beep to live coding a set" };
+  // the plugin: its own few pages, then the tutorial
+  const tabbed = PAGES.filter((p) => !p.untabbed);
+  const row = TARGET === "plugin" ? [...tabbed, tutorial] : [...tabbed.slice(0, 3), tutorial, ...tabbed.slice(3)];
   const code = tab("code", CODE.file, "Code", CODE.tip, current).replace('class="ic-tab', 'class="ic-tab ic-tab-code');
   return row.map((p) => tab(p.key, p.file, p.title, p.tip, current)).join("") + code;
 }
@@ -392,6 +405,11 @@ function document(page, { code = false } = {}) {
   // latency preference, low unless the player turned it off)
   if (!code) head.push(`<script>addEventListener("click",function(e){var b=e.target.closest&&e.target.closest(".sp-card .qs-run:not(.qs-stop)");if(!b)return;window.spPendingPlay=b.closest(".sp-card").dataset.key;b.closest(".qs-transport").classList.add("busy");try{if(!window.spAudioContext){var l=null;try{l=JSON.parse(localStorage.getItem("sp-low-latency"))}catch(x){}window.spAudioContext=new AudioContext({latencyHint:l===false?"interactive":0,sampleRate:48000})}window.spAudioContext.resume()}catch(x){}},true)</script>`);
   html = swap(html, "</head>", `${head.join("\n")}\n</head>`);
+  // the plugin's bar is its own, not the website's: its name, and the editor behind it
+  if (TARGET === "plugin") {
+    html = swap(html, '<a class="sn-brand" href="#about">sonic-pi.net</a>', `<a class="sn-brand" href="${CODE.file}">Sonic Pi</a>`);
+    html = swap(html, '<nav id="site-nav" aria-label="sonic-pi.net">', '<nav id="site-nav" aria-label="Sonic Pi">');
+  }
   html = swap(html, '<div class="ic-tabs"></div>', `<div class="ic-tabs">${tabs(code ? "code" : page.tab ?? page.key)}</div>`);
   if (code) html = swap(html, '<a class="sn-code"', '<a class="sn-code active" aria-current="page"');   // the bar's code icon, lit in the editor
   if (!code && bars.has(page.key)) html = swap(html, '<div id="site-strip">\n</div>', `<div id="site-strip" class="on">${bars.get(page.key)}</div>`);
@@ -416,7 +434,7 @@ function document(page, { code = false } = {}) {
 fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT, { recursive: true });
 for (const p of pages) fs.writeFileSync(path.join(PAGES_OUT, p.file), document(p));
-fs.writeFileSync(path.join(PAGES_OUT, CODE.file), document(pages.find((p) => p.key === "about"), { code: true }));
+fs.writeFileSync(path.join(PAGES_OUT, CODE.file), document(pages.find((p) => p.key === "about") ?? pages[0], { code: true }));
 
 fs.cpSync(path.join(SITE, "css"), path.join(OUT, "css"), { recursive: true });
 fs.cpSync(path.join(SITE, "media"), path.join(OUT, "media"), { recursive: true });

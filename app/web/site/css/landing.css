@@ -155,7 +155,7 @@ header {
 }
 
 header > p {
-  font-size: 1.2em;
+  font-size: var(--t-lead, 1.2em);   /* the scale's lead (shared.css), not a size of its own a pixel off it */
   margin: 0 auto;
   max-width: 44em;
 }
@@ -904,4 +904,288 @@ iframe {
   max-width: 100%;
   white-space: nowrap;
 }
+}
+
+/* ------------------------------------------------------------------ */
+/* The VST page                                                        */
+/* ------------------------------------------------------------------ */
+:where(.site-body:not(.site-tutorial)) {
+
+.vst-clip {
+  display: block;
+  width: 100%;
+  max-width: 22em;
+  margin: 0 auto;
+  border-radius: 6px;
+}
+
+.vst-feats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 4em;
+  text-align: left;
+}
+
+.vst-feats h3 {
+  margin: 1.5em 0 0.5em;
+  font-size: 0.8em;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--Link);
+}
+
+.vst-feats ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.vst-feats li {
+  padding: 0.7em 0;
+  border-top: 1px solid var(--rule, rgba(128, 128, 128, 0.3));
+  line-height: 1.5;
+}
+
+.vst-feats li b {
+  display: block;
+  font-size: 1.1em;
+  color: var(--WindowForeground);
+}
+
+@media (max-width: 760px) {
+  .vst-feats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+}
+
+/* The plugin page's own rules. Every size is one of the app's type scale (shared.css: --t-display, --t-title,
+   --t-heading, --t-lead, --t-ui, --t-small), every corner one of its three (--r-s, --r-m, --r-pill), every outline
+   its 2px line, and the page's words keep to one width (--measure): nothing here sets a number of its own for these. */
+.site-body { --measure: 720px; }
+/* the page's own words between its cards are the size of the words under its titles (the scale's lead), and keep to
+   the measure: one size for everything the page says, the scale's text size for what its cards say */
+.site-body article[data-stay] > p:not([class]) {
+  max-width: var(--measure);
+  margin-inline: auto;
+  font-size: var(--t-lead);
+}
+
+/* the terms page, and the small print under the plugin page's price: plain reading text */
+.terms h3 {
+  margin: 1.8em 0 0.4em;
+  font-size: var(--t-ui);
+  text-align: left;
+}
+.terms p,
+.terms ul {
+  text-align: left;
+}
+.terms ul {
+  padding-left: 1.3em;
+  list-style: disc;
+}
+.plugin-small {
+  font-size: var(--t-small);
+  opacity: 0.8;
+}
+
+/* the plugin page's MIDI cards: room between a card and the words after it */
+.hero-example.sp-snips { max-width: none; margin: 1.6em auto 2.4em; }   /* every card on the page is the page's width */
+/* SuperSonic's logo, a link to its demo: drawn for a light page (its SUPER is black), so it sits on a white panel */
+.plugin-supersonic {
+  display: block;
+  max-width: var(--measure);
+  margin: 1.4em auto 1.8em;
+  padding: 1em 1.4em;
+  border-radius: var(--r-m);
+  background: #fff;
+}
+.plugin-supersonic img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* the plugin page's plain list of facts: a column of its own width, read from the left */
+.plugin-list {
+  font-size: var(--t-lead);   /* the size of the sections' own paragraphs */
+  max-width: var(--measure);
+  margin: 0 auto;
+  padding-left: 1.2em;
+  text-align: left;
+  list-style: disc;
+}
+.plugin-list li {
+  margin: 0.45em 0;
+  padding-left: 0.2em;
+}
+/* a screenshot on the plugin page, framed as the live picture is */
+.plugin-shot {
+  display: block;
+  margin: 1.5em 0 0;
+  border: 2px solid currentColor;
+  border-radius: var(--r-m);
+  overflow: hidden;
+  color: inherit;
+}
+.plugin-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+/* the request an AI was given, over the code it wrote: said as a quotation */
+/* the buy section: room around the one thing to press */
+#buy header p {
+  max-width: var(--measure);
+  margin: 1em auto 0;
+}
+#buy .hero-launch {
+  margin: 2.6em 0 1.6em;
+}
+#buy .button {
+  padding: 0.9em 2.6em;
+  font-size: var(--t-lead);
+}
+/* the sale, where the price is asked: what it is called, the price it was struck through beside the price it is, and
+   when it ends. One block, three lines, the price the largest thing in it. */
+.plugin-sale {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35em;
+  margin: 1.8em auto 0;
+}
+.plugin-sale .sale-tag {
+  padding: 0.25em 0.9em;
+  border: 2px solid var(--HighlightedBackground, #ff1493);
+  border-radius: var(--r-pill);
+  color: var(--HighlightedBackground, #ff1493);
+  font-size: var(--t-small);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.plugin-sale .sale-price {
+  font-size: var(--t-display);
+  line-height: 1.1;
+}
+.plugin-sale .sale-price s {
+  margin-right: 0.25em;
+  font-size: var(--t-heading);
+  font-weight: 400;
+  opacity: 0.6;
+}
+.plugin-sale .sale-price strong {
+  font-weight: 800;
+}
+.plugin-sale .sale-ends {
+  font-weight: 600;
+}
+#plugin .plugin-sale + .hero-launch {
+  margin-top: 1.2em;
+}
+/* the buy button before the store is open: pressed, it says so under itself */
+.plugin-buy summary {
+  display: inline-block;
+  list-style: none;
+  cursor: pointer;
+}
+.plugin-buy summary::-webkit-details-marker {
+  display: none;
+}
+.plugin-buy p {
+  margin: 1em 0 0;
+  font-size: var(--t-lead);
+  font-weight: 600;
+}
+#buy .plugin-small {
+  margin: 0;
+  line-height: 1.8;
+}
+/* Sonic Pi's mark over the offer, as the page's sign-off */
+.plugin-logo {
+  width: 84px;
+  margin: 0 auto 1.4em;
+}
+.plugin-logo svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+
+/* The plugin page's cards: a thin grey line round each, so a card reads as one thing on the page's ground */
+[data-stay] .qs-card { border: 2px solid var(--Button); }
+
+/* the plugin's formats and systems, under its opening lines: a chip for each format, its name and then, past a
+   line, the marks of the systems it comes for */
+.plugin-formats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6em 0.8em;
+  margin: 1.6em 0 0;   /* the last thing in the page's opening, under the picture */
+  font-size: var(--t-small);   /* the sale tag's size: labels, not more things to press */
+  padding: 0;
+  list-style: none;
+}
+.plugin-formats li {
+  display: inline-flex;
+  align-items: stretch;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 2px solid var(--HighlightedBackground, #ff1493);
+  border-radius: var(--r-pill);
+  font-weight: 700;
+}
+/* in the manner of the sale's tag (.plugin-sale .sale-tag): outlined in the accent, capitals spaced out, nothing
+   filled. A line stands between the format's name and the systems' marks */
+.plugin-formats .fmt {
+  padding: 0.25em 0.8em 0.25em 0.95em;
+  color: var(--HighlightedBackground, #ff1493);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.plugin-formats .oses {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45em;
+  padding: 0.25em 0.85em 0.25em 0.7em;
+  border-left: 2px solid var(--HighlightedBackground, #ff1493);
+  color: var(--HighlightedBackground, #ff1493);
+}
+.plugin-formats .tb-icon {
+  width: 1.15em;
+  height: 1.15em;
+}
+
+/* the page's opening offer: the sale and the button side by side, so the price is seen with the title. The sale's
+   name and price share a line, when it ends under them */
+.plugin-top-offer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 1em 2.4em;
+  margin: 1.8em 0 0;
+}
+.plugin-top-offer .plugin-sale {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-items: center;
+  gap: 0.2em 0.9em;
+  margin: 0;
+}
+.plugin-top-offer .plugin-sale .sale-price {
+  font-size: var(--t-title);
+}
+.plugin-top-offer .plugin-sale .sale-ends {
+  grid-column: 1 / -1;
+  font-size: var(--t-small);
+}
+.plugin-top-offer .hero-launch {
+  margin: 0;
 }

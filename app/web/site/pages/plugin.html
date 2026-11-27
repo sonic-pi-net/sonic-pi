@@ -1,0 +1,341 @@
+    <div class="wrapper style1 first">
+      <article class="container small" data-stay id="plugin" data-title="Sonic Pi Plugin" data-icon="plug-connected">
+        <header>
+          <h1 class="sec-title hero-title">Sonic Pi <strong>Plugin</strong></h1>
+          <p class="tagline">The Sonic Pi plugin puts a whole live coding studio on a track in your DAW. Use the incredible mind-bending expressive power of code to add a whole new dimension to your tracks.</p>
+          <p class="tagline">No grid. No single BPM. No limits.</p>
+          <!-- the offer and the button, together, before the picture: the price seen without scrolling -->
+          <div class="plugin-top-offer">
+            <p class="plugin-sale"><span class="sale-tag">Cyber Week sale</span><span class="sale-price"><s aria-label="normally $99">$99</s> <strong>$59</strong></span><span class="sale-ends">40% off until the end of Sunday, 6 December</span></p>
+            <div class="hero-launch">
+              <!-- the same button as the page's last: it buys here, and until the store is set up says so here -->
+              <details class="plugin-buy">
+                <summary class="button medium">Buy - $59</summary>
+                <p role="status">Available soon</p>
+              </details>
+            </div>
+          </div>
+        </header>
+        <!-- the plugin, running: the app itself in a frame, playing a piece with no sound until it is asked for
+             (site.js mountShowcase, showcase.js). It is looked at, not used: the buttons here are its controls. -->
+        <figure class="showcase-fig">
+          <div class="showcase" data-view="processes" data-plugin="VST" data-line="15" data-title="Sonic Pi running Blockgame by DJ_Dave: its code, scopes, log and the tree of everything playing">
+            {{showcase blockgame}}
+            <button type="button" class="showcase-sound" aria-pressed="false"><span data-off="Sound on" data-on="Sound off">Sound on</span></button>
+          </div>
+          <div class="showcase-views seg" role="group" aria-label="What the preview shows">
+            <button type="button" class="active" data-view="processes" title="Switch to the node tree of running threads, FX and synths" aria-pressed="true">Processes</button>
+            <button type="button" data-view="timeline" title="Switch to events on a timeline" aria-pressed="false">Timeline</button>
+            <button type="button" data-view="roll" title="Switch to notes on a piano roll" aria-pressed="false">Piano roll</button>
+            <button type="button" data-view="metrics" title="Switch to engine metrics" aria-pressed="false">Metrics</button>
+            <button type="button" data-view="logs" title="Switch to system logs" aria-pressed="false">Logs</button>
+          </div>
+          <figcaption>Sonic Pi running Blockgame by <a href="https://djdave.xyz" target="_blank" rel="noopener">DJ_Dave</a>. Try the different views, and click the preview to turn its sound on and off.</figcaption>
+        </figure>
+        <!-- what it loads in and runs on, at a glance: a chip for each format, holding the systems it comes for -->
+        <ul class="plugin-formats" aria-label="Formats and systems">
+          <li title="VST3 for macOS and Windows"><span class="fmt">VST3</span><span class="oses">{{icon brand-apple}}{{icon brand-windows}}<span class="sr-only">for macOS and Windows</span></span></li>
+          <li title="Audio Unit for macOS"><span class="fmt">Audio Unit</span><span class="oses">{{icon brand-apple}}<span class="sr-only">for macOS</span></span></li>
+        </ul>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article class="container small" data-stay id="ai" data-icon="bulb">
+        <header>
+          <h2 class="sec-title">Can't code yet? Ask an AI</h2>
+          <p>You don't need to know how to code. Ask an AI to write something to get you started. Then change, tweak, mash it up and make it your own.</p>
+        </header>
+        <div class="sp-ways" data-title="Written by an AI" data-key="plugin-ai" data-label="What was asked for">
+          <pre class="sp-card" data-title="Phasing"><code>use_bpm 60
+notes = (ring :d4, :a4, :f4, :c5, :e4, :a4, :g4, :d5, :f4, :c5, :a4, :e5)
+
+with_fx :reverb, room: 0.8 do
+  # two players, the same twelve notes
+  live_loop :left do
+    synth :kalimba, note: notes.tick, pan: -0.8, amp: 3
+    sleep 0.2
+  end
+
+  # this one is a hundredth slower, so it falls behind a note at a time
+  live_loop :right do
+    synth :kalimba, note: notes.tick, pan: 0.8, amp: 3
+    sleep 0.202
+  end
+
+  # a third, an octave down at half the speed, holds the middle
+  live_loop :centre do
+    synth :kalimba, note: notes.tick - 12, amp: 2.5
+    sleep 0.4
+  end
+
+  live_loop :ground do
+    synth :hollow, note: (ring :d2, :a1, :f2, :c2).tick, attack: 4, release: 8, amp: 1.2
+    sleep 12
+  end
+
+  with_fx :echo, phase: 0.6, decay: 5, mix: 0.5 do
+    live_loop :sparks do
+      synth :pretty_bell, note: notes.choose + 12, release: 2, amp: 0.25, pan: rrand(-1, 1) if one_in(3)
+      sleep 1.2
+    end
+  end
+end</code></pre>
+          <p class="sp-ways-about">"Two players on the same pattern, one very slightly slower than the other, so they drift apart and slowly come back together."</p>
+          <pre class="sp-card" data-title="Shifting groove"><code>use_bpm 124
+
+live_loop :bar do
+  # a new bar every time: how many kicks and hats, and where they fall
+  bar = tick
+  kicks = spread((ring 3, 5, 4, 5, 3, 7)[bar], 16)
+  hats = spread(rrand_i(7, 13), 16).rotate(rrand_i(0, 3))
+  snare = spread(2, 16).rotate(4)
+  root = (ring :e1, :e1, :g1, :a1)[bar / 2]
+  fill = bar % 4 == 3   # every fourth bar ends in a roll
+
+  16.times do |i|
+    sample :bd_tek, amp: 2 if kicks[i]
+    sample :drum_snare_hard, amp: 0.8 if snare[i]
+    sample :drum_snare_hard, amp: 0.3 + i * 0.03, rate: 1.5 if fill and i >= 12
+    sample :drum_cymbal_closed, amp: rrand(0.3, 0.7), rate: 1.5 if hats[i]
+    sample :drum_cymbal_open, amp: 0.4, finish: 0.3 if i % 4 == 2 and one_in(2)
+    # the bass goes wherever the kick does not, opening up through the bar
+    synth :tb303, note: root + (ring 0, 12, 7).choose, release: 0.15, cutoff: 60 + i * 4, res: 0.9, amp: 0.7 unless kicks[i]
+    sleep 0.25
+  end
+end
+
+with_fx :reverb, room: 0.9 do
+  with_fx :echo, phase: 0.75, mix: 0.4 do
+    live_loop :stabs do
+      sleep (ring 2.5, 1.5, 3, 1).tick
+      synth :blade, note: chord(:e3, :m7), release: 0.4, cutoff: rrand(80, 110), amp: 0.5
+    end
+  end
+end</code></pre>
+          <p class="sp-ways-about">"A drum groove that changes every single bar but never loses the beat, with a bassline that fills the gaps the kick leaves."</p>
+          <pre class="sp-card" data-title="Cyberpunk"><code>use_bpm 100
+
+# a bass that growls: its filter opens and closes while each note holds
+live_loop :bass do
+  use_synth :dsaw
+  s = play (ring :d1, :d1, :f1, :c1).tick, sustain: 3.5, release: 0.5, detune: 0.2, cutoff: 50, cutoff_slide: 2, amp: 0.6
+  control s, cutoff: 95
+  sleep 2
+  control s, cutoff: 55
+  sleep 2
+end
+
+# half-time drums through distortion
+with_fx :distortion, distort: 0.5 do
+  live_loop :drums do
+    sample :bd_boom, amp: 1
+    sample :bd_tek, amp: 0.8
+    sleep 1.75
+    sample :bd_tek, amp: 0.6
+    sleep 0.25
+    sample :sn_zome, amp: 0.7
+    sleep 2
+  end
+end
+
+live_loop :hats do
+  # mostly sixteenths, now and then a burst twice as fast
+  if one_in(6)
+    4.times do
+      sample :elec_tick, amp: 0.6, rate: 2
+      sleep 0.125
+    end
+  else
+    sample :elec_tick, amp: rrand(0.2, 0.6)
+    sleep 0.25
+  end
+end
+
+# neon: an arpeggio whose brightness sweeps up and down, echoing into the dark
+with_fx :reverb, room: 0.9 do
+  with_fx :echo, phase: 0.375, decay: 4, mix: 0.4 do
+    live_loop :neon do
+      use_synth :blade
+      notes = scale(:d3, :minor_pentatonic, num_octaves: 3)
+      play notes[(ring 0, 2, 4, 7, 4, 2, 9, 7).tick], release: 0.25, cutoff: (line 70, 120, steps: 32).mirror.look, amp: 0.4 if spread(11, 16).look
+      sleep 0.25
+    end
+  end
+
+  # the city: a long dark chord, and something broken speaking now and then
+  live_loop :city do
+    synth :dark_ambience, note: chord(:d2, :m9), attack: 4, release: 8, amp: 0.7
+    sample (ring :glitch_robot1, :glitch_robot2).choose, rate: rrand(0.5, 1), amp: 0.5 if one_in(2)
+    sleep 8
+  end
+end
+
+# glitches: a stutter of a random length, crushed
+with_fx :bitcrusher, bits: 8, sample_rate: 9000 do
+  live_loop :glitch do
+    sleep (ring 3.5, 2.5, 4, 2).tick
+    rrand_i(3, 8).times do
+      sample (ring :glitch_perc1, :glitch_perc3, :glitch_perc5).choose, rate: (ring 1, 2, 0.5).choose, amp: 0.4
+      sleep 0.125
+    end
+  end
+end</code></pre>
+          <p class="sp-ways-about">"Something cyberpunk: a growling bass, neon arpeggios echoing into the dark, glitches, and a broken machine talking in the distance."</p>
+        </div>
+        <p>An AI wrote each of these from the request shown. Press play, then edit the code.</p>
+        <p>Your compositions are text - so they're easy to save, recall, share and collaborate on. It's as easy as sending an email.</p>
+      </article>
+    </div>
+    <div class="wrapper style1">
+      <article class="container small" data-stay id="synths-fx" data-icon="music">
+        <header>
+          <h2 class="sec-title">Synths, Samples &amp; FX</h2>
+          <p>Over 60 synths and 40 FX are built in. You can also design your own in SuperCollider.</p>
+          <p>Try one of the built-in synths:</p>
+        </header>
+        <!-- a live synth, the docs pane's (info.js mounts it): keys to play, dials to turn, the code they make -->
+        <div class="home-synth" data-synth="pluck">
+          <p class="home-synth-static">Every synth has a page like this <a href="code.html#docs/synths/pluck">in the docs</a>.</p>
+          {{synth-page pluck}}
+        </div>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article class="container small" data-stay id="midi" data-icon="piano">
+        <header>
+          <h2 class="sec-title">Algorithmic MIDI</h2>
+          <p>In a DAW you draw MIDI notes into a piano roll. In Sonic Pi you write simple yet powerful algorithms to generate MIDI on the fly. Choosing notes at random from a scale, spreading 5 hits over 16 steps, running loops of different lengths against each other - and you can modify any part of it while it plays.</p>
+        </header>
+        <p>(In this card the keyboard sends MIDI just as your DAW would)</p>
+        <div class="sp-ways midi-keys" data-title="MIDI in" data-key="plugin-midi-in" data-label="What the code does with the keys">
+          <pre class="sp-card" data-title="Slice a break"><code>live_loop :keys do
+  note, velocity = sync "/midi:daw:1/note_on"
+  sample :loop_amen, onset: note, amp: 2 * velocity / 127.0
+end</code></pre>
+          <p class="sp-ways-about">Each key plays one hit of the amen break.</p>
+          <pre class="sp-card" data-title="Slice a guitar"><code>live_loop :keys do
+  note, velocity = sync "/midi:daw:1/note_on"
+  sample :guit_em9, onset: note, amp: 2 * velocity / 127.0
+end</code></pre>
+          <p class="sp-ways-about">The same code with a guitar sample.</p>
+          <pre class="sp-card" data-title="Echoes"><code>with_fx :reverb, room: 0.8 do
+  live_loop :keys do
+    note, velocity = sync "/midi:daw:1/note_on"
+    use_synth :pretty_bell
+    play note, amp: 1.2 * velocity / 127.0
+    in_thread do
+      [7, 12, 19].each_with_index do |up, i|
+        sleep 0.25
+        play note + up, amp: 0.9 / (i + 1)
+      end
+    end
+  end
+end</code></pre>
+          <p class="sp-ways-about">Each note is repeated three times, higher and quieter.</p>
+          <pre class="sp-card" data-title="Arpeggiator"><code>with_fx :reverb, room: 0.8 do
+  live_loop :keys do
+    note, velocity = sync "/midi:daw:1/note_on"
+    in_thread do
+      use_synth :chiplead
+      chord(note, :minor7, num_octaves: 2).each do |n|
+        play n, release: 0.2, amp: 1.2
+        sleep 0.125
+      end
+    end
+  end
+end</code></pre>
+          <p class="sp-ways-about">Each key plays a minor 7th chord, one note at a time, over two octaves.</p>
+          <pre class="sp-card" data-title="A melody per key"><code>with_fx :reverb, room: 0.8 do
+  live_loop :keys do
+    note, velocity = sync "/midi:daw:1/note_on"
+    in_thread do
+      use_random_seed note
+      use_synth :pretty_bell
+      8.times do
+        play scale(:c4, :major_pentatonic, num_octaves: 2).choose, release: 0.3, amp: 1.2
+        sleep [0.125, 0.125, 0.125, 0.25].choose
+      end
+    end
+  end
+end</code></pre>
+          <p class="sp-ways-about">Each key plays its own eight note melody. A key always plays the same melody.</p>
+        </div>
+        <p>Algorithmically generate MIDI and send it to other instruments in your DAW</p>
+        <div class="hero-example sp-snips"><div class="qs-grid"><pre class="sp-card" data-title="MIDI out" data-key="plugin-midi-out"><code>live_loop :bass do
+  notes = scale(:e2, :minor_pentatonic)
+  16.times do
+    midi notes.choose, sustain: 0.1 if spread(5, 16).tick
+    sleep 0.25
+  end
+end</code></pre></div></div>
+      </article>
+    </div>
+    <div class="wrapper style1">
+      <article class="container small" data-stay id="randomisation" data-icon="blend-mode">
+        <header>
+          <h2 class="sec-title">Deterministic randomisation</h2>
+          <p>Random numbers in Sonic Pi are repeatable. A random melody plays the same every time you run it and every time you bounce it. Change the seed to get a different one.</p>
+        </header>
+        <div class="hero-example sp-snips"><div class="qs-grid"><pre class="sp-card" data-title="The same random melody every time" data-key="plugin-random"><code>use_random_seed 42   # try another number
+
+8.times do
+  play scale(:e3, :minor_pentatonic).choose, release: 0.2
+  sleep 0.25
+end</code></pre></div></div>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article class="container small" data-stay id="tutorial" data-icon="book">
+        <header>
+          <h2 class="sec-title">Built-in tutorial</h2>
+          <p>The full Sonic Pi tutorial is built into the plugin, with the examples and the docs for every synth, FX and sample. You can also <a href="tutorial.html">read it here</a>.</p>
+        </header>
+        <a class="plugin-shot" href="tutorial.html"><img src="site/media/plugin/tutorial.webp" alt="The tutorial: its chapters in a list on the left, and chapter 2.1, Your First Beeps, with code to play" width="1800" height="1072" loading="lazy"></a>
+      </article>
+    </div>
+    <div class="wrapper style1">
+      <article class="container small" data-stay id="supersonic" data-icon="prism-light">
+        <header>
+          <h2 class="sec-title">Powered by SuperSonic</h2>
+          <a class="plugin-supersonic" href="https://sonic-pi.net/supersonic/demo.html" target="_blank" rel="noopener"><img src="site/media/plugin/supersonic.png" alt="SuperSonic" width="1000" height="177" loading="lazy"></a>
+          <p>At the heart of the plugin is <a href="https://sonic-pi.net/supersonic/demo.html" target="_blank" rel="noopener">SuperSonic</a> - my variant of scsynth, the audio engine behind SuperCollider. For more than two decades scsynth has been the engine of choice for experimental electronic music and it is astonishingly capable - hundreds of building blocks that can be wired into any synth or effect you can imagine.</p>
+          <p>SuperSonic takes all of that power and reshapes it to run directly inside your DAW. And if you already design sounds in SuperCollider you can bring them with you - load your own scsynth synthdefs and play them from your code just like the built-in synths.</p>
+        </header>
+      </article>
+    </div>
+    <div class="wrapper style2">
+      <article class="container small" data-stay id="in-your-daw" data-icon="plug-connected">
+        <header>
+          <h2 class="sec-title">Live Code your DAW</h2>
+        </header>
+        <ul class="plugin-list">
+          <li>Follows your DAW's tempo and bars</li>
+          <li>Starts and stops with your transport - arm a buffer with its sync button.</li>
+          <li>MIDI in from your keyboard and your clips.</li>
+          <li>MIDI out to any other instrument in your session.</li>
+          <li>Stereo audio in - modify your track’s audio live with code</li>
+          <li>Run multiple instances of the plugin simultaneously</li>
+          <li>A bounce of a random part is the same every time by default.</li>
+          <li>Nudge everything earlier or later by milliseconds to sit with your other tracks.</li>
+          <li>VST3 on macOS and Windows, Audio Unit on macOS.</li>
+        </ul>
+      </article>
+    </div>
+    <div class="wrapper style1">
+      <article class="container small" data-stay id="buy" data-title="Buy" data-icon="heart">
+        <header>
+          <div class="plugin-logo" aria-hidden="true">{{logo}}</div>
+          <h2 class="sec-title">Add a new dimension to your DAW for only $59</h2>
+          <p class="plugin-sale"><span class="sale-tag">Cyber Week sale</span><span class="sale-price"><s aria-label="normally $99">$99</s> <strong>$59</strong></span><span class="sale-ends">40% off until the end of Sunday, 6 December</span></p>
+          <p>Buy now to download the plugin as a VST3 for macOS and Windows and an Audio Unit for macOS. Receive free updates for the lifetime of v5. No expiry and no internet connection needed.</p>
+        </header>
+        <div class="hero-launch">
+          <!-- the checkout is Paddle's, opened from here once the store is set up; until then the button says so -->
+          <details class="plugin-buy">
+            <summary class="button medium">Buy the Sonic Pi plugin</summary>
+            <p role="status">Available soon</p>
+          </details>
+        </div>
+        <p class="plugin-small">The price includes tax. There is a 14 day refund.<br><a href="plugin-terms.html">Terms</a> &middot; <a href="plugin-terms.html#privacy">Privacy</a> &middot; <a href="plugin-terms.html#refunds">Refunds</a></p>
+      </article>
+    </div>

@@ -314,7 +314,8 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
     const mute = () => {
       const connect = AudioNode.prototype.connect, silent = new WeakMap();
       AudioNode.prototype.connect = function (to, ...rest) {
-        if (!(to instanceof AudioDestinationNode)) return connect.call(this, to, ...rest);
+        // an output, whichever page's context it is: a framed page plays on its framer's (a showcase out loud)
+        if (!to || to !== to.context?.destination) return connect.call(this, to, ...rest);
         let g = silent.get(to);
         if (!g) { g = to.context.createGain(); g.gain.value = 0; connect.call(g, to); silent.set(to, g); }
         return connect.call(this, g, ...rest);
@@ -1767,6 +1768,95 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       check("the home page has a live synth in its own section, Synths as Code: keys that fit, and its dials", synth.live && synth.synth === ":pluck" && synth.dials > 4 && synth.fits, JSON.stringify(synth));
       await home.close();
 
+      {
+        // The plugin page's opening: the app itself in a frame, playing a piece to be looked at (showcase.js, site.js
+        // mountShowcase). Silent, with no press; nothing a person does to it reaches it; nothing of it is kept; the
+        // page's own buttons say what it shows and whether it is heard.
+        const show = await browser.newPage({ ...HTTPS, viewport: { width: 1280, height: 900 } });
+        const showErrors = [];
+        show.on("pageerror", (e) => showErrors.push(e.message));
+        await show.goto(BASE + "plugin.html");
+        // what the framed app is up to, read from the page that frames it
+        const framed = (fn, arg) => show.evaluate(([src, a]) => { const w = document.querySelector(".showcase iframe")?.contentWindow; return w?.document.getElementById("statusbar") ? new Function("w", "a", `return (${src})(w, a)`)(w, a) : null; }, [fn.toString(), arg]);
+        const state = () => framed((w) => {
+          const pane = w.document.getElementById("insight-pane"), root = pane?.shadowRoot ?? pane;
+          let code = null;
+          for (const el of w.document.getElementById("main")?.querySelectorAll("*") ?? []) { const cm = el.shadowRoot?.querySelector(".cm-content"); if (cm?.offsetParent) { code = cm.textContent.slice(0, 18); break; } }
+          return { running: w.document.getElementById("statusbar").textContent.trim().startsWith("running"), loops: Number((root?.textContent.match(/Live loops\s*(\d+)/) ?? [])[1] ?? 0), code, pane: w.document.body.dataset.drawer, view: root?.querySelector("[data-view].active")?.dataset.view ?? null,
+            offline: w.spAudioContext instanceof w.OfflineAudioContext, own: w.spAudioContext === w.frameElement.showcase.audio, time: w.spAudioContext?.currentTime ?? 0 };
+        });
+        const playing = (extra = "true") => show.waitForFunction((cond) => { const w = document.querySelector(".showcase iframe")?.contentWindow, bar = w?.document.getElementById("statusbar"); return !!bar && bar.textContent.trim().startsWith("running") && new Function("w", `return ${cond}`)(w); }, extra, { timeout: 60000 }).catch(timedOut);
+        await playing("(() => { const p = w.document.getElementById('insight-pane'); return Number((((p && p.shadowRoot) || p || {}).textContent || '').match(/Live loops\\s*(\\d+)/)?.[1] ?? 0) >= 8; })()");   // running, and its loops in the tree
+        const opened = await state();
+        const page0 = await show.evaluate(() => ({ sounding: document.body.classList.contains("sounding"), context: !!window.spAudioContext, kept: Object.keys(localStorage).some((k) => (localStorage.getItem(k) ?? "").includes("Coded by DJ_Dave")) }));
+        check("the plugin page opens on the app in a frame, playing Blockgame with no press and no sound", !!opened && opened.running && opened.loops >= 8 && opened.code === "# Coded by DJ_Dave" && opened.offline && opened.pane === "insight" && opened.view === "processes", JSON.stringify(opened));
+        check("the page around a showcase is untouched by it: not sounding, no audio context of its own, nothing of the piece in the visitor's storage", !page0.sounding && !page0.context && !page0.kept, JSON.stringify(page0));
+        // its time moves as the clock does: two seconds of the clock, about two seconds of the piece
+        const t0 = (await state()).time;
+        await show.waitForTimeout(2000);
+        const moved = (await state()).time - t0;
+        check("a silent showcase's time moves at the pace of the clock", moved > 1.4 && moved < 2.6, `${moved.toFixed(2)} s in 2 s`);
+        // the page's buttons say what its panel shows
+        const shown = [];
+        for (const [name, pane, view] of [["timeline", "insight", "timeline"], ["roll", "insight", "roll"], ["metrics", "debug", null], ["logs", "logs", null], ["processes", "insight", "processes"]]) {
+          await show.click(`.showcase-views [data-view="${name}"]`);
+          await show.waitForFunction(([p, v]) => { const w = document.querySelector(".showcase iframe").contentWindow, ip = w.document.getElementById("insight-pane"), r = ip?.shadowRoot ?? ip; return w.document.body.dataset.drawer === p && (!v || r?.querySelector("[data-view].active")?.dataset.view === v); }, [pane, view], { timeout: 10000 }).catch(timedOut);
+          const st = await state();
+          shown.push(st.pane === pane && (!view || st.view === view) && (await show.getAttribute(`.showcase-views [data-view="${name}"]`, "aria-pressed")) === "true" && st.running);
+        }
+        check("a showcase's view buttons change what its panel shows, each lit while it does, the piece playing on", shown.every(Boolean), shown.join(" "));
+        // a person's hands on the frame: a click where its Stop is, a click in its code, typing. (The frame takes no
+        // pointer as the page has it, and its sound button covers it: both are put aside here to reach it at all.)
+        await show.evaluate(() => { document.querySelector(".showcase iframe").style.pointerEvents = "auto"; document.querySelector(".showcase-sound").style.display = "none"; });
+        const box = await show.locator(".showcase").boundingBox();
+        await show.mouse.click(box.x + box.width * (118 / 1280), box.y + box.height * (105 / 800));
+        await show.mouse.click(box.x + box.width * 0.3, box.y + box.height * 0.3);
+        await show.keyboard.type("hello");
+        await twoFrames(show);
+        const handled = await state();
+        await show.evaluate(() => { document.querySelector(".showcase iframe").style.pointerEvents = ""; document.querySelector(".showcase-sound").style.display = ""; });
+        check("a showcase takes nothing a person does to it: a click on its Stop, a click in its code and typing leave it playing the same code", handled.running && handled.loops >= 8 && handled.code === "# Coded by DJ_Dave", JSON.stringify(handled));
+        // its one button: out loud on an audio context the page makes in the press, and silent again
+        await show.click(".showcase-sound");
+        await playing("w.spAudioContext === w.frameElement.showcase.audio && w.spAudioContext.state === 'running'");
+        const loud = await state();
+        const label = await show.textContent(".showcase-sound span");
+        check("its sound button starts the piece again out loud, on an audio context the page made in the press", !!loud && loud.running && loud.own && !loud.offline && loud.code === "# Coded by DJ_Dave" && label === "Sound off", JSON.stringify({ ...loud, label }));
+        // the page's own sound starts: the showcase goes silent
+        await show.evaluate(() => document.body.classList.add("sounding"));
+        await playing("w.spAudioContext instanceof w.OfflineAudioContext");
+        const gaveWay = await state();
+        await show.evaluate(() => document.body.classList.remove("sounding"));
+        check("out loud, a showcase gives way to the page's own sound: it starts again silently", !!gaveWay && gaveWay.offline && gaveWay.running && (await show.textContent(".showcase-sound span")) === "Sound on", JSON.stringify(gaveWay));
+        check("the showcase raised no errors", showErrors.length === 0, showErrors.join(" | "));
+        await show.close();
+
+        // A page with a showcase, loaded again and again in quick succession, goes on starting it. A silent showcase
+        // holds all it renders, taken at once, and WebKit keeps that when the page goes: at 115 MB a load the process
+        // was out of memory at the 37th, and neither the showcase nor the page's own engine could start ("Out of
+        // memory", 26 Nov 2026). Forty-five loads, as fast as the page comes: more than it took, with what it holds
+        // now a quarter of that (showcase.js RENDER_MOST).
+        const again = await browser.newPage({ ...HTTPS, viewport: { width: 1280, height: 900 } });
+        again.on("dialog", (d) => d.accept().catch(() => {}));
+        await again.goto(BASE + "plugin.html");
+        const said = () => again.evaluate(() => {
+          const w = document.querySelector(".showcase iframe")?.contentWindow;
+          const text = w?.document.body?.innerText ?? "";
+          return { refused: /Out of memory[^\n]*|BootError[^\n]*/.exec(text)?.[0] ?? null, time: (() => { try { return w?.spAudioContext?.currentTime ?? 0; } catch { return 0; } })() };
+        }).catch(() => ({ refused: null, time: 0 }));
+        let refusedAt = null, refused = null;
+        for (let i = 1; i <= 45 && refusedAt == null; i++) {
+          await again.reload({ waitUntil: "load" }).catch(() => {});
+          await again.waitForTimeout(700);
+          const now = await said();
+          if (now.refused) { refusedAt = i; refused = now.refused; }
+        }
+        const started = refusedAt == null && (await again.waitForFunction(() => { try { return document.querySelector(".showcase iframe")?.contentWindow?.spAudioContext?.currentTime > 0.5; } catch { return false; } }, null, { timeout: 15000 }).then(() => true, () => false));
+        check("a page with a showcase, loaded 45 times in quick succession, still starts it: nothing is out of memory", refusedAt == null && started,
+          refusedAt != null ? `"${refused}" at load ${refusedAt}` : started ? "" : "the showcase did not start after the last load");
+        await again.close();
+      }
+
       const site = await browser.newPage({ ...HTTPS, viewport: { width: 1280, height: 900 } });
       const siteErrors = [];
       site.on("pageerror", (e) => siteErrors.push(e.message));
@@ -1809,7 +1899,7 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
       await site.click('#site-nav .ic-tab[data-tab="support"]');
       await site.waitForFunction(() => location.pathname.endsWith("support.html"), null, { timeout: 10000 }).catch(timedOut);
       const sup = await site.evaluate(() => ({ at: location.pathname.split("/").pop(), lit: document.querySelector('#site-nav [aria-current="page"]')?.dataset.tab, order: [...document.querySelectorAll("#site-nav .sn-brand, #site-nav .ic-tab, #site-nav .sn-code, #site-nav .sn-theme")].filter((e) => e.offsetParent).map((e) => (e.classList.contains("sn-code") ? "code-icon" : e.dataset.tab ?? (e.classList.contains("sn-brand") ? "brand" : "palette"))).join(" ") }));
-      check("the bar reads the wordmark (Home), Examples, Learn, Tutorial, Support, Code, then the code icon and the palette; Support lit on its page", sup.at === "support.html" && sup.lit === "support" && sup.order === "brand examples learn tutorial support code code-icon palette", JSON.stringify(sup));
+      check("the bar reads the wordmark (Home), Examples, Learn, Tutorial, Support, Plugin, Code, then the code icon and the palette; Support lit on its page", sup.at === "support.html" && sup.lit === "support" && sup.order === "brand examples learn tutorial support plugin code code-icon palette", JSON.stringify(sup));
       // the code icon: the editor too, the way in at every width
       await site.click("#site-nav .sn-code");
       await site.waitForFunction(() => location.pathname.endsWith("code.html"), null, { timeout: 5000 }).catch(timedOut);

@@ -50,7 +50,7 @@ if (ss.dist) {
 for (const [name, source] of Object.entries(supersonicShims(ss))) fs.writeFileSync(path.join(ssDir, name), source);
 fs.writeFileSync(path.join(ssDir, "version.json"), supersonicVersionJSON(ss));
 // the Info card's pages, from site/ (scripts/build-site.mjs)
-execFileSync(process.execPath, [path.join(ROOT, "scripts/build-site.mjs"), "--out", path.join(OUT, "site")], { stdio: "inherit" });
+execFileSync(process.execPath, [path.join(ROOT, "scripts/build-site.mjs"), "--out", path.join(OUT, "site"), "--target", flagValue(process.argv, "--target") || "site"], { stdio: "inherit" });
 const json = specsJSON(ROOT);
 fs.writeFileSync(path.join(OUT, "specs.json"), json);
 const synthdefs = copySynthdefs(ROOT, OUT, ss);   // Sonic Pi's own synths: all, or those the CDN does not hold as they are here
