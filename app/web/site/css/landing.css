@@ -986,6 +986,63 @@ iframe {
   padding-left: 1.3em;
   list-style: disc;
 }
+/* the page a buyer lands on: Sonic Pi's heart, as the plugin thanks with it (app/src/style.css .licence-heart) */
+.thanks-heart {
+  width: 132px;
+  margin: 0 auto 28px;
+  color: #ff2d92;
+  filter: drop-shadow(0 0 30px rgba(255, 45, 146, 0.6));
+  animation: thanks-beat 0.9s ease-out;
+}
+.thanks-heart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@keyframes thanks-beat {
+  0% { transform: scale(1); }
+  25% { transform: scale(1.28); }
+  45% { transform: scale(0.96); }
+  65% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+}
+@media (prefers-reduced-motion: reduce) {
+  .thanks-heart { animation: none; }
+}
+/* a page to be read at a glance by someone who has just paid: the lead's size throughout, on a reading measure */
+.thanks h3 {
+  max-width: var(--measure);
+  margin: 1.8em auto 0.4em;
+  font-size: var(--t-heading);
+  text-align: left;
+}
+.thanks h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+}
+.thanks-icon {
+  flex: none;
+  width: 1.3em;
+  height: 1.3em;
+  color: #ff2d92;
+}
+.thanks > p,
+.thanks ol {
+  max-width: var(--measure);
+  margin-inline: auto;
+  font-size: var(--t-lead);
+  text-align: left;
+}
+.thanks ol {
+  padding-left: 1.3em;
+  list-style: decimal;
+}
+.thanks .thanks-back {
+  margin-top: 2.4em;
+  text-align: center;
+}
 .plugin-small {
   font-size: var(--t-small);
   opacity: 0.8;

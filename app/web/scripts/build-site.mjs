@@ -62,6 +62,8 @@ const ALL_PAGES = [
   { key: "plugin", title: "Plugin", tip: "Sonic Pi as a plugin in your DAW", file: "plugin.html", lead: "Sonic Pi Plugin", description: "Sonic Pi as a plugin for your DAW, a VST3 and an Audio Unit: live code music in time with your session." },
   // the terms the plugin is sold on: a page with no tab of its own, reached from the plugin's page, whose tab it lights
   { key: "plugin-terms", untabbed: true, tab: "plugin", title: "Plugin terms", file: "plugin-terms.html", lead: "Plugin terms", description: "The terms of sale, privacy notice and refund policy for the Sonic Pi plugin." },
+  // where a buyer lands after the checkout: thanks, and what happens next
+  { key: "plugin-thanks", untabbed: true, tab: "plugin", title: "Thank you", file: "plugin-thanks.html", lead: "Thank you", description: "Thank you for buying the Sonic Pi plugin: where your licence is and how to get started." },
 ];
 
 const PAGES = ALL_PAGES.filter((p) => TARGET === "site" || p.plugin);
