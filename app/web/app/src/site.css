@@ -371,9 +371,9 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
 .tut-page .tut-part > .tut-box { margin: 1.4em 0; }
 .tut-page .tut-box > .kicker { margin: 0 0 0.3em; }
 .tut-page .tut-box > :is(p, ul, ol):last-child, .tut-page .tut-box > :is(ul, ol):last-child > li:last-child { margin-bottom: 0; }
-/* the code in a sentence: the editor's face and colours (build-site.mjs highlights it), on the code cards' own tint, so a
-   word of code reads as the code under it does */
-.tut-page :is(.tut-part, .tut-box) > p code, .tut-page :is(.tut-part, .tut-box) > :is(ul, ol) > li code { padding: 0.12em 0.4em; border-radius: var(--r-s); background: var(--accentTint); color: var(--Foreground); font: 500 1em var(--code-font); white-space: nowrap; }
+/* the code in a sentence, the tutorial's and any page's: the editor's face and colours (build-site.mjs highlights the
+   tutorial's), at the sentence's own size, on the code cards' own tint, so a word of code reads as the code under it does */
+.tut-page :is(.tut-part, .tut-box) > p code, .tut-page :is(.tut-part, .tut-box) > :is(ul, ol) > li code, .site-body article > p code, .site-body article > header p code { padding: 0.12em 0.4em; border-radius: var(--r-s); background: var(--accentTint); color: var(--Foreground); font: 500 1em var(--code-font); white-space: nowrap; }
 .tut-page .tut-box > :is(p, ul, ol) code { background: var(--accentTintStrong); }   /* on the box's own tint */
 .tut-page .tut-part .qs-card { margin: 1em 0 1.4em; }
 .tut-page .qs-transport { --qs-scope: 52px; }   /* no words beside it, unlike a quickstart card's: Play and Stop in proportion to the code above them */
@@ -412,12 +412,12 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
    card. With a keyboard that plays the card's code as MIDI in (mountMidiKeys), the keys are in the card over its code,
    and the card is as wide as the page's synth, so the keys are the same keys */
 .sp-ways { margin: 1.6em auto 2.4em; text-align: left; outline: none; }
-.sp-ways-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5em; margin: 0 0 0.9em; }
-.sp-way { padding: 0.3em 0.9em; border: 1.5px solid currentColor; border-radius: 8px; background: none; color: inherit; font: inherit; font-size: 0.9em; font-weight: 600; cursor: pointer; }
-.sp-way[aria-pressed="true"] { background: var(--HighlightedBackground, #ff1493); border-color: var(--HighlightedBackground, #ff1493); color: var(--accentContrastText, #fff); }
-.sp-ways.live > .sp-ways-about { margin: 0 auto 1.2em; max-width: 760px; text-align: center; }
-.sp-ways:not(.live) > .sp-ways-about { display: none; }
-.sp-ways:not(.midi-keys) { max-width: 760px; }
+/* the choices, a row of chips under the card's bar, in the synth card's panel (black, as its dials and keys are on):
+   over the keys where there are keys */
+.sp-ways-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; }
+.sp-ways-face .midi-keys-room { padding: 0; }   /* the panel has the room */
+.sp-ways-face { flex: none; }
+.sp-ways > .sp-ways-about { display: none; }   /* a choice's words: read by the script, shown in the card's footer */
 .sp-ways .qs-card { margin: 0; }
 .midi-keys-room { padding: 12px 16px 0; }   /* the room the synth's keys have in its card */
 .midi-keys-piano { overflow: hidden; }
@@ -426,13 +426,11 @@ a.way-web:hover .button { background: var(--HoverButton); border-color: var(--Ho
    whatever scale fits its box's width: the scale is the box's width over 1280px, as a plain number (tan of atan2 of
    two lengths is their ratio). The whole of it is one button, for its sound; what it does is said when pointed at */
 .showcase-fig { margin: 1.5em 0; }
-.showcase { position: relative; container-type: inline-size; width: 100%; aspect-ratio: 1280 / 800; border: 2px solid currentColor; border-radius: 10px; overflow: hidden; background: #000; }
+.showcase { position: relative; container-type: inline-size; width: 100%; aspect-ratio: 1280 / 800; border: 2px solid currentColor; border-radius: var(--r-m); overflow: hidden; background: #000; }
 .showcase iframe { display: block; width: 1280px; max-width: none; height: 800px; border: 0; pointer-events: none; transform-origin: 0 0; transform: scale(tan(atan2(100cqw, 1280px))); }
 .showcase-sound { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding: 0 0 1.2em; border: 0; background: none; font: inherit; cursor: pointer; }
-.showcase-sound span { padding: 0.5em 1.1em; border-radius: 999px; background: var(--HighlightedBackground, #ff1493); color: var(--accentContrastText, #fff); font-weight: 600; opacity: 0; transition: opacity 0.15s; }
+.showcase-sound span { padding: 0.5em 1.1em; border-radius: var(--r-pill); background: var(--HighlightedBackground, #ff1493); color: var(--accentContrastText, #fff); font-weight: 600; opacity: 0; transition: opacity 0.15s; }
 .showcase-sound:hover span, .showcase-sound:focus-visible span, .showcase.sounding .showcase-sound span { opacity: 1; }
 @media (hover: none) { .showcase-sound span { opacity: 1; } }   /* nothing to point with: the label is there */
 .showcase-views { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5em; margin: 0.9em 0 0.6em; }
-.showcase-views button { padding: 0.3em 0.9em; border: 1.5px solid currentColor; border-radius: 8px; background: none; color: inherit; font: inherit; font-size: 0.9em; font-weight: 600; cursor: pointer; }
-.showcase-views button[aria-pressed="true"] { background: var(--HighlightedBackground, #ff1493); border-color: var(--HighlightedBackground, #ff1493); color: var(--accentContrastText, #fff); }
-.showcase-fig figcaption { font-size: 0.9em; opacity: 0.8; }
+.showcase-fig figcaption { font-size: var(--t-small); opacity: 0.8; }

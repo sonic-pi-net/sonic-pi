@@ -22,17 +22,18 @@ const LABELS = { edit: "Edit", reset: "Reset", copy: "Copy", open: "Open in Soni
 
 // A card on a page (`sizes`) is never taller than the screen it is on (card.css; the page's script says how tall that
 // is), and its code scrolls inside it. One with more code than SHRUNK_LINES starts shrunk to that many lines, with a
-// button in its bar to grow it to all of its code and shrink it again; a shorter one shows all of it, with no button.
+// grip on the seam between its code and its footer: a tab the footer raises into the code. Pressed, the code
+// opens to all of it and closes again; dragged, the code is as tall as it is left. A shorter card has no grip.
 export const SHRUNK_LINES = 12;
-export const SIZE_LABELS = { grow: "Show all the code", shrink: "Show less of the code" };
+export const SHRUNK_SLACK = 3;   // code this many lines over is shown whole: nothing is hidden to save so little
+export const SIZE_LABELS = { grow: "Show all the code", shrink: "Show less" };
 /** How a card of `code` stands: long enough to shrink, and shrunk or not (`kept`: "grown" or "shrunk" as it was left, or null). */
 export function sizeOf(code, kept) {
-  const long = code.replace(/\s+$/, "").split("\n").length > SHRUNK_LINES;
+  const long = code.replace(/\s+$/, "").split("\n").length > SHRUNK_LINES + SHRUNK_SLACK;
   return { long, shrunk: long && kept !== "grown" };
 }
-/** The grow and shrink button's markup, as it stands shrunk or grown. */
-export const sizeButton = (shrunk) =>
-  `<button class="qs-card-action qs-card-size" type="button" aria-expanded="${!shrunk}" title="${shrunk ? SIZE_LABELS.grow : SIZE_LABELS.shrink}" aria-label="${shrunk ? SIZE_LABELS.grow : SIZE_LABELS.shrink}">${icon(shrunk ? "chevron-down" : "chevron-up", "")}</button>`;
+/** The grip's markup, as it stands shrunk or grown: a tab with a chevron (the stylesheet turns it over, open). */
+export const sizeButton = (shrunk) => { const says = shrunk ? SIZE_LABELS.grow : SIZE_LABELS.shrink; return `<button class="qs-card-size" type="button" aria-expanded="${!shrunk}" aria-label="${says}" title="${says}">${icon("chevron-down", "")}</button>`; };
 const button = (name) => `<button class="qs-card-action qs-card-${name}" type="button" title="${LABELS[name]}" aria-label="${LABELS[name]}"${name === "edit" ? ' aria-pressed="false"' : ""}>${icon(name, "")}</button>`;
 
 /**
@@ -51,10 +52,11 @@ export function cardHTML({ title, code, attrs = {}, id = null, blurb = "", wide 
   const cls = `qs-card sp-card${wide || lines.length > 40 ? " qs-wide" : ""}${playable ? "" : " qs-still"}${size ? ` qs-sizes${size.long ? " qs-long qs-shrunk" : ""}` : ""}`;
   const data = Object.entries(attrs).filter(([, v]) => v != null && v !== false).map(([k, v]) => (v === true ? ` data-${k}` : ` data-${k}="${esc(v)}"`)).join("");
   return `<section class="${cls}"${id ? ` id="${esc(id)}"` : ""}${data} role="group" aria-label="${esc(title)}">` +
-    `<header class="qs-card-head"><h${level} class="qs-card-title">${esc(title)}</h${level}>${["edit", "reset", "copy", ...(open ? ["open"] : [])].map(button).join("")}${size?.long ? sizeButton(true) : ""}</header>` +
+    `<header class="qs-card-head"><h${level} class="qs-card-title">${esc(title)}</h${level}>${["edit", "reset", "copy", ...(open ? ["open"] : [])].map(button).join("")}</header>` +
     `<div class="qs-card-body" tabindex="0" role="group" aria-label="${esc(title)}, code"><div class="cm-editor sp-code qs-static"><div class="cm-scroller"><div class="cm-content">` +
     lines.map((l) => `<div class="cm-line">${l || "<br>"}</div>`).join("") +
     `</div></div></div></div>` +
+    (size?.long ? sizeButton(true) : "") +
     `<footer class="qs-card-foot"><div class="qs-foot-main"><p class="qs-blurb">${blurb ? `${esc(blurb)} ` : ""}<span class="qs-state"></span></p><div class="qs-out" role="log" aria-live="polite"></div></div>` +
     `<div class="qs-transport"${playable ? "" : " hidden"}><div class="qs-scope qs-scope-play"><button class="qs-run" type="button" title="Play this card">${TRANSPORT}<span class="sr-only">Play</span></button></div>` +
     `<div class="qs-scope qs-scope-stop"><button class="qs-run qs-stop" type="button" title="Stop" disabled>${TRANSPORT_STOP}<span class="sr-only">Stop</span></button></div></div></footer>` +

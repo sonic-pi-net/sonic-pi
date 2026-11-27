@@ -351,32 +351,61 @@ export function createCard(o) {
   if (extra) head.append(...[extra].flat());
   head.append(...["edit", "reset", "copy", "insert", "drag", "open"].map((k) => buttons[k]).filter(Boolean));
   // on a page: kept to the screen, and a long one shrunk to a few lines until asked to grow (card-html.js)
+  // on a page: kept to the screen, and a long one shrunk to a few lines, with a grip on the seam under its code
+  // (card-html.js): pressed, the code opens to all of it and closes again; dragged, it is as tall as it is left.
+  // How long the code is is asked again whenever it is replaced (a card of several programs)
+  let sizeStrip = null, fitSize = () => {};
   if (sizes) {
     art.classList.add("qs-sizes");
     const sizeKey = `sp-card-size/${key}`;
-    const size = sizeOf(original, store.get(sizeKey));
-    if (size.long) {
-      art.classList.add("qs-long");
-      const b = (buttons.size = action("chevron-down", SIZE_LABELS.grow, SIZE_LABELS.grow));
-      b.classList.remove("qs-card-chevron-down");
-      b.classList.add("qs-card-size");
-      const stand = (shrunk) => {
-        art.classList.toggle("qs-shrunk", shrunk);
-        b.setAttribute("aria-expanded", String(!shrunk));
-        b.title = shrunk ? SIZE_LABELS.grow : SIZE_LABELS.shrink;
-        b.setAttribute("aria-label", b.title);
-        b.innerHTML = icon(shrunk ? "chevron-down" : "chevron-up", "");
+    const b = (sizeStrip = el("button", "qs-card-size"));
+    b.type = "button";
+    b.innerHTML = icon("chevron-down", "");   // turned over by the stylesheet while the code is open
+    const LEAST = 4 * 20;   // a dragged card keeps a few lines
+    // the code's height: none of its own shrunk (the stylesheet's few lines), all of its code grown, or what a drag left
+    const stand = (shrunk, height = null) => {
+      art.classList.toggle("qs-shrunk", shrunk);
+      body.style.maxHeight = shrunk ? "" : `${height ?? body.scrollHeight}px`;
+      art.classList.toggle("qs-more", shrunk || (height != null && height < body.scrollHeight - 1));   // more code than shows: the footer's shadow says so
+      b.setAttribute("aria-expanded", String(!shrunk));
+      b.title = shrunk ? SIZE_LABELS.grow : SIZE_LABELS.shrink;
+      b.setAttribute("aria-label", b.title);
+    };
+    fitSize = (code) => {
+      const kept = store.get(sizeKey), dragged = /^h:(\d+)$/.exec(kept ?? "");
+      const size = sizeOf(code, dragged ? "grown" : kept);
+      art.classList.toggle("qs-long", size.long);
+      b.hidden = !size.long;
+      if (!size.long) { art.classList.remove("qs-shrunk", "qs-more"); body.style.maxHeight = ""; return; }
+      stand(size.shrunk, dragged ? Number(dragged[1]) : null);
+    };
+    // a press toggles; a drag of more than a few px sizes the code to the pointer, between a few lines and all of it
+    b.addEventListener("pointerdown", (down) => {
+      if (down.button !== 0) return;
+      const y0 = down.clientY, h0 = body.clientHeight;
+      let dragged = false;
+      b.setPointerCapture?.(down.pointerId);
+      const move = (e) => {
+        if (!dragged && Math.abs(e.clientY - y0) < 4) return;
+        dragged = true;
+        art.classList.add("qs-sizing");   // no easing while the pointer has it
+        stand(false, Math.max(LEAST, Math.min(body.scrollHeight, h0 + e.clientY - y0)));
       };
-      stand(size.shrunk);
-      b.addEventListener("click", (ev) => {
-        ev.stopPropagation();
-        const shrunk = !art.classList.contains("qs-shrunk");
-        stand(shrunk);
-        store.set(sizeKey, shrunk ? null : "grown");
-        if (shrunk) body.scrollTop = 0;   // shrunk again: from its first line
-      });
-      head.append(b);
-    }
+      const up = () => {
+        b.removeEventListener("pointermove", move); b.removeEventListener("pointerup", up); b.removeEventListener("pointercancel", up);
+        art.classList.remove("qs-sizing");
+        if (dragged) { store.set(sizeKey, `h:${Math.round(body.clientHeight)}`); b.dataset.dragged = "1"; }
+      };
+      b.addEventListener("pointermove", move); b.addEventListener("pointerup", up); b.addEventListener("pointercancel", up);
+    });
+    b.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      if (b.dataset.dragged) return void delete b.dataset.dragged;   // the click that ends a drag is not a press
+      const shrunk = !art.classList.contains("qs-shrunk");
+      stand(shrunk);
+      store.set(sizeKey, shrunk ? null : "grown");
+      if (shrunk) body.scrollTop = 0;   // shrunk again: from its first line
+    });
   }
 
   // ── the body: a highlighted block, until it is clicked into; then the editor, with the caret there ──
@@ -424,7 +453,7 @@ export function createCard(o) {
   };
   if (buttons.edit || still) showBlock(); else scopes.paint({ view: editor() });   // no edit toggle: the editor from the start (a still card: the block only)
   const code = () => (view ? view.state.doc.toString() : text);
-  const setCode = (t) => { text = t; if (view) view.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: t } }); if (!editing && (buttons.edit || still)) { block?.remove(); showBlock(); } else if (!view) editor(); };
+  const setCode = (t) => { text = t; fitSize(t); if (view) view.dispatch({ changes: { from: 0, to: view.state.doc.length, insert: t } }); if (!editing && (buttons.edit || still)) { block?.remove(); showBlock(); } else if (!view) editor(); };
   let saveTimer = 0;
   function changed() {
     const edited = code() !== original;
@@ -473,9 +502,10 @@ export function createCard(o) {
   // ── the footer: the blurb, the way out, the error strip; the transport — the scope round Play, and Stop beside it ──
   const foot = el("footer", "qs-card-foot");
   const p = el("p", "qs-blurb");
-  if (blurb) p.append(blurb, " ");
+  const words = el("span", "qs-blurb-words");   // the description, which a card of several programs changes (setBlurb)
+  if (blurb) words.textContent = `${blurb} `;
   const state = el("span", "qs-state");
-  p.appendChild(state);
+  p.append(words, state);
   // the blurb, and beneath it the strip of the card's own sounds scrolling by (./strip.js), beside the transport
   const main = el("div", "qs-foot-main");
   const out = el("div", "qs-out");   // what the program puts, the last few lines, as the app's log shows them
@@ -490,7 +520,8 @@ export function createCard(o) {
   const transport = tp.el;
   foot.append(main, transport);
   if (!playable) { transport.hidden = true; art.classList.add("qs-still"); }   // a fragment, not a program: no transport
-  art.append(head, ...(panel ? [panel] : []), body, foot);
+  art.append(head, ...(panel ? [panel] : []), body, ...(sizeStrip ? [sizeStrip] : []), foot);
+  fitSize(text);
 
   // the live part, made the first time the card plays: the strip's canvas (the rings' are the transport's)
   let strip = null;
@@ -521,6 +552,8 @@ export function createCard(o) {
     clearOutput() { out.textContent = ""; },
     setBooting(on) { art.classList.toggle("booting", on); tp.setBusy(on); },
     /** An error in the program, or null for none: the strip in the footer. */
+    /** The description in the footer: plain words, replaced whole. */
+    setBlurb(text) { words.textContent = text ? `${text} ` : ""; },
     setError(message) { art.classList.toggle("errored", !!message); state.textContent = message ?? ""; },
     focus() { setEditing(true); },
     get editing() { return editing; },

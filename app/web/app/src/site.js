@@ -92,27 +92,30 @@ export function mountWays(host, hooks, scroller, root = document, panel = null) 
   const ways = [...host.querySelectorAll(".sp-card")].map((block) => ({
     title: block.dataset.title ?? block.querySelector(".qs-card-title")?.textContent ?? "",
     code: codeOf(block).replace(/^\n/, "").replace(/\n$/, ""),
-    about: block.nextElementSibling?.matches(".sp-ways-about") ? block.nextElementSibling.innerHTML : "",
+    about: block.nextElementSibling?.matches(".sp-ways-about") ? block.nextElementSibling.textContent.trim() : "",
   }));
   fitCardsTo(scroller);
   const deck = createDeck(hooks, scroller);
   if (!ways.length) return { deck: withReveal(deck), card: null, playing: () => false };
-  const card = deck.add(createCard({ title: host.dataset.title ?? ways[0].title, code: ways[0].code, key: host.dataset.key ?? "ways", hooks, sizes: true, actions: ["edit", "reset", "copy"], open: opens(host, hooks), root, wide: true, panel, level: Number(host.closest("article")?.querySelector(".sec-title")?.tagName.slice(1) || 1) + 1 }));
+  // the choices are the first thing in the card, under its bar, in the panel the synth's card has (docs.js
+  // createInstrument: .pg-face), with no box or label of their own; whatever plays the card (the keys) is under them
+  const face = el("div", "pg-face sp-ways-face");
+  if (panel) face.appendChild(panel);
+  const card = deck.add(createCard({ title: host.dataset.title ?? ways[0].title, code: ways[0].code, key: host.dataset.key ?? "ways", hooks, sizes: true, actions: ["edit", "reset", "copy"], open: opens(host, hooks), root, wide: true, panel: face, level: Number(host.closest("article")?.querySelector(".sec-title")?.tagName.slice(1) || 1) + 1 }));
   const playing = () => card.el.classList.contains("playing");
 
-  const row = el("div", "sp-ways-row");
+  const row = el("div", "sp-ways-row seg");   // the choices are the app's chip, the chosen one its filled one
   row.setAttribute("role", "group");
   row.setAttribute("aria-label", host.dataset.label ?? "Which program");
-  const about = el("p", "sp-ways-about");
-  about.setAttribute("aria-live", "polite");
-  about.innerHTML = ways[0].about;
+  card.setBlurb(ways[0].about);   // what the chosen one does, where a card says what it is: its footer
   const buttons = ways.map((w, i) => {
     const b = el("button", "sp-way", w.title);
     b.type = "button";
     b.setAttribute("aria-pressed", String(i === 0));
+    b.classList.toggle("active", i === 0);
     b.addEventListener("click", () => {
-      buttons.forEach((x, k) => x.setAttribute("aria-pressed", String(k === i)));
-      about.innerHTML = w.about;
+      buttons.forEach((x, k) => { x.setAttribute("aria-pressed", String(k === i)); x.classList.toggle("active", k === i); });
+      card.setBlurb(w.about);
       const was = playing();
       if (was) card.onStop?.();
       card.setCode(w.code);
@@ -121,7 +124,8 @@ export function mountWays(host, hooks, scroller, root = document, panel = null) 
     row.appendChild(b);
     return b;
   });
-  host.replaceChildren(row, about, card.el);
+  face.prepend(row);
+  host.replaceChildren(card.el);
   host.classList.add("live");
   return { deck: withReveal(deck), card, playing };
 }
@@ -217,7 +221,7 @@ export function mountShowcase(host, root = document) {
   };
   root.addEventListener("sp-stop", () => sound(false));
   const paint = () => {
-    for (const b of views) b.setAttribute("aria-pressed", String(b.dataset.view === view));
+    for (const b of views) { b.setAttribute("aria-pressed", String(b.dataset.view === view)); b.classList.toggle("active", b.dataset.view === view); }
     if (button) { button.setAttribute("aria-pressed", String(!!audio)); if (label?.dataset.on) label.textContent = audio ? label.dataset.on : label.dataset.off; }
     host.classList.toggle("sounding", !!audio);
     tell();

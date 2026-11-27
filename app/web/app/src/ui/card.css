@@ -139,3 +139,19 @@ body.reduce-motion .qs-transport.busy .qs-scope-play::after { opacity: 1 !import
 .qs-card.qs-sizes > .qs-card-head, .qs-card.qs-sizes > .qs-card-foot { flex: none; }
 .qs-card.qs-sizes .qs-card-body { overscroll-behavior-y: auto; }
 .qs-card.qs-sizes.qs-shrunk .qs-card-body { max-height: calc(12 * 1.5em + 12px); }   /* SHRUNK_LINES lines of code, and the body's padding */
+/* the grip on the seam between a long card's code and its footer: a tab the footer raises into the code, in the
+   footer's own colour, with a chevron that says which way it goes. While there is more code than shows, the footer
+   casts a shadow up onto it: the code runs on under the footer. Under the pointer the tab stands a little taller and
+   its chevron takes the accent; the chevron turns over as the code opens. The code eases open and shut at a press
+   and follows a drag at once */
+.qs-card.qs-sizes .qs-card-body { transition: max-height 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.qs-card.qs-sizing .qs-card-body { transition: none; }
+.qs-card.qs-more > .qs-card-foot { box-shadow: 0 -12px 14px -10px rgb(0 0 0 / 0.55); }
+.qs-card-size { position: relative; z-index: 2; flex: none; align-self: center; display: flex; align-items: center; justify-content: center; width: 68px; height: 16px; margin: -16px 0 0; padding: 0; border: none; border-radius: var(--r-m) var(--r-m) 0 0; background: var(--accentTintStrong); color: var(--softForeground); cursor: ns-resize; touch-action: none; transition: height 0.15s ease-out, margin-top 0.15s ease-out, color 0.15s ease-out; }
+.qs-card-size svg { width: 16px; height: 16px; transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.qs-card-size[aria-expanded="true"] svg { transform: rotate(180deg); }
+@media (hover: hover) { .qs-card-size:hover { height: 21px; margin-top: -21px; color: var(--HighlightedBackground); } }
+.qs-card-size:focus-visible, .qs-card.qs-sizing .qs-card-size { height: 21px; margin-top: -21px; color: var(--HighlightedBackground); outline: none; }
+body.reduce-motion .qs-card.qs-sizes .qs-card-body, body.reduce-motion .qs-card-size, body.reduce-motion .qs-card-size svg { transition: none; }
+.qs-card-size[hidden] { display: none; }
+
