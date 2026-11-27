@@ -86,14 +86,14 @@
           <div class="u6 centered-cell">
             <section>
               <table class="conn-table">
-                <thead><tr><th><span class="sr-only">Feature</span></th><th>{{icon device-desktop}}App</th><th>{{icon browser}}Web</th></tr></thead>
+                <thead><tr><th><span class="sr-only">Feature</span></th><th>{{icon device-desktop}}App</th><th>{{icon browser}}Web</th><th>{{icon plug-connected}}Plugin</th></tr></thead>
                 <tbody>
-                  <tr><th scope="row"><strong>Gamepad</strong> input</th><td>{{yes}}</td><td>{{yes}}</td></tr>
-                  <tr><th scope="row">Live <strong>audio</strong> in and out</th><td>{{partly "multichannel"}}</td><td>{{partly "stereo"}}</td></tr>
-                  <tr><th scope="row">Well-timed <strong>MIDI</strong> in and out</th><td>{{yes}}</td><td>{{partly "not Safari"}}</td></tr>
-                  <tr><th scope="row"><strong>Low-latency</strong> audio through your interface (ASIO, Core Audio, PipeWire)</th><td>{{yes}}</td><td>{{no}}</td></tr>
-                  <tr><th scope="row">Well-timed <strong>OSC</strong> in and out</th><td>{{yes}}</td><td>{{no}}</td></tr>
-                  <tr><th scope="row">Ableton <strong>Link</strong> and <strong>Link Audio</strong></th><td>{{yes}}</td><td>{{no}}</td></tr>
+                  <tr><th scope="row"><strong>Gamepad</strong> input</th><td>{{yes}}</td><td>{{yes}}</td><td>{{no}}</td></tr>
+                  <tr><th scope="row">Live <strong>audio</strong> in and out</th><td>{{partly "multichannel"}}</td><td>{{partly "stereo"}}</td><td>{{partly "stereo"}}</td></tr>
+                  <tr><th scope="row">Well-timed <strong>MIDI</strong> in and out</th><td>{{yes}}</td><td>{{partly "not Safari"}}</td><td>{{partly "your DAW"}}</td></tr>
+                  <tr><th scope="row"><strong>Low-latency</strong> audio through your interface (ASIO, Core Audio, PipeWire)</th><td>{{yes}}</td><td>{{no}}</td><td>{{partly "your DAW"}}</td></tr>
+                  <tr><th scope="row">Well-timed <strong>OSC</strong> in and out</th><td>{{yes}}</td><td>{{no}}</td><td>{{no}}</td></tr>
+                  <tr><th scope="row">Ableton <strong>Link</strong> and <strong>Link Audio</strong></th><td>{{yes}}</td><td>{{no}}</td><td>{{no}}</td></tr>
                 </tbody>
               </table>
             </section>
@@ -203,13 +203,14 @@
              Connect's table -->
         <section id="web-or-app">
           <table class="conn-table">
-            <thead><tr><th><span class="sr-only">Feature</span></th><th>{{icon device-desktop}}App</th><th>{{icon browser}}Web</th></tr></thead>
+            <thead><tr><th><span class="sr-only">Feature</span></th><th>{{icon device-desktop}}App</th><th>{{icon browser}}Web</th><th>{{icon plug-connected}}Plugin</th></tr></thead>
             <tbody>
-              <tr><th scope="row"><strong>Live loops</strong>, synths, samples and FX</th><td>{{yes}}</td><td>{{yes}}</td></tr>
-              <tr><th scope="row"><strong>Deterministic</strong> randomness: a program plays exactly the same every time</th><td>{{yes}}</td><td>{{yes}}</td></tr>
-              <tr><th scope="row">Nothing to <strong>install</strong></th><td>{{no}}</td><td>{{yes}}</td></tr>
-              <tr><th scope="row">Runs on a <strong>phone</strong> or tablet</th><td>{{no}}</td><td>{{yes}}</td></tr>
-              <tr><th scope="row">Works <strong>offline</strong></th><td>{{yes}}</td><td>{{no}}</td></tr>
+              <tr><th scope="row"><strong>Live loops</strong>, synths, samples and FX</th><td>{{yes}}</td><td>{{yes}}</td><td>{{yes}}</td></tr>
+              <tr><th scope="row"><strong>Deterministic</strong> randomness: a program plays exactly the same every time</th><td>{{yes}}</td><td>{{yes}}</td><td>{{yes}}</td></tr>
+              <tr><th scope="row">Nothing to <strong>install</strong></th><td>{{no}}</td><td>{{yes}}</td><td>{{no}}</td></tr>
+              <tr><th scope="row">Runs on a <strong>phone</strong> or tablet</th><td>{{no}}</td><td>{{yes}}</td><td>{{no}}</td></tr>
+              <tr><th scope="row">Works <strong>offline</strong></th><td>{{yes}}</td><td>{{no}}</td><td>{{yes}}</td></tr>
+              <tr><th scope="row">Runs inside your <strong>DAW</strong></th><td>{{no}}</td><td>{{no}}</td><td>{{yes}}</td></tr>
             </tbody>
           </table>
           <p class="conn-more">App and Web differ in <a href="#connectivity">IO functionality</a> (MIDI, OSC, Link) too.</p>
