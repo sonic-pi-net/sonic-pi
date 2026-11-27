@@ -1857,6 +1857,29 @@ for (const [name, engineType] of [["chromium", chromium], ["webkit", webkit]].fi
         await again.close();
       }
 
+      {
+        // The plugin page's "MIDI out" card shows an idea (its section is marked data-no-midi): it asks the browser
+        // for no MIDI devices and says nothing of a browser that has none. It did both for every note ("this browser
+        // has no Web MIDI", over and over on a phone, 27 Nov 2026).
+        const out = await browser.newPage({ ...HTTPS, viewport: { width: 390, height: 844 } });
+        await out.addInitScript(() => {
+          window.__asked = 0;
+          if (navigator.requestMIDIAccess) navigator.requestMIDIAccess = () => { window.__asked++; return Promise.reject(new DOMException("denied", "SecurityError")); };
+          window.__said = 0;
+          new MutationObserver(() => { if (/no Web MIDI|MIDI error/i.test((document.getElementById("toast")?.textContent ?? "") + (document.getElementById("status-engine")?.textContent ?? ""))) window.__said++; }).observe(document, { subtree: true, childList: true, characterData: true });
+        });
+        await out.goto(BASE + "plugin.html#midi");
+        const card = out.locator('#midi .qs-card:has(.qs-card-title:text-is("MIDI out"))');
+        await card.scrollIntoViewIfNeeded();
+        await card.locator(".qs-run:not(.qs-stop)").click();
+        const played = await card.evaluate((e) => new Promise((done) => { const from = Date.now(); const look = () => (e.classList.contains("playing") ? done(true) : Date.now() - from > 15000 ? done(false) : setTimeout(look, 100)); look(); }));
+        await out.waitForTimeout(4000);   // a bar or two of its notes
+        const heard = await out.evaluate(() => ({ asked: window.__asked, said: window.__said }));
+        check("the plugin page's card that sends MIDI plays, asks the browser for no MIDI and says nothing of there being none", played && heard.asked === 0 && heard.said === 0,
+          !played ? "the card did not play" : `asked ${heard.asked} times, said ${heard.said} times`);
+        await out.close();
+      }
+
       const site = await browser.newPage({ ...HTTPS, viewport: { width: 1280, height: 900 } });
       const siteErrors = [];
       site.on("pageerror", (e) => siteErrors.push(e.message));

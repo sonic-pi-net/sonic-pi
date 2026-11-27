@@ -1444,9 +1444,13 @@ const MIDI_OUT = {
  * A beat of clock is 24 ticks across the beat; the engine's own clock/beat needs an audio thread to spread it
  * from, which the worklet has not got, so they are sent here as 24 bundles at their times.
  */
+let midiAsked = false;   // a program's MIDI has asked for MIDI to be turned on
 function midiSend(r) {
   if (inPlugin) return;   // the plugin sends a program's MIDI to its host itself (app/plugin/core/instance.cpp midiSend)
-  if (!midi) { enableMidi(); return; }
+  // MIDI not on: a program that sends some turns it on, asked for once (the notes come many a second, and a browser
+  // with no Web MIDI, or a person who said no, is not asked again for each). A page may say its cards' MIDI goes
+  // nowhere (data-no-midi on a section, the plugin page's): they show an idea, and their notes are seen on the card
+  if (!midi) { if (!midiAsked && !(infoOpen() && infoCard.querySelector("[data-no-midi]"))) { midiAsked = true; enableMidi(); } return; }
   if (!engineRef || !session) return;
   const verb = MIDI_OUT[r.path];
   const [port, ...rest] = r.args;
